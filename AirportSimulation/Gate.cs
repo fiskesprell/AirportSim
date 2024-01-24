@@ -3,32 +3,29 @@
     // Ulike typer fly som gates har lov til å ha. Snakke om det er flere eller en bedre måte å kategorisere
     enum gateLicence
     {
-        commercial,
-        transport,
-        personal,
-        military
+        Commercial,
+        Transport,
+        Personal,
+        Military
     }
 
 
     public class Gate
     {
-        private string gateName {  get; set; }
-        private enum gateLicence { get; set; }
+        // Vi må diskutere hva som er logiske standardverdier
+        private string GateName {  get; set; }
+        private gateLicence Licence { get; set; } = gateLicence.Commercial;
         // Finne ut hva slags type liste som er best å bruke
-        private List<Taxi> connectedTaxi;
+        private List<Taxi> ConnectedTaxi = new List<Taxi>();
         // Vi må diskutere om vi skal bruke minutter, sekunder etc for ting som er målt i tid
-        private double turnaroundTime { get; set; }
-        private bool isAvailable { get; set; } = true;
+        private double TurnaroundTime { get; set; } = 10;
+        private bool IsAvailable { get; set; } = true;
 
 
         public Gate()
         {
-            // Vi må diskutere hva som er logiske standardverdier
-            gateName = string.Empty;
-            // Å tilegne enum på denne måten funker ikke
-            gateLicence = gateLicence;
-            connectedTaxi = new List<Taxi>();
-            turnaroundTime = 10;
+            
+            GateName = string.Empty;
 
         }
 
