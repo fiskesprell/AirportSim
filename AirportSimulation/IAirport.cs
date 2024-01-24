@@ -8,7 +8,16 @@ namespace AirportSimulation
 {
     internal interface IAirport
     {
-        string name;
+        public string name;
+        public List<Taxi> Taxiways { get; set; }
+        public List<Runway> Runways { get; set; }
+        public List<Gate> Gates { get; set; }
+        public List<Flight> Flights { get; set; }
+
+        void AddRunway(Runway runway);
+        void AddTerminal(Terminal terminal);
+        void AddFlight(Flight flight);
+        void AddGate(Gate gate);
 
     }
 }

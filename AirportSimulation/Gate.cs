@@ -13,7 +13,7 @@
     public class Gate
     {
         // Vi må diskutere hva som er logiske standardverdier
-        private string GateName {  get; set; }
+        private string GateName { get; set; }
         private gateLicence Licence { get; set; } = gateLicence.Commercial;
         // Finne ut hva slags type liste som er best å bruke
         private List<Taxi> ConnectedTaxi = new List<Taxi>();
