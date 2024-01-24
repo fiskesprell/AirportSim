@@ -1,6 +1,6 @@
 ﻿namespace AirportSimulation
 {
-    public class Class1
+    public class Gate
     {
 
     }
