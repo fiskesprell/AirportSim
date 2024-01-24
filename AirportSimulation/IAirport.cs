@@ -8,5 +8,7 @@ namespace AirportSimulation
 {
     internal interface IAirport
     {
+        string name;
+
     }
 }
