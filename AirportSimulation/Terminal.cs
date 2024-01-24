@@ -8,5 +8,7 @@ namespace AirportSimulation
 {
     internal class Terminal
     {
+        public string Name { get; set; }
+        public bool IsInternational { get; set; } = false;
     }
 }
