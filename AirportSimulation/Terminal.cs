@@ -8,7 +8,14 @@ namespace AirportSimulation
 {
     internal class Terminal
     {
-        public string Name { get; set; }
+        // Instance Variables
+        public string TerminalName { get; set; }
         public bool IsInternational { get; set; } = false;
+
+        // Constructor
+        public Terminal(string TerminalName)
+        {
+            this.TerminalName = TerminalName;
+        }
     }
 }

@@ -12,15 +12,15 @@ namespace AirportSimulation
     {
         // Instance Variables
         public String RunwayName;
-        public double RunwayLength = 3000; // in meters
-        public ArrayList ConnectedTaxi = new ArrayList(); // litt usikker på om denne er gjort riktig
+        public double RunwayLength { get; set; } = 3000; // in meters
+        public List<Taxi> ConnectedTaxi = new List<Taxi>(); // litt usikker på om denne er gjort riktig
         public Queue RunwayQueue;
         public DateTime LastMaintainance;
         // fra fly kommer inn på rullebanen, til det har lettet og rullebanen er ledig igjen
-        public double AverageTakeoffTime = 600; // in seconds - here 10 minutes
+        public double AverageTakeoffTime { get; set; } = 600; // in seconds - here 10 minutes
         // fra et fly blir klarert til å lande til det er landet, bremset, og klart for å sette seg i taxikø
-        public double AverageLandingTime = 300; // in seconds (5 minutes)
-        public bool IsAvailable = true;
+        public double AverageLandingTime { get; set; } = 300; // in seconds (5 minutes)
+        public bool IsAvailable { get; set; } = true;
 
 
         // Constructor
@@ -28,5 +28,22 @@ namespace AirportSimulation
         {
             this.RunwayName = RunwayName;
         }
+
+        // Methods
+        public void BecomeAvailable()
+        {
+            this.IsAvailable = true;
+        }
+
+        public void clear()
+        {
+            // Ikke implementert enda
+        }
+
+        public void close()
+        {
+            // Ikke implementert enda
+        }
+
     }
 }
