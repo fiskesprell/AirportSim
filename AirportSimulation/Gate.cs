@@ -1,12 +1,15 @@
 ﻿namespace AirportSimulation
 {
-    // Ulike typer fly som gates har lov til å ha. Snakke om det er flere eller en bedre måte å kategorisere
-    enum gateLicence
+    // Ulike typer fly som gates har lov til å ha
+    // Å bruke Flags gjør at det er mulig å ha flere kategorier i stedet for bare 1
+    [Flags]
+    enum GateLicence
     {
-        Commercial,
-        Transport,
-        Personal,
-        Military
+        None = 0,
+        Commercial = 1,
+        Transport = 2,
+        Personal = 4,
+        Military = 8
     }
 
 
@@ -14,19 +17,17 @@
     {
         // Vi må diskutere hva som er logiske standardverdier
         private string GateName { get; set; }
-        private gateLicence Licence { get; set; } = gateLicence.Commercial;
-        // Finne ut hva slags type liste som er best å bruke
+        private GateLicence Licence { get; set; } = GateLicence.Commercial;
         private List<Taxi> ConnectedTaxi = new List<Taxi>();
         // Vi må diskutere om vi skal bruke minutter, sekunder etc for ting som er målt i tid
         private double TurnaroundTime { get; set; } = 10;
         private bool IsAvailable { get; set; } = true;
+        private Flight currentHolder { get; set; }
 
 
         public Gate()
         {
-            
             GateName = string.Empty;
-
         }
 
         // Legge til et taxi object i listen over taxi som er tilkoblet gaten
@@ -36,23 +37,41 @@
             connectedTaxi.Add(taxi);
         }
 
-        public void boarding(Flight flight)
+        public void departingPreperation(Flight flight)
         {
             //Implementere noe for boarding
             //Kanskje bare noe tidgreier?
         }
 
-        public void cleanUp()
+        public void arrivalPreperation()
         {
             //Her er det bare tenkt tiden fra boadring er ferdig til gaten blir ledig igjen
             //Så clean up er bytte personell, endre info på skjerm osv
             //Blir kanskje bare 
         }
 
-        public void close()
+        // Legger til en taxi til listen med connectedTaxi
+        public void addConnectedTaxi(Taxi taxi)
         {
-            //Usikker om vi trenger denne da vi heller bare kan bruke set metode på isAvailable
+            ConnectedTaxi.Add(taxi);
+        }
 
+        // Legger til en spesifikk lisens til gaten
+        public void addLicence(GateLicence licence) 
+        {
+            Licence |= GateLicence.licence;
+        }
+
+        // Fjerner en spesifikk lisens fra gaten
+        public void removeLicence(GateLicence licence)
+        {
+            Licence &= ~GateLicence.licence;
+        }
+
+        // Fjerner alle licencer fra gaten slik at den ikke har lov å ha noen fly
+        public void removeAllLicences()
+        {
+            Licence = GateLicence.None;
         }
 
 
