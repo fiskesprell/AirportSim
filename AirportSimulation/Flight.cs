@@ -72,8 +72,10 @@ namespace AirportSimulation
 
     public void changeStatus(FlightStatus status)
     {
-        status = status;
+        Status = status;
     }
+
+    public void 
 
 
 
