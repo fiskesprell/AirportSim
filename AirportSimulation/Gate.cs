@@ -16,12 +16,35 @@
     public class Gate
     {
         // Vi må diskutere hva som er logiske standardverdier
+        /// <summary>
+        /// The name of your Gate.
+        /// </summary>
         private string GateName { get; set; }
+        // TODO: Fiks denne?
+        /// <summary>
+        /// This gate's licence. Decides the type of planes allowed to use this gate. <br/>
+        /// Valid values are: None, Commercial, Transport, Personal, Military.
+        /// </summary>
         private GateLicence Licence { get; set; } = GateLicence.Commercial;
+        /// <summary>
+        /// List of taxiways connected to this gate.
+        /// </summary>
         private List<Taxi> ConnectedTaxi = new List<Taxi>();
         // Vi må diskutere om vi skal bruke minutter, sekunder etc for ting som er målt i tid
+        // (fiskesprell) Jeg bruker sekunder som default. Kanskje endre etterpå?
+        /// <summary>
+        /// TODO: write this
+        /// </summary>
         private double TurnaroundTime { get; set; } = 10;
+        /// <summary>
+        /// Whether the gate is available or not. <br/>
+        /// True = gate is available <br/>
+        /// False = gate is unavailable
+        /// </summary>
         private bool IsAvailable { get; set; } = true;
+        /// <summary>
+        /// The flight currently using the gate.
+        /// </summary>
         private Flight CurrentHolder { get; set; }
 
 

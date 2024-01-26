@@ -26,7 +26,7 @@ namespace AirportSimulation
     internal class Flight
     {
         private string Number { get; set; }
-        private string Company { get; set; } = "Norwegian"
+        private string Company { get; set; } = "Norwegian";
         private FlightType FlightType { get; set; } = FlightType.Commercial;
         private Gate AssignedGate { get; set; }
         private bool IsInternational { get; set; } = false;
@@ -52,15 +52,15 @@ namespace AirportSimulation
         //noe
     }
 
-    public void land()
+    public void Land()
     {
         //noe
     }
 
-    public void parkGate(Gate gate)
+    public void ParkGate(Gate gate)
     {
         AssignedGate = gate;
-        gate.IsAvailable.set(false)
+        gate.IsAvailable.set(false);
         //Parkere ved gate og sette gate til unavailable
     }
 

@@ -10,6 +10,9 @@ namespace AirportSimulation
     internal class Airport
     {
         // Instance Variables
+        /// <summary>
+        /// The name of your Airport.
+        /// </summary>
         private string AirportName { get; set; }
             
 

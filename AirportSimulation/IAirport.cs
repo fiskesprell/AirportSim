@@ -8,6 +8,9 @@ namespace AirportSimulation
 {
     internal interface IAirport
     {
+        /// <summary>
+        /// The name of your Airport.
+        /// </summary>
         public string name;
         public List<Taxi> Taxiways { get; set; }
         public List<Runway> Runways { get; set; }
