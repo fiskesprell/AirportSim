@@ -11,7 +11,7 @@ namespace AirportSimulation
         // Instance Variables
         public string TerminalName { get; set; }
         public bool IsInternational { get; set; } = false;
-        private List<Gate> connectedGates = new List<Gate>;
+        private List<Gate> connectedGates = new List<Gate>();
 
         // Constructor
         public Terminal(string TerminalName)

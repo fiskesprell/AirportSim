@@ -32,18 +32,18 @@
 
         // Legge til et taxi object i listen over taxi som er tilkoblet gaten
         // Da kan vi bruke disse listene til å holde styr på hvor fly kan kjøre
-        public void addTaxi(Taxi taxi)
+        public void AddTaxi(Taxi taxi)
         {
-            connectedTaxi.Add(taxi);
+            ConnectedTaxi.Add(taxi);
         }
 
-        public void departingPreperation(Flight flight)
+        public void DepartingPreperation(Flight flight)
         {
             //Implementere noe for boarding
             //Kanskje bare noe tidgreier?
         }
 
-        public void arrivalPreperation()
+        public void ArrivalPreperation()
         {
             //Her er det bare tenkt tiden fra boadring er ferdig til gaten blir ledig igjen
             //Så clean up er bytte personell, endre info på skjerm osv
@@ -51,19 +51,19 @@
         }
 
         // Legger til en taxi til listen med connectedTaxi
-        public void addConnectedTaxi(Taxi taxi)
+        public void AddConnectedTaxi(Taxi taxi)
         {
             ConnectedTaxi.Add(taxi);
         }
 
         // Legger til en spesifikk lisens til gaten
-        public void addLicence(GateLicence licence) 
+        public void AddLicence(GateLicence licence) 
         {
             Licence |= GateLicence.licence;
         }
 
         // Fjerner en spesifikk lisens fra gaten
-        public void removeLicence(GateLicence licence)
+        public void RemoveLicence(GateLicence licence)
         {
             Licence &= ~GateLicence.licence;
         }
