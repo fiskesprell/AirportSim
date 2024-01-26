@@ -37,6 +37,45 @@ namespace AirportSimulation
         /// </summary>
         public bool IsAvailable { get; set; } = true;
 
+        public Taxi(string name)
+        {
+            Name = name;
+        }
+
+        public void addToQueue(Flight flight)
+        {
+            TaxiQueue.Enqueue(flight);
+        }
+
+        public void removeFromQueue() 
+        { 
+            TaxiQueue.Dequeue(flight); 
+        }
+
+        public int lengthQueue()
+        {
+            return TaxiQueue.Count;
+        }
+
+        public void addConnectedGate(Gate gate)
+        {
+            ConnectedGate.Add(gate);
+        }
+
+        public void removeConnectedGate(Gate gate)
+        {
+            ConnectedGate.Remove(gate);
+        }
+
+        public void addConnectedRunway(Runway runway)
+        {
+            ConnectedRunway.Add(runway);
+        }
+
+        public void removeConnectedRunway(Runway runway)
+        {
+            ConnectedRunway.Remove(runway);
+        }
 
     }
 
