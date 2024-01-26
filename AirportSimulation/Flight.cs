@@ -6,12 +6,76 @@ using System.Threading.Tasks;
 
 namespace AirportSimulation
 {
+    enum FlightType
+    {
+        Commercial,
+        Transport,
+        Personal,
+        Military
+    }
+
+    enum FlightStatus
+    {
+        OnTime,
+        Delayed,
+        Boarding,
+        Departed,
+        Arrived
+    }
+
     internal class Flight
     {
-        public string Number { get; set; }
-        public string Company { get; set; }
-        public GateLicence FlightType { get; set; }
-        public Gate AssignedGate { get; set; }
-        public bool IsInternational { get; set; } = false;
+        private string Number { get; set; }
+        private string Company { get; set; } = "Norwegian"
+        private FlightType FlightType { get; set; } = FlightType.Commercial;
+        private Gate AssignedGate { get; set; }
+        private bool IsInternational { get; set; } = false;
+        private DateTime DepartureTime { get; set; }
+        private DateTime ArrivalTime { get; set; }
+        private string Destination { get; set; }
+        private DateTime LastMaintanace { get; set; }
+        private FlightStatus Status = FlightStatus.OnTime;
+
     }
+
+    public Flight(string number, string destination, DateTime departure, DateTime arrival)
+    {
+        Number = number;
+        Destination = destination;
+        DepartureTime = departure;
+        ArrivalTime = arrival;
+
+    }
+
+    public void takeoff()
+    {
+        //noe
+    }
+
+    public void land()
+    {
+        //noe
+    }
+
+    public void parkGate(Gate gate)
+    {
+        AssignedGate = gate;
+        gate.IsAvailable.set(false)
+        //Parkere ved gate og sette gate til unavailable
+    }
+
+
+    public void performMaintanance()
+    {
+        //noe
+    }
+
+    public void changeStatus(FlightStatus status)
+    {
+        status = status;
+    }
+
+
+
+
 }

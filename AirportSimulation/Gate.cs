@@ -22,7 +22,7 @@
         // Vi må diskutere om vi skal bruke minutter, sekunder etc for ting som er målt i tid
         private double TurnaroundTime { get; set; } = 10;
         private bool IsAvailable { get; set; } = true;
-        private Flight currentHolder { get; set; }
+        private Flight CurrentHolder { get; set; }
 
 
         public Gate()
@@ -39,6 +39,7 @@
 
         public void departingPreperation(Flight flight)
         {
+            //45 min før scheduled departure start boarding
             //Implementere noe for boarding
             //Kanskje bare noe tidgreier?
         }
