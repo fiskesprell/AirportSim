@@ -23,6 +23,14 @@ namespace AirportSimulation
         Arrived
     }
 
+    enum Frequency
+    {
+        OneTime,
+        Daily,
+        Weekly
+    }
+
+
     internal class Flight
     {
         private string Number { get; set; }
@@ -35,6 +43,7 @@ namespace AirportSimulation
         private string Destination { get; set; }
         private DateTime LastMaintanace { get; set; }
         private FlightStatus Status = FlightStatus.OnTime;
+        private Frequency Frequency { get; set; } = Frequency.OneTime;
 
     }
 
