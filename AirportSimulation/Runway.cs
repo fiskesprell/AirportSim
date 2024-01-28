@@ -11,42 +11,17 @@ namespace AirportSimulation
     internal class Runway
     {
         // Instance Variables
-        /// <summary>
-        /// The name of your Runway.
-        /// </summary>
         public String RunwayName;
-        /// <summary>
-        /// The length of your runway in meters. <br />
-        /// Standard value is 3000(m).
-        /// </summary>
-        public double RunwayLength { get; set; } = 3000;
-        /// <summary>
-        /// A List of Taxi objects that are connected to this runway.
-        /// </summary>
-        public List<Taxi> ConnectedTaxi = new List<Taxi>(); // litt usikker på om denne er gjort riktig
-        /// <summary>
-        /// Queue of flights looking to use the runway. 
-        /// </summary>
-        public Queue RunwayQueue;
-        /// <summary>
-        /// The date and time for the most recent maintenance.
-        /// </summary>
+        public double RunwayLength = 3000; // in meters
+        public List<Taxi> ConnectedTaxi = new List(); // litt usikker på om denne er gjort riktig
+        public Queue<Flight> RunwayQueue = new Queue<Flight>;
         public DateTime LastMaintainance;
-        /// <summary>
-        /// The time it takes from when a plane enters the runway until it is in the air and the runway is available for use. <br />
-        /// In seconds. Standard value is 600 (10 minutes).
-        /// </summary>
-        public double AverageTakeoffTime { get; set; } = 600;
-        /// <summary>
-        /// Average time it takes from a plane gets cleared for landing until it has landed and is ready to be put in a taxi queue. <br />
-        /// In seconds. Standard value is 300 (5 minutes).
-        /// </summary>
-        public double AverageLandingTime { get; set; } = 300;
-        /// <summary>
-        /// Returns True if the runway is empty and ready for a plane. <br />
-        /// Returns False if the runway is currently in use.
-        /// </summary>
-        public bool IsAvailable { get; set; } = true;
+        // fra fly kommer inn på rullebanen, til det har lettet og rullebanen er ledig igjen
+        public double AverageTakeoffTime = 600; // in seconds - here 10 minutes
+        // fra et fly blir klarert til å lande til det er landet, bremset, og klart for å sette seg i taxikø
+        public double AverageLandingTime = 300; // in seconds (5 minutes)
+        public bool IsAvailable = true;
+        public Flight FlightOnRunway = null;
 
 
         // Constructor
@@ -55,31 +30,73 @@ namespace AirportSimulation
             this.RunwayName = RunwayName;
         }
 
-        // Methods
-        /// <summary>
-        /// Sets IsAvailable to True
-        /// </summary>
-        public void BecomeAvailable()
+        // Se hvilken flight som er neste i køen
+        public Flight peekQueue()
         {
-            this.IsAvailable = true;
-        }
-        /// <summary>
-        /// Sets IsAvailable to False
-        /// </summary>
-        public void BecomeUnavailable()
-        {
-            this.IsAvailable = false;
+            return RunwayQueue.Peek();
         }
 
-        public void Clear()
+        // Legge til en flight i køen rullebanekøen. Automatikk fra når en flight er fremst i taxi køen
+        public void enqueueFlight(Flight flight)
         {
-            // Ikke implementert enda
+            RunwayQueue.Enqueue(flight);
         }
 
-        public void Close()
+        // Fjerne fremste fra køen, bruke denne til å gi tilgang til runway når den er ledig
+        public void dequeueFlight()
         {
-            // Ikke implementert enda
+            flight = RunwayQueue.Dequeue();
+
+            if (flight.Status == Departing || flight.Status == DepartingDelayed)
+            {
+                addFlightToRunway(flight);
+            }
+
+            else
+            {
+                desiredGate = flight.AssignedGate;
+                Taxi optimalTaxi = null;
+                int queueSize = int.MaxValue;
+                //Går gjennom alle taxi som er connected til runwayen
+                foreach (Taxi taxi in ConnectedTaxi)
+                {
+                    //Sjekker om gaten er connected til taxi
+                    if (AssignedGate in ConnectedGate){
+                        //Hvis den er connected, sjekk køstørrelsen
+                        //Hvis 
+                        if (taxi.TaxiQueue.Count() > queueSize)
+                        {
+                            optimalTaxi = taxi;
+                            queueSize = taxi.TaxiQueue.Count();
+
+                        }
+                    }
+                }
+                optimalTaxi.addToQueue(flight);
+                
+            }
+
         }
 
+        // Legge til taxi objekter i listen 
+        public void addConnectedTaxi(Taxi taxi)
+        {
+            ConnectedTaxi.Add(taxi);
+        }
+
+        public void addFlightToRunway(Flight flight)
+        {
+            //Legge inn implementasjon slik at flight som har status delayed for snike?
+            if (ConnectedTaxi.Count != 0)
+            {
+
+                foreach (Taxi taxi in ConnectedTaxi)
+                {
+
+                }
+            }
+            
+            
+        }
     }
 }

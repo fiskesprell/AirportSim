@@ -17,8 +17,10 @@ namespace AirportSimulation
     enum FlightStatus
     {
         OnTime,
-        Delayed,
+        ArrivingDelayed,
+        DepartingDelayed,
         Boarding,
+        Departing,
         Departed,
         Arrived
     }
@@ -49,25 +51,28 @@ namespace AirportSimulation
 
     public void takeoff()
     {
-        //noe
+        //Simuler f.eks 2 min
+        //Sett staus til Departed
+        //Sett rullebane til ledig
     }
 
     public void Land()
     {
-        //noe
+        //Sett rullebane til opptatt
+        //Simuler f.eks. 2 min
+        //Sett status til Arrived
+        //Finn den taxi som er connected til denne rullebanen som også er connected til den gaten flighten har fått assigned
     }
 
-    public void ParkGate(Gate gate)
+    public void ParkGate()
     {
-        AssignedGate = gate;
-        gate.IsAvailable.set(false);
-        //Parkere ved gate og sette gate til unavailable
+        //Parkere ved gate
     }
 
-
+    //Denne tror jeg vi ikke trenger, fordi det er ikke en flight som har maintanance, men et fly
     public void performMaintanance()
     {
-        //noe
+        //Dette flyet 
     }
 
     public void changeStatus(FlightStatus status)
@@ -75,7 +80,25 @@ namespace AirportSimulation
         Status = status;
     }
 
-    public void 
+    public void findAvailableGate()
+    {
+        //Loope gjennom alle connected gates til alle terminaler som har samme bool verdi på innland utland
+        //Finne en ledig gate
+        //Endre instansvariablen til den gaten slik at den nå er opptatt
+     
+    }
+
+    public void landingPreperation()
+    {
+        //Loope gjennom alle terminaler får å finne en med samme bool verdi
+        //Loope gjennom alle gates i riktig terminale for å finne en ledig
+        AssignedGate = gate;
+        //loope gjennom alle taxi som er connected med den gaten
+        //loope gjennom alle rullebanene smo er connected med de taxiene 
+        //finne optimal løsning mtp kø
+        //Sette flighten i rullebanekø
+
+    }
 
 
 
