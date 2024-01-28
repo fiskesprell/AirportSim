@@ -50,9 +50,9 @@
         /// <summary>
         /// Constructor for making a gate
         /// </summary>
-        public Gate()
+        public Gate(string name)
         {
-            GateName = string.Empty;
+            GateName = name;
         }
 
         // Legge til et taxi object i listen over taxi som er tilkoblet gaten
