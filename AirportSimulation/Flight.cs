@@ -103,13 +103,27 @@ namespace AirportSimulation
         //Loope gjennom alle gates i riktig terminale for å finne en ledig
         AssignedGate = gate;
         //loope gjennom alle taxi som er connected med den gaten
-        //loope gjennom alle rullebanene smo er connected med de taxiene 
+        //loope gjennom alle rullebanene som er connected med de taxiene 
         //finne optimal løsning mtp kø
         //Sette flighten i rullebanekø
 
+        // Tildele gate 20 min før landing
+        // Må fortsatt lande selv om ingen gates er ledige.
+        // Da står den heller og venter på gate når den er på bakken.
+
+        // Steg 1: Finn 20 minutter før Arrival til å begynne prosessen
+
+
+
+        // Steg 2: Når det er 20 minutter til landing
+        // 2.1 - Se om flight er innlands eller utlands
+        // 2.2 - Finn alle terminaler som er innlands/utlands (samme som flight).
+        // 2.3 - Gå gjennom alle terminaler, finn en som er ledig.
+        // 2.4 - gå gjennom denne ledige terminalen, og finn en ledig gate med minst kø.
+
+
+
     }
-
-
 
 
 }
