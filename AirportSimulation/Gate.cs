@@ -63,15 +63,24 @@
         public void DepartingPreperation(Flight flight)
         {
             //45 min før scheduled departure start boarding
-            //Implementere noe for boarding
-            //Kanskje bare noe tidgreier?
+            //Sett status på flighten til Boarding
+            //Denne metoden skal "vare i 30 min"
+            //Kall på DepartFlightFromGate(flight)
+        }
+
+        public void DepartFlightFromGate(Flight flight)
+        {
+            //Går gjennom listen med connectedTaxi og finner den taxi som er best mtp kø og rullebane
+            //Kaller på taxi.addToQueue(flight)
+            //Sett CurrentHolder til null
+            //Kaller på ArrivalPreperation()
         }
 
         public void ArrivalPreperation()
         {
-            //Her er det bare tenkt tiden fra boadring er ferdig til gaten blir ledig igjen
-            //Så clean up er bytte personell, endre info på skjerm osv
-            //Blir kanskje bare 
+            //Blir kalt av DepartFlightFromGate
+            //Denne metoden "varer i 10 min"
+            //Endrer IsAvailable til true
         }
 
         // Legger til en taxi til listen med connectedTaxi

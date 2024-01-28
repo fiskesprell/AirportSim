@@ -49,7 +49,20 @@ namespace AirportSimulation
 
         public void removeFromQueue() 
         { 
-            TaxiQueue.Dequeue(flight); 
+            flight = TaxiQueue.Dequeue();
+            
+            if (flight.Status == Arrived || flight.Status == ArrivingDelayed)
+            {
+                flight.ParkGate();
+            }
+            else
+            {
+                foreach (Runway runway in ConnectedRunway)
+                {
+                    //Finn ut hvor køen er minst
+                }
+                runway.enqueueFlight(flight);
+            }
         }
 
         public int lengthQueue()
