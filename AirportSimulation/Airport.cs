@@ -33,9 +33,10 @@ namespace AirportSimulation
             // Ikke implementert enda
         }
 
-        public void AddGate()
+        public void AddTerminal()
         {
             // Ikke implementert enda
+            // AddGate trenges ikke fordi vi har gates listet opp i Terminaler? idk.
         }
 
     }
