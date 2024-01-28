@@ -47,12 +47,12 @@ namespace AirportSimulation
 
     }
 
-    public Flight(string number, string destination, DateTime departure, DateTime arrival)
+    public Flight(string Number, string Destination, DateTime DepartureTime, DateTime Arrival)
     {
-        Number = number;
-        Destination = destination;
-        DepartureTime = departure;
-        ArrivalTime = arrival;
+        this.Number = Number;
+        this.Destination = Destination;
+        this.DepartureTime = DepartureTime;
+        this.ArrivalTime = Arrival;
 
     }
 
