@@ -7,36 +7,61 @@ using System.Threading.Tasks;
 
 namespace AirportSimulation
 {
-    internal class Airport
+    internal class Airport : IAirport
     {
         // Instance Variables
         /// <summary>
         /// The name of your Airport.
         /// </summary>
         private string AirportName { get; set; }
+        /// <summary>
+        /// List containing all terminals in this airport
+        /// </summary>
+        private List<Terminal> allTerminals = new List<Terminal>();
+        /// <summary>
+        /// List containing all runways in this airport
+        /// </summary>
+        private List<Runway> allRunways = new List<Runway>();
+        /// <summary>
+        /// List containing all taxiways in this airport
+        /// </summary>
+        private List<Taxi> allTaxis = new List<Taxi>();
             
 
-        // Constructor
+        /// <summary>
+        /// Constructor for making an airport
+        /// </summary>
+        /// <param name="AirportName"></param>
         public Airport(string AirportName)
         {
             this.AirportName = AirportName;
         }
 
-        // Methods
-        public void AddTerminal()
+        /// <summary>
+        /// Calls the terminal constructor and adds the resulting object to the list of terminals
+        /// </summary>
+        public void AddTerminal(string name)
         {
-            // Ikke implementert enda
+            Terminal newTerminal = Terminal(name);
+            allTerminals.Add(newTerminal);
         }
 
-        public void AddRunway()
+        /// <summary>
+        /// Calls the runway constructor and adds the resulting object to the list of runways
+        /// </summary>
+        public void AddRunway(string name)
         {
-            // Ikke implementert enda
+            Runway newRunway = Runway(name);
+            allRunways.Add(newRunway);
         }
 
-        public void AddTerminal()
+        /// <summary>
+        /// Calls the taxi constructor and adds the resulting object to the list of taxiways
+        /// </summary>
+        public void AddTaxi(string name)
         {
-            // Ikke implementert enda
-            // AddGate trenges ikke fordi vi har gates listet opp i Terminaler? idk.
+            Taxi newTaxi = Taxi(name);
+            allTaxis.Add(newTaxi);
         }
 
     }

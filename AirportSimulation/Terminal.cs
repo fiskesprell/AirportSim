@@ -35,8 +35,10 @@ namespace AirportSimulation
 
         //Legge til en gate i terminalen. Lurer på om vi skal kalle på Gate konstruktøren i denne 
         //metoden slik at folk ikke trenger å lage et gate objekt for deretter å legge til?
-        public void addGate(Gate gate)
+
+        public void addGate()
         {
+            Gate newGate = 
             connectedGates.Add(gate);
         }
 

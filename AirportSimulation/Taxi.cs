@@ -37,16 +37,27 @@ namespace AirportSimulation
         /// </summary>
         public bool IsAvailable { get; set; } = true;
 
+        /// <summary>
+        /// Constructor for making a taxiway
+        /// </summary>
+        /// <param name="name"></param>
         public Taxi(string name)
         {
             Name = name;
         }
 
+        /// <summary>
+        /// This adds a flight to the taxi queue.
+        /// </summary>
+        /// <param name="flight"></param>
         public void addToQueue(Flight flight)
         {
             TaxiQueue.Enqueue(flight);
         }
 
+        /// <summary>
+        /// Removes the flight from the start of the queue. Based on the status of said flight, it either gets access to a runway queue, or arrives at their gate
+        /// </summary>
         public void removeFromQueue() 
         { 
             flight = TaxiQueue.Dequeue();
@@ -65,26 +76,46 @@ namespace AirportSimulation
             }
         }
 
+        /// <summary>
+        /// Returns the size of the taxi queue
+        /// </summary>
+        /// <returns></returns>
         public int lengthQueue()
         {
             return TaxiQueue.Count;
         }
 
+        /// <summary>
+        /// Adds a gate to the list of connected gates
+        /// </summary>
+        /// <param name="gate"></param>
         public void addConnectedGate(Gate gate)
         {
             ConnectedGate.Add(gate);
         }
 
+        /// <summary>
+        /// Removes a certain gate from the list of connected gates
+        /// </summary>
+        /// <param name="gate"></param>
         public void removeConnectedGate(Gate gate)
         {
             ConnectedGate.Remove(gate);
         }
 
+        /// <summary>
+        /// Adds a runway to the list of connected runways
+        /// </summary>
+        /// <param name="runway"></param>
         public void addConnectedRunway(Runway runway)
         {
             ConnectedRunway.Add(runway);
         }
 
+        /// <summary>
+        /// Removes a runway from the list of connected runways
+        /// </summary>
+        /// <param name="runway"></param>
         public void removeConnectedRunway(Runway runway)
         {
             ConnectedRunway.Remove(runway);
