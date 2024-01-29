@@ -55,6 +55,9 @@ namespace AirportSimulation
         private FlightStatus Status { get; set;} = FlightStatus.OnTime;
         private Frequency Frequency { get; set; } = Frequency.OneTime;
         private Direction FlightDirection;
+        public int ElapsedDays = 0;
+        public int ElapsedHours = 0;
+        public int ElapsedMinutes = 0;
 
 
     }
@@ -88,61 +91,43 @@ namespace AirportSimulation
         this.flightsim(airport);
     }
 
+    public void updateElapsedTime(Airport airport)
+    {
+        ElapsedDays = airport.ElapsedDays;
+        ElapsedHours = airport.ElapsedHours;
+        ElapsedMinutes = airport.ElapsedMinutes;
+    }
+
     private void flightSim(Airport airport)
     {
         if (this.Status == Outgoing)
         {
-            //En evig løkke som hele tiden henter ut counten fra airport og kaller på de ulike metodene
-            //når det nærmer seg
             //Jeg vet at disse tidssammenligningene ikke vil funke, men bare en kjapp draft så jeg ikke glemmer
-            
-            //Med en slik evig løkke som kaller på metodene så tror jeg det blir veldig lett å logge alt
-            while (true)
+            //TODO: Fikse tidssammenligning så den faktisk fungerer
+            if (elapsedHours == DepartureTimeHour - 1 && elapsedMinutes == DepartureTimeMinutes - 45)
             {
-                int elapsedDays = airport.ElapsedDays;
-                int elapsedHours = airport.ElapsedHours;
-                int elapsedMinutes = airport.ElapsedMinutes;
+                //Logg flight BRA123 har fått gate {this.AssignedGate} tildelt. F.eks
+                Gate availableGate = findAvailableGate();
+                ParkGate(availableGate);
+            }
 
-                //TODO: Fikse tidssammenligning så den faktisk fungerer
-                if (elapsedHours == DepartureTimeHour - 1 && elapsedMinutes == DepartureTimeMinutes - 45)
-                {
-                    //Logg flight BRA123 har fått gate {this.AssignedGate} tildelt. F.eks
-                    Gate availableGate = findAvailableGate();
-                    ParkGate(availableGate);
-                }
+            if (elapsedHours == DepartureTimeHour - 1 && elapsedMinutes == DepartureTimeMinutes)
+            {
+                gate.DepartingPreperations(this);
+            }
 
-                if (elapsedHours == DepartureTimeHour - 1 && elapsedMinutes == DepartureTimeMinutes)
-                {
-                    gate.DepartingPreperations(this);
-                }
-
-                if (elapsedHours == DepartureTimeHour && elapsedMinutes == DepartureTimeMinutes - 30)
-                {
-                    gate.DepartFlightFromGate(this);
-                }
-                //Når flyet faktisk har tatt av så brytes den evige løkken
-                if (this.Status == Departed)
-                {
-                    break;
-                }
+            if (elapsedHours == DepartureTimeHour && elapsedMinutes == DepartureTimeMinutes - 30)
+            {
+                gate.DepartFlightFromGate(this);
             }
         }
-        if (this.Status == Incoming)
+        else (this.Status == Incoming)
         {
-            while (true)
+            if (elapsedHours == ArrivalTimeHour && elapsedMinutes == ArrivalTimeMinutes -20 )
             {
-                int elapsedDays = airport.ElapsedDays;
-                int elapsedHours = airport.ElapsedHours;
-                int elapsedMinutes = airport.ElapsedMinutes;
-
-                if (elapsedHours == ArrivalTimeHour && elapsedMinutes == ArrivalTimeMinutes -20 )
-                {
-                    Gate availableGate = this.findAvailableGate();
-                    Runway bestRunway = this.findOptimalRunway();
+                Gate availableGate = this.findAvailableGate();
+                Runway bestRunway = this.findOptimalRunway();
                     
-                }
-
-
             }
         }
     }

@@ -26,6 +26,7 @@ namespace AirportSimulation
         /// List containing all taxiways in this airport
         /// </summary>
         private List<Taxi> allTaxis = new List<Taxi>();
+        private List<Flight> allFlights = new List<Flight>();
 
         public int ElapsedDays { get; private set; } = 0;
         public int ElapsedHours { get; private set; } = 0;
@@ -68,12 +69,21 @@ namespace AirportSimulation
             allTaxis.Add(newTaxi);
         }
 
+        public void AddFlight(string name, string destination, int hour, int minutes, Direction direction, Airport this)
+        {
+            Flight newFlight = Flight(number, destination, hour, minutes, direction, this);
+            allFlights.Add(newFlight);
+        }
+
         private void SimulateTime(int days, int hours, int minutes)
         {
             int totalMinutes = 1440 * days + 60 * hours + minutes;
 
             for (int i = 0; i < totalMinutes; i++)
             {
+                for each(var flight in allFlights) {
+                    flight.updateElapsedTime(this);
+                }
                 if (ElapsedMinutes == 60)
                 {
                     ElapsedHours += 1;
