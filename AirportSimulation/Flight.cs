@@ -172,7 +172,47 @@ namespace AirportSimulation
         return availableGate;
     }
 
-        public void LandingPreperation()
+    public Taxi findTaxi()
+    {
+        Taxi selectedTaxi = null;
+        int minQueueLength = int.MaxValue;
+
+        if (this.FlightDirection == Direction.Outgoing)
+        {
+            // For outgoing flights, consider taxiways connected to the assigned gate
+            if (this.AssignedGate != null && this.AssignedGate.ConnectedTaxi != null)
+            {
+                foreach (Taxi taxi in this.AssignedGate.ConnectedTaxi)
+                {
+                    if (taxi.IsAvailable && taxi.TaxiQueue.Count < minQueueLength)
+                    {
+                        selectedTaxi = taxi;
+                        minQueueLength = taxi.TaxiQueue.Count;
+                    }
+                }
+            }
+        }
+        else if (this.FlightDirection == Direction.Incoming)
+        {
+            // For incoming flights, a different selection strategy is needed
+            // This could involve selecting from a global list of taxiways, for example
+            
+            foreach (Taxi taxi in airport.Taxiways)
+            {
+                if (taxi.IsAvailable && taxi.TaxiQueue.Count < minQueueLength)
+                {
+                    selectedTaxi = taxi;
+                    minQueueLength = taxi.TaxiQueue.Count;
+                }
+            }
+        }
+
+        return selectedTaxi;
+    }
+
+}
+
+public void LandingPreperation()
         {
             //Loope gjennom alle terminaler får å finne en med samme bool verdi
             //Loope gjennom alle gates i riktig terminale for å finne en ledig
