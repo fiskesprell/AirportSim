@@ -18,7 +18,7 @@ namespace AirportSimulation
         public TimeSimulation()
         {}
 
-        private void SimulateTime(Airport airport, int days, int hours, int minutes)
+        private void simulateTime(Airport airport, int days, int hours, int minutes)
         {
             //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
             if (airport.allRunways.Count == 0 || airport.allTaxis.Count == 0 || airport.allTerminals.Count == 0)
@@ -29,7 +29,7 @@ namespace AirportSimulation
 
             for (int i = 0; i < totalMinutes; i++)
             {
-                for each(var flight in airport.allFlights) {
+                foreach(var flight in airport.allFlights) {
                     flight.updateElapsedTime(this);
                 }
                 if (ElapsedMinutes == 60)

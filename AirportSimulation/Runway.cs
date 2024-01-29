@@ -28,6 +28,7 @@ namespace AirportSimulation
         public Runway(string RunwayName)
         {
             this.RunwayName = RunwayName;
+            Console.WriteLine("Nå er runway " + this.RunwayName + " opprettet");
         }
 
         // Se hvilken flight som er neste i køen

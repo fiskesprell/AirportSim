@@ -31,6 +31,7 @@ namespace AirportSimulation
         public Terminal(string TerminalName)
         {
             this.TerminalName = TerminalName;
+            Console.WriteLine(TerminalName + " er nå opprettet");
         }
 
         //Legge til en gate i terminalen. Lurer på om vi skal kalle på Gate konstruktøren i denne 
@@ -44,6 +45,7 @@ namespace AirportSimulation
         {
             Gate newGate = Gate(name)
             connectedGates.Add(newGate);
+            Console.WriteLine(this.TerminalName + " har opprettet og lagt til " + newGate);
         }
 
         // Legge til noe for sikkerhetsjekk, spesielt hvis det er utland?

@@ -53,14 +53,7 @@
         public Gate(string name)
         {
             GateName = name;
-        }
-
-        // Legge til et taxi object i listen over taxi som er tilkoblet gaten
-        // Da kan vi bruke disse listene til å holde styr på hvor fly kan kjøre
-
-        public void AddTaxi(Taxi taxi)
-        {
-            ConnectedTaxi.Add(taxi);
+            Console.WriteLine("Nå er gate " + this.GateName + " opprettet");
         }
 
         /// <summary>
@@ -69,8 +62,9 @@
         /// The function makes sure that the flight doesnt leave the gate instantly and makes it more realitic
         /// </summary>
         /// <param name="flight"></param>
-        public void DepartingPreperation(Flight flight)
+        public void departingPreperation(Flight flight)
         {
+            flight.changeStatus("Boarding");
             //45 min før scheduled departure start boarding
             //Sett status på flighten til Boarding
             //Denne metoden skal "vare i 30 min"
@@ -82,22 +76,25 @@
         /// When the plane has left the gate it will call ArrivalPreperation()
         /// </summary>
         /// <param name="flight"></param>
-        public void DepartFlightFromGate(Flight flight)
+        public void departFlightFromGate(Flight flight)
         {
             //Går gjennom listen med connectedTaxi og finner den taxi som er best mtp kø og rullebane
             //Kaller på taxi.addToQueue(flight)
             //Sett CurrentHolder til null
+            this.CurrentHolder = null;
+            this.arrivalPreperation();
             //Kaller på ArrivalPreperation()
         }
 
         /// <summary>
         /// Simulates the time it takes a gate to change the info on the screen, staffchange, etc
         /// </summary>
-        public void ArrivalPreperation()
+        public void arrivalPreperation()
         {
             //Blir kalt av DepartFlightFromGate
             //Denne metoden "varer i 10 min"
             //Endrer IsAvailable til true
+            this.IsAvailable = true;
         }
 
         // Legger til en taxi til listen med connectedTaxi
@@ -105,7 +102,7 @@
         /// Adds a taxi object to the list of connected taxiways
         /// </summary>
         /// <param name="taxi"></param>
-        public void AddConnectedTaxi(Taxi taxi)
+        public void addConnectedTaxi(Taxi taxi)
         {
             ConnectedTaxi.Add(taxi);
         }
@@ -115,7 +112,7 @@
         /// Adds a licence to a specific gate
         /// </summary>
         /// <param name="licence"></param>
-        public void AddLicence(GateLicence licence) 
+        public void addLicence(GateLicence licence) 
         {
             Licence |= GateLicence.licence;
         }
@@ -125,7 +122,7 @@
         /// Removes a specific licence from a specific gate
         /// </summary>
         /// <param name="licence"></param>
-        public void RemoveLicence(GateLicence licence)
+        public void removeLicence(GateLicence licence)
         {
             Licence &= ~GateLicence.licence;
         }

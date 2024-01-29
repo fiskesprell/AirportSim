@@ -40,42 +40,48 @@ namespace AirportSimulation
         public Airport(string airportName, string terminalName, string taxiName, string runwayName, string gateName)
         {
             this.AirportName = airportName;
-            Terminal terminal = AddTerminal(terminalName);
-            AddTaxi(taxiName);
-            AddRunway(runwayName);
+            Terminal terminal = addTerminal(terminalName);
+            addTaxi(taxiName);
+            addRunway(runwayName);
             terminal.addGate(gateName);
+            //Connecter de til hverandre så de kan brukes
+            runwayName.addConnectedTaxi(taxiName);
+            taxiName.addConnectedRunway(runwayName);
+            taxiName.addConnectedGate(gateName);
+            gateName.AddConnectedTaxi(taxiName);
+            Console.WriteLine("Nå er airport " + this.AirportName + " opprettet");
         }
 
         /// <summary>
         /// Calls the terminal constructor and adds the resulting object to the list of terminals
         /// </summary>
-        public void AddTerminal(string name)
+        public void addTerminal(string name)
         {
-            Terminal newTerminal = Terminal(name);
+            Terminal newTerminal = new Terminal(name);
             allTerminals.Add(newTerminal);
         }
 
         /// <summary>
         /// Calls the runway constructor and adds the resulting object to the list of runways
         /// </summary>
-        public void AddRunway(string name)
+        public void addRunway(string name)
         {
-            Runway newRunway = Runway(name);
+            Runway newRunway = new Runway(name);
             allRunways.Add(newRunway);
         }
 
         /// <summary>
         /// Calls the taxi constructor and adds the resulting object to the list of taxiways
         /// </summary>
-        public void AddTaxi(string name)
+        public void addTaxi(string name)
         {
-            Taxi newTaxi = Taxi(name);
+            Taxi newTaxi = new Taxi(name);
             allTaxis.Add(newTaxi);
         }
 
-        public void AddFlight(string name, string destination, int hour, int minutes, Direction direction, Airport this)
+        public void addFlight(string name, string destination, int hour, int minutes, Direction direction, Airport this)
         {
-            Flight newFlight = Flight(number, destination, hour, minutes, direction, this);
+            Flight newFlight = new Flight(number, destination, hour, minutes, direction, this);
             allFlights.Add(newFlight);
         }
 

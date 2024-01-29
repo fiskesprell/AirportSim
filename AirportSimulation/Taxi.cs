@@ -44,6 +44,7 @@ namespace AirportSimulation
         public Taxi(string name)
         {
             Name = name;
+            Console.WriteLine("Nå er taxi " + this.Name + "oppretett");
         }
 
         /// <summary>
@@ -53,6 +54,7 @@ namespace AirportSimulation
         public void addToQueue(Flight flight)
         {
             TaxiQueue.Enqueue(flight);
+            Console.WriteLine("Nå er " + flight.Name + " lagt til i køen til " + this.Name);
         }
 
         /// <summary>
@@ -60,11 +62,15 @@ namespace AirportSimulation
         /// </summary>
         public void removeFromQueue() 
         { 
-            flight = TaxiQueue.Dequeue();
             
+            flight = TaxiQueue.Dequeue();
+            Console.WriteLine("Nå er " + flight + "fjernet fra taxi kø");
+
+
             if (flight.Status == Arrived || flight.Status == ArrivingDelayed)
             {
-                flight.ParkGate();
+                flight.parkGate();
+                Console.WriteLine("Nå er " + flight + "parkert");
             }
             else
             {
@@ -73,6 +79,7 @@ namespace AirportSimulation
                     //Finn ut hvor køen er minst
                 }
                 runway.enqueueFlight(flight);
+                Console.WriteLine("Nå er " + flight + " lagt til i køen til " + runway);
             }
         }
 
@@ -92,6 +99,7 @@ namespace AirportSimulation
         public void addConnectedGate(Gate gate)
         {
             ConnectedGate.Add(gate);
+            Console.WriteLine("Nå er gate " + gate + " connected til " + this.Name);
         }
 
         /// <summary>
@@ -101,6 +109,7 @@ namespace AirportSimulation
         public void removeConnectedGate(Gate gate)
         {
             ConnectedGate.Remove(gate);
+            Console.WriteLine("Nå er gate " + gate + " ikke connected til " + this.Name);
         }
 
         /// <summary>
@@ -110,6 +119,7 @@ namespace AirportSimulation
         public void addConnectedRunway(Runway runway)
         {
             ConnectedRunway.Add(runway);
+            Console.WriteLine("Nå er runway " + runway + " connected til " + this.Name);
         }
 
         /// <summary>
@@ -119,6 +129,7 @@ namespace AirportSimulation
         public void removeConnectedRunway(Runway runway)
         {
             ConnectedRunway.Remove(runway);
+            Console.WriteLine("Nå er runway " + runway + " ikke connected til " + this.Name);
         }
 
     }

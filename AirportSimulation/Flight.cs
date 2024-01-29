@@ -46,133 +46,158 @@ namespace AirportSimulation
         private string Company { get; set; } = "Norwegian";
         private FlightType FlightType { get; set; } = FlightType.Commercial;
         private Gate AssignedGate { get; set; }
+        private Runway AssignedRunway { get; set; }
         private bool IsInternational { get; set; } = false;
-        private int DepartureTimeHour { get; set; } = 0;
-        private int DepartureTimeMinute { get; set; } = 0;
-        private int ArrivalTimeHour { get; set; } = 0;
-        private int ArrivalTimeMinute { get; set; } = 0;
+        private int ScheduledHour { get; set; } = 0;
+        private int ScheduledMinute { get; set; } = 0;
         private string Destination { get; set; }
         private DateTime LastMaintanace { get; set; }
-        private FlightStatus Status { get; set;} = FlightStatus.OnTime;
+        private FlightStatus Status { get; set; } = FlightStatus.OnTime;
         private Frequency Frequency { get; set; } = Frequency.OneTime;
         private Direction FlightDirection;
         public int ElapsedDays = 0;
         public int ElapsedHours = 0;
         public int ElapsedMinutes = 0;
+        private Airport CurrentAirport = null;
 
 
-    }
-
-    public Flight(string number, string destination, int hour, int minute, Direction direction, Airport airport)
-    {
-        this.Number = number;
-        this.Destination = destination;
-
-        //Hvis de sender inn noe som ikke er en av kategoriene i Direction enumen så vil en exception kastes
-        if (Enum.TryParse(directionString, out Direction direction))
+        public Flight(string number, string destination, int hour, int minute, Direction direction, Airport airport)
         {
-            this.FlightDirection = direction;
+            this.Number = number;
+            this.Destination = destination;
+            this.CurrentAirport = airport;
 
-            if (this.FlightDirection == Outgoing)
+            //Hvis de sender inn noe som ikke er en av kategoriene i Direction enumen så vil en exception kastes
+            if (Enum.TryParse(directionString, out Direction direction))
             {
-                this.DepartureTimeHour = hour;
-                this.DepartureTimeMinute = minute;
+                this.FlightDirection = direction;
+
+                if (this.FlightDirection == Outgoing)
+                {
+                    this.ScheduledHour = hour;
+                    this.ScheduledMinute = minute;
+                }
+                else
+                {
+                    this.ScheduledHour = hour;
+                    this.ScheduledMinute = minute;
+                }
             }
             else
             {
-                this.ArrivalTimeHour = hour;
-                this.ArrivalTimeMinute = minute;
+                throw new ArgumentException($"Invalid direction: {directionString}. Expected values are {string.Join(", ", Enum.GetNames(typeof(Direction)))}.", nameof(directionString));
             }
-        }
-        else
+            Console.WriteLine("Nå er en flight opprettet");
+
+            this.flightsim(airport);
+        }//Slutt konstruktør
+
+        public void updateElapsedTime(Airport airport)
         {
-            throw new ArgumentException($"Invalid direction: {directionString}. Expected values are {string.Join(", ", Enum.GetNames(typeof(Direction)))}.", nameof(directionString));
-        }
+            this.ElapsedDays = airport.ElapsedDays;
+            this.ElapsedHours = airport.ElapsedHours;
+            this.ElapsedMinutes = airport.ElapsedMinutes;
+        }//Slutt updateElapsedTime
 
-        this.flightsim(airport);
-    }
-
-    public void updateElapsedTime(Airport airport)
-    {
-        ElapsedDays = airport.ElapsedDays;
-        ElapsedHours = airport.ElapsedHours;
-        ElapsedMinutes = airport.ElapsedMinutes;
-    }
-
-    private void flightSim(Airport airport)
-    {
-        if (this.Status == Outgoing)
+        private void flightSim(Airport airport)
         {
-            //Jeg vet at disse tidssammenligningene ikke vil funke, men bare en kjapp draft så jeg ikke glemmer
-            //TODO: Fikse tidssammenligning så den faktisk fungerer
-            if (elapsedHours == DepartureTimeHour - 1 && elapsedMinutes == DepartureTimeMinutes - 45)
+            if (this.Status == Outgoing)
             {
-                //Logg flight BRA123 har fått gate {this.AssignedGate} tildelt. F.eks
-                Gate availableGate = findAvailableGate();
-                ParkGate(availableGate);
-            }
+                //Jeg vet at disse tidssammenligningene ikke vil funke, men bare en kjapp draft så jeg ikke glemmer
+                //TODO: Fikse tidssammenligning så den faktisk fungerer
+                if (elapsedHours == ScheduledHour - 1 && elapsedMinutes == ScheduledMinutes - 45)
+                {
+                    //Logg flight BRA123 har fått gate {this.AssignedGate} tildelt. F.eks
+                    Gate availableGate = findAvailableGate();
+                    ParkGate(availableGate);
+                }
 
-            if (elapsedHours == DepartureTimeHour - 1 && elapsedMinutes == DepartureTimeMinutes)
-            {
-                gate.DepartingPreperations(this);
-            }
+                if (elapsedHours == ScheduledHour - 1 && elapsedMinutes == ScheduledMinutes)
+                {
+                    gate.DepartingPreperations(this);
+                }
 
-            if (elapsedHours == DepartureTimeHour && elapsedMinutes == DepartureTimeMinutes - 30)
-            {
-                gate.DepartFlightFromGate(this);
+                if (elapsedHours == ScheduledHour && elapsedMinutes == ScheduledMinutes - 30)
+                {
+                    gate.DepartFlightFromGate(this);
+                }
             }
-        }
-        else (this.Status == Incoming)
-        {
-            if (elapsedHours == ArrivalTimeHour && elapsedMinutes == ArrivalTimeMinutes -20 )
+            else (this.Status == Incoming)
             {
-                Gate availableGate = this.findAvailableGate();
-                Runway bestRunway = this.findOptimalRunway();
-                    
+                if (elapsedHours == ScheduledHour && elapsedMinutes == ScheduledMinutes - 20)
+                {
+                    Gate availableGate = this.findAvailableGate();
+                    Runway bestRunway = this.findOptimalRunway();
+
+                }
             }
-        }
-    }
+        }//Slutt flightSim
 
         public void takeoff()
         {
             //Simuler f.eks 2 min
             //Sett staus til Departed
             //Sett rullebane til ledig
-        }
+            this.Status = FlightStatus.Departed;
+            Console.WriteLine("Nå har flight " + this.Number + "tatt av");
+        }//Slutt takeoff
 
-        public void Land()
+        public void land()
         {
+            this.Status = FlightStatus.Arrived;
+            Console.WriteLine("Nå har flight " + this.Number + "landet");
             //Sett rullebane til opptatt
             //Simuler f.eks. 2 min
             //Sett status til Arrived
             //Finn den taxi som er connected til denne rullebanen som også er connected til den gaten flighten har fått assigned
-        }
+        }//Slutt Land
 
-        public void ParkGate()
+        public void parkGate()
         {
             //Parkere ved gate
-        }
-
-        //Denne tror jeg vi ikke trenger, fordi det er ikke en flight som har maintanance, men et fly
-        public void performMaintanance()
-        {
-            //Dette flyet 
-        }
+        }//Slutt ParkGate
 
         public void changeStatus(FlightStatus status)
         {
             Status = status;
+        }//Slutt changeStatus
+
+        public Gate findAvailableGate()
+        {
+            //Gpr gjennom alle terminalene på flyplassen
+            foreach (var terminal in CurrentAirport.allTerminals)
+            {
+                //Finner en som er samme bool verdi som flighten
+                if (terminal.IsInternational == this.IsInternational)
+                {
+                    //Går gjennom alle gatene på den terminalen
+                    foreach (var gate in terminal.connectedGates)
+                    {
+                        //Finner en som er ledig
+                        if (gate.IsAvailable == true)
+                        {
+                            //Returnerer den første den finner
+                            this.AssignedGate = gate;
+                            Console.WriteLine("Nå har flight " + this.Number + "funnet gate " + this.AssignedGate);
+                            return gate;
+                        }
+                    }
+                }
+            }
+            //Hvis den ikke finner en ledig gate før den lander så returneres null og den må lete igjen når den står i kø
+            return null;
+        }//Slutt findAvailableGate
+
+        private Runway findRunway()
+        {
+            Gate gate = this.AssignedGate;
+            foreach(var taxi in gate.connectedTaxi)
+            {
+
+            }
         }
 
-    public Gate findAvailableGate()
-    {
-        //Loope gjennom alle connected gates til alle terminaler som har samme bool verdi på innland utland
-        //Finne en ledig gate
-        //Endre instansvariablen til den gaten slik at den nå er opptatt
-        return availableGate;
-    }
-
-        public void LandingPreperation()
+        public void landingPreperation()
         {
             //Loope gjennom alle terminaler får å finne en med samme bool verdi
             //Loope gjennom alle gates i riktig terminale for å finne en ledig
@@ -200,15 +225,14 @@ namespace AirportSimulation
             DateTime whenToPrepare = ArrivalTime;
             whenToPrepare = whenToPrepare.AddMinutes(-20);
 
+        }//Slutt LandingPreperation
 
-
-
-
-
+        private void arrivalProcessing()
+        {
+            //Denne metoden tar 45 min
+            //Det er at passasjerer går av, baggasje blir tatt ut
         }
 
+    }//Slutt Flight klasse
+}//Slutt namespace
 
-    }
-
-
-}
