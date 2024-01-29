@@ -16,11 +16,15 @@ namespace AirportSimulation
         public List<Runway> Runways { get; set; }
         public List<Gate> Gates { get; set; }
         public List<Flight> Flights { get; set; }
+        private int CountDays = 0;
+        private int CountHours = 0;
+        private int CountMinutes = 0;
 
         void AddRunway(Runway runway);
         void AddTerminal(Terminal terminal);
         void AddFlight(Flight flight);
         void AddGate(Gate gate);
+        void SimulateTime(int days, int hours, int minutes);
 
     }
 }

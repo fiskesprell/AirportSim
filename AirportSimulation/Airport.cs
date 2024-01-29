@@ -26,15 +26,24 @@ namespace AirportSimulation
         /// List containing all taxiways in this airport
         /// </summary>
         private List<Taxi> allTaxis = new List<Taxi>();
+        private List<Flight> allFlights = new List<Flight>();
+
+        public int ElapsedDays { get; private set; } = 0;
+        public int ElapsedHours { get; private set; } = 0;
+        public int ElapsedMinutes { get; private set; } = 0;
             
 
         /// <summary>
         /// Constructor for making an airport
         /// </summary>
         /// <param name="AirportName"></param>
-        public Airport(string AirportName)
+        public Airport(string airportName, string terminalName, string taxiName, string runwayName, string gateName)
         {
-            this.AirportName = AirportName;
+            this.AirportName = airportName;
+            Terminal terminal = AddTerminal(terminalName);
+            AddTaxi(taxiName);
+            AddRunway(runwayName);
+            terminal.addGate(gateName);
         }
 
         /// <summary>
@@ -62,6 +71,12 @@ namespace AirportSimulation
         {
             Taxi newTaxi = Taxi(name);
             allTaxis.Add(newTaxi);
+        }
+
+        public void AddFlight(string name, string destination, int hour, int minutes, Direction direction, Airport this)
+        {
+            Flight newFlight = Flight(number, destination, hour, minutes, direction, this);
+            allFlights.Add(newFlight);
         }
 
     }

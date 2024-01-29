@@ -15,6 +15,12 @@ namespace AirportSimulation
         Military
     }
 
+    enum Direction
+    {
+        Incoming,
+        Outgoing
+    }
+
     enum FlightStatus
     {
         OnTime,
@@ -41,21 +47,91 @@ namespace AirportSimulation
         private FlightType FlightType { get; set; } = FlightType.Commercial;
         private Gate AssignedGate { get; set; }
         private bool IsInternational { get; set; } = false;
-        private DateTime DepartureTime { get; set; }
-        private DateTime ArrivalTime { get; set; }
+        private int DepartureTimeHour { get; set; } = 0;
+        private int DepartureTimeMinute { get; set; } = 0;
+        private int ArrivalTimeHour { get; set; } = 0;
+        private int ArrivalTimeMinute { get; set; } = 0;
         private string Destination { get; set; }
         private DateTime LastMaintanace { get; set; }
-        private FlightStatus Status = FlightStatus.OnTime;
+        private FlightStatus Status { get; set;} = FlightStatus.OnTime;
         private Frequency Frequency { get; set; } = Frequency.OneTime;
+        private Direction FlightDirection;
+        public int ElapsedDays = 0;
+        public int ElapsedHours = 0;
+        public int ElapsedMinutes = 0;
 
-        public Flight(string Number, string Destination, DateTime DepartureTime, DateTime Arrival)
+
+    }
+
+    public Flight(string number, string destination, int hour, int minute, Direction direction, Airport airport)
+    {
+        this.Number = number;
+        this.Destination = destination;
+
+        //Hvis de sender inn noe som ikke er en av kategoriene i Direction enumen så vil en exception kastes
+        if (Enum.TryParse(directionString, out Direction direction))
         {
-            this.Number = Number;
-            this.Destination = Destination;
-            this.DepartureTime = DepartureTime;
-            this.ArrivalTime = Arrival;
+            this.FlightDirection = direction;
 
+            if (this.FlightDirection == Outgoing)
+            {
+                this.DepartureTimeHour = hour;
+                this.DepartureTimeMinute = minute;
+            }
+            else
+            {
+                this.ArrivalTimeHour = hour;
+                this.ArrivalTimeMinute = minute;
+            }
         }
+        else
+        {
+            throw new ArgumentException($"Invalid direction: {directionString}. Expected values are {string.Join(", ", Enum.GetNames(typeof(Direction)))}.", nameof(directionString));
+        }
+
+        this.flightsim(airport);
+    }
+
+    public void updateElapsedTime(Airport airport)
+    {
+        ElapsedDays = airport.ElapsedDays;
+        ElapsedHours = airport.ElapsedHours;
+        ElapsedMinutes = airport.ElapsedMinutes;
+    }
+
+    private void flightSim(Airport airport)
+    {
+        if (this.Status == Outgoing)
+        {
+            //Jeg vet at disse tidssammenligningene ikke vil funke, men bare en kjapp draft så jeg ikke glemmer
+            //TODO: Fikse tidssammenligning så den faktisk fungerer
+            if (elapsedHours == DepartureTimeHour - 1 && elapsedMinutes == DepartureTimeMinutes - 45)
+            {
+                //Logg flight BRA123 har fått gate {this.AssignedGate} tildelt. F.eks
+                Gate availableGate = findAvailableGate();
+                ParkGate(availableGate);
+            }
+
+            if (elapsedHours == DepartureTimeHour - 1 && elapsedMinutes == DepartureTimeMinutes)
+            {
+                gate.DepartingPreperations(this);
+            }
+
+            if (elapsedHours == DepartureTimeHour && elapsedMinutes == DepartureTimeMinutes - 30)
+            {
+                gate.DepartFlightFromGate(this);
+            }
+        }
+        else (this.Status == Incoming)
+        {
+            if (elapsedHours == ArrivalTimeHour && elapsedMinutes == ArrivalTimeMinutes -20 )
+            {
+                Gate availableGate = this.findAvailableGate();
+                Runway bestRunway = this.findOptimalRunway();
+                    
+            }
+        }
+    }
 
         public void takeoff()
         {
@@ -88,13 +164,13 @@ namespace AirportSimulation
             Status = status;
         }
 
-        public void findAvailableGate()
-        {
-            //Loope gjennom alle connected gates til alle terminaler som har samme bool verdi på innland utland
-            //Finne en ledig gate
-            //Endre instansvariablen til den gaten slik at den nå er opptatt
-
-        }
+    public Gate findAvailableGate()
+    {
+        //Loope gjennom alle connected gates til alle terminaler som har samme bool verdi på innland utland
+        //Finne en ledig gate
+        //Endre instansvariablen til den gaten slik at den nå er opptatt
+        return availableGate;
+    }
 
         public void LandingPreperation()
         {
