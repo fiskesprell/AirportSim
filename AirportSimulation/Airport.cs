@@ -79,34 +79,5 @@ namespace AirportSimulation
             allFlights.Add(newFlight);
         }
 
-        private void SimulateTime(int days, int hours, int minutes)
-        {
-            //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
-            if (allRunways.Count == 0 || allTaxis.Count == 0 || allTerminals.Count == 0)
-            {
-                throw new Exception 
-            }
-            int totalMinutes = 1440 * days + 60 * hours + minutes;
-
-            for (int i = 0; i < totalMinutes; i++)
-            {
-                for each(var flight in allFlights) {
-                    flight.updateElapsedTime(this);
-                }
-                if (ElapsedMinutes == 60)
-                {
-                    ElapsedHours += 1;
-                    ElapsedMinutes = 0;
-                }
-
-                if (ElapsedHours == 24)
-                {
-                    ElapsedDays += 1;
-                    ElapsedHours = 0;
-                }
-                ElapsedMinutes += 1;
-            }
-        }
-
     }
 }
