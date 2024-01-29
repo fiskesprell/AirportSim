@@ -37,9 +37,13 @@ namespace AirportSimulation
         /// Constructor for making an airport
         /// </summary>
         /// <param name="AirportName"></param>
-        public Airport(string AirportName)
+        public Airport(string airportName, string terminalName, string taxiName, string runwayName, string gateName)
         {
-            this.AirportName = AirportName;
+            this.AirportName = airportName;
+            Terminal terminal = AddTerminal(terminalName);
+            AddTaxi(taxiName);
+            AddRunway(runwayName);
+            terminal.addGate(gateName);
         }
 
         /// <summary>
@@ -77,6 +81,11 @@ namespace AirportSimulation
 
         private void SimulateTime(int days, int hours, int minutes)
         {
+            //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
+            if (allRunways.Count == 0 || allTaxis.Count == 0 || allTerminals.Count == 0)
+            {
+                throw new Exception 
+            }
             int totalMinutes = 1440 * days + 60 * hours + minutes;
 
             for (int i = 0; i < totalMinutes; i++)
