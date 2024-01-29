@@ -172,6 +172,10 @@ namespace AirportSimulation
         return availableGate;
     }
 
+
+    
+
+
     public Taxi findTaxi()
     {
         Taxi selectedTaxi = null;
@@ -211,6 +215,41 @@ namespace AirportSimulation
     }
 
 }
+
+
+public Runway findRunway()
+{
+    Runway selectedRunway = null;
+    int minQueueLength = int.MaxValue;
+
+    if (this.FlightDirection == Direction.Outgoing)
+    {
+        // For outgoing flights, consider runways suitable for take-off
+        foreach (Runway runway in airport.Runways)
+        {
+            if (runway.IsAvailableForTakeoff && runway.RunwayQueue.Count < minQueueLength)
+            {
+                selectedRunway = runway;
+                minQueueLength = runway.RunwayQueue.Count;
+            }
+        }
+    }
+    else if (this.FlightDirection == Direction.Incoming)
+    {
+        // For incoming flights, consider runways suitable for landing
+        foreach (Runway runway in airport.Runways)
+        {
+            if (runway.IsAvailableForLanding && runway.RunwayQueue.Count < minQueueLength)
+            {
+                selectedRunway = runway;
+                minQueueLength = runway.RunwayQueue.Count;
+            }
+        }
+    }
+
+    return selectedRunway;
+}
+
 
 public void LandingPreperation()
         {
