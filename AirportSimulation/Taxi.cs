@@ -60,19 +60,23 @@ namespace AirportSimulation
         /// </summary>
         public void removeFromQueue() 
         { 
-            flight = TaxiQueue.Dequeue();
+            Flight flight = TaxiQueue.Dequeue();
             
-            if (flight.Status == Arrived || flight.Status == ArrivingDelayed)
+            //Status er private, bruk get
+            if (flight.Status == FlightStatus.Arrived || flight.Status == FlightStatus.ArrivingDelayed)
             {
-                flight.ParkGate();
+                flight.parkGate(flight.AssignedGate);
             }
             else
             {
                 foreach (Runway runway in ConnectedRunway)
                 {
                     //Finn ut hvor køen er minst
+                    //Kalle på findRunway fra flight?
+                    Runway correctRunway = flight.findRunway();
+                    correctRunway.enqueueFlight(flight);
                 }
-                runway.enqueueFlight(flight);
+                
             }
         }
 

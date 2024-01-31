@@ -49,10 +49,11 @@ namespace AirportSimulation
         /// <summary>
         /// Calls the terminal constructor and adds the resulting object to the list of terminals
         /// </summary>
-        public void AddTerminal(string name)
+        public Terminal AddTerminal(string name)
         {
-            Terminal newTerminal = Terminal(name);
+            Terminal newTerminal = new Terminal(name);
             allTerminals.Add(newTerminal);
+            return newTerminal;
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace AirportSimulation
         /// </summary>
         public void AddRunway(string name)
         {
-            Runway newRunway = Runway(name);
+            Runway newRunway = new Runway(name);
             allRunways.Add(newRunway);
         }
 
@@ -69,13 +70,13 @@ namespace AirportSimulation
         /// </summary>
         public void AddTaxi(string name)
         {
-            Taxi newTaxi = Taxi(name);
+            Taxi newTaxi = new Taxi(name);
             allTaxis.Add(newTaxi);
         }
 
-        public void AddFlight(string name, string destination, int hour, int minutes, Direction direction, Airport this)
+        public void AddFlight(string name, string destination, int hour, int minutes, Direction direction, Airport airport)
         {
-            Flight newFlight = Flight(number, destination, hour, minutes, direction, this);
+            Flight newFlight = new Flight(name, destination, hour, minutes, direction, this);
             allFlights.Add(newFlight);
         }
 

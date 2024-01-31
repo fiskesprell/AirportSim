@@ -40,9 +40,9 @@ namespace AirportSimulation
         /// Creates agte object and adds it to this terminal
         /// </summary>
         /// <param name=""></param>
-        public void addGate(name)
+        public void addGate(string name)
         {
-            Gate newGate = Gate(name)
+            Gate newGate = new Gate(name);
             connectedGates.Add(newGate);
         }
 

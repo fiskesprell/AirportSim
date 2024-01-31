@@ -57,6 +57,7 @@ namespace AirportSimulation
         public int ElapsedDays = 0;
         public int ElapsedHours = 0;
         public int ElapsedMinutes = 0;
+        private Airport currentAirport;
 
 
 
@@ -64,6 +65,7 @@ namespace AirportSimulation
         {
             this.Number = number;
             this.Destination = destination;
+            this.currentAirport = airport;
 
             //Hvis de sender inn noe som ikke er en av kategoriene i Direction enumen så vil en exception kastes
             if (Enum.TryParse(directionString, out Direction direction))
@@ -78,7 +80,7 @@ namespace AirportSimulation
                 else
                 {
                     this.ScheduledHour = hour;
-                    this.ScheduledeMinutes = minute;
+                    this.ScheduledMinutes = minute;
                 }
             }
             else
@@ -86,15 +88,15 @@ namespace AirportSimulation
                 throw new ArgumentException($"Invalid direction: {directionString}. Expected values are {string.Join(", ", Enum.GetNames(typeof(Direction)))}.", nameof(directionString));
             }
 
-            this.flightsim(airport);
-        }
+            this.flightSim(airport);
+        }//Slutt konstruktør
 
         public void updateElapsedTime(Airport airport)
         {
             this.ElapsedDays = airport.ElapsedDays;
             this.ElapsedHours = airport.ElapsedHours;
             this.ElapsedMinutes = airport.ElapsedMinutes;
-        }
+        }//Slutt updateElapsedTime
 
         private void flightSim(Airport airport)
         {
@@ -106,7 +108,7 @@ namespace AirportSimulation
                 {
                     //Logg flight BRA123 har fått gate {this.AssignedGate} tildelt. F.eks
                     Gate availableGate = findAvailableGate();
-                    ParkGate(availableGate);
+                    parkGate(availableGate);
                 }
 
                 if (ElapsedHours == ScheduledHour - 1 && ElapsedMinutes == ScheduledMinutes)
@@ -119,7 +121,7 @@ namespace AirportSimulation
                     this.AssignedGate.DepartFlightFromGate(this);
                 }
             }
-            else (this.FlightDirection == Direction.Incoming)
+            else
             {
                 if (ElapsedHours == ScheduledHour && ElapsedMinutes == ScheduledMinutes - 20)
                 {
@@ -128,62 +130,89 @@ namespace AirportSimulation
 
                 }
             }
-        }
+        }//Slutt flightSim
 
         public void takeoff()
         {
             //Simuler f.eks 2 min
             //Sett staus til Departed
             //Sett rullebane til ledig
-        }
+        }//Slutt takeoff
 
-        public void Land()
+        public void land()
         {
             //Sett rullebane til opptatt
             //Simuler f.eks. 2 min
             //Sett status til Arrived
             //Finn den taxi som er connected til denne rullebanen som også er connected til den gaten flighten har fått assigned
-        }
+        }//Slutt land
 
-        public void ParkGate(Gate gate)
+        public void parkGate(Gate gate)
         {
             //Parkere ved gate
-        }
-
-        //Denne tror jeg vi ikke trenger, fordi det er ikke en flight som har maintanance, men et fly
-        public void performMaintanance()
-        {
-            //Dette flyet 
-        }
+        }//Slutt parkGate
 
         public void changeStatus(FlightStatus status)
         {
             Status = status;
-        }
+        }//Slutt changeStatus
 
         public Gate findAvailableGate()
         {
             //Loope gjennom alle connected gates til alle terminaler som har samme bool verdi på innland utland
-            //Finne en ledig gate
-            //Endre instansvariablen til den gaten slik at den nå er opptatt
-            return availableGate;
-        }
-
-
-    
-
-
-    public Taxi findTaxi()
-    {
-        Taxi selectedTaxi = null;
-        int minQueueLength = int.MaxValue;
-
-        if (this.FlightDirection == Direction.Outgoing)
-        {
-            // For outgoing flights, consider taxiways connected to the assigned gate
-            if (this.AssignedGate != null && this.AssignedGate.ConnectedTaxi != null)
+            //allTerminals er private så må bruke get 
+            foreach (var terminal in currentAirport.allTerminals)
             {
-                foreach (Taxi taxi in this.AssignedGate.ConnectedTaxi)
+                if (terminal.IsInternational == this.IsInternational)
+                {
+                    //connectedGates er private, bruk get
+                    foreach(var gate in terminal.connectedGates)
+                    {
+                        //IsAvailable er private, bruk get
+                        if (gate.IsAvailable == true)
+                        {
+                            //Setter denne gaten til occupied, setter gaten til AssignedGate, og returnerer gaten
+                            this.AssignedGate = gate;
+                            //Samme her
+                            gate.IsAvailable = false;
+                            return gate;
+                        }
+                    }
+                }
+                
+            }
+            //Hvis den ikke finner en ledig gate så vil den returnere null
+            return null;
+        }//Slutt findAvailableGate
+
+        public Taxi findTaxi()
+        {
+            Taxi selectedTaxi = null;
+            int minQueueLength = int.MaxValue;
+
+            if (this.FlightDirection == Direction.Outgoing)
+            {
+                // For outgoing flights, consider taxiways connected to the assigned gate
+                if (this.AssignedGate != null && this.AssignedGate.ConnectedTaxi != null)
+                {
+                    //ConnectedTaxi er private så vi må bruke get metoden
+                    foreach (Taxi taxi in this.AssignedGate.ConnectedTaxi)
+                    {
+                        if (taxi.IsAvailable && taxi.TaxiQueue.Count < minQueueLength)
+                        {
+                            selectedTaxi = taxi;
+                            minQueueLength = taxi.TaxiQueue.Count;
+                        }
+                    }
+                }
+            }
+            else if (this.FlightDirection == Direction.Incoming)
+            {
+                // For incoming flights, a different selection strategy is needed
+                // This could involve selecting from a global list of taxiways, for example
+
+                //allTaxis er private, bruk get
+                foreach (Taxi taxi in currentAirport.allTaxis)
                 {
                     if (taxi.IsAvailable && taxi.TaxiQueue.Count < minQueueLength)
                     {
@@ -192,63 +221,49 @@ namespace AirportSimulation
                     }
                 }
             }
-        }
-        else if (this.FlightDirection == Direction.Incoming)
+
+            return selectedTaxi;
+        }//Slutt findTaxi
+
+        public Runway findRunway()
         {
-            // For incoming flights, a different selection strategy is needed
-            // This could involve selecting from a global list of taxiways, for example
-            
-            foreach (Taxi taxi in airport.Taxiways)
+            Runway selectedRunway = null;
+            int minQueueLength = int.MaxValue;
+
+            if (this.FlightDirection == Direction.Outgoing)
             {
-                if (taxi.IsAvailable && taxi.TaxiQueue.Count < minQueueLength)
+                // For outgoing flights, consider runways suitable for take-off
+                //AllRunways er private, bruk get
+                foreach (Runway runway in currentAirport.allRunways)
                 {
-                    selectedTaxi = taxi;
-                    minQueueLength = taxi.TaxiQueue.Count;
+                    //Hva er IsAvailableForTakeoff? Hva gjør den?
+                    if (runway.IsAvailableForTakeoff && runway.RunwayQueue.Count < minQueueLength)
+                    {
+                        selectedRunway = runway;
+                        minQueueLength = runway.RunwayQueue.Count;
+                    }
                 }
             }
-        }
-
-        return selectedTaxi;
-    }
-
-}
-
-
-public Runway findRunway()
-{
-    Runway selectedRunway = null;
-    int minQueueLength = int.MaxValue;
-
-    if (this.FlightDirection == Direction.Outgoing)
-    {
-        // For outgoing flights, consider runways suitable for take-off
-        foreach (Runway runway in airport.Runways)
-        {
-            if (runway.IsAvailableForTakeoff && runway.RunwayQueue.Count < minQueueLength)
+            else if (this.FlightDirection == Direction.Incoming)
             {
-                selectedRunway = runway;
-                minQueueLength = runway.RunwayQueue.Count;
+                // For incoming flights, consider runways suitable for landing
+                //allRunways er private, bruk get
+                foreach (Runway runway in currentAirport.allRunways)
+                {
+                    //Hva er IsAvailableForLanding?
+                    if (runway.IsAvailableForLanding && runway.RunwayQueue.Count < minQueueLength)
+                    {
+                        selectedRunway = runway;
+                        minQueueLength = runway.RunwayQueue.Count;
+                    }
+                }
             }
-        }
-    }
-    else if (this.FlightDirection == Direction.Incoming)
-    {
-        // For incoming flights, consider runways suitable for landing
-        foreach (Runway runway in airport.Runways)
-        {
-            if (runway.IsAvailableForLanding && runway.RunwayQueue.Count < minQueueLength)
-            {
-                selectedRunway = runway;
-                minQueueLength = runway.RunwayQueue.Count;
-            }
-        }
-    }
 
-    return selectedRunway;
-}
+            return selectedRunway;
+        }//Slutt findRunway
 
 
-public void LandingPreperation()
+        public void LandingPreperation()
         {
             //Loope gjennom alle terminaler får å finne en med samme bool verdi
             //Loope gjennom alle gates i riktig terminale for å finne en ledig
@@ -275,14 +290,9 @@ public void LandingPreperation()
 
             DateTime whenToPrepare = ArrivalTime;
             whenToPrepare = whenToPrepare.AddMinutes(-20);
+        }//Slutt LandingPreperation
+
+    }//Slutt Flight klassen
+}//Slutt namespace
 
 
-
-
-
-
-        }
-
-
-    }
-}

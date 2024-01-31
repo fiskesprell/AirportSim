@@ -58,9 +58,9 @@
         // Legge til et taxi object i listen over taxi som er tilkoblet gaten
         // Da kan vi bruke disse listene til å holde styr på hvor fly kan kjøre
 
-        public void AddTaxi(Taxi taxi)
+        public void addTaxi(Taxi taxi)
         {
-            ConnectedTaxi.Add(taxi);
+            connectedTaxi.Add(taxi);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@
         /// The function makes sure that the flight doesnt leave the gate instantly and makes it more realitic
         /// </summary>
         /// <param name="flight"></param>
-        public void DepartingPreperation(Flight flight)
+        public void departingPreperation(Flight flight)
         {
             //45 min før scheduled departure start boarding
             //Sett status på flighten til Boarding
@@ -82,7 +82,7 @@
         /// When the plane has left the gate it will call ArrivalPreperation()
         /// </summary>
         /// <param name="flight"></param>
-        public void DepartFlightFromGate(Flight flight)
+        public void departFlightFromGate(Flight flight)
         {
             //Går gjennom listen med connectedTaxi og finner den taxi som er best mtp kø og rullebane
             //Kaller på taxi.addToQueue(flight)
@@ -93,21 +93,11 @@
         /// <summary>
         /// Simulates the time it takes a gate to change the info on the screen, staffchange, etc
         /// </summary>
-        public void ArrivalPreperation()
+        public void arrivalPreperation()
         {
             //Blir kalt av DepartFlightFromGate
             //Denne metoden "varer i 10 min"
             //Endrer IsAvailable til true
-        }
-
-        // Legger til en taxi til listen med connectedTaxi
-        /// <summary>
-        /// Adds a taxi object to the list of connected taxiways
-        /// </summary>
-        /// <param name="taxi"></param>
-        public void AddConnectedTaxi(Taxi taxi)
-        {
-            ConnectedTaxi.Add(taxi);
         }
 
         // Legger til en spesifikk lisens til gaten
@@ -115,7 +105,7 @@
         /// Adds a licence to a specific gate
         /// </summary>
         /// <param name="licence"></param>
-        public void AddLicence(GateLicence licence) 
+        public void addLicence(GateLicence licence) 
         {
             Licence |= GateLicence.licence;
         }
@@ -125,7 +115,7 @@
         /// Removes a specific licence from a specific gate
         /// </summary>
         /// <param name="licence"></param>
-        public void RemoveLicence(GateLicence licence)
+        public void removeLicence(GateLicence licence)
         {
             Licence &= ~GateLicence.licence;
         }

@@ -13,7 +13,7 @@ namespace AirportSimulation
         // Instance Variables
         public String RunwayName;
         public double RunwayLength = 3000; // in meters
-        public List<Taxi> ConnectedTaxi = new List(); // litt usikker på om denne er gjort riktig
+        public List<Taxi> ConnectedTaxi = new List<Taxi>(); // litt usikker på om denne er gjort riktig
         public Queue<Flight> RunwayQueue = new Queue<Flight>;
         public DateTime LastMaintainance;
         // fra fly kommer inn på rullebanen, til det har lettet og rullebanen er ledig igjen
@@ -57,30 +57,33 @@ namespace AirportSimulation
         /// </summary>
         public void dequeueFlight()
         {
-            flight = RunwayQueue.Dequeue();
+            Flight flight = RunwayQueue.Dequeue();
 
-            if (flight.Status == Departing || flight.Status == DepartingDelayed)
+            //Status er private, bruk get
+            //Kanskje bedre å bruke direction uansett?
+            if (flight.Status == FlightStatus.Departing || flight.Status == FlightStatus.DepartingDelayed)
             {
                 addFlightToRunway(flight);
             }
 
             else
             {
-                desiredGate = flight.AssignedGate;
+                //AssignedGate er private, bruk get
+                Gate desiredGate = flight.AssignedGate;
                 Taxi optimalTaxi = null;
                 int queueSize = int.MaxValue;
                 //Går gjennom alle taxi som er connected til runwayen
                 foreach (Taxi taxi in ConnectedTaxi)
                 {
                     //Sjekker om gaten er connected til taxi
-                    if (AssignedGate in ConnectedGate){
+                    if (desiredGate in taxi.ConnectedGate)
+                    {
                         //Hvis den er connected, sjekk køstørrelsen
                         //Hvis 
                         if (taxi.TaxiQueue.Count() > queueSize)
                         {
                             optimalTaxi = taxi;
                             queueSize = taxi.TaxiQueue.Count();
-
                         }
                     }
                 }
