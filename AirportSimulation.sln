@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportSimulation", "AirportSimulation\AirportSimulation.csproj", "{9DC271DF-BFAA-49FC-883A-79E87A00E8BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirportSimulation", "AirportSimulation\AirportSimulation.csproj", "{9DC271DF-BFAA-49FC-883A-79E87A00E8BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportSimApp", "AirportSimApp\AirportSimApp.csproj", "{3F2C0C18-AE32-43B6-A234-96D0330E4754}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9DC271DF-BFAA-49FC-883A-79E87A00E8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DC271DF-BFAA-49FC-883A-79E87A00E8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DC271DF-BFAA-49FC-883A-79E87A00E8BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F2C0C18-AE32-43B6-A234-96D0330E4754}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F2C0C18-AE32-43B6-A234-96D0330E4754}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F2C0C18-AE32-43B6-A234-96D0330E4754}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F2C0C18-AE32-43B6-A234-96D0330E4754}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

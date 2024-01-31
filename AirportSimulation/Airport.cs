@@ -21,7 +21,7 @@ namespace AirportSimulation
         /// <summary>
         /// List containing all runways in this airport
         /// </summary>
-        private List<Runway> allRunways = new List<Runway>();
+        private List<Runway> allRunways { get; set; } = new List<Runway>();
         /// <summary>
         /// List containing all taxiways in this airport
         /// </summary>
