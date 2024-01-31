@@ -131,6 +131,8 @@
 
         //Denne metoden går gjennom alle taxi som er connected til gaten og sjekker hvilken 
         //taxi som har minst kø
+
+        //Denne tror jeg overlapper veldig med findTaxi så vi kan slanke den
         public void transferFlightToTaxi(Flight flight)
         {
             //Sjekker om lista er tom først

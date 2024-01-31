@@ -118,7 +118,8 @@ namespace AirportSimulation
 
                 if (ElapsedHours == ScheduledHour && ElapsedMinutes == ScheduledMinutes - 30)
                 {
-                    this.AssignedGate.DepartFlightFromGate(this);
+                    Taxi correctTaxi = this.findTaxi();
+                    this.AssignedGate.transferFlightToTaxi(this);
                 }
             }
             else
@@ -234,7 +235,7 @@ namespace AirportSimulation
             {
                 // For outgoing flights, consider runways suitable for take-off
                 //AllRunways er private, bruk get
-                foreach (Runway runway in currentAirport.allRunways)
+                foreach (Runway runway in currentAirport)
                 {
                     //Hva er IsAvailableForTakeoff? Hva gjør den?
                     if (runway.IsAvailableForTakeoff && runway.RunwayQueue.Count < minQueueLength)
