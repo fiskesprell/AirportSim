@@ -23,7 +23,7 @@ namespace AirportSimulation
             //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
             if (airport.allRunways.Count == 0 || airport.allTaxis.Count == 0 || airport.allTerminals.Count == 0)
             {
-                throw new Exception
+                throw new Exception "There is missing either a runway, terminal, or taxi";
             }
             int totalMinutes = 1440 * days + 60 * hours + minutes;
 
