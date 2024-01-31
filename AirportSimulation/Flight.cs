@@ -58,6 +58,7 @@ namespace AirportSimulation
         public int ElapsedHours = 0;
         public int ElapsedMinutes = 0;
         private Airport currentAirport;
+        private bool IsParked = false;
 
 
 
@@ -150,7 +151,8 @@ namespace AirportSimulation
 
         public void parkGate(Gate gate)
         {
-            //Parkere ved gate
+            this.IsParked = true;
+            Console.WriteLine("Nå har flight " + this.Number + " parkert");
         }//Slutt parkGate
 
         public void changeStatus(FlightStatus status)
@@ -176,6 +178,7 @@ namespace AirportSimulation
                             this.AssignedGate = gate;
                             //Samme her
                             gate.IsAvailable = false;
+                            Console.WriteLine("Nå har flight " + this.Number + "fått en gate");
                             return gate;
                         }
                     }
@@ -222,7 +225,7 @@ namespace AirportSimulation
                     }
                 }
             }
-
+            Console.WriteLine("Nå har flight " + this.Number + " fått en taxi");
             return selectedTaxi;
         }//Slutt findTaxi
 
@@ -259,7 +262,7 @@ namespace AirportSimulation
                     }
                 }
             }
-
+            Console.WriteLine("Nå har flight " + this.Number + " fått en rullebane");
             return selectedRunway;
         }//Slutt findRunway
 
