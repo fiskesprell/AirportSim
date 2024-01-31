@@ -1,4 +1,6 @@
-﻿namespace AirportSimApp
+﻿using AirportSimulation;
+
+namespace AirportSimApp
 {
     internal class Program
     {

@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirportSimulation", "AirportSimulation\AirportSimulation.csproj", "{9DC271DF-BFAA-49FC-883A-79E87A00E8BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportSimApp", "AirportSimApp\AirportSimApp.csproj", "{3F2C0C18-AE32-43B6-A234-96D0330E4754}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9DC271DF-BFAA-49FC-883A-79E87A00E8BF} = {9DC271DF-BFAA-49FC-883A-79E87A00E8BF}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
