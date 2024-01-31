@@ -29,7 +29,7 @@ namespace AirportSimulation
 
             for (int i = 0; i < totalMinutes; i++)
             {
-                for each(var flight in airport.allFlights) {
+                for each(var flight in airport.AllFlights) {
                     flight.updateElapsedTime(this);
                 }
                 if (ElapsedMinutes == 60)

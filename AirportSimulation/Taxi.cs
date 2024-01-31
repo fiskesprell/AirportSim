@@ -44,6 +44,7 @@ namespace AirportSimulation
         public Taxi(string name)
         {
             Name = name;
+            Console.WriteLine("Taxi " + name + " har blitt opprettet");
         }
 
         /// <summary>
@@ -63,9 +64,9 @@ namespace AirportSimulation
             Flight flight = TaxiQueue.Dequeue();
             
             //Status er private, bruk get
-            if (flight.Status == FlightStatus.Arrived || flight.Status == FlightStatus.ArrivingDelayed)
+            if (flight.getStatus() == FlightStatus.Arrived || flight.getStatus() == FlightStatus.ArrivingDelayed)
             {
-                flight.parkGate(flight.AssignedGate);
+                flight.parkGate(flight.getAssignedGate());
             }
             else
             {

@@ -164,12 +164,13 @@ namespace AirportSimulation
         {
             //Loope gjennom alle connected gates til alle terminaler som har samme bool verdi på innland utland
             //allTerminals er private så må bruke get 
-            foreach (var terminal in currentAirport.allTerminals)
+
+            foreach (var terminal in currentAirport.getAllTerminals())
             {
                 if (terminal.IsInternational == this.IsInternational)
                 {
                     //connectedGates er private, bruk get
-                    foreach(var gate in terminal.connectedGates)
+                    foreach(var gate in terminal.getConnectedGates())
                     {
                         //IsAvailable er private, bruk get
                         if (gate.IsAvailable == true)
@@ -197,10 +198,10 @@ namespace AirportSimulation
             if (this.FlightDirection == Direction.Outgoing)
             {
                 // For outgoing flights, consider taxiways connected to the assigned gate
-                if (this.AssignedGate != null && this.AssignedGate.ConnectedTaxi != null)
+                if (this.AssignedGate != null && AssignedGate.getConnectedTaxis() != null)
                 {
                     //ConnectedTaxi er private så vi må bruke get metoden
-                    foreach (Taxi taxi in this.AssignedGate.ConnectedTaxi)
+                    foreach (Taxi taxi in AssignedGate.getConnectedTaxis())
                     {
                         if (taxi.IsAvailable && taxi.TaxiQueue.Count < minQueueLength)
                         {
@@ -216,7 +217,7 @@ namespace AirportSimulation
                 // This could involve selecting from a global list of taxiways, for example
 
                 //allTaxis er private, bruk get
-                foreach (Taxi taxi in currentAirport.allTaxis)
+                foreach (Taxi taxi in currentAirport.getAllTaxis())
                 {
                     if (taxi.IsAvailable && taxi.TaxiQueue.Count < minQueueLength)
                     {
@@ -238,7 +239,7 @@ namespace AirportSimulation
             {
                 // For outgoing flights, consider runways suitable for take-off
                 //AllRunways er private, bruk get
-                foreach (Runway runway in currentAirport)
+                foreach (Runway runway in currentAirport.getAllRunways())
                 {
                     //Hva er IsAvailableForTakeoff? Hva gjør den?
                     if (runway.IsAvailableForTakeoff && runway.RunwayQueue.Count < minQueueLength)
@@ -252,7 +253,7 @@ namespace AirportSimulation
             {
                 // For incoming flights, consider runways suitable for landing
                 //allRunways er private, bruk get
-                foreach (Runway runway in currentAirport.allRunways)
+                foreach (Runway runway in currentAirport.getAllRunways())
                 {
                     //Hva er IsAvailableForLanding?
                     if (runway.IsAvailableForLanding && runway.RunwayQueue.Count < minQueueLength)
@@ -295,6 +296,16 @@ namespace AirportSimulation
             DateTime whenToPrepare = ArrivalTime;
             whenToPrepare = whenToPrepare.AddMinutes(-20);
         }//Slutt LandingPreperation
+
+        public FlightStatus getStatus()
+        {
+            return this.Status;
+        }
+
+        public Gate getAssignedGate()
+        {
+            return AssignedGate;
+        }
 
     }//Slutt Flight klassen
 }//Slutt namespace

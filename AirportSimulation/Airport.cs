@@ -17,16 +17,16 @@ namespace AirportSimulation
         /// <summary>
         /// List containing all terminals in this airport
         /// </summary>
-        private List<Terminal> allTerminals = new List<Terminal>();
+        private List<Terminal> AllTerminals = new List<Terminal>();
         /// <summary>
         /// List containing all runways in this airport
         /// </summary>
-        private List<Runway> allRunways { get; set; } = new List<Runway>();
+        private List<Runway> AllRunways { get; set; } = new List<Runway>();
         /// <summary>
         /// List containing all taxiways in this airport
         /// </summary>
-        private List<Taxi> allTaxis = new List<Taxi>();
-        private List<Flight> allFlights = new List<Flight>();
+        private List<Taxi> AllTaxis = new List<Taxi>();
+        private List<Flight> AllFlights = new List<Flight>();
 
         public int ElapsedDays { get; private set; } = 0;
         public int ElapsedHours { get; private set; } = 0;
@@ -52,7 +52,7 @@ namespace AirportSimulation
         public Terminal AddTerminal(string name)
         {
             Terminal newTerminal = new Terminal(name);
-            allTerminals.Add(newTerminal);
+            AllTerminals.Add(newTerminal);
             return newTerminal;
         }
 
@@ -62,7 +62,7 @@ namespace AirportSimulation
         public void AddRunway(string name)
         {
             Runway newRunway = new Runway(name);
-            allRunways.Add(newRunway);
+            AllRunways.Add(newRunway);
         }
 
         /// <summary>
@@ -71,13 +71,33 @@ namespace AirportSimulation
         public void AddTaxi(string name)
         {
             Taxi newTaxi = new Taxi(name);
-            allTaxis.Add(newTaxi);
+            AllTaxis.Add(newTaxi);
         }
 
         public void AddFlight(string name, string destination, int hour, int minutes, Direction direction, Airport airport)
         {
             Flight newFlight = new Flight(name, destination, hour, minutes, direction, this);
-            allFlights.Add(newFlight);
+            AllFlights.Add(newFlight);
+        }
+
+        public List<Flight> getAllFlights()
+        {
+            return AllFlights;
+        }
+
+        public List<Runway> getAllRunways()
+        {
+            return AllRunways;
+        }
+
+        public List<Taxi> getAllTaxis()
+        {
+            return AllTaxis;
+        }
+
+        public List<Terminal> getAllTerminals()
+        {
+            return AllTerminals;
         }
 
     }

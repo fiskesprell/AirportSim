@@ -29,7 +29,7 @@
         /// <summary>
         /// List of taxiways connected to this gate.
         /// </summary>
-        private List<Taxi> ConnectedTaxi = new List<Taxi>();
+        private List<Taxi> ConnectedTaxis { get; set; } =  new List<Taxi>();
         // Vi må diskutere om vi skal bruke minutter, sekunder etc for ting som er målt i tid
         // (fiskesprell) Jeg bruker sekunder som default. Kanskje endre etterpå?
         /// <summary>
@@ -53,6 +53,7 @@
         public Gate(string name)
         {
             GateName = name;
+            Console.WritreLine("Gate " + name + "Har blitt opprettet")
         }
 
         // Legge til et taxi object i listen over taxi som er tilkoblet gaten
@@ -60,7 +61,7 @@
 
         public void addTaxi(Taxi taxi)
         {
-            connectedTaxi.Add(taxi);
+            ConnectedTaxis.Add(taxi);
         }
 
         /// <summary>
@@ -136,13 +137,13 @@
         public void transferFlightToTaxi(Flight flight)
         {
             //Sjekker om lista er tom først
-            if (ConnectedTaxi.Count != 0)
+            if (ConnectedTaxis.Count != 0)
             {
                 Taxi correctTaxi = null;
                 int minQueueLength = int.MaxValue;
 
                 //Går gjennom alle taxi og sjekker lengden på køen
-                foreach (Taxi taxi in ConnectedTaxi)
+                foreach (Taxi taxi in ConnectedTaxis)
                 {
                     //Hvis køen er mindre enn tidligere iterasjoner så velg den taxi
                     if (taxi.lengthQueue() < minQueueLength)
@@ -159,6 +160,26 @@
                     correctTaxi.AddToQueue(flight);
                 }
             }
+        }
+
+        public string getGateName()
+        {
+            return GateName;
+        }
+
+        public List<Taxi> getConnectedTaxis()
+        {
+            return ConnectedTaxis;
+        }
+
+        public bool getIsAvailable()
+        {
+            return IsAvailable;
+        }
+
+        public Flight getCurrentHolder()
+        {
+            return CurrentHolder;
         }
 
 

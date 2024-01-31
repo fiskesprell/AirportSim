@@ -23,7 +23,7 @@ namespace AirportSimulation
         /// <summary>
         /// List of the gates connected to this terminal.
         /// </summary>
-        private List<Gate> connectedGates = new List<Gate>();
+        private List<Gate> ConnectedGates = new List<Gate>();
 
 
 
@@ -43,7 +43,18 @@ namespace AirportSimulation
         public void addGate(string name)
         {
             Gate newGate = new Gate(name);
-            connectedGates.Add(newGate);
+            ConnectedGates.Add(newGate);
+            Console.WriteLine("Terminalen " + TerminalName + " Har fått tildelt gate " + newGate.getGateName());
+        }
+
+        public List<Gate> getConnectedGates()
+        {
+            return ConnectedGates;
+        }
+
+        public bool getIsInternational() 
+        { 
+            return IsInternational; 
         }
 
         // Legge til noe for sikkerhetsjekk, spesielt hvis det er utland?
