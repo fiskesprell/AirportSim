@@ -68,7 +68,7 @@ namespace AirportSimulation
             this.currentAirport = airport;
 
             //Hvis de sender inn noe som ikke er en av kategoriene i Direction enumen så vil en exception kastes
-            if (Enum.TryParse(directionString, out Direction direction))
+            if (Enum.TryParse(direction.ToString(), out Direction flightDirection))
             {
                 this.FlightDirection = direction;
 
@@ -85,7 +85,7 @@ namespace AirportSimulation
             }
             else
             {
-                throw new ArgumentException($"Invalid direction: {directionString}. Expected values are {string.Join(", ", Enum.GetNames(typeof(Direction)))}.", nameof(directionString));
+                throw new ArgumentException($"Invalid direction: {direction}. Expected values are {string.Join(", ", Enum.GetNames(typeof(Direction)))}.", nameof(directionString));
             }
 
             this.flightSim(airport);

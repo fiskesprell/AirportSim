@@ -14,7 +14,7 @@ namespace AirportSimulation
         public String RunwayName;
         public double RunwayLength = 3000; // in meters
         public List<Taxi> ConnectedTaxi = new List<Taxi>(); // litt usikker på om denne er gjort riktig
-        public Queue<Flight> RunwayQueue = new Queue<Flight>;
+        public Queue<Flight> RunwayQueue = new Queue<Flight>();
         public DateTime LastMaintainance;
         // fra fly kommer inn på rullebanen, til det har lettet og rullebanen er ledig igjen
         public double AverageTakeoffTime = 600; // in seconds - here 10 minutes
