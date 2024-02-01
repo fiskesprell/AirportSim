@@ -149,9 +149,31 @@ namespace AirportSimulation
             //Finn den taxi som er connected til denne rullebanen som også er connected til den gaten flighten har fått assigned
         }//Slutt land
 
+
+        /// <summary>
+        /// Parks the flight at a specified gate and updates the flight and gate statuses accordingly.
+        /// Throws an exception if the gate is null or not available.
+        /// </summary>
         public void parkGate(Gate gate)
         {
-            this.IsParked = true;
+
+            Gate gateToPark = this.AssignedGate;
+
+            // If there's no pre-assigned gate, find an available one
+            if (gateToPark == null || !gateToPark.getIsAvailable())
+            {
+                gateToPark = findAvailableGate();
+            }
+            if (gateToPark != null)
+
+            {
+                this.IsParked = true;
+                gateToPark.IsAvailable = false;
+                gateToPark.CurrentHolder = this;
+                this.AssignedGate = gateToPark;
+            }
+
+                
             Console.WriteLine("Nå har flight " + this.Number + " parkert");
         }//Slutt parkGate
 
@@ -159,6 +181,14 @@ namespace AirportSimulation
         {
             Status = status;
         }//Slutt changeStatus
+
+
+
+
+
+        
+        
+
 
         public Gate findAvailableGate()
         {
@@ -266,6 +296,8 @@ namespace AirportSimulation
             Console.WriteLine("Nå har flight " + this.Number + " fått en rullebane");
             return selectedRunway;
         }//Slutt findRunway
+
+
 
 
         public void LandingPreperation()
