@@ -167,17 +167,16 @@ namespace AirportSimulation
             Gate gateToPark = this.AssignedGate;
 
             // If there's no pre-assigned gate, find an available one
-            if (gateToPark == null || !gateToPark.getIsAvailable())
+            if (gateToPark == null)
             {
                 gateToPark = findAvailableGate();
+
             }
             if (gateToPark != null)
 
             {
                 this.IsParked = true;
-                gateToPark.IsAvailable = false;
                 gateToPark.CurrentHolder = this;
-                this.AssignedGate = gateToPark;
             }
 
                 
