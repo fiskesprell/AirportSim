@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace AirportSimulation
 {
-    internal class TimeSimulation
+    public class TimeSimulation
     {
-        public int ElapsedDays { get; set } = 0;
-        public int ElapsedHours { get; set } = 0;
-        public int ElapsedMinutes { get; set } = 0;
+        public int ElapsedDays { get; set; } = 0;
+        public int ElapsedHours { get; set; } = 0;
+        public int ElapsedMinutes { get; set; } = 0;
 
         public TimeSimulation()
         {}
@@ -21,16 +21,16 @@ namespace AirportSimulation
         private void SimulateTime(Airport airport, int days, int hours, int minutes)
         {
             //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
-            if (airport.allRunways.Count == 0 || airport.allTaxis.Count == 0 || airport.allTerminals.Count == 0)
+            if (airport.getAllRunways().Count == 0 || airport.getAllTaxis().Count == 0 || airport.getAllTerminals().Count == 0)
             {
-                throw new Exception "There is missing either a runway, terminal, or taxi";
+                throw new Exception("There is missing either a runway, terminal, or taxi");
             }
             int totalMinutes = 1440 * days + 60 * hours + minutes;
 
             for (int i = 0; i < totalMinutes; i++)
             {
-                for each(var flight in airport.AllFlights) {
-                    flight.updateElapsedTime(this);
+                foreach(var flight in airport.getAllFlights()) {
+                    flight.updateElapsedTime(airport);
                 }
                 if (ElapsedMinutes == 60)
                 {
