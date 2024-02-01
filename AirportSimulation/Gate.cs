@@ -177,9 +177,19 @@
             return IsAvailable;
         }
 
+        public void setIsAvailable(bool status)
+        {
+            IsAvailable = status;
+        }
+
         public Flight getCurrentHolder()
         {
             return CurrentHolder;
+        }
+
+        public GateLicence getGateLicence()
+        {
+            return Licence;
         }
 
 

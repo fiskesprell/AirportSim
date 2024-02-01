@@ -92,6 +92,9 @@ namespace AirportSimulation
             this.flightSim(airport);
         }//Slutt konstruktør
 
+        /// <summary>
+        /// This method will continously update the elapsed time for each flight object
+        /// </summary>
         public void updateElapsedTime(Airport airport)
         {
             this.ElapsedDays = airport.ElapsedDays;
@@ -99,6 +102,10 @@ namespace AirportSimulation
             this.ElapsedMinutes = airport.ElapsedMinutes;
         }//Slutt updateElapsedTime
 
+
+        /// <summary>
+        /// This method keeps track of the chain of events during the simulation
+        /// </summary>
         private void flightSim(Airport airport)
         {
             if (this.FlightDirection == Direction.Outgoing)
@@ -155,30 +162,30 @@ namespace AirportSimulation
             Console.WriteLine("Nå har flight " + this.Number + " parkert");
         }//Slutt parkGate
 
+        /// <summary>
+        /// This method will change the status of the flight. 
+        /// </summary>
         public void changeStatus(FlightStatus status)
         {
             Status = status;
         }//Slutt changeStatus
 
+        /// <summary>
+        /// This method will loop through all terminals, then all the gates in that terminal, and find a gate that is available and have the correct licence
+        /// </summary>
         public Gate findAvailableGate()
         {
             //Loope gjennom alle connected gates til alle terminaler som har samme bool verdi på innland utland
-            //allTerminals er private så må bruke get 
-
             foreach (var terminal in currentAirport.getAllTerminals())
             {
                 if (terminal.IsInternational == this.IsInternational)
                 {
-                    //connectedGates er private, bruk get
                     foreach(var gate in terminal.getConnectedGates())
                     {
-                        //IsAvailable er private, bruk get
-                        if (gate.IsAvailable == true)
+                        if (gate.IsAvailable == true && this.FlightType in gate.getGateLicence)
                         {
-                            //Setter denne gaten til occupied, setter gaten til AssignedGate, og returnerer gaten
                             this.AssignedGate = gate;
-                            //Samme her
-                            gate.IsAvailable = false;
+                            gate.setIsAvailable(false);
                             Console.WriteLine("Nå har flight " + this.Number + "fått en gate");
                             return gate;
                         }
@@ -190,6 +197,9 @@ namespace AirportSimulation
             return null;
         }//Slutt findAvailableGate
 
+        /// <summary>
+        /// This method will find an available taxiway depending on your gate and runway. This will return a taxi object
+        /// </summary>
         public Taxi findTaxi()
         {
             Taxi selectedTaxi = null;
@@ -200,7 +210,6 @@ namespace AirportSimulation
                 // For outgoing flights, consider taxiways connected to the assigned gate
                 if (this.AssignedGate != null && AssignedGate.getConnectedTaxis() != null)
                 {
-                    //ConnectedTaxi er private så vi må bruke get metoden
                     foreach (Taxi taxi in AssignedGate.getConnectedTaxis())
                     {
                         if (taxi.IsAvailable && taxi.TaxiQueue.Count < minQueueLength)
@@ -216,7 +225,6 @@ namespace AirportSimulation
                 // For incoming flights, a different selection strategy is needed
                 // This could involve selecting from a global list of taxiways, for example
 
-                //allTaxis er private, bruk get
                 foreach (Taxi taxi in currentAirport.getAllTaxis())
                 {
                     if (taxi.IsAvailable && taxi.TaxiQueue.Count < minQueueLength)
@@ -230,6 +238,9 @@ namespace AirportSimulation
             return selectedTaxi;
         }//Slutt findTaxi
 
+        /// <summary>
+        /// This method will find a runway based on your gate. This will return a runway object
+        /// </summary>
         public Runway findRunway()
         {
             Runway selectedRunway = null;
@@ -238,7 +249,6 @@ namespace AirportSimulation
             if (this.FlightDirection == Direction.Outgoing)
             {
                 // For outgoing flights, consider runways suitable for take-off
-                //AllRunways er private, bruk get
                 foreach (Runway runway in currentAirport.getAllRunways())
                 {
                     //Hva er IsAvailableForTakeoff? Hva gjør den?
@@ -252,7 +262,6 @@ namespace AirportSimulation
             else if (this.FlightDirection == Direction.Incoming)
             {
                 // For incoming flights, consider runways suitable for landing
-                //allRunways er private, bruk get
                 foreach (Runway runway in currentAirport.getAllRunways())
                 {
                     //Hva er IsAvailableForLanding?
@@ -297,14 +306,29 @@ namespace AirportSimulation
             whenToPrepare = whenToPrepare.AddMinutes(-20);
         }//Slutt LandingPreperation
 
+
+        /// <summary>
+        /// Get method for the FlightStatus of a flight
+        /// </summary>
         public FlightStatus getStatus()
         {
             return this.Status;
         }
 
+        /// <summary>
+        /// Get method for AssignedGate. This will return a gate object
+        /// </summary>
         public Gate getAssignedGate()
         {
             return AssignedGate;
+        }
+
+        /// <summary>
+        /// Get method IsInternational. This will return a bool value
+        /// </summary>
+        public bool getIsInternational()
+        {
+            return IsInternational;
         }
 
     }//Slutt Flight klassen
