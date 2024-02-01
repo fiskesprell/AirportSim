@@ -7,7 +7,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AirportSimulation
 {
-    enum FlightType
+    public enum FlightType
     {
         Commercial,
         Transport,
@@ -15,13 +15,13 @@ namespace AirportSimulation
         Military
     }
 
-    enum Direction
+    public enum Direction
     {
         Incoming,
         Outgoing
     }
 
-    enum FlightStatus
+    public enum FlightStatus
     {
         OnTime,
         ArrivingDelayed,
@@ -32,7 +32,7 @@ namespace AirportSimulation
         Arrived
     }
 
-    enum Frequency
+    public enum Frequency
     {
         OneTime,
         Daily,
@@ -40,7 +40,7 @@ namespace AirportSimulation
     }
 
 
-    internal class Flight
+    public class Flight
     {
         private string Number { get; set; }
         private string Company { get; set; } = "Norwegian";
@@ -110,21 +110,25 @@ namespace AirportSimulation
         {
             if (this.FlightDirection == Direction.Outgoing)
             {
-                //Jeg vet at disse tidssammenligningene ikke vil funke, men bare en kjapp draft så jeg ikke glemmer
-                //TODO: Fikse tidssammenligning så den faktisk fungerer
-                if (ElapsedHours == ScheduledHour - 1 && ElapsedMinutes == ScheduledMinutes - 45)
+                //Kalle på convertTime for å få riktig klokkeslett 1 time og 45 min "tilbake" i tid
+                //Dessverre kan man ikke overskrive variabler så må lage nye variabler hver gang
+                (int newHours1, int newMinutes1) = convertTime(ScheduledHour, ScheduledMinutes, 1, 45);
+                if (ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
                     //Logg flight BRA123 har fått gate {this.AssignedGate} tildelt. F.eks
                     Gate availableGate = findAvailableGate();
                     parkGate(availableGate);
                 }
 
-                if (ElapsedHours == ScheduledHour - 1 && ElapsedMinutes == ScheduledMinutes)
+                //Derfor blir det newHours1, newHours2, osv
+                (int newHours2, int newMinutes2) = convertTime(ScheduledHour, ScheduledMinutes, 1, 0);
+                if (ElapsedHours == newHours2 && ElapsedMinutes == newMinutes2)
                 {
-                    this.AssignedGate.DepartingPreperations(this);
+                    //this.AssignedGate.DepartingPreperations(this);
                 }
 
-                if (ElapsedHours == ScheduledHour && ElapsedMinutes == ScheduledMinutes - 30)
+                (int newHours3, int newMinutes3) = convertTime(ScheduledHour, ScheduledMinutes, 0, 30);
+                if (ElapsedHours == newHours3 && ElapsedMinutes == newMinutes3)
                 {
                     Taxi correctTaxi = this.findTaxi();
                     this.AssignedGate.transferFlightToTaxi(this);
@@ -176,7 +180,7 @@ namespace AirportSimulation
 
             {
                 this.IsParked = true;
-                gateToPark.CurrentHolder = this;
+                gateToPark.setCurrentHolder(this);
             }
 
                 
@@ -186,7 +190,7 @@ namespace AirportSimulation
         /// <summary>
         /// This method will change the status of the flight. 
         /// </summary>
-        public void changeStatus(FlightStatus status)
+        public void setStatus(FlightStatus status)
         {
             Status = status;
         }//Slutt changeStatus
@@ -203,7 +207,8 @@ namespace AirportSimulation
                 {
                     foreach(var gate in terminal.getConnectedGates())
                     {
-                        if (gate.IsAvailable == true && this.FlightType in gate.getGateLicence)
+                        //Denne må fikses slik at den kan se om gaten har riktig lisens
+                        if (gate.getIsAvailable() == true && gate.getGateLicence().Contains(this.FlightType))
                         {
                             this.AssignedGate = gate;
                             gate.setIsAvailable(false);
@@ -300,8 +305,8 @@ namespace AirportSimulation
 
 
 
-        public void LandingPreperation()
-        {
+        // public void LandingPreperation()
+        //{
             //Loope gjennom alle terminaler får å finne en med samme bool verdi
             //Loope gjennom alle gates i riktig terminale for å finne en ledig
             // AssignedGate = gate;
@@ -315,7 +320,7 @@ namespace AirportSimulation
             // Da står den heller og venter på gate når den er på bakken.
 
             // Steg 1: Finn 20 minutter før Arrival til å begynne prosessen
-            DateTime WhenToBeginLookingForGate = this.ArrivalTime;
+            // DateTime WhenToBeginLookingForGate = this.ArrivalTime;
 
 
 
@@ -325,10 +330,37 @@ namespace AirportSimulation
             // 2.3 - Gå gjennom alle terminaler, finn en som er ledig.
             // 2.4 - gå gjennom denne ledige terminalen, og finn en ledig gate med minst kø.
 
-            DateTime whenToPrepare = ArrivalTime;
-            whenToPrepare = whenToPrepare.AddMinutes(-20);
-        }//Slutt LandingPreperation
+            // DateTime whenToPrepare = ArrivalTime;
+            // whenToPrepare = whenToPrepare.AddMinutes(-20);
+        // }//Slutt LandingPreperation
 
+        /// <summary>
+        /// This method will take a scheduled time and correctly turn back the given subtracted time
+        /// </summary>
+        /// <param name="hour"></param>
+        /// <param name="minutes"></param>
+        /// <param name="subtractedHours"></param>
+        /// <param name="subtractedMinutes"></param>
+        /// <returns>A tuple with two ints, one represents hour, the other minute</returns>
+        public (int, int) convertTime(int hour, int minutes, int subtractedHours, int subtractedMinutes)
+        {
+            int newHours = hour - subtractedHours;
+            int newMinutes = minutes - subtractedMinutes;
+
+            if (newHours < 0)
+            {
+                newHours = 24 + newHours;
+            }
+
+            if (newMinutes < 0)
+            {
+                newMinutes = 60 + newMinutes;
+                newHours -= 1;
+            }
+
+            return (newHours, newMinutes);
+
+        }
 
         /// <summary>
         /// Get method for the FlightStatus of a flight
@@ -351,7 +383,7 @@ namespace AirportSimulation
         /// </summary>
         public bool getIsInternational()
         {
-            return IsInternational;
+            return this.IsInternational;
         }
 
     }//Slutt Flight klassen

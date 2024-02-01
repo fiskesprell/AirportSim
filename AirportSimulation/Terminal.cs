@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AirportSimulation
 {
-    internal class Terminal
+    public class Terminal
     {
         // Instance Variables
         /// <summary>

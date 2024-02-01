@@ -3,7 +3,7 @@
     // Ulike typer fly som gates har lov til å ha
     // Å bruke Flags gjør at det er mulig å ha flere kategorier i stedet for bare 1
     [Flags]
-    enum GateLicence
+    public enum GateLicence
     {
         None = 0,
         Commercial = 1,
@@ -53,7 +53,7 @@
         public Gate(string name)
         {
             GateName = name;
-            Console.WriteLine("Gate " + name + "Har blitt opprettet")
+            Console.WriteLine("Gate " + name + "Har blitt opprettet");
         }
 
         // Legge til et taxi object i listen over taxi som er tilkoblet gaten
@@ -108,7 +108,7 @@
         /// <param name="licence"></param>
         public void addLicence(GateLicence licence) 
         {
-            Licence |= GateLicence.licence;
+            Licence |= licence;
         }
 
         // Fjerner en spesifikk lisens fra gaten
@@ -118,7 +118,7 @@
         /// <param name="licence"></param>
         public void removeLicence(GateLicence licence)
         {
-            Licence &= ~GateLicence.licence;
+            Licence &= ~licence;
         }
 
         // Fjerner alle licencer fra gaten slik at den ikke har lov å ha noen fly
@@ -133,7 +133,7 @@
         //Denne metoden går gjennom alle taxi som er connected til gaten og sjekker hvilken 
         //taxi som har minst kø
 
-        //Denne tror jeg overlapper veldig med findTaxi så vi kan slanke den
+        //Denne tror jeg overlapper veldig med findTaxi så vi kan slanke den eller bare fjerne den helt
         public void transferFlightToTaxi(Flight flight)
         {
             //Sjekker om lista er tom først
@@ -157,7 +157,7 @@
                 if (correctTaxi != null)
                 {
                     //Legger til flight i den taxi sin kø
-                    correctTaxi.AddToQueue(flight);
+                    correctTaxi.addToQueue(flight);
                 }
             }
         }
@@ -200,6 +200,11 @@
         public Flight getCurrentHolder()
         {
             return CurrentHolder;
+        }
+
+        public void setCurrentHolder(Flight flight)
+        {
+            CurrentHolder = flight;
         }
 
         /// <summary>

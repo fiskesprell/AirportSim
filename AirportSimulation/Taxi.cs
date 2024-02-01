@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AirportSimulation
 {
-    internal class Taxi
+    public class Taxi
     {
         /// <summary>
         /// The name of your Taxiway.
@@ -15,11 +15,11 @@ namespace AirportSimulation
         /// <summary>
         /// List of gates connected to this taxiway.
         /// </summary>
-        public List<Gate> ConnectedGate = new List<Gate>();
+        public List<Gate> ConnectedGates = new List<Gate>();
         /// <summary>
         /// List of runways connected to this taxiway.
         /// </summary>
-        public List<Runway> ConnectedRunway = new List<Runway>();
+        public List<Runway> ConnectedRunways = new List<Runway>();
         /// <summary>
         /// Queue of flights that wish to use the taxiway.
         /// </summary>
@@ -70,7 +70,7 @@ namespace AirportSimulation
             }
             else
             {
-                foreach (Runway runway in ConnectedRunway)
+                foreach (Runway runway in ConnectedRunways)
                 {
                     //Finn ut hvor køen er minst
                     //Kalle på findRunway fra flight?
@@ -96,7 +96,7 @@ namespace AirportSimulation
         /// <param name="gate"></param>
         public void addConnectedGate(Gate gate)
         {
-            ConnectedGate.Add(gate);
+            ConnectedGates.Add(gate);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace AirportSimulation
         /// <param name="gate"></param>
         public void removeConnectedGate(Gate gate)
         {
-            ConnectedGate.Remove(gate);
+            ConnectedGates.Remove(gate);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace AirportSimulation
         /// <param name="runway"></param>
         public void addConnectedRunway(Runway runway)
         {
-            ConnectedRunway.Add(runway);
+            ConnectedRunways.Add(runway);
         }
 
         /// <summary>
@@ -123,7 +123,17 @@ namespace AirportSimulation
         /// <param name="runway"></param>
         public void removeConnectedRunway(Runway runway)
         {
-            ConnectedRunway.Remove(runway);
+            ConnectedRunways.Remove(runway);
+        }
+
+        public List<Gate> getConnectedGates()
+        {
+            return ConnectedGates;
+        }
+
+        public List<Runway> getConnectedRunways()
+        {
+            return ConnectedRunways;
         }
 
     }

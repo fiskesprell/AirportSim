@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AirportSimulation
 {
-    internal class Airport : IAirport
+    public class Airport : IAirport
     {
         // Instance Variables
         /// <summary>
@@ -40,16 +40,16 @@ namespace AirportSimulation
         public Airport(string airportName, string terminalName, string taxiName, string runwayName, string gateName)
         {
             this.AirportName = airportName;
-            Terminal terminal = AddTerminal(terminalName);
-            AddTaxi(taxiName);
-            AddRunway(runwayName);
+            Terminal terminal = addTerminal(terminalName);
+            addTaxi(taxiName);
+            addRunway(runwayName);
             terminal.addGate(gateName);
         }
 
         /// <summary>
         /// Calls the terminal constructor and adds the resulting object to the list of terminals
         /// </summary>
-        public Terminal AddTerminal(string name)
+        public Terminal addTerminal(string name)
         {
             Terminal newTerminal = new Terminal(name);
             AllTerminals.Add(newTerminal);
@@ -59,7 +59,7 @@ namespace AirportSimulation
         /// <summary>
         /// Calls the runway constructor and adds the resulting object to the list of runways
         /// </summary>
-        public void AddRunway(string name)
+        public void addRunway(string name)
         {
             Runway newRunway = new Runway(name);
             AllRunways.Add(newRunway);
@@ -68,13 +68,13 @@ namespace AirportSimulation
         /// <summary>
         /// Calls the taxi constructor and adds the resulting object to the list of taxiways
         /// </summary>
-        public void AddTaxi(string name)
+        public void addTaxi(string name)
         {
             Taxi newTaxi = new Taxi(name);
             AllTaxis.Add(newTaxi);
         }
 
-        public void AddFlight(string name, string destination, int hour, int minutes, Direction direction, Airport airport)
+        public void addFlight(string name, string destination, int hour, int minutes, Direction direction, Airport airport)
         {
             Flight newFlight = new Flight(name, destination, hour, minutes, direction, this);
             AllFlights.Add(newFlight);

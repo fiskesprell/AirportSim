@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AirportSimulation
 {
-    internal class Runway
+    public class Runway
     {
         // Instance Variables
         public String RunwayName;
@@ -62,7 +62,7 @@ namespace AirportSimulation
 
             //Status er private, bruk get
             //Kanskje bedre å bruke direction uansett?
-            if (flight.Status == FlightStatus.Departing || flight.Status == FlightStatus.DepartingDelayed)
+            if (flight.getStatus() == FlightStatus.Departing || flight.getStatus() == FlightStatus.DepartingDelayed)
             {
                 addFlightToRunway(flight);
             }
@@ -70,14 +70,14 @@ namespace AirportSimulation
             else
             {
                 //AssignedGate er private, bruk get
-                Gate desiredGate = flight.AssignedGate;
+                Gate desiredGate = flight.getAssignedGate();
                 Taxi optimalTaxi = null;
                 int queueSize = int.MaxValue;
                 //Går gjennom alle taxi som er connected til runwayen
                 foreach (Taxi taxi in ConnectedTaxi)
                 {
                     //Sjekker om gaten er connected til taxi
-                    if (desiredGate in taxi.ConnectedGate)
+                    if (taxi.getConnectedGates().Contains(desiredGate))
                     {
                         //Hvis den er connected, sjekk køstørrelsen
                         //Hvis 
