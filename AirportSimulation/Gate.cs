@@ -53,7 +53,7 @@
         public Gate(string name)
         {
             GateName = name;
-            Console.WritreLine("Gate " + name + "Har blitt opprettet")
+            Console.WriteLine("Gate " + name + "Har blitt opprettet")
         }
 
         // Legge til et taxi object i listen over taxi som er tilkoblet gaten
@@ -162,31 +162,49 @@
             }
         }
 
+        /// <summary>
+        /// Get method for GateName. This will return a string
+        /// </summary>
         public string getGateName()
         {
             return GateName;
         }
 
+        /// <summary>
+        /// Get method for ConnectedTaxi. This will return a list of taxi objects
+        /// </summary>
         public List<Taxi> getConnectedTaxis()
         {
             return ConnectedTaxis;
         }
 
+        /// <summary>
+        /// Get method for IsAvailable. This will return a bool
+        /// </summary>
         public bool getIsAvailable()
         {
             return IsAvailable;
         }
 
+        /// <summary>
+        /// Set method for IsAvailable. This will change the value of IsAvailable
+        /// </summary>
         public void setIsAvailable(bool status)
         {
             IsAvailable = status;
         }
 
+        /// <summary>
+        /// Get method for CurrentHolder. This will return a flight object
+        /// </summary>
         public Flight getCurrentHolder()
         {
             return CurrentHolder;
         }
 
+        /// <summary>
+        /// Get method GateLicence. This will return an enumvalue
+        /// </summary>
         public GateLicence getGateLicence()
         {
             return Licence;
