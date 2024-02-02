@@ -132,6 +132,7 @@ namespace AirportSimulation
         /// </summary>
         private void flightSim(Airport airport)
         {
+            Console.WriteLine("Nå begynner simuleringen for flight " + this.Number);
             if (this.FlightDirection == Direction.Outgoing)
             {
                 //Kalle på convertTime for å få riktig klokkeslett 1 time og 45 min "tilbake" i tid
