@@ -60,7 +60,7 @@ namespace AirportSimulation
         public int ElapsedDays = 0;
         public int ElapsedHours = 0;
         public int ElapsedMinutes = 0;
-        private Airport currentAirport;
+        private Airport CurrentAirport;
         private bool IsParked = false;
         private Taxi DesiredTaxi {  get; set; }
         private Runway DesiredRunway { get; set; }
@@ -71,7 +71,7 @@ namespace AirportSimulation
         {
             this.Number = number;
             this.Destination = destination;
-            this.currentAirport = airport;
+            this.CurrentAirport = airport;
 
             //Hvis de sender inn noe som ikke er en av kategoriene i Direction enumen så vil en exception kastes
             if (Enum.TryParse(direction.ToString(), out Direction flightDirection))
@@ -98,6 +98,23 @@ namespace AirportSimulation
 
             this.flightSim(airport);
         }//Slutt konstruktør
+
+        public Flight(string number, string destination, DateTime travelDay, int hour, int minute, Direction direction, Airport airport, bool isInternational, FlightType flightType, Frequency frequency, string company)
+        {
+            this.Number = number;
+            this.Destination = destination;
+            this.CurrentAirport = airport;
+            this.ScheduledDay = travelDay;
+            this.ScheduledHour = hour;
+            this.ScheduledMinutes = minute;
+            this.FlightType = flightType;
+            this.Frequency = frequency;
+            this.Company = company;
+            this.FlightDirection = direction;
+            this.IsInternational = isInternational;
+            this.FlightType = flightType;
+
+        }
 
         /// <summary>
         /// This method will continously update the elapsed time for each flight object
@@ -150,6 +167,18 @@ namespace AirportSimulation
                     bestRunway.enqueueFlight(this);
 
                 }
+            }
+            if (this.Frequency == Frequency.Daily)
+            {
+                DateTime newDate = this.ScheduledDay.AddDays(1);
+                Flight dailyFlight = new Flight(this.Number, this.Destination, newDate, this.ScheduledHour, this.ScheduledMinutes, this.FlightDirection, this.CurrentAirport, this.IsInternational, this.FlightType, this.Frequency, this.Company);
+
+            }
+
+            if (this.Frequency == Frequency.Weekly)
+            {
+                DateTime newDate = this.ScheduledDay.AddDays(7);
+                Flight weeklyFlight = new Flight(this.Number, this.Destination, newDate, this.ScheduledHour, this.ScheduledMinutes, this.FlightDirection, this.CurrentAirport, this.IsInternational, this.FlightType, this.Frequency, this.Company)
             }
         }//Slutt flightSim
 
@@ -213,7 +242,7 @@ namespace AirportSimulation
         public Gate findAvailableGate()
         {
             //Loope gjennom alle connected gates til alle terminaler som har samme bool verdi på innland utland
-            foreach (var terminal in currentAirport.getAllTerminals())
+            foreach (var terminal in CurrentAirport.getAllTerminals())
             {
                 if (terminal.IsInternational == this.IsInternational)
                 {
@@ -263,7 +292,7 @@ namespace AirportSimulation
                 // For incoming flights, a different selection strategy is needed
                 // This could involve selecting from a global list of taxiways, for example
 
-                foreach (Taxi taxi in currentAirport.getAllTaxis())
+                foreach (Taxi taxi in CurrentAirport.getAllTaxis())
                 {
                     if (taxi.IsAvailable && taxi.TaxiQueue.Count < minQueueLength)
                     {

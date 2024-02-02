@@ -22,6 +22,9 @@ namespace AirportSimulation
         {
             TimeSpan timeDifference = start - end;
 
+            airport.setScheduledStartDate(start);
+            airport.setScheduledEndDate(end);
+
             int days = timeDifference.Days;
             int hours = timeDifference.Hours;
             int minutes = timeDifference.Minutes;

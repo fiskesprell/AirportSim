@@ -31,6 +31,9 @@ namespace AirportSimulation
         public int ElapsedDays { get; private set; } = 0;
         public int ElapsedHours { get; private set; } = 0;
         public int ElapsedMinutes { get; private set; } = 0;
+
+        private DateTime ScheduledStartDate { get; set; }
+        private DateTime ScheduledEndDate { get; set; }
             
 
         /// <summary>
@@ -98,6 +101,26 @@ namespace AirportSimulation
         public List<Terminal> getAllTerminals()
         {
             return AllTerminals;
+        }
+
+        public DateTime getScheduledStartDate()
+        {
+            return ScheduledStartDate;
+        }
+
+        public void setScheduledStartDate(DateTime scheduledStartDate)
+        {
+            ScheduledStartDate = scheduledStartDate;
+        }
+
+        public DateTime getScheduledEndDate()
+        {
+            return ScheduledEndDate;
+        }
+
+        public void setScheduledEndDate(DateTime scheduledEndDate)
+        {
+            ScheduledEndDate = scheduledEndDate;
         }
 
     }
