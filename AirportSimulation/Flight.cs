@@ -93,7 +93,7 @@ namespace AirportSimulation
             }
             else
             {
-                throw new ArgumentException($"Invalid direction: {direction}. Expected values are {string.Join(", ", Enum.GetNames(typeof(Direction)))}.", nameof(directionString));
+                throw new ArgumentException($"Invalid direction: {direction}. Expected values are {string.Join(", ", Enum.GetNames(typeof(Direction)))}.", nameof(direction));
             }
 
             this.flightSim(airport);
@@ -114,7 +114,7 @@ namespace AirportSimulation
             this.IsInternational = isInternational;
             this.FlightType = flightType;
 
-        }
+        }//Slutt overload konstruktør
 
         /// <summary>
         /// This method will continously update the elapsed time for each flight object
@@ -172,13 +172,18 @@ namespace AirportSimulation
             {
                 DateTime newDate = this.ScheduledDay.AddDays(1);
                 Flight dailyFlight = new Flight(this.Number, this.Destination, newDate, this.ScheduledHour, this.ScheduledMinutes, this.FlightDirection, this.CurrentAirport, this.IsInternational, this.FlightType, this.Frequency, this.Company);
-
+                dailyFlight.setDesiredRunway(null);
+                dailyFlight.setDesiredTaxi(null);
+                dailyFlight.setAssignedGate(null);
             }
 
             if (this.Frequency == Frequency.Weekly)
             {
                 DateTime newDate = this.ScheduledDay.AddDays(7);
-                Flight weeklyFlight = new Flight(this.Number, this.Destination, newDate, this.ScheduledHour, this.ScheduledMinutes, this.FlightDirection, this.CurrentAirport, this.IsInternational, this.FlightType, this.Frequency, this.Company)
+                Flight weeklyFlight = new Flight(this.Number, this.Destination, newDate, this.ScheduledHour, this.ScheduledMinutes, this.FlightDirection, this.CurrentAirport, this.IsInternational, this.FlightType, this.Frequency, this.Company);
+                weeklyFlight.setDesiredRunway(null);
+                weeklyFlight.setDesiredTaxi(null);
+                weeklyFlight.setAssignedGate(null);
             }
         }//Slutt flightSim
 
@@ -419,6 +424,11 @@ namespace AirportSimulation
         public Gate getAssignedGate()
         {
             return AssignedGate;
+        }
+
+        public void setAssignedGate(Gate gate)
+        {
+            AssignedGate = gate;
         }
 
         /// <summary>
