@@ -7,6 +7,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AirportSimulation
 {
+
     public enum FlightType
     {
         Commercial,
@@ -53,12 +54,14 @@ namespace AirportSimulation
         private DateTime LastMaintanace { get; set; }
         private FlightStatus Status { get; set; } = FlightStatus.OnTime;
         private Frequency Frequency { get; set; } = Frequency.OneTime;
-        private Direction FlightDirection;
+        private Direction FlightDirection { get; set; }
         public int ElapsedDays = 0;
         public int ElapsedHours = 0;
         public int ElapsedMinutes = 0;
         private Airport currentAirport;
         private bool IsParked = false;
+        private Taxi DesiredTaxi {  get; set; }
+        private Runway DesiredRunway { get; set; }
 
 
 
@@ -140,24 +143,30 @@ namespace AirportSimulation
                 {
                     Gate availableGate = this.findAvailableGate();
                     Runway bestRunway = this.findRunway();
+                    bestRunway.enqueueFlight(this);
 
                 }
             }
         }//Slutt flightSim
 
-        public void takeoff()
+        public void takeoff(Runway runway)
         {
-            //Simuler f.eks 2 min
-            //Sett staus til Departed
-            //Sett rullebane til ledig
+            runway.setFlightOnRunway(this);
+            //broom broom
+            this.Status = FlightStatus.Departed;
+            Console.WriteLine("Nå har flight " + this.Number + " tatt av");
+            runway.setFlightOnRunway(null);
+            runway.setIsAvailable(true);
         }//Slutt takeoff
 
-        public void land()
+        public void land(Runway runway)
         {
-            //Sett rullebane til opptatt
-            //Simuler f.eks. 2 min
-            //Sett status til Arrived
-            //Finn den taxi som er connected til denne rullebanen som også er connected til den gaten flighten har fått assigned
+            runway.setFlightOnRunway(this);
+            this.Status = FlightStatus.Arrived;
+            Console.WriteLine("Nå har flight " + this.Number + " landet");
+            DesiredTaxi.addToQueue(this);
+            runway.setFlightOnRunway(null);
+            runway.setIsAvailable(true);
         }//Slutt land
 
 
@@ -167,7 +176,6 @@ namespace AirportSimulation
         /// </summary>
         public void parkGate(Gate gate)
         {
-
             Gate gateToPark = this.AssignedGate;
 
             // If there's no pre-assigned gate, find an available one
@@ -261,11 +269,12 @@ namespace AirportSimulation
                 }
             }
             Console.WriteLine("Nå har flight " + this.Number + " fått en taxi");
+            this.DesiredTaxi = selectedTaxi;
             return selectedTaxi;
         }//Slutt findTaxi
 
         /// <summary>
-        /// This method will find a runway based on your gate. This will return a runway object
+        /// This method will find a runway based on your taxi. This will return a runway object
         /// </summary>
         public Runway findRunway()
         {
@@ -274,11 +283,11 @@ namespace AirportSimulation
 
             if (this.FlightDirection == Direction.Outgoing)
             {
+
                 // For outgoing flights, consider runways suitable for take-off
-                foreach (Runway runway in currentAirport.getAllRunways())
+                foreach (Runway runway in DesiredTaxi.getConnectedRunways())
                 {
-                    //Hva er IsAvailableForTakeoff? Hva gjør den?
-                    if (runway.IsAvailableForTakeoff && runway.RunwayQueue.Count < minQueueLength)
+                    if (runway.RunwayQueue.Count < minQueueLength)
                     {
                         selectedRunway = runway;
                         minQueueLength = runway.RunwayQueue.Count;
@@ -288,10 +297,10 @@ namespace AirportSimulation
             else if (this.FlightDirection == Direction.Incoming)
             {
                 // For incoming flights, consider runways suitable for landing
-                foreach (Runway runway in currentAirport.getAllRunways())
+                foreach (Runway runway in DesiredTaxi.getConnectedRunways())
                 {
                     //Hva er IsAvailableForLanding?
-                    if (runway.IsAvailableForLanding && runway.RunwayQueue.Count < minQueueLength)
+                    if (runway.RunwayQueue.Count < minQueueLength)
                     {
                         selectedRunway = runway;
                         minQueueLength = runway.RunwayQueue.Count;
@@ -299,6 +308,7 @@ namespace AirportSimulation
                 }
             }
             Console.WriteLine("Nå har flight " + this.Number + " fått en rullebane");
+            DesiredRunway = selectedRunway;
             return selectedRunway;
         }//Slutt findRunway
 
@@ -386,6 +396,60 @@ namespace AirportSimulation
             return this.IsInternational;
         }
 
+        public Direction getDirection()
+        {
+            return this.FlightDirection;
+        }
+
+        public void setDesiredTaxi(Taxi taxi)
+        {
+            DesiredTaxi = taxi;
+        }
+
+        public Taxi getDesiredTaxi()
+        {
+            return DesiredTaxi;
+        }
+
+        public void setDesiredRunway(Runway runway)
+        {
+            DesiredRunway = runway;
+        }
+
+        public Runway getDesiredRunway()
+        {
+            return DesiredRunway;
+        }
+
+        public Frequency getFlightFrequency()
+        {
+            return this.Frequency;
+        }
+
+        public void setFlightFrequency(Frequency frequency)
+        {
+            this.Frequency = frequency;
+        }
+
+        public void setCompany(string name)
+        {
+            this.Company = name;
+        }
+
+        public string getCompany()
+        {
+            return this.Company;
+        }
+
+        public void setFlightType(FlightType flightType)
+        {
+            this.FlightType = flightType;
+        }
+
+        public FlightType GetFlightType()
+        {
+            return this.FlightType;
+        }
     }//Slutt Flight klassen
 }//Slutt namespace
 

@@ -18,8 +18,14 @@ namespace AirportSimulation
         public TimeSimulation()
         {}
 
-        private void SimulateTime(Airport airport, int days, int hours, int minutes)
+        private void SimulateTime(Airport airport, DateTime start, DateTime end)
         {
+            TimeSpan timeDifference = start - end;
+
+            int days = timeDifference.Days;
+            int hours = timeDifference.Hours;
+            int minutes = timeDifference.Minutes;
+
             //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
             if (airport.getAllRunways().Count == 0 || airport.getAllTaxis().Count == 0 || airport.getAllTerminals().Count == 0)
             {

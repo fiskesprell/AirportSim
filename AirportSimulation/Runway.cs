@@ -22,6 +22,7 @@ namespace AirportSimulation
         public double AverageLandingTime = 300; // in seconds (5 minutes)
         public bool IsAvailable = true;
         public Flight FlightOnRunway = null;
+        
 
 
         // Constructor
@@ -60,9 +61,7 @@ namespace AirportSimulation
         {
             Flight flight = RunwayQueue.Dequeue();
 
-            //Status er private, bruk get
-            //Kanskje bedre å bruke direction uansett?
-            if (flight.getStatus() == FlightStatus.Departing || flight.getStatus() == FlightStatus.DepartingDelayed)
+            if (flight.getDirection() == Direction.Outgoing)
             {
                 addFlightToRunway(flight);
             }
@@ -104,23 +103,33 @@ namespace AirportSimulation
             ConnectedTaxi.Add(taxi);
         }
 
-        /// <summary>
-        /// Will send the flight to the runway and prepare it for takeoff
-        /// </summary>
-        /// <param name="flight"></param>
         public void addFlightToRunway(Flight flight)
         {
-            //Legge inn implementasjon slik at flight som har status delayed for snike?
-            if (ConnectedTaxi.Count != 0)
-            {
+            this.IsAvailable = false;
+            FlightOnRunway = flight;
 
-                foreach (Taxi taxi in ConnectedTaxi)
-                {
+        }
 
-                }
-            }
-            
-            
+        public void setIsAvailable(bool availability)
+        {
+            this.IsAvailable=availability;
+        }
+
+        public bool getIsAvailable()
+        {
+            return IsAvailable;
+        }
+
+        public void setFlightOnRunway(Flight flight)
+        {
+            FlightOnRunway = flight;
+        }
+
+        public Flight getFlightOnRunway()
+        {
+            return FlightOnRunway;
         }
     }
+
+
 }
