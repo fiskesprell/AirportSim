@@ -21,7 +21,7 @@ namespace AirportSimulation
         public void simulateTime(Airport airport, DateTime start, DateTime end)
         {
             //Denne funker ikke og må fikses. Da jeg kjørte dette eksempelet så ble days = -3, og det er ikke riktig
-            TimeSpan timeDifference = start - end;
+            TimeSpan timeDifference = end - start;
             Console.WriteLine("Dette er timeDifference i simulateTime metoden: " + timeDifference);
 
             airport.setScheduledStartDate(start);
@@ -34,7 +34,7 @@ namespace AirportSimulation
             Console.WriteLine("Dette er hours i simulateTime metoden: " + hours);
             Console.WriteLine("Dette er minutes i simulateTime metoden: " + minutes);
 
-            Console.WriteLine("I dette eksempelet skal days være 1, hours være 0, minutes være 0. Gjerne prøv med forskjellige verdier for å se at det funker");
+            Console.WriteLine("I dette eksempelet skal days være 3, hours være 0, minutes være 0. Gjerne prøv med forskjellige verdier for å se at det funker");
 
             //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
             if (airport.getAllRunways().Count == 0 || airport.getAllTaxis().Count == 0 || airport.getAllTerminals().Count == 0)
