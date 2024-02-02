@@ -7,13 +7,13 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AirportSimulation
 {
-
+    [Flags]
     public enum FlightType
     {
-        Commercial,
-        Transport,
-        Personal,
-        Military
+        Commercial = 1,
+        Transport = 2,
+        Personal = 4,
+        Military = 8,
     }
 
     public enum Direction
@@ -48,10 +48,12 @@ namespace AirportSimulation
         private FlightType FlightType { get; set; } = FlightType.Commercial;
         private Gate AssignedGate { get; set; }
         private bool IsInternational { get; set; } = false;
+
+        private DateTime ScheduledDay { get; set; }
         private int ScheduledHour { get; set; } = 0;
         private int ScheduledMinutes { get; set; } = 0;
         private string Destination { get; set; }
-        private DateTime LastMaintanace { get; set; }
+        
         private FlightStatus Status { get; set; } = FlightStatus.OnTime;
         private Frequency Frequency { get; set; } = Frequency.OneTime;
         private Direction FlightDirection { get; set; }
@@ -65,7 +67,7 @@ namespace AirportSimulation
 
 
 
-        public Flight(string number, string destination, int hour, int minute, Direction direction, Airport airport)
+        public Flight(string number, string destination, DateTime travelDay, int hour, int minute, Direction direction, Airport airport)
         {
             this.Number = number;
             this.Destination = destination;
@@ -78,11 +80,13 @@ namespace AirportSimulation
 
                 if (this.FlightDirection == Direction.Outgoing)
                 {
+                    this.ScheduledDay = travelDay;
                     this.ScheduledHour = hour;
                     this.ScheduledMinutes = minute;
                 }
                 else
                 {
+                    this.ScheduledDay = travelDay;
                     this.ScheduledHour = hour;
                     this.ScheduledMinutes = minute;
                 }
@@ -216,7 +220,7 @@ namespace AirportSimulation
                     foreach(var gate in terminal.getConnectedGates())
                     {
                         //Denne må fikses slik at den kan se om gaten har riktig lisens
-                        if (gate.getIsAvailable() == true && gate.getGateLicence().Contains(this.FlightType))
+                        if (gate.getIsAvailable() == true && gate.checkGateLicence(this) == true)
                         {
                             this.AssignedGate = gate;
                             gate.setIsAvailable(false);

@@ -215,6 +215,16 @@
             return Licence;
         }
 
+        public bool checkGateLicence(Flight flight)
+        {
+            FlightType flighttype = flight.GetFlightType();
+            if ((this.Licence & (GateLicence)flighttype) == this.Licence)
+            {
+                return true;
+            }
+            return false;
+        }
+
 
     }
 }
