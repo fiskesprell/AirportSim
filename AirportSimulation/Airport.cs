@@ -13,20 +13,20 @@ namespace AirportSimulation
         /// <summary>
         /// The name of your Airport.
         /// </summary>
-        private string AirportName { get; set; }
+        public string AirportName { get; set; }
         /// <summary>
         /// List containing all terminals in this airport
         /// </summary>
-        private List<Terminal> AllTerminals = new List<Terminal>();
+        public List<Terminal> AllTerminals = new List<Terminal>();
         /// <summary>
         /// List containing all runways in this airport
         /// </summary>
-        private List<Runway> AllRunways { get; set; } = new List<Runway>();
+        public List<Runway> AllRunways { get; set; } = new List<Runway>();
         /// <summary>
         /// List containing all taxiways in this airport
         /// </summary>
-        private List<Taxi> AllTaxis = new List<Taxi>();
-        private List<Flight> AllFlights = new List<Flight>();
+        public List<Taxi> AllTaxis { get; set; } = new List<Taxi>();
+        public List<Flight> AllFlights { get; set; } = new List<Flight>();
 
         public int ElapsedDays { get; private set; } = 0;
         public int ElapsedHours { get; private set; } = 0;
@@ -77,10 +77,9 @@ namespace AirportSimulation
             AllTaxis.Add(newTaxi);
         }
 
-        public void addFlight(string name, string destination, int hour, int minutes, Direction direction, Airport airport)
+        public void addFlight(Flight flight)
         {
-            Flight newFlight = new Flight(name, destination, hour, minutes, direction, this);
-            AllFlights.Add(newFlight);
+            AllFlights.Add(flight);
         }
 
         public List<Flight> getAllFlights()
@@ -122,6 +121,12 @@ namespace AirportSimulation
         {
             ScheduledEndDate = scheduledEndDate;
         }
+
+        public string getAirportName()
+        {
+            return AirportName;
+        }
+
 
     }
 }

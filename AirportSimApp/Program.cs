@@ -1,5 +1,6 @@
 ﻿using AirportSimulation;
 
+
 namespace AirportSimApp
 {
     internal class Program
@@ -7,7 +8,7 @@ namespace AirportSimApp
         static void Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
-            Airport gardemoen = new Airport("Gardemoen");
+            Airport gardermoen = new Airport("Gardermoen", "Terminal A", "Taxi A", "Runway A", "Gate 01");
 
         }
     }
