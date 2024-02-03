@@ -53,7 +53,29 @@ namespace AirportSimulation
         /// <param name="flight"></param>
         public void addToQueue(Flight flight)
         {
-            TaxiQueue.Enqueue(flight);
+            if (flight.getDirection() == Direction.Outgoing)
+            {
+                if (flight.getStatus() != FlightStatus.Departing)
+                {
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.getFlightNumber() + " started traveling on " + this.Name + " towards " + flight.getAssignedGate().getGateName());
+                    TaxiQueue.Enqueue(flight);
+                }
+
+                else
+                {
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.getFlightNumber() + " started traveling on " + this.Name + " towards " + flight.getDesiredRunway().getRunwayName());
+                    TaxiQueue.Enqueue(flight);
+                }
+            }
+            
+
+            else if(flight.getDirection() == Direction.Incoming)
+            {
+                Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.getFlightNumber() + " started traveling on " + this.Name + " towards " + flight.getAssignedGate().getGateName());
+                TaxiQueue.Enqueue(flight);
+            }
+
+            
         }
 
         /// <summary>
@@ -61,23 +83,29 @@ namespace AirportSimulation
         /// </summary>
         public void removeFromQueue() 
         { 
+
             Flight flight = TaxiQueue.Dequeue();
             
-            if (flight.getStatus() == FlightStatus.Arrived || flight.getStatus() == FlightStatus.ArrivingDelayed)
+            if (flight.getDirection() == Direction.Incoming || flight.getStatus() == FlightStatus.ArrivingDelayed)
             {
                 flight.parkGate(flight.getAssignedGate());
             }
             else
             {
-                if (flight.getStatus() == FlightStatus.Departing)
+                if (flight.getStatus() != FlightStatus.Departing)
                 {
-                    Runway correctRunway = flight.findRunway();
-                    correctRunway.enqueueFlight(flight);
+                    //Hvis statusen er departing så er den ferdig med å boarde så da skal den finne en taxi for å finne en runway for å ta av
+                    if (!flight.getIsTraveling())
+                    {
+                        flight.parkGate(flight.getAssignedGate());
+                    }
                 }
 
                 else
                 {
-                    flight.parkGate(flight.getAssignedGate());
+                    //hvis statusen ikke er "departing" så vil det si at den ikke har boardet enda og skal til gate. Dvs, den kommer fra hangar
+                    Runway correctRunway = flight.findRunway();
+                    correctRunway.enqueueFlight(flight);
                 }
                 
                 

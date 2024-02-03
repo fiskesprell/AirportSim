@@ -31,7 +31,7 @@ namespace AirportSimulation
             airport.setScheduledStartDate(start);
             airport.setScheduledEndDate(end);
 
-            int days = timeDifference.Days;
+            int days = timeDifference.Days +1;
             int hours = timeDifference.Hours;
             int minutes = timeDifference.Minutes;
 
@@ -44,11 +44,7 @@ namespace AirportSimulation
 
             for (int i = 0; i < totalMinutes; i++)
             {
-                if (airport.getAllFlights().Count() == 0)
-                {
-                    break;
-                }
-                else
+                if (airport.getAllFlights().Count() > 0)
                 {
                     foreach (var taxi in airport.getAllTaxis())
                     {
@@ -66,23 +62,31 @@ namespace AirportSimulation
                         }
                     }
 
-                    foreach (var flight in airport.getAllFlights())
+                    foreach (var flight in airport.getAllFlights().ToList())
                     {
                         flight.updateElapsedTime(timeSimulation);
                         flight.flightSim(airport, timeSimulation);
                     }
-                    if (ElapsedMinutes == 59)
-                    {
-                        ElapsedHours += 1;
-                        ElapsedMinutes = -1;
-                    }
+                }
 
-                    if (ElapsedHours == 24)
-                    {
-                        ElapsedDays += 1;
-                        ElapsedHours = 0;
-                    }
-                    ElapsedMinutes += 1;
+                if (ElapsedMinutes == 59)
+                {
+                    ElapsedHours += 1;
+                    ElapsedMinutes = -1;
+                }
+
+                if (ElapsedHours == 24)
+                {
+                    ElapsedDays += 1;
+                    ElapsedHours = 0;
+                }
+                ElapsedMinutes += 1;
+
+                if (i == totalMinutes -1)
+                {
+                    Console.WriteLine("Simulation is now done");
+                    Console.WriteLine("Day: " + ElapsedDays + " at: " +ElapsedHours + ":" + ElapsedMinutes);
+                    //Vi må endre slik
                 }
                 
             }
