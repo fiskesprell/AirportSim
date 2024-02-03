@@ -15,14 +15,18 @@ namespace AirportSimulation
         public int ElapsedHours { get; set; } = 0;
         public int ElapsedMinutes { get; set; } = 0;
 
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+
         public TimeSimulation()
         {}
 
-        public void simulateTime(Airport airport, DateTime start, DateTime end)
+        public void simulateTime(TimeSimulation timeSimulation, Airport airport, DateTime start, DateTime end)
         {
-            //Denne funker ikke og må fikses. Da jeg kjørte dette eksempelet så ble days = -3, og det er ikke riktig
+            this.StartDate = start;
+            this.EndDate = end;
+
             TimeSpan timeDifference = end - start;
-            Console.WriteLine("Dette er timeDifference i simulateTime metoden: " + timeDifference);
 
             airport.setScheduledStartDate(start);
             airport.setScheduledEndDate(end);
@@ -30,11 +34,6 @@ namespace AirportSimulation
             int days = timeDifference.Days;
             int hours = timeDifference.Hours;
             int minutes = timeDifference.Minutes;
-            Console.WriteLine("Dette er days i simulateTime metoden: " + days);
-            Console.WriteLine("Dette er hours i simulateTime metoden: " + hours);
-            Console.WriteLine("Dette er minutes i simulateTime metoden: " + minutes);
-
-            Console.WriteLine("I dette eksempelet skal days være 3, hours være 0, minutes være 0. Gjerne prøv med forskjellige verdier for å se at det funker");
 
             //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
             if (airport.getAllRunways().Count == 0 || airport.getAllTaxis().Count == 0 || airport.getAllTerminals().Count == 0)
@@ -45,22 +44,53 @@ namespace AirportSimulation
 
             for (int i = 0; i < totalMinutes; i++)
             {
-                foreach(var flight in airport.getAllFlights()) {
-                    flight.updateElapsedTime(airport);
-                }
-                if (ElapsedMinutes == 60)
+                if (airport.getAllFlights().Count() == 0)
                 {
-                    ElapsedHours += 1;
-                    ElapsedMinutes = 0;
+                    break;
                 }
+                else
+                {
+                    foreach (var taxi in airport.getAllTaxis())
+                    {
+                        if (taxi.getTaxiQueue().Count() != 0)
+                        {
+                            taxi.removeFromQueue();
+                        }
+                    }
 
-                if (ElapsedHours == 24)
-                {
-                    ElapsedDays += 1;
-                    ElapsedHours = 0;
+                    foreach (var runway in airport.getAllRunways())
+                    {
+                        if (runway.getRunwayQueue().Count() != 0)
+                        {
+                            runway.dequeueFlight();
+                        }
+                    }
+
+                    foreach (var flight in airport.getAllFlights())
+                    {
+                        flight.updateElapsedTime(timeSimulation);
+                        flight.flightSim(airport, timeSimulation);
+                    }
+                    if (ElapsedMinutes == 59)
+                    {
+                        ElapsedHours += 1;
+                        ElapsedMinutes = -1;
+                    }
+
+                    if (ElapsedHours == 24)
+                    {
+                        ElapsedDays += 1;
+                        ElapsedHours = 0;
+                    }
+                    ElapsedMinutes += 1;
                 }
-                ElapsedMinutes += 1;
+                
             }
+        }
+
+        public DateTime getStartDate()
+        {
+            return this.StartDate;
         }
     }
 }

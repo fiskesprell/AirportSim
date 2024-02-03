@@ -129,6 +129,16 @@ namespace AirportSimulation
         {
             return FlightOnRunway;
         }
+
+        public string getRunwayName()
+        {
+            return this.RunwayName;
+        }
+
+        public Queue<Flight> getRunwayQueue()
+        {
+            return this.RunwayQueue;
+        }
     }
 
 

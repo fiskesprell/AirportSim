@@ -63,20 +63,23 @@ namespace AirportSimulation
         { 
             Flight flight = TaxiQueue.Dequeue();
             
-            //Status er private, bruk get
             if (flight.getStatus() == FlightStatus.Arrived || flight.getStatus() == FlightStatus.ArrivingDelayed)
             {
                 flight.parkGate(flight.getAssignedGate());
             }
             else
             {
-                foreach (Runway runway in ConnectedRunways)
+                if (flight.getStatus() == FlightStatus.Departing)
                 {
-                    //Finn ut hvor køen er minst
-                    //Kalle på findRunway fra flight?
                     Runway correctRunway = flight.findRunway();
                     correctRunway.enqueueFlight(flight);
                 }
+
+                else
+                {
+                    flight.parkGate(flight.getAssignedGate());
+                }
+                
                 
             }
         }
@@ -134,6 +137,16 @@ namespace AirportSimulation
         public List<Runway> getConnectedRunways()
         {
             return ConnectedRunways;
+        }
+
+        public string getName()
+        {
+            return this.Name;
+        }
+
+        public Queue<Flight> getTaxiQueue()
+        {
+            return this.TaxiQueue;
         }
 
     }

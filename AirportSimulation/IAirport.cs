@@ -44,13 +44,13 @@ namespace AirportSimulation
         /// Method to add a runway to this airport
         /// </summary>
         /// <param name="name"></param>
-        void addRunway(string name);
+        Runway addRunway(string name);
         
         /// <summary>
         /// Method to add a taxi to this airport
         /// </summary>
         /// <param name="name"></param>
-        void addTaxi(string name);
+        Taxi addTaxi(string name);
         
         /// <summary>
         /// Method to add a terminal to this airport

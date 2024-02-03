@@ -53,7 +53,7 @@
         public Gate(string name)
         {
             GateName = name;
-            Console.WriteLine("Gate " + name + "Har blitt opprettet");
+            Console.WriteLine("Gate " + name + " har blitt opprettet");
         }
 
         // Legge til et taxi object i listen over taxi som er tilkoblet gaten

@@ -28,6 +28,8 @@ namespace AirportSimulation
         public List<Taxi> AllTaxis { get; set; } = new List<Taxi>();
         public List<Flight> AllFlights { get; set; } = new List<Flight>();
 
+        public List<Flight> CompletedFlights { get; set; } = new List<Flight> ();
+
         public int ElapsedDays { get; private set; } = 0;
         public int ElapsedHours { get; private set; } = 0;
         public int ElapsedMinutes { get; private set; } = 0;
@@ -44,9 +46,13 @@ namespace AirportSimulation
         {
             this.AirportName = airportName;
             Terminal terminal = addTerminal(terminalName);
-            addTaxi(taxiName);
-            addRunway(runwayName);
-            terminal.addGate(gateName);
+            Taxi taxi = addTaxi(taxiName);
+            Runway runway = addRunway(runwayName);
+            Gate gate = terminal.addGate(gateName);
+            gate.addTaxi(taxi);
+            taxi.addConnectedGate(gate);
+            taxi.addConnectedRunway(runway);
+            runway.addConnectedTaxi(taxi);
         }
 
         /// <summary>
@@ -62,19 +68,21 @@ namespace AirportSimulation
         /// <summary>
         /// Calls the runway constructor and adds the resulting object to the list of runways
         /// </summary>
-        public void addRunway(string name)
+        public Runway addRunway(string name)
         {
             Runway newRunway = new Runway(name);
             AllRunways.Add(newRunway);
+            return newRunway;
         }
 
         /// <summary>
         /// Calls the taxi constructor and adds the resulting object to the list of taxiways
         /// </summary>
-        public void addTaxi(string name)
+        public Taxi addTaxi(string name)
         {
             Taxi newTaxi = new Taxi(name);
             AllTaxis.Add(newTaxi);
+            return newTaxi;
         }
 
         public void addFlight(Flight flight)
@@ -125,6 +133,16 @@ namespace AirportSimulation
         public string getAirportName()
         {
             return AirportName;
+        }
+
+        public void addCompletedFlight(Flight flight)
+        {
+            this.CompletedFlights.Add(flight);
+        }
+
+        public void removeCompletedFlightFromAllFlights(Flight flight)
+        {
+            this.AllFlights.Remove(flight);
         }
 
 
