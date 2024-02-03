@@ -305,6 +305,11 @@ namespace AirportSimulation
                 Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + elapsedMinutes + " flight " + this.Number + " has taken off");
             }
             Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has taken off");
+            if (Logging)
+            {
+                string logMessage = $"Flight {Number} took off at Day: {ElapsedDays}, Time: {ElapsedHours}:{ElapsedMinutes}.";
+                LoggingEvents.Add(logMessage);
+            }
             runway.setFlightOnRunway(null);
             runway.setIsAvailable(true);
         }//Slutt takeoff
@@ -346,6 +351,12 @@ namespace AirportSimulation
                 gateToPark.setCurrentHolder(this);
 
             }
+            if (Logging)
+            {
+                string logMessage = $"Flight {Number} parked at Gate {gate.getGateName()} at Day: {ElapsedDays}, Time: {ElapsedHours}:{ElapsedMinutes}.";
+                LoggingEvents.Add(logMessage);
+            }
+            Console.WriteLine(logMessage);
 
             if (ElapsedMinutes == 0)
             {
@@ -606,7 +617,15 @@ namespace AirportSimulation
         public void startBoarding()
         {
             this.Status = FlightStatus.Boarding;
-            Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " started boarding");
+
+            if (Logging)
+            {
+                string logMessage = $"Boarding started for Flight {Number} at Day: {ElapsedDays}, Time: {ElapsedHours}:{ElapsedMinutes}.";
+                LoggingEvents.Add(logMessage);
+            }
+            Console.WriteLine(logMessage);
+
+        }   Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " started boarding");
         }
 
         public void startDeparting()
