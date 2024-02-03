@@ -66,7 +66,18 @@ namespace AirportSimulation
         private Runway DesiredRunway { get; set; }
 
 
-
+        /// <summary>
+        /// Creates a flight. Not the same as creating an aircraft. Needs a flightnumber, date and time of arrival/departure,
+        /// direction of flight (incoming, outgoing) and an airport object (the airport it is either arriving to or departing from).
+        /// </summary>
+        /// <param name="number">Flight number. Commonly looks like "WN 417".</param>
+        /// <param name="destination">Name of Airport the flight is going to.</param>
+        /// <param name="travelDay">The date of departure.</param>
+        /// <param name="hour">The hour of the departure. Follows the 24-hour clock. Putting 18 here means the flight leaves at 6PM (18:XX).</param>
+        /// <param name="minute">The minute of the departure. Putting 30 here means the flight will leave at XX:30.</param>
+        /// <param name="direction">Either <c>Direction.Outgoing</c> or <c>Direction.Incoming</c>. </param>
+        /// <param name="airport">The Airport to which the flight belongs.</param>
+        /// <exception cref="ArgumentException"></exception>
         public Flight(string number, string destination, DateTime travelDay, int hour, int minute, Direction direction, Airport airport)
         {
             this.Number = number;
