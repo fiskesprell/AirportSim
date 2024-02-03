@@ -11,8 +11,9 @@ namespace AirportSimApp
             TimeSimulation simulering = new TimeSimulation();
 
             Flight newFlight = new Flight("BRA123", "Gatwick", new DateTime(2022, 2, 15), 15, 30, Direction.Outgoing, gardermoen);
+            newFlight.setFlightFrequency(Frequency.Weekly);
             gardermoen.addFlight(newFlight);
-            simulering.simulateTime(simulering, gardermoen, new DateTime(2022, 2, 14), new DateTime(2022, 2, 17));
+            simulering.simulateTime(simulering, gardermoen, new DateTime(2022, 2, 14), new DateTime(2022, 3, 14));
 
         }
     }

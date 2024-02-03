@@ -87,12 +87,12 @@ namespace AirportSimulation
 
         public void addFlight(Flight flight)
         {
-            AllFlights.Add(flight);
+            this.AllFlights.Add(flight);
         }
 
         public List<Flight> getAllFlights()
         {
-            return AllFlights;
+            return this.AllFlights;
         }
 
         public List<Runway> getAllRunways()

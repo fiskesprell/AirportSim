@@ -137,29 +137,8 @@
         public void transferFlightToTaxi(Flight flight)
         {
             //Sjekker om lista er tom først
-            if (ConnectedTaxis.Count != 0)
-            {
-                Taxi correctTaxi = null;
-                int minQueueLength = int.MaxValue;
-
-                //Går gjennom alle taxi og sjekker lengden på køen
-                foreach (Taxi taxi in ConnectedTaxis)
-                {
-                    //Hvis køen er mindre enn tidligere iterasjoner så velg den taxi
-                    if (taxi.lengthQueue() < minQueueLength)
-                    {
-                        correctTaxi = taxi;
-                        minQueueLength = taxi.lengthQueue();
-                    }
-                }
-
-                //En liten sjekk på at den faktisk har valgt ut en taxi
-                if (correctTaxi != null)
-                {
-                    //Legger til flight i den taxi sin kø
-                    correctTaxi.addToQueue(flight);
-                }
-            }
+            flight.getDesiredTaxi().addToQueue(flight);
+            flight.setIsTraveling(true);
         }
 
         /// <summary>
