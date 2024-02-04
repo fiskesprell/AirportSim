@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -36,6 +38,8 @@ namespace AirportSimulation
         Arrived,
         Landed,
         Completed,
+        OnWayToGate,
+        Offloading,
     }
 
     public enum Frequency
@@ -217,104 +221,32 @@ namespace AirportSimulation
             }
 
             // ~~~~ Incoming Flight ~~~~
-            // DENNE ER INCOMPLETE !!
-            // Hvorfor?
-            // - [ ] Håndterer ikke hva som skjer om det ikke er ledig runway / taxi
-            // - [ ] Når status settes til landed; sjekker ikke om flyet faktisk har en runway å lande på.
-            //       Om den ikke har en runway, hvor lander flyet?
-
-
-            // ~~ other notes ~~
-            // Har fikset fra finne runway -> finne gate (ikke implementert finne gate og hva som skjer etter det)
-            // har ikke testet om noe fungerer. Bare tipper det gjør det :)
-
             else if (this.FlightDirection == Direction.Incoming)
             {
-                // 1. Lande
-                // 1.1 - Se etter ledig runway X minutter før landing & Assign denne
-                (int newHours1, int newMinutes1) = convertTime(ScheduledHour, ScheduledMinutes, 1, 0);
+                (int newHours1, int newMinutes1) = convertTime(ScheduledHour, ScheduledMinutes, 0, 0);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
-                    Runway availableRunway = findRunway();
-                    if (availableRunway != null)
-                    {
-                        this.DesiredRunway = availableRunway;
-                        //Har du lest hva addFlightToRunway faktisk gjør?
-                        availableRunway.addFlightToRunway(this);
-                    }
+                    IncomingFlightPreperation(airport);
                 }
-                // 1.2 - Se etter ledig taxiway og assign denne (om det er ledig)
-                (int newHours2, int newMinutes2) = convertTime(ScheduledHour, ScheduledMinutes, 0, 30);
-                if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours2 && ElapsedMinutes == newMinutes2)
+
+                (int newHours2, int newMinutes2) = convertTime(ScheduledHour, ScheduledMinutes, 0, -1);
+                if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
-                    Taxi ledigTaxi = findTaxi();
-                    if (ledigTaxi != null)
-                    {
-                        this.DesiredTaxi = ledigTaxi;
-                        ledigTaxi.addToQueue(this);
-                    }
-                        
+                    IncomingFlightFromRunwayToTaxi();
                 }
-                // 1.3 - Sett status som "landed"? Flyet er på runway.
-                // 2. Assign Taxiway om det ikke allerede er assignet en. Se igjen og igjen og igjen til den er assigned.
-                (int newHours3, int newMinutes3) = convertTime(ScheduledHour, ScheduledMinutes, 0, 0);
-                if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours3 && ElapsedMinutes == newMinutes3)
+
+                (int newHours3, int newMinutes3) = convertTime(ScheduledHour, ScheduledMinutes, 0, -11);
+                if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
-                    this.Status = FlightStatus.Landed;
-
-                    // Assigner Taxi om ikke eksisterer
-                    if (this.DesiredTaxi != null)
-                    {
-                        // Vurder å slette taxifindercounter.
-                        // Bare for å "garantere" at loopen ikke varer evig.
-                        // Men garenterer ikke at en taxiway faktisk blir funnet.
-                        int taxiFinderCounter = 0;
-                        while (DesiredTaxi == null || taxiFinderCounter == 10)
-                        {
-                            Taxi ledigTaxi = findTaxi();
-                            if (ledigTaxi != null)
-                            {
-                                this.DesiredTaxi = ledigTaxi;
-                                ledigTaxi.addToQueue(this);
-                            }
-                            else
-                            {
-                                taxiFinderCounter++;
-                            }
-                        }
-
-                        // Remove flight from Runway queue
-                        if (this.DesiredRunway != null)
-                        {
-                            Runway runwayUsed = this.DesiredRunway;
-                            runwayUsed.dequeueFlight();
-                        }
-
-                        // Finn ledig gate her ??
-
-                    }
+                    IncomingFlightFromTaxiToGate();
                 }
-                // 3. Kjør taksebane (10 min)
-                (int newHours4, int newMinutes4) = convertTime(ScheduledHour, ScheduledMinutes, 0, 10);
-                if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours4 && ElapsedMinutes == newMinutes4)
+
+                (int newHours4, int newMinutes4) = convertTime(ScheduledHour, ScheduledMinutes, 0, -41);
+                if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
-                    // Remove flight from Taxi queue
-                    if (this.DesiredTaxi != null)
-                    {
-                        Taxi taxiUsed = this.DesiredTaxi;
-                        taxiUsed.removeFromQueue();
-                    }
+                    IncomingFlightFromGateToComplete();
                 }
 
-
-
-
-                // 4. Finn ledig gate.
-                // Fjern fra taksebane ?
-                // Parker ved gate.
-                // Offloade passasjerer (30 min)
-
-                // 5. Sett status på fly som complete, sett Gate som ledig igjen
 
             }
 
@@ -895,6 +827,163 @@ namespace AirportSimulation
         {
             this.HasLogged = hasLogged;
         }
+
+        public void IncomingFlightPreperation(Airport airport)
+        {
+            foreach (Runway runway in airport.AllRunways)
+            {
+                if (runway.IsAvailable == true && runway.FlightOnRunway == null)
+                {
+                    // TODO:
+                    // - Legge til håndtering av hva som skjer hvis det ikke er en runway med isAvailable = true & flightOnRunway = null
+                    this.DesiredRunway = runway;
+                    this.DesiredRunway.RunwayQueue.Enqueue(this);
+                    this.Status = FlightStatus.Landed;
+                    
+                    if (Logging)
+                    {
+                        if (ElapsedMinutes == 0)
+                        {
+                            string newMinutes = "00";
+                            string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:00 flight {Number} landed on runway {this.DesiredRunway.RunwayName}";
+                            LoggingEvents.Add(logMessage2);
+                        }
+                        else
+                        {
+                            string newElapsedMinutes = "";
+                            if (ElapsedMinutes < 10)
+                            {
+                                newElapsedMinutes = $"0{ElapsedMinutes}";
+                            }
+                            else 
+                            {
+                                newElapsedMinutes = $"{ElapsedMinutes}";
+                            }
+                            string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:{newElapsedMinutes} flight {Number} landed on runway {this.DesiredRunway.RunwayName}";
+                            LoggingEvents.Add(logMessage2);
+                        }
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        public void IncomingFlightFromRunwayToTaxi()
+        {
+            foreach (Taxi taxi in this.DesiredRunway.ConnectedTaxi)
+            {
+                if (taxi.IsAvailable == true)
+                {
+                    // TODO:
+                    // - Legge til håndtering av hva som skjer hvis det ikke er en TAXI med isAvailable = true
+                    this.DesiredTaxi = taxi;
+                    // addToQueue needs AssignedGate
+                    foreach (Gate gate in this.DesiredTaxi.ConnectedGates)
+                    {
+                        // TODO:
+                        // - Legge til håndtering av hva som skjer hvis det ikke er en GATE med isAvailable = true
+                        if (gate.checkGateLicence(this) == true && gate.getIsAvailable() == true)
+                        {
+                            this.AssignedGate = gate;
+                            break;
+
+                        }
+                    }
+
+                    taxi.addToQueue(this);
+                    this.DesiredRunway.RunwayQueue.Dequeue();
+                    this.DesiredRunway = null;
+                    this.Status = FlightStatus.OnWayToGate;
+
+                    if (Logging)
+                    {
+                        if (ElapsedMinutes == 0)
+                        {
+                            string newMinutes = "00";
+                            string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:00 flight {Number} exited the runway and is entering the taxiway {this.DesiredTaxi.Name}";
+                            LoggingEvents.Add(logMessage2);
+                        }
+                        else
+                        {
+                            string newElapsedMinutes = "";
+                            if (ElapsedMinutes < 10)
+                            {
+                                newElapsedMinutes = $"0{ElapsedMinutes}";
+                            }
+                            else
+                            {
+                                newElapsedMinutes = $"{ElapsedMinutes}";
+                            }
+                            string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:{ElapsedMinutes} flight {Number} exited the runway and is entering the taxiway {this.DesiredTaxi.Name}";
+                            LoggingEvents.Add(logMessage2);
+                        }
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        public void IncomingFlightFromTaxiToGate()
+        {
+            if (this.AssignedGate == null)
+            {
+                foreach (Gate gate in this.DesiredTaxi.ConnectedGates)
+                {
+                    // TODO:
+                    // - Legge til håndtering av hva som skjer hvis det ikke er en GATE med isAvailable = true
+                    if (gate.checkGateLicence(this) == true);
+                    // && gate.getIsAvailable() == false);
+                    {
+                        this.AssignedGate = gate;
+                        break;
+
+                    }
+                }
+            }
+
+
+            if (Logging)
+            {
+                if (ElapsedMinutes == 0)
+                {
+                    string newMinutes = "00";
+                    string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:00 flight {Number} exited the taxiway and is offloading passangers at {this.AssignedGate.getGateName()}";
+                    LoggingEvents.Add(logMessage2);
+                }
+                else
+                {
+                    string newElapsedMinutes = "";
+                    if (ElapsedMinutes < 10)
+                    {
+                        newElapsedMinutes = $"0{ElapsedMinutes}";
+                    }
+                    else
+                    {
+                        newElapsedMinutes = $"{ElapsedMinutes}";
+                    }
+                    string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:{ElapsedMinutes} flight {Number} exited the taxiway and is offloading passangers at {this.AssignedGate.getGateName()}";
+                    LoggingEvents.Add(logMessage2);
+                }
+            }
+
+            this.AssignedGate.setIsAvailable(false);
+            this.AssignedGate.setCurrentHolder(this);
+
+            this.Status = FlightStatus.Offloading;
+            this.DesiredTaxi.removeFromQueue();
+            this.DesiredTaxi = null;
+        }
+
+        public void IncomingFlightFromGateToComplete()
+        {
+            this.AssignedGate.setIsAvailable(true);
+            this.AssignedGate.setCurrentHolder(null);
+            this.AssignedGate = null;
+            this.Status = FlightStatus.Completed;
+        }
+
     }//Slutt Flight klassen
 }//Slutt namespace
 
