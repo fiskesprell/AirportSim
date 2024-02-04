@@ -499,18 +499,22 @@ namespace AirportSimulation
         /// </summary>
         public Gate findAvailableGate()
         {
-            //Loope gjennom alle connected gates til alle terminaler som har samme bool verdi på innland utland
+            FlightType flightType = this.GetFlightType();
+
+            bool foundTerminal = false;
             foreach (var terminal in CurrentAirport.getAllTerminals())
             {
                 if (terminal.IsInternational == this.IsInternational)
                 {
+                    foundTerminal = true;
+                    bool foundGateLicence = false;
                     foreach(var gate in terminal.getConnectedGates())
                     {
-                        //Denne må fikses slik at den kan se om gaten har riktig lisens
                         if (gate.getIsAvailable() == true && gate.checkGateLicence(this) == true)
                         {
                             this.AssignedGate = gate;
                             gate.setIsAvailable(false);
+                            foundGateLicence = true;
                             if (Logging)
                             {
                                 if (ElapsedMinutes == 0)
@@ -530,10 +534,27 @@ namespace AirportSimulation
                             return gate;
                         }
                     }
+                    if (!foundGateLicence)
+                    {
+                        throw new Exception($"\n\nException: You tried to simulate time for a flight with the FlightType: {this.FlightType}. There are no gates that have a licence for the assigned FlightType. Try adding more gates and add a licence for that FlightType or edit existing gates with addLicence()\n");
+                    }
                 }
                 
             }
-            //Hvis den ikke finner en ledig gate så vil den returnere null
+            if (!foundTerminal)
+            {
+                if (this.IsInternational)
+                {
+                    string international = "International";
+                    throw new Exception($"\n\nException: There are no terminals on this airport that accepts {international} flights. Try configuring your terminal(s) with setIsInternational(true) or add a terminal with the correct configuration\n");
+                }
+                else
+                {
+                    string international = "Domestic";
+                    throw new Exception($"\n\nException: There are no terminals on this airport that accepts {international} flights. Try configuring your terminal(s) with setIsInternational(false) or add a terminal with the correct configuration\n");
+                }
+            }
+
             return null;
         }//Slutt findAvailableGate
 
@@ -588,6 +609,10 @@ namespace AirportSimulation
             {
                 // For incoming flights, a different selection strategy is needed
                 // This could involve selecting from a global list of taxiways, for example
+                if (this.AssignedGate == null)
+                {
+                    findAvailableGate();
+                }
 
                 foreach (Taxi taxi in CurrentAirport.getAllTaxis())
                 {
