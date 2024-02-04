@@ -336,15 +336,7 @@ namespace AirportSimulation
                 airport.addCompletedFlight(this);
                 airport.removeCompletedFlightFromAllFlights(this);
             }
-
-            /*
-            Console.WriteLine($"\nLogging: {this.Logging} - HasLogged: {this.HasLogged}");
-            Console.WriteLine($"ElapsedDays: {ElapsedDays} - adjustedTravelDay: {adjustedTravelDay}");
-            Console.WriteLine($"ElapsedHours: {ElapsedHours} - ElapsedMinutes: {ElapsedMinutes}");
-            Console.WriteLine($"Status: {this.Status}");
-            Console.WriteLine(LoggingEvents);
-            */
-
+            
             if (this.Logging && !(this.HasLogged) && ElapsedDays == adjustedTravelDay + 1 && ElapsedHours == 0 && ElapsedMinutes == 0 && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed))
             {
                 Console.WriteLine("\nThis is the eventlog for flight: " + this.getFlightNumber());
@@ -355,7 +347,7 @@ namespace AirportSimulation
                 this.HasLogged = true;
             }
 
-            if (this.Frequency == Frequency.Daily && this.Status == FlightStatus.Departed)
+            if (this.Frequency == Frequency.Daily && this.Status == FlightStatus.Departed && ElapsedHours == 1 && ElapsedMinutes == 0)
             {
                 DateTime newDate = this.ScheduledDay.AddDays(1);
                 setScheduledDay(newDate);
@@ -364,9 +356,11 @@ namespace AirportSimulation
                 setAssignedGate(null);
                 setDesiredTaxi(null);
                 setHasLogged(false);
+                LoggingEvents.Clear();
+                
             }
 
-            if (this.Frequency == Frequency.Weekly && this.Status == FlightStatus.Departed)
+            if (this.Frequency == Frequency.Weekly && this.Status == FlightStatus.Departed && ElapsedHours == 1 && ElapsedMinutes == 0)
             {
                 DateTime newDate = this.ScheduledDay.AddDays(7);
                 setScheduledDay(newDate);
@@ -375,6 +369,7 @@ namespace AirportSimulation
                 setDesiredTaxi(null);
                 setAssignedGate(null);
                 setHasLogged(false);
+                LoggingEvents.Clear();
             }
         }//Slutt flightSim
 
@@ -488,7 +483,7 @@ namespace AirportSimulation
                                 string gateLog = $"Flight {Number} was assigned {gate.getGateName()} at Day: {ElapsedDays}, Time: {ElapsedHours}:{ElapsedMinutes}.";
                                 this.LoggingEvents.Add(gateLog);
                             }
-                            Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has found an available gate:  " + this.AssignedGate.getGateName());
+                            Console.WriteLine("\nDay: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has found an available gate:  " + this.AssignedGate.getGateName());
                             return gate;
                         }
                     }

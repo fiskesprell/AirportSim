@@ -33,7 +33,7 @@ namespace AirportSimulation
 
             int days = timeDifference.Days +1;
             int hours = timeDifference.Hours;
-            int minutes = timeDifference.Minutes;
+            int minutes = timeDifference.Minutes+1;
 
             //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
             if (airport.getAllRunways().Count == 0 || airport.getAllTaxis().Count == 0 || airport.getAllTerminals().Count == 0)
@@ -85,8 +85,7 @@ namespace AirportSimulation
                 if (i == totalMinutes -1)
                 {
                     Console.WriteLine("Simulation is now done");
-                    Console.WriteLine("Day: " + ElapsedDays + " at: " +ElapsedHours + ":" + ElapsedMinutes);
-                    //Vi må endre slik
+                    
                 }
                 
             }
