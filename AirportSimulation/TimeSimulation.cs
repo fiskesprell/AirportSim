@@ -94,7 +94,7 @@ namespace AirportSimulation
 
                 if (i == totalMinutes -1)
                 {
-                    Console.WriteLine("Simulation is now done");
+                    Console.WriteLine("\nSimulation is now done");
                     
                 }
                 

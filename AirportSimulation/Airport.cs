@@ -46,7 +46,7 @@ namespace AirportSimulation
         {
             this.AirportName = airportName;
             Terminal terminal = addTerminal(terminalName);
-            terminal.setIsInternational(true);
+            //terminal.setIsInternational(true);
             Taxi taxi = addTaxi(taxiName);
             Runway runway = addRunway(runwayName);
             Gate gate = terminal.addGate(gateName);
