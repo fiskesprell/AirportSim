@@ -103,9 +103,15 @@ namespace AirportSimulation
 
                 else
                 {
-                    //hvis statusen ikke er "departing" så vil det si at den ikke har boardet enda og skal til gate. Dvs, den kommer fra hangar
-                    Runway correctRunway = flight.findRunway();
-                    correctRunway.enqueueFlight(flight);
+                    if (flight.getDesiredRunway() == null)
+                    {
+                        Runway correctRunway = flight.findRunway();
+                        correctRunway.enqueueFlight(flight);
+                    }//hvis statusen ikke er "departing" så vil det si at den ikke har boardet enda og skal til gate. Dvs, den kommer fra hangar
+                    else
+                    {
+                        flight.getDesiredRunway().enqueueFlight(flight);
+                    }
                 }
                 
                 
