@@ -71,9 +71,9 @@ namespace AirportSimulation
 
         private bool IsTraveling { get; set; }
 
-        private bool Logging { get; set; } = true;
+        private bool Logging { get; set; } = false;
 
-        private List<string> LoggingEvents { get; set; }
+        private List<string> LoggingEvents { get; set; } = new List<string>();
 
 
         /// <summary>
@@ -237,6 +237,7 @@ namespace AirportSimulation
                     if (availableRunway != null)
                     {
                         this.DesiredRunway = availableRunway;
+                        //Har du lest hva addFlightToRunway faktisk gjør?
                         availableRunway.addFlightToRunway(this);
                     }
                 }
@@ -462,8 +463,9 @@ namespace AirportSimulation
             {
                 string logMessage = $"Flight {Number} parked at Gate {gate.getGateName()} at Day: {ElapsedDays}, Time: {ElapsedHours}:{ElapsedMinutes}.";
                 LoggingEvents.Add(logMessage);
+                Console.WriteLine(logMessage);
             }
-            Console.WriteLine(logMessage);
+            
 
             if (ElapsedMinutes == 0)
             {
@@ -729,11 +731,12 @@ namespace AirportSimulation
             {
                 string logMessage = $"Boarding started for Flight {Number} at Day: {ElapsedDays}, Time: {ElapsedHours}:{ElapsedMinutes}.";
                 LoggingEvents.Add(logMessage);
+                Console.WriteLine(logMessage);
             }
-            Console.WriteLine(logMessage);
+            
 
-        }   Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " started boarding");
-        }
+        }   
+        //Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " started boarding");
 
         public void startDeparting()
         {
@@ -760,6 +763,11 @@ namespace AirportSimulation
         public void setLogging(bool logging)
         {
             this.Logging = logging;
+        }
+
+        public List<string> getLoggingEvents()
+        {
+            return this.LoggingEvents;
         }
     }//Slutt Flight klassen
 }//Slutt namespace
