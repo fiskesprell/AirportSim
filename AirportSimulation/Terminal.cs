@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AirportSimulation
 {
-    internal class Terminal
+    public class Terminal
     {
         // Instance Variables
         /// <summary>
@@ -23,7 +23,7 @@ namespace AirportSimulation
         /// <summary>
         /// List of the gates connected to this terminal.
         /// </summary>
-        private List<Gate> connectedGates = new List<Gate>();
+        private List<Gate> ConnectedGates = new List<Gate>();
 
 
 
@@ -40,10 +40,27 @@ namespace AirportSimulation
         /// Creates agte object and adds it to this terminal
         /// </summary>
         /// <param name=""></param>
-        public void addGate(string name)
+        public Gate addGate(string name)
         {
             Gate newGate = new Gate(name);
-            connectedGates.Add(newGate);
+            ConnectedGates.Add(newGate);
+            Console.WriteLine("Terminalen " + TerminalName + " har fått tildelt gate " + newGate.getGateName());
+            return newGate;
+        }
+
+        public List<Gate> getConnectedGates()
+        {
+            return ConnectedGates;
+        }
+
+        public bool getIsInternational() 
+        { 
+            return IsInternational; 
+        }
+
+        public void setIsInternational(bool isInternational)
+        {
+            IsInternational = isInternational;
         }
 
         // Legge til noe for sikkerhetsjekk, spesielt hvis det er utland?

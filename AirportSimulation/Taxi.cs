@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AirportSimulation
 {
-    internal class Taxi
+    public class Taxi
     {
         /// <summary>
         /// The name of your Taxiway.
@@ -15,11 +15,11 @@ namespace AirportSimulation
         /// <summary>
         /// List of gates connected to this taxiway.
         /// </summary>
-        public List<Gate> ConnectedGate = new List<Gate>();
+        public List<Gate> ConnectedGates = new List<Gate>();
         /// <summary>
         /// List of runways connected to this taxiway.
         /// </summary>
-        public List<Runway> ConnectedRunway = new List<Runway>();
+        public List<Runway> ConnectedRunways = new List<Runway>();
         /// <summary>
         /// Queue of flights that wish to use the taxiway.
         /// </summary>
@@ -44,6 +44,7 @@ namespace AirportSimulation
         public Taxi(string name)
         {
             Name = name;
+            Console.WriteLine("Taxi " + name + " har blitt opprettet");
         }
 
         /// <summary>
@@ -52,7 +53,29 @@ namespace AirportSimulation
         /// <param name="flight"></param>
         public void addToQueue(Flight flight)
         {
-            TaxiQueue.Enqueue(flight);
+            if (flight.getDirection() == Direction.Outgoing)
+            {
+                if (flight.getStatus() != FlightStatus.Departing)
+                {
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.getFlightNumber() + " started traveling on " + this.Name + " towards " + flight.getAssignedGate().getGateName());
+                    TaxiQueue.Enqueue(flight);
+                }
+
+                else
+                {
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.getFlightNumber() + " started traveling on " + this.Name + " towards " + flight.getDesiredRunway().getRunwayName());
+                    TaxiQueue.Enqueue(flight);
+                }
+            }
+            
+
+            else if(flight.getDirection() == Direction.Incoming)
+            {
+                Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.getFlightNumber() + " started traveling on " + this.Name + " towards " + flight.getAssignedGate().getGateName());
+                TaxiQueue.Enqueue(flight);
+            }
+
+            
         }
 
         /// <summary>
@@ -60,22 +83,37 @@ namespace AirportSimulation
         /// </summary>
         public void removeFromQueue() 
         { 
+
             Flight flight = TaxiQueue.Dequeue();
             
-            //Status er private, bruk get
-            if (flight.Status == FlightStatus.Arrived || flight.Status == FlightStatus.ArrivingDelayed)
+            if (flight.getDirection() == Direction.Incoming || flight.getStatus() == FlightStatus.ArrivingDelayed)
             {
-                flight.parkGate(flight.AssignedGate);
+                flight.parkGate(flight.getAssignedGate());
             }
             else
             {
-                foreach (Runway runway in ConnectedRunway)
+                if (flight.getStatus() != FlightStatus.Departing)
                 {
-                    //Finn ut hvor køen er minst
-                    //Kalle på findRunway fra flight?
-                    Runway correctRunway = flight.findRunway();
-                    correctRunway.enqueueFlight(flight);
+                    //Hvis statusen er departing så er den ferdig med å boarde så da skal den finne en taxi for å finne en runway for å ta av
+                    if (!flight.getIsTraveling())
+                    {
+                        flight.parkGate(flight.getAssignedGate());
+                    }
                 }
+
+                else
+                {
+                    if (flight.getDesiredRunway() == null)
+                    {
+                        Runway correctRunway = flight.findRunway();
+                        correctRunway.enqueueFlight(flight);
+                    }//hvis statusen ikke er "departing" så vil det si at den ikke har boardet enda og skal til gate. Dvs, den kommer fra hangar
+                    else
+                    {
+                        flight.getDesiredRunway().enqueueFlight(flight);
+                    }
+                }
+                
                 
             }
         }
@@ -95,7 +133,7 @@ namespace AirportSimulation
         /// <param name="gate"></param>
         public void addConnectedGate(Gate gate)
         {
-            ConnectedGate.Add(gate);
+            ConnectedGates.Add(gate);
         }
 
         /// <summary>
@@ -104,7 +142,7 @@ namespace AirportSimulation
         /// <param name="gate"></param>
         public void removeConnectedGate(Gate gate)
         {
-            ConnectedGate.Remove(gate);
+            ConnectedGates.Remove(gate);
         }
 
         /// <summary>
@@ -113,7 +151,7 @@ namespace AirportSimulation
         /// <param name="runway"></param>
         public void addConnectedRunway(Runway runway)
         {
-            ConnectedRunway.Add(runway);
+            ConnectedRunways.Add(runway);
         }
 
         /// <summary>
@@ -122,7 +160,27 @@ namespace AirportSimulation
         /// <param name="runway"></param>
         public void removeConnectedRunway(Runway runway)
         {
-            ConnectedRunway.Remove(runway);
+            ConnectedRunways.Remove(runway);
+        }
+
+        public List<Gate> getConnectedGates()
+        {
+            return ConnectedGates;
+        }
+
+        public List<Runway> getConnectedRunways()
+        {
+            return ConnectedRunways;
+        }
+
+        public string getName()
+        {
+            return this.Name;
+        }
+
+        public Queue<Flight> getTaxiQueue()
+        {
+            return this.TaxiQueue;
         }
 
     }

@@ -7,30 +7,35 @@ using System.Threading.Tasks;
 
 namespace AirportSimulation
 {
-    internal class Airport : IAirport
+    public class Airport : IAirport
     {
         // Instance Variables
         /// <summary>
         /// The name of your Airport.
         /// </summary>
-        private string AirportName { get; set; }
+        public string AirportName { get; set; }
         /// <summary>
         /// List containing all terminals in this airport
         /// </summary>
-        private List<Terminal> allTerminals = new List<Terminal>();
+        public List<Terminal> AllTerminals = new List<Terminal>();
         /// <summary>
         /// List containing all runways in this airport
         /// </summary>
-        private List<Runway> allRunways { get; set; } = new List<Runway>();
+        public List<Runway> AllRunways { get; set; } = new List<Runway>();
         /// <summary>
         /// List containing all taxiways in this airport
         /// </summary>
-        private List<Taxi> allTaxis = new List<Taxi>();
-        private List<Flight> allFlights = new List<Flight>();
+        public List<Taxi> AllTaxis { get; set; } = new List<Taxi>();
+        public List<Flight> AllFlights { get; set; } = new List<Flight>();
+
+        public List<Flight> CompletedFlights { get; set; } = new List<Flight> ();
 
         public int ElapsedDays { get; private set; } = 0;
         public int ElapsedHours { get; private set; } = 0;
         public int ElapsedMinutes { get; private set; } = 0;
+
+        private DateTime ScheduledStartDate { get; set; }
+        private DateTime ScheduledEndDate { get; set; }
             
 
         /// <summary>
@@ -40,45 +45,107 @@ namespace AirportSimulation
         public Airport(string airportName, string terminalName, string taxiName, string runwayName, string gateName)
         {
             this.AirportName = airportName;
-            Terminal terminal = AddTerminal(terminalName);
-            AddTaxi(taxiName);
-            AddRunway(runwayName);
-            terminal.addGate(gateName);
+            Terminal terminal = addTerminal(terminalName);
+            terminal.setIsInternational(true);
+            Taxi taxi = addTaxi(taxiName);
+            Runway runway = addRunway(runwayName);
+            Gate gate = terminal.addGate(gateName);
+            gate.addTaxi(taxi);
+            taxi.addConnectedGate(gate);
+            taxi.addConnectedRunway(runway);
+            runway.addConnectedTaxi(taxi);
         }
 
         /// <summary>
         /// Calls the terminal constructor and adds the resulting object to the list of terminals
         /// </summary>
-        public Terminal AddTerminal(string name)
+        public Terminal addTerminal(string name)
         {
             Terminal newTerminal = new Terminal(name);
-            allTerminals.Add(newTerminal);
+            AllTerminals.Add(newTerminal);
             return newTerminal;
         }
 
         /// <summary>
         /// Calls the runway constructor and adds the resulting object to the list of runways
         /// </summary>
-        public void AddRunway(string name)
+        public Runway addRunway(string name)
         {
             Runway newRunway = new Runway(name);
-            allRunways.Add(newRunway);
+            AllRunways.Add(newRunway);
+            return newRunway;
         }
 
         /// <summary>
         /// Calls the taxi constructor and adds the resulting object to the list of taxiways
         /// </summary>
-        public void AddTaxi(string name)
+        public Taxi addTaxi(string name)
         {
             Taxi newTaxi = new Taxi(name);
-            allTaxis.Add(newTaxi);
+            AllTaxis.Add(newTaxi);
+            return newTaxi;
         }
 
-        public void AddFlight(string name, string destination, int hour, int minutes, Direction direction, Airport airport)
+        public void addFlight(Flight flight)
         {
-            Flight newFlight = new Flight(name, destination, hour, minutes, direction, this);
-            allFlights.Add(newFlight);
+            this.AllFlights.Add(flight);
         }
+
+        public List<Flight> getAllFlights()
+        {
+            return this.AllFlights;
+        }
+
+        public List<Runway> getAllRunways()
+        {
+            return AllRunways;
+        }
+
+        public List<Taxi> getAllTaxis()
+        {
+            return AllTaxis;
+        }
+
+        public List<Terminal> getAllTerminals()
+        {
+            return AllTerminals;
+        }
+
+        public DateTime getScheduledStartDate()
+        {
+            return ScheduledStartDate;
+        }
+
+        public void setScheduledStartDate(DateTime scheduledStartDate)
+        {
+            ScheduledStartDate = scheduledStartDate;
+        }
+
+        public DateTime getScheduledEndDate()
+        {
+            return ScheduledEndDate;
+        }
+
+        public void setScheduledEndDate(DateTime scheduledEndDate)
+        {
+            ScheduledEndDate = scheduledEndDate;
+        }
+
+        public string getAirportName()
+        {
+            return AirportName;
+        }
+
+        public void addCompletedFlight(Flight flight)
+        {
+            this.CompletedFlights.Add(flight);
+        }
+
+        public void removeCompletedFlightFromAllFlights(Flight flight)
+        {
+            this.AllFlights.Remove(flight);
+        }
+
 
     }
 }

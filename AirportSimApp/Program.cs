@@ -1,11 +1,23 @@
-﻿namespace AirportSimApp
+﻿using AirportSimulation;
+
+
+namespace AirportSimApp
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
-            Airport gardemoen = new Airport("Gardemoen");
+            Airport gardermoen = new Airport("Gardermoen", "Terminal A", "Taxi A", "Runway A", "Gate 01");
+            TimeSimulation simulering = new TimeSimulation();
+
+            Flight newFlight = new Flight("Daily123", "Gatwick", new DateTime(2022, 2, 15), 15, 30, Direction.Outgoing, gardermoen);
+            //Flight newFlight2 = new Flight("Weekly321", "Gatwick", new DateTime(2022, 2, 15), 17, 00, Direction.Outgoing, gardermoen);
+            newFlight.setFlightFrequency(Frequency.Daily);
+            newFlight.setFlightType(FlightType.Military);
+            //newFlight2.setFlightFrequency(Frequency.Weekly);
+            gardermoen.addFlight(newFlight);
+            //gardermoen.addFlight(newFlight2);
+            simulering.simulateTime(simulering, gardermoen, new DateTime(2022, 2, 14), new DateTime(2022, 2, 16));
 
         }
     }

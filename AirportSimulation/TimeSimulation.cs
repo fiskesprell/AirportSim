@@ -9,33 +9,80 @@ using System.Threading.Tasks;
 
 namespace AirportSimulation
 {
-    internal class TimeSimulation
+    public class TimeSimulation
     {
-        public int ElapsedDays { get; set } = 0;
-        public int ElapsedHours { get; set } = 0;
-        public int ElapsedMinutes { get; set } = 0;
+        public int ElapsedDays { get; set; } = 0;
+        public int ElapsedHours { get; set; } = 0;
+        public int ElapsedMinutes { get; set; } = 0;
+
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public TimeSimulation()
         {}
 
-        private void SimulateTime(Airport airport, int days, int hours, int minutes)
+        public void simulateTime(TimeSimulation timeSimulation, Airport airport, DateTime start, DateTime end)
         {
+            this.StartDate = start;
+            this.EndDate = end;
+
+            TimeSpan timeDifference = end - start;
+
+            airport.setScheduledStartDate(start);
+            airport.setScheduledEndDate(end);
+
+            int days = timeDifference.Days +1;
+            int hours = timeDifference.Hours;
+            int minutes = timeDifference.Minutes+1;
+
             //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
-            if (airport.allRunways.Count == 0 || airport.allTaxis.Count == 0 || airport.allTerminals.Count == 0)
+            if (airport.getAllRunways().Count == 0)
             {
-                throw new Exception "There is missing either a runway, terminal, or taxi";
+                throw new Exception("\n\nException: There are no runways in this airport. Try adding one with airportObject.addRunway(string name).\n");
+            }
+
+            else if (airport.getAllTaxis().Count == 0)
+            {
+                throw new Exception("\n\nException: There are no Taxiways in this airport. Try adding one with airportObject.addTaxi(string name)\n");
+            }
+
+            else if (airport.getAllTerminals().Count == 0)
+            {
+                throw new Exception("\n\nException: There are no terminals in this airport. Try adding one with airportObject.addTerminal(string name)\n");
             }
             int totalMinutes = 1440 * days + 60 * hours + minutes;
 
             for (int i = 0; i < totalMinutes; i++)
             {
-                for each(var flight in airport.allFlights) {
-                    flight.updateElapsedTime(this);
+                if (airport.getAllFlights().Count() > 0)
+                {
+                    foreach (var taxi in airport.getAllTaxis())
+                    {
+                        if (taxi.getTaxiQueue().Count() != 0)
+                        {
+                            taxi.removeFromQueue();
+                        }
+                    }
+
+                    foreach (var runway in airport.getAllRunways())
+                    {
+                        if (runway.getRunwayQueue().Count() != 0)
+                        {
+                            runway.dequeueFlight();
+                        }
+                    }
+
+                    foreach (var flight in airport.getAllFlights().ToList())
+                    {
+                        flight.updateElapsedTime(timeSimulation);
+                        flight.flightSim(airport, timeSimulation);
+                    }
                 }
-                if (ElapsedMinutes == 60)
+
+                if (ElapsedMinutes == 59)
                 {
                     ElapsedHours += 1;
-                    ElapsedMinutes = 0;
+                    ElapsedMinutes = -1;
                 }
 
                 if (ElapsedHours == 24)
@@ -44,7 +91,19 @@ namespace AirportSimulation
                     ElapsedHours = 0;
                 }
                 ElapsedMinutes += 1;
+
+                if (i == totalMinutes -1)
+                {
+                    Console.WriteLine("Simulation is now done");
+                    
+                }
+                
             }
+        }
+
+        public DateTime getStartDate()
+        {
+            return this.StartDate;
         }
     }
 }

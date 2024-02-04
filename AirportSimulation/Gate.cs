@@ -3,7 +3,7 @@
     // Ulike typer fly som gates har lov til å ha
     // Å bruke Flags gjør at det er mulig å ha flere kategorier i stedet for bare 1
     [Flags]
-    enum GateLicence
+    public enum GateLicence
     {
         None = 0,
         Commercial = 1,
@@ -29,7 +29,7 @@
         /// <summary>
         /// List of taxiways connected to this gate.
         /// </summary>
-        private List<Taxi> ConnectedTaxi = new List<Taxi>();
+        private List<Taxi> ConnectedTaxis { get; set; } =  new List<Taxi>();
         // Vi må diskutere om vi skal bruke minutter, sekunder etc for ting som er målt i tid
         // (fiskesprell) Jeg bruker sekunder som default. Kanskje endre etterpå?
         /// <summary>
@@ -53,6 +53,7 @@
         public Gate(string name)
         {
             GateName = name;
+            Console.WriteLine("Gate " + name + " har blitt opprettet");
         }
 
         // Legge til et taxi object i listen over taxi som er tilkoblet gaten
@@ -60,7 +61,7 @@
 
         public void addTaxi(Taxi taxi)
         {
-            connectedTaxi.Add(taxi);
+            ConnectedTaxis.Add(taxi);
         }
 
         /// <summary>
@@ -107,7 +108,7 @@
         /// <param name="licence"></param>
         public void addLicence(GateLicence licence) 
         {
-            Licence |= GateLicence.licence;
+            Licence |= licence;
         }
 
         // Fjerner en spesifikk lisens fra gaten
@@ -117,7 +118,7 @@
         /// <param name="licence"></param>
         public void removeLicence(GateLicence licence)
         {
-            Licence &= ~GateLicence.licence;
+            Licence &= ~licence;
         }
 
         // Fjerner alle licencer fra gaten slik at den ikke har lov å ha noen fly
@@ -132,33 +133,75 @@
         //Denne metoden går gjennom alle taxi som er connected til gaten og sjekker hvilken 
         //taxi som har minst kø
 
-        //Denne tror jeg overlapper veldig med findTaxi så vi kan slanke den
+        //Denne tror jeg overlapper veldig med findTaxi så vi kan slanke den eller bare fjerne den helt
         public void transferFlightToTaxi(Flight flight)
         {
             //Sjekker om lista er tom først
-            if (ConnectedTaxi.Count != 0)
+            flight.getDesiredTaxi().addToQueue(flight);
+            flight.setIsTraveling(true);
+        }
+
+        /// <summary>
+        /// Get method for GateName. This will return a string
+        /// </summary>
+        public string getGateName()
+        {
+            return GateName;
+        }
+
+        /// <summary>
+        /// Get method for ConnectedTaxi. This will return a list of taxi objects
+        /// </summary>
+        public List<Taxi> getConnectedTaxis()
+        {
+            return ConnectedTaxis;
+        }
+
+        /// <summary>
+        /// Get method for IsAvailable. This will return a bool
+        /// </summary>
+        public bool getIsAvailable()
+        {
+            return IsAvailable;
+        }
+
+        /// <summary>
+        /// Set method for IsAvailable. This will change the value of IsAvailable
+        /// </summary>
+        public void setIsAvailable(bool status)
+        {
+            IsAvailable = status;
+        }
+
+        /// <summary>
+        /// Get method for CurrentHolder. This will return a flight object
+        /// </summary>
+        public Flight getCurrentHolder()
+        {
+            return CurrentHolder;
+        }
+
+        public void setCurrentHolder(Flight flight)
+        {
+            CurrentHolder = flight;
+        }
+
+        /// <summary>
+        /// Get method GateLicence. This will return an enumvalue
+        /// </summary>
+        public GateLicence getGateLicence()
+        {
+            return Licence;
+        }
+
+        public bool checkGateLicence(Flight flight)
+        {
+            FlightType flighttype = flight.GetFlightType();
+            if ((this.Licence & (GateLicence)flighttype) == this.Licence)
             {
-                Taxi correctTaxi = null;
-                int minQueueLength = int.MaxValue;
-
-                //Går gjennom alle taxi og sjekker lengden på køen
-                foreach (Taxi taxi in ConnectedTaxi)
-                {
-                    //Hvis køen er mindre enn tidligere iterasjoner så velg den taxi
-                    if (taxi.lengthQueue() < minQueueLength)
-                    {
-                        correctTaxi = taxi;
-                        minQueueLength = taxi.lengthQueue();
-                    }
-                }
-
-                //En liten sjekk på at den faktisk har valgt ut en taxi
-                if (correctTaxi != null)
-                {
-                    //Legger til flight i den taxi sin kø
-                    correctTaxi.AddToQueue(flight);
-                }
+                return true;
             }
+            return false;
         }
 
 

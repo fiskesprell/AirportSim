@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AirportSimulation
 {
-    internal class Runway
+    public class Runway
     {
         // Instance Variables
         public String RunwayName;
@@ -22,12 +22,14 @@ namespace AirportSimulation
         public double AverageLandingTime = 300; // in seconds (5 minutes)
         public bool IsAvailable = true;
         public Flight FlightOnRunway = null;
+        
 
 
         // Constructor
-        public Runway(string RunwayName)
+        public Runway(string runwayName)
         {
-            this.RunwayName = RunwayName;
+            this.RunwayName = runwayName;
+            Console.WriteLine("Runway " + runwayName + " har blitt opprettet");
         }
 
         // Se hvilken flight som er neste i køen
@@ -59,9 +61,7 @@ namespace AirportSimulation
         {
             Flight flight = RunwayQueue.Dequeue();
 
-            //Status er private, bruk get
-            //Kanskje bedre å bruke direction uansett?
-            if (flight.Status == FlightStatus.Departing || flight.Status == FlightStatus.DepartingDelayed)
+            if (flight.getDirection() == Direction.Outgoing)
             {
                 addFlightToRunway(flight);
             }
@@ -69,14 +69,14 @@ namespace AirportSimulation
             else
             {
                 //AssignedGate er private, bruk get
-                Gate desiredGate = flight.AssignedGate;
+                Gate desiredGate = flight.getAssignedGate();
                 Taxi optimalTaxi = null;
                 int queueSize = int.MaxValue;
                 //Går gjennom alle taxi som er connected til runwayen
                 foreach (Taxi taxi in ConnectedTaxi)
                 {
                     //Sjekker om gaten er connected til taxi
-                    if (desiredGate in taxi.ConnectedGate)
+                    if (taxi.getConnectedGates().Contains(desiredGate))
                     {
                         //Hvis den er connected, sjekk køstørrelsen
                         //Hvis 
@@ -103,23 +103,43 @@ namespace AirportSimulation
             ConnectedTaxi.Add(taxi);
         }
 
-        /// <summary>
-        /// Will send the flight to the runway and prepare it for takeoff
-        /// </summary>
-        /// <param name="flight"></param>
         public void addFlightToRunway(Flight flight)
         {
-            //Legge inn implementasjon slik at flight som har status delayed for snike?
-            if (ConnectedTaxi.Count != 0)
-            {
+            this.IsAvailable = false;
+            FlightOnRunway = flight;
 
-                foreach (Taxi taxi in ConnectedTaxi)
-                {
+        }
 
-                }
-            }
-            
-            
+        public void setIsAvailable(bool availability)
+        {
+            this.IsAvailable=availability;
+        }
+
+        public bool getIsAvailable()
+        {
+            return IsAvailable;
+        }
+
+        public void setFlightOnRunway(Flight flight)
+        {
+            FlightOnRunway = flight;
+        }
+
+        public Flight getFlightOnRunway()
+        {
+            return FlightOnRunway;
+        }
+
+        public string getRunwayName()
+        {
+            return this.RunwayName;
+        }
+
+        public Queue<Flight> getRunwayQueue()
+        {
+            return this.RunwayQueue;
         }
     }
+
+
 }
