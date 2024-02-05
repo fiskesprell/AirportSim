@@ -7,45 +7,122 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AirportSimulation
 {
+
+
+    /// <summary>
+    /// Defines the type of flight
+    /// </summary>
     [Flags]
     public enum FlightType
     {
+        /// <summary>
+        /// Represents a commercial flight.
+        /// </summary>
         Commercial = 1,
+        /// <summary>
+        /// Represents a transport flight.
+        /// </summary>
         Transport = 2,
+        /// <summary>
+        /// Represents a personal flight.
+        /// </summary>
         Personal = 4,
+        /// <summary>
+        /// Represents a military flight.
+        /// </summary>
         Military = 8,
     }
 
+    /// <summary>
+    /// Defines the direction of a flight.
+    /// </summary>
     public enum Direction
     {
+        /// <summary>
+        /// Represents an incoming flight.
+        /// </summary>
         Incoming,
-        Outgoing
+        /// <summary>
+        /// Represents an outgoing flight.
+        /// </summary>
+        Outgoing,
+        /// <summary>
+        /// Represents a flight heading elsewhere, i.e. maintenance, hangar.
+        /// </summary>
+        Other
     }
 
     /// <summary>
-    /// OnTime -> 
+    /// Defines the status of a flight.
     /// </summary>
     public enum FlightStatus
     {
+        /// <summary>
+        /// Represents a flight that is on time.
+        /// </summary>
         OnTime,
+        /// <summary>
+        /// Represents a delayed arrival.
+        /// </summary>
         ArrivingDelayed,
+        /// <summary>
+        /// Represents a delayed departure.
+        /// </summary>
         DepartingDelayed,
+        /// <summary>
+        /// Represents a flight boarding.
+        /// </summary>
         Boarding,
+        /// <summary>
+        /// Represents a flight departing.
+        /// </summary>
         Departing,
+        /// <summary>
+        /// Represents a flight that has departed.
+        /// </summary>
         Departed,
+        /// <summary>
+        /// Represents a flight arriving.
+        /// </summary>
         Arrived,
+        /// <summary>
+        /// Represents a flight that has landed.
+        /// </summary>
         Landed,
+        /// <summary>
+        /// Represents a completed flight.
+        /// </summary>
         Completed,
     }
 
+    /// <summary>
+    /// Defines the frequency of a flight.
+    /// </summary>
     public enum Frequency
     {
+        /// <summary>
+        /// Represents a flight scheduled one time only.
+        /// </summary>
         OneTime,
+        /// <summary>
+        /// Represents a flight scheduled daily.
+        /// </summary>
         Daily,
+        /// <summary>
+        /// Represents a flight scheduled weekly.
+        /// </summary>
         Weekly
     }
 
 
+    /// <summary>
+    /// Represents a flight, including details such as flight number, company, type, and status.
+    /// This class manages flight scheduling, gate/taxi/runway assignment, ELABORATE.
+    /// </summary>
+    /// <remarks>
+    /// The class also supports logging of flight events.
+    /// Default values are provided for properties like Company (Norwegian) and FlightType (Commercial) to enable simple instansiations of a simulation.
+    /// </remarks>
     public class Flight
     {
         private string Number { get; set; }
@@ -80,8 +157,8 @@ namespace AirportSimulation
 
 
         /// <summary>
-        /// Creates a flight. Not the same as creating an aircraft. Needs a flightnumber, date and time of arrival/departure,
-        /// direction of flight (incoming, outgoing) and an airport object (the airport it is either arriving to or departing from).
+        /// Creates a flight. Not the same as creating an aircraft. Requires a flight number, date and time of arrival/departure,
+        /// direction of flight (incoming, outgoing, other) and an airport object (the airport it is either arriving to or departing from).
         /// </summary>
         /// <param name="number">Flight number. Commonly looks like "WN 417".</param>
         /// <param name="destination">Name of Airport the flight is going to.</param>
@@ -97,7 +174,7 @@ namespace AirportSimulation
             this.Destination = destination;
             this.CurrentAirport = airport;
 
-            //Hvis de sender inn noe som ikke er en av kategoriene i Direction enumen så vil en exception kastes
+            // Attempts to parse the direction of the flight. Throws exception if it fails.
             if (Enum.TryParse(direction.ToString(), out Direction flightDirection))
             {
                 this.FlightDirection = direction;
@@ -120,8 +197,26 @@ namespace AirportSimulation
                 throw new ArgumentException($"Invalid direction: {direction}. Expected values are {string.Join(", ", Enum.GetNames(typeof(Direction)))}.", nameof(direction));
             }
 
-        }//Slutt konstruktør
+        }
 
+
+        // Overload constructor
+        /// <summary>
+        /// Creates a flight. Not the same as creating an aircraft. Requires a flight number, date and time of arrival/departure,
+        /// direction of flight (incoming, outgoing, other) and an airport object (the airport it is either arriving to or departing from).
+        /// </summary>
+        /// <param name="number">Flight number. Commonly looks like "WN 417".</param>
+        /// <param name="destination">Name of Airport the flight is going to.</param>
+        /// <param name="airport">Name of Airport the flight is departing from.</param>
+        /// <param name="travelDay">The date of departure.</param>
+        /// <param name="hour">The hour of the departure. Follows the 24-hour clock. Putting 18 here means the flight leaves at 6PM (18:XX).</param>
+        /// <param name="minute">The minute of the departure. Putting 30 here means the flight will leave at XX:30.</param>
+        /// <param name="flightType">Type of flight. Either <c>FlightType.Commercial</c>, <c>FlightType.Transport</c>, <c>FlightType.Personal</c> or <c>FlightType.Military</c></param>
+        /// <param name="frequency">Frequency of the flight. Either <c>Frequency.OneTime</c>, <c>Frequency.Daily</c> or <c>Frequency.Weekly</c></param>
+        /// <param name="company">Name of the airline operating the flight.</param>
+        /// <param name="direction">Direction of the flight <c>Direction.Outgoing</c>, <c>Direction.Incoming</c> or <c>Direction.Other</c>. </param>
+        /// <param name="isInternational">Denoted whether the flight is domestic or international. True if international, false is domestic. </param>
+        /// <exception cref="ArgumentException"></exception>
         public Flight(string number, string destination, DateTime travelDay, int hour, int minute, Direction direction, Airport airport, bool isInternational, FlightType flightType, Frequency frequency, string company)
         {
             this.Number = number;
@@ -135,19 +230,18 @@ namespace AirportSimulation
             this.Company = company;
             this.FlightDirection = direction;
             this.IsInternational = isInternational;
-            this.FlightType = flightType;
 
-        }//Slutt overload konstruktør
+        }
 
         /// <summary>
-        /// This method will continously update the elapsed time for each flight object
+        /// This method will continously update the elapsed time for each flight object.
         /// </summary>
         public void updateElapsedTime(TimeSimulation timeSimulation)
         {
             this.ElapsedDays = timeSimulation.ElapsedDays;
             this.ElapsedHours = timeSimulation.ElapsedHours;
             this.ElapsedMinutes = timeSimulation.ElapsedMinutes;
-        }//Slutt updateElapsedTime
+        }
 
 
         /// <summary>
@@ -373,6 +467,8 @@ namespace AirportSimulation
             }
         }//Slutt flightSim
 
+
+        /// <summary>This method handles takeoff from an assigned runway.</summary>
         public void takeoff(Runway runway)
         {
             runway.setFlightOnRunway(this);
@@ -400,6 +496,8 @@ namespace AirportSimulation
             runway.setIsAvailable(true);
         }//Slutt takeoff
 
+
+        /// <summary>This method handles landing on an assigned runway.</summary>
         public void land(Runway runway)
         {
             runway.setFlightOnRunway(this);
@@ -472,10 +570,11 @@ namespace AirportSimulation
         }//Slutt parkGate
 
         /// <summary>
-        /// This method will change the status of the flight. 
+        /// Sets the status of the flight.
         /// </summary>
         public void setStatus(FlightStatus status)
         {
+            Status = status;
             if (Logging)
             {
                 if (ElapsedMinutes == 0)
@@ -489,13 +588,12 @@ namespace AirportSimulation
                     string statusChange = $"Flight {Number} changed its status to: {status} at Day: {ElapsedDays}, Time: {ElapsedHours}:{ElapsedMinutes}.";
                     this.LoggingEvents.Add(statusChange);
                 }
-                
+
             }
-            Status = status;
         }//Slutt changeStatus
 
         /// <summary>
-        /// This method will loop through all terminals, then all the gates in that terminal, and find a gate that is available and have the correct licence
+        /// This method will loop through all terminals and gates therein, and find a gate that is available and have the correct licence
         /// </summary>
         public Gate findAvailableGate()
         {
