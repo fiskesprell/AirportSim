@@ -36,9 +36,19 @@ namespace AirportSimulation
             int minutes = timeDifference.Minutes+1;
 
             //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
-            if (airport.getAllRunways().Count == 0 || airport.getAllTaxis().Count == 0 || airport.getAllTerminals().Count == 0)
+            if (airport.getAllRunways().Count == 0)
             {
-                throw new Exception("There is missing either a runway, terminal, or taxi");
+                throw new Exception("\n\nException: There are no runways in this airport. Try adding one with airportObject.addRunway(string name).\n");
+            }
+
+            else if (airport.getAllTaxis().Count == 0)
+            {
+                throw new Exception("\n\nException: There are no Taxiways in this airport. Try adding one with airportObject.addTaxi(string name)\n");
+            }
+
+            else if (airport.getAllTerminals().Count == 0)
+            {
+                throw new Exception("\n\nException: There are no terminals in this airport. Try adding one with airportObject.addTerminal(string name)\n");
             }
             int totalMinutes = 1440 * days + 60 * hours + minutes;
 
@@ -84,7 +94,7 @@ namespace AirportSimulation
 
                 if (i == totalMinutes -1)
                 {
-                    Console.WriteLine("Simulation is now done");
+                    Console.WriteLine("\nSimulation is now done");
                     
                 }
                 

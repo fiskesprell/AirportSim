@@ -58,6 +58,11 @@ namespace AirportSimulation
             return IsInternational; 
         }
 
+        public void setIsInternational(bool isInternational)
+        {
+            IsInternational = isInternational;
+        }
+
         // Legge til noe for sikkerhetsjekk, spesielt hvis det er utland?
 
 
