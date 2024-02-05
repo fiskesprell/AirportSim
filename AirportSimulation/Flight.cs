@@ -200,8 +200,6 @@ namespace AirportSimulation
                     Runway correctRunway = this.findRunway();
                     Taxi correctTaxi = this.findTaxi();
                     this.AssignedGate.transferFlightToTaxi(this);
-                    
-
                 }
 
                 (int newHours5, int newMinutes5) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, 0, 5);
