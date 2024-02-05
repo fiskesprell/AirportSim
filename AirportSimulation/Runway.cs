@@ -59,6 +59,7 @@ namespace AirportSimulation
         /// </summary>
         public void dequeueFlight()
         {
+            // NB: Denne funksjonen krever at du har en AssignedGate
             Flight flight = RunwayQueue.Dequeue();
 
             if (flight.getDirection() == Direction.Outgoing)
@@ -88,7 +89,6 @@ namespace AirportSimulation
                     }
                 }
                 optimalTaxi.addToQueue(flight);
-                
             }
 
         }
