@@ -190,7 +190,7 @@ namespace AirportSimulation
                 (int newHours3, int newMinutes3) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, 1, 0);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours3 && ElapsedMinutes == newMinutes3)
                 {
-                    startDeparting();
+                    startDeparturePrep();
                 }
 
                 (int newHours4, int newMinutes4) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, 0, 15);
@@ -442,7 +442,7 @@ namespace AirportSimulation
         /// </summary>
         public Gate findAvailableGate()
         {
-            FlightType flightType = this.GetFlightType();
+            FlightType flightType = this.getFlightType();
 
             bool foundTerminal = false;
             foreach (var terminal in CurrentAirport.getAllTerminals())
@@ -757,7 +757,7 @@ namespace AirportSimulation
             this.FlightType = flightType;
         }
 
-        public FlightType GetFlightType()
+        public FlightType getFlightType()
         {
             return this.FlightType;
         }

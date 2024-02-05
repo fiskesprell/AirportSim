@@ -11,7 +11,7 @@ namespace AirportSimulation
         /// <summary>
         /// The name of your Airport.
         /// </summary>
-        string AirportName { get; }
+        string airportName { get; }
 
 
         /// <summary>
