@@ -14,38 +14,71 @@
 
 
     public class Gate
+
     {
+
+        private string _gateName;
+        private GateLicence _licence = GateLicence.Commercial;
+        private List<Taxi> _connectedTaxis = new List<Taxi>();
+        private double _turnaroundTime = 10; // Default value, assuming minutes
+        private bool _isAvailable = true;
+        private Flight _currentHolder;
+
         // Vi må diskutere hva som er logiske standardverdier
         /// <summary>
         /// The name of your Gate.
         /// </summary>
-        private string GateName { get; set; }
+        public string GateName
+        {
+            get => _gateName;
+            set => _gateName = value;
+        }
         // TODO: Fiks denne?
         /// <summary>
         /// This gate's licence. Decides the type of planes allowed to use this gate. <br/>
         /// Valid values are: None, Commercial, Transport, Personal, Military.
         /// </summary>
-        private GateLicence Licence { get; set; } = GateLicence.Commercial;
+        private GateLicence Licence
+        {
+            get => _licence;
+            set => _licence = value;
+        }
         /// <summary>
         /// List of taxiways connected to this gate.
         /// </summary>
-        private List<Taxi> ConnectedTaxis { get; set; } =  new List<Taxi>();
+        private List<Taxi> ConnectedTaxis
+        {
+            get => _connectedTaxis;
+            set => _connectedTaxis = value;
+        }
         // Vi må diskutere om vi skal bruke minutter, sekunder etc for ting som er målt i tid
         // (fiskesprell) Jeg bruker sekunder som default. Kanskje endre etterpå?
         /// <summary>
         /// The amount of time needed from a plane leaves the gate untill its ready to recieve the next one
         /// </summary>
-        private double TurnaroundTime { get; set; } = 10;
+        private double TurnaroundTime
+        {
+            get => _turnaroundTime;
+            set => _turnaroundTime = value;
+        }
         /// <summary>
         /// Whether the gate is available or not. <br/>
         /// True = gate is available <br/>
         /// False = gate is unavailable
         /// </summary>
-        private bool IsAvailable { get; set; } = true;
+        private bool IsAvailable
+        {
+            get => _isAvailable;
+            set => _isAvailable = value;
+        }
         /// <summary>
         /// The flight currently using the gate.
         /// </summary>
-        private Flight CurrentHolder { get; set; }
+        private Flight CurrentHolder
+        {
+            get => _currentHolder;
+            set => _currentHolder = value;
+        }
 
         /// <summary>
         /// Constructor for making a gate
@@ -61,7 +94,7 @@
 
         public void addTaxi(Taxi taxi)
         {
-            ConnectedTaxis.Add(taxi);
+            _connectedTaxis.Add(taxi);
         }
 
         /// <summary>
