@@ -9,17 +9,6 @@ namespace AirportSimulation
 {
     public class Airport : IAirport
     {
-        //Instansvariablen AirportName må fortsatt deklareres her oppe
-        private string AirportName;
-        private List<Runway> _allRunways = new List<Runway>();
-        private List<Taxi> _allTaxis = new List<Taxi>();
-        private List<Flight> _completedFlights = new List<Flight>();
-        private List<Flight> _allFlights = new List<Flight>();
-        private int _elapsedDays = 0;
-        private int _elapsedHours = 0;
-        private int _elapsedMinutes = 0;
-        private DateTime _scheduledStartDate;
-        private DateTime _scheduledEndDate;
 
 
         // Instance Variables
@@ -110,9 +99,13 @@ namespace AirportSimulation
             
 
         /// <summary>
-        /// Constructor for making an airport
+        /// Constructor for initializing a new instance of the <see cref="Airport"/> class.
         /// </summary>
-        /// <param name="AirportName"></param>
+        /// <param name="airportName"></param>
+        /// <param name="terminalName"></param>
+        /// <param name="taxiName"></param>
+        /// <param name="runwayName"></param>
+        /// <param name="gateName"></param>
         public Airport(string airportName, string terminalName, string taxiName, string runwayName, string gateName)
         {
             this.AirportName = airportName;
@@ -128,8 +121,10 @@ namespace AirportSimulation
         }
 
         /// <summary>
-        /// Calls the terminal constructor and adds the resulting object to the list of terminals
+        /// Adds a new <see cref="Terminal"/> with the specified name to the airport and returns it.
         /// </summary>
+        /// <param name="terminalName">The name of the terminal to be added.</param>
+        /// <returns>The newly created <see cref="Terminal"/> object.</returns>
         public Terminal addTerminal(string name)
         {
             Terminal newTerminal = new Terminal(name);
@@ -138,8 +133,10 @@ namespace AirportSimulation
         }
 
         /// <summary>
-        /// Calls the runway constructor and adds the resulting object to the list of runways
+        /// Adds a new <see cref="Runway"/> with the specified name to the airport and returns it.
         /// </summary>
+        /// <param name="runwayName">The name of the runway to be added.</param>
+        /// <returns>The newly created <see cref="Runway"> object.</returns>
         public Runway addRunway(string name)
         {
             Runway newRunway = new Runway(name);
@@ -148,8 +145,10 @@ namespace AirportSimulation
         }
 
         /// <summary>
-        /// Calls the taxi constructor and adds the resulting object to the list of taxiways
+        /// Adds a new <see cref="Taxi"/> with the specified name to the airport and returns it.
         /// </summary>
+        /// <param name="taxiName">The name of the taxi to be added.</param>
+        /// <returns>The newly created <see cref="Taxi"> object.</returns>
         public Taxi addTaxi(string name)
         {
             Taxi newTaxi = new Taxi(name);
@@ -157,26 +156,47 @@ namespace AirportSimulation
             return newTaxi;
         }
 
+        /// <summary>
+        /// Adds a new <see cref="Flight"/> with the specified name to the airport.
+        /// </summary>
+        /// <param name="flightNumber">The name of the flight to be added.</param>
+        /// <returns>The newly created <see cref="Flight"> object.</returns>
         public void addFlight(Flight flight)
         {
             this.AllFlights.Add(flight);
         }
 
+        /// <summary>
+        /// Gets all flights in the <see cref="Airport"> and returns as list.
+        /// </summary>
+        /// <returns>List of all flights.</returns>
         public List<Flight> getAllFlights()
         {
             return this.AllFlights;
         }
 
+        /// <summary>
+        /// Gets all runways in the <see cref="Airport"> and returns as list.
+        /// </summary>
+        /// <returns>List of all runways.</returns>
         public List<Runway> getAllRunways()
         {
             return AllRunways;
         }
 
+        /// <summary>
+        /// Gets all taxiways in the <see cref="Airport"> and returns as list.
+        /// </summary>
+        /// <returns>List of all taxiways.</returns>
         public List<Taxi> getAllTaxis()
         {
             return AllTaxis;
         }
 
+        /// <summary>
+        /// Gets all flights in the <see cref="Airport"> and returns as list.
+        /// </summary>
+        /// <returns>List of all flights.</returns>
         public List<Terminal> getAllTerminals()
         {
             return AllTerminals;
