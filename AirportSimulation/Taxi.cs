@@ -71,7 +71,7 @@ namespace AirportSimulation
 
             else if(flight.getDirection() == Direction.Incoming)
             {
-                Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.getFlightNumber() + " started traveling on " + this.Name + " towards " + flight.getAssignedGate());
+                Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.getFlightNumber() + " started traveling on " + this.Name + " towards " + flight.getAssignedGate().getGateName());
                 TaxiQueue.Enqueue(flight);
             }
 
@@ -113,7 +113,6 @@ namespace AirportSimulation
                         flight.getDesiredRunway().enqueueFlight(flight);
                     }
                 }
-                
                 
             }
         }
