@@ -25,7 +25,7 @@
         /// This gate's licence. Decides the type of planes allowed to use this gate. <br/>
         /// Valid values are: None, Commercial, Transport, Personal, Military.
         /// </summary>
-        private GateLicence Licence { get; set; } = GateLicence.Transport;
+        private GateLicence Licence { get; set; } = GateLicence.Commercial;
         /// <summary>
         /// List of taxiways connected to this gate.
         /// </summary>

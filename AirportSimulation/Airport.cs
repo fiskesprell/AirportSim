@@ -9,7 +9,8 @@ namespace AirportSimulation
 {
     public class Airport : IAirport
     {
-
+        //Instansvariablen AirportName må fortsatt deklareres her oppe
+        private string AirportName;
         private List<Runway> _allRunways = new List<Runway>();
         private List<Taxi> _allTaxis = new List<Taxi>();
         private List<Flight> _completedFlights = new List<Flight>();
@@ -25,12 +26,20 @@ namespace AirportSimulation
         /// <summary>
         /// The name of your Airport.
         /// </summary>
-        public string AirportName {
+        /// 
+        //Dette blir setter og getter for AirportName, pass på at getter og setter defineres med liten forbokstav
+        public string airportName {
 
             get { return AirportName; }
-            set { AirportName = value; }
+            private set { AirportName = value; }
 
         }
+        /*Eksempelbruk blir da:
+        string newName = "Gardermoen";
+        airport.airportName = newName;
+        */
+
+
         /// <summary>
         /// List containing all terminals in this airport
         /// </summary>

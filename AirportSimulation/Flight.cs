@@ -56,7 +56,7 @@ namespace AirportSimulation
         private string Company { get; set; } = "Norwegian";
         private FlightType FlightType { get; set; } = FlightType.Commercial;
         private Gate AssignedGate { get; set; }
-        private bool IsInternational { get; set; } = true;
+        private bool IsInternational { get; set; } = false;
 
         private DateTime ScheduledDay { get; set; }
         private int ScheduledHour { get; set; } = 0;
