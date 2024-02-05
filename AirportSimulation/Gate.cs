@@ -25,7 +25,7 @@
         /// This gate's licence. Decides the type of planes allowed to use this gate. <br/>
         /// Valid values are: None, Commercial, Transport, Personal, Military.
         /// </summary>
-        private GateLicence Licence { get; set; } = GateLicence.Commercial;
+        private GateLicence Licence { get; set; } = GateLicence.Transport;
         /// <summary>
         /// List of taxiways connected to this gate.
         /// </summary>
@@ -196,7 +196,7 @@
 
         public bool checkGateLicence(Flight flight)
         {
-            FlightType flighttype = flight.GetFlightType();
+            FlightType flighttype = flight.getFlightType();
             if ((this.Licence & (GateLicence)flighttype) == this.Licence)
             {
                 return true;

@@ -56,7 +56,7 @@ namespace AirportSimulation
         private string Company { get; set; } = "Norwegian";
         private FlightType FlightType { get; set; } = FlightType.Commercial;
         private Gate AssignedGate { get; set; }
-        private bool IsInternational { get; set; } = false;
+        private bool IsInternational { get; set; } = true;
 
         private DateTime ScheduledDay { get; set; }
         private int ScheduledHour { get; set; } = 0;
@@ -190,7 +190,7 @@ namespace AirportSimulation
                 (int newHours3, int newMinutes3) = convertTime(ScheduledHour, ScheduledMinutes, 1, 0);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours3 && ElapsedMinutes == newMinutes3)
                 {
-                    startDepartPrep();
+                    startDeparturePrep();
                 }
 
                 (int newHours4, int newMinutes4) = convertTime(ScheduledHour, ScheduledMinutes, 0, 15);
@@ -442,7 +442,7 @@ namespace AirportSimulation
         /// </summary>
         public Gate findAvailableGate()
         {
-            FlightType flightType = this.GetFlightType();
+            FlightType flightType = this.getFlightType();
 
             bool foundTerminal = false;
             foreach (var terminal in CurrentAirport.getAllTerminals())
@@ -740,7 +740,7 @@ namespace AirportSimulation
             this.FlightType = flightType;
         }
 
-        public FlightType GetFlightType()
+        public FlightType getFlightType()
         {
             return this.FlightType;
         }
