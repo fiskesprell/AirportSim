@@ -35,9 +35,7 @@ namespace AirportSimulation
         /// </summary>
         private List<Flight> CompletedFlights { get; set; } = new List<Flight> ();
 
-        private int ElapsedDays { get; private set; } = 0;
-        private int ElapsedHours { get; private set; } = 0;
-        private int ElapsedMinutes { get; private set; } = 0;
+        
 
         private DateTime ScheduledStartDate { get; set; }
         private DateTime ScheduledEndDate { get; set; }

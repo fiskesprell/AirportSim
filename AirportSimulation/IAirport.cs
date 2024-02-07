@@ -27,18 +27,7 @@ namespace AirportSimulation
         /// A list containing all the flights in this airport
         /// </summary>
         List<Flight> AllFlights { get; set; }
-        /// <summary>
-        /// This property keeps track of the days that have passed in the simulation
-        /// </summary>
-        int ElapsedDays { get; }
-        /// <summary>
-        /// This property keeps track of the hours that have passed in the simulation
-        /// </summary>
-        int ElapsedHours { get; }
-        /// <summary>
-        /// This property keeps track of the minutes that have passed in the simulation
-        /// </summary>
-        int ElapsedMinutes { get; }
+        
 
         /// <summary>
         /// Method to add a runway to this airport
