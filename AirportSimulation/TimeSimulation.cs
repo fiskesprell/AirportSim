@@ -60,7 +60,7 @@ namespace AirportSimulation
                     {
                         if (taxi.getTaxiQueue().Count() != 0)
                         {
-                            taxi.removeFromQueue();
+                            taxi.removeFromTaxiQueue();
                         }
                     }
 
@@ -68,7 +68,7 @@ namespace AirportSimulation
                     {
                         if (runway.getRunwayQueue().Count() != 0)
                         {
-                            runway.dequeueFlight();
+                            runway.removeFromRunwayQueue();
                         }
                     }
 

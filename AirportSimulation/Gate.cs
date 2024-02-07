@@ -20,7 +20,6 @@
         private string _gateName;
         private GateLicence _licence = GateLicence.Commercial;
         private List<Taxi> _connectedTaxis = new List<Taxi>();
-        private double _turnaroundTime = 10; // Default value, assuming minutes
         private bool _isAvailable = true;
         private Flight _currentHolder;
 
@@ -51,16 +50,7 @@
             get => _connectedTaxis;
             set => _connectedTaxis = value;
         }
-        // Vi må diskutere om vi skal bruke minutter, sekunder etc for ting som er målt i tid
-        // (fiskesprell) Jeg bruker sekunder som default. Kanskje endre etterpå?
-        /// <summary>
-        /// The amount of time needed from a plane leaves the gate untill its ready to recieve the next one
-        /// </summary>
-        private double TurnaroundTime
-        {
-            get => _turnaroundTime;
-            set => _turnaroundTime = value;
-        }
+
         /// <summary>
         /// Whether the gate is available or not. <br/>
         /// True = gate is available <br/>
@@ -95,43 +85,6 @@
         public void addTaxi(Taxi taxi)
         {
             _connectedTaxis.Add(taxi);
-        }
-
-        /// <summary>
-        /// This function gets called when a flight is getting close to its departure. This will include
-        /// boarding, luggage, safety check etc...
-        /// The function makes sure that the flight doesnt leave the gate instantly and makes it more realitic
-        /// </summary>
-        /// <param name="flight"></param>
-        public void departingPreperation(Flight flight)
-        {
-            //45 min før scheduled departure start boarding
-            //Sett status på flighten til Boarding
-            //Denne metoden skal "vare i 30 min"
-            //Kall på DepartFlightFromGate(flight)
-        }
-
-        /// <summary>
-        /// Removes the flight from the gate, finds the optimale path to its designated runway and adds it to the taxiqueue
-        /// When the plane has left the gate it will call ArrivalPreperation()
-        /// </summary>
-        /// <param name="flight"></param>
-        public void departFlightFromGate(Flight flight)
-        {
-            //Går gjennom listen med connectedTaxi og finner den taxi som er best mtp kø og rullebane
-            //Kaller på taxi.addToQueue(flight)
-            //Sett CurrentHolder til null
-            //Kaller på ArrivalPreperation()
-        }
-
-        /// <summary>
-        /// Simulates the time it takes a gate to change the info on the screen, staffchange, etc
-        /// </summary>
-        public void arrivalPreperation()
-        {
-            //Blir kalt av DepartFlightFromGate
-            //Denne metoden "varer i 10 min"
-            //Endrer IsAvailable til true
         }
 
         // Legger til en spesifikk lisens til gaten
@@ -170,7 +123,7 @@
         public void transferFlightToTaxi(Flight flight)
         {
             //Sjekker om lista er tom først
-            flight.getDesiredTaxi().addToQueue(flight);
+            flight.getDesiredTaxi().addToTaxiQueue(flight);
             flight.setIsTraveling(true);
         }
 

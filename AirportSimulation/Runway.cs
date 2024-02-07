@@ -12,14 +12,8 @@ namespace AirportSimulation
     {
         // Instance Variables
         public String RunwayName;
-        public double RunwayLength = 3000; // in meters
         public List<Taxi> ConnectedTaxi = new List<Taxi>(); // litt usikker på om denne er gjort riktig
         public Queue<Flight> RunwayQueue = new Queue<Flight>();
-        public DateTime LastMaintainance;
-        // fra fly kommer inn på rullebanen, til det har lettet og rullebanen er ledig igjen
-        public double AverageTakeoffTime = 600; // in seconds - here 10 minutes
-        // fra et fly blir klarert til å lande til det er landet, bremset, og klart for å sette seg i taxikø
-        public double AverageLandingTime = 300; // in seconds (5 minutes)
         public bool IsAvailable = true;
         public Flight FlightOnRunway = null;
         
@@ -32,22 +26,12 @@ namespace AirportSimulation
             Console.WriteLine("Runway " + runwayName + " har blitt opprettet");
         }
 
-        // Se hvilken flight som er neste i køen
-        /// <summary>
-        /// Returns the flight that is in front of the queue
-        /// </summary>
-        /// <returns></returns>
-        public Flight peekQueue()
-        {
-            return RunwayQueue.Peek();
-        }
-
         // Legge til en flight i køen rullebanekøen. Automatikk fra når en flight er fremst i taxi køen
         /// <summary>
         /// Adds a flight to the runwayqueue
         /// </summary>
         /// <param name="flight"></param>
-        public void enqueueFlight(Flight flight)
+        public void addToRunwayQueue(Flight flight)
         {
             RunwayQueue.Enqueue(flight);
         }
@@ -57,7 +41,7 @@ namespace AirportSimulation
         /// Removes a flight from the queue. Based on the flightstatus it either goes to the runway and prepares for takeoff
         /// or it gets sent to the taxiqueue that is connected to their assigned gate
         /// </summary>
-        public void dequeueFlight()
+        public void removeFromRunwayQueue()
         {
             // NB: Denne funksjonen krever at du har en AssignedGate
             Flight flight = RunwayQueue.Dequeue();
@@ -88,7 +72,7 @@ namespace AirportSimulation
                         }
                     }
                 }
-                optimalTaxi.addToQueue(flight);
+                optimalTaxi.addToTaxiQueue(flight);
             }
 
         }
