@@ -199,7 +199,7 @@ namespace AirportSimulation
             {
                 //Kalle på convertTime for å få riktig klokkeslett 1 time og 45 min "tilbake" i tid
                 //Dessverre kan man ikke overskrive variabler så må lage nye variabler hver gang
-                (int newHours1, int newMinutes1) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour1, this.minute1);
+                (int newHours1, int newMinutes1) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour1, this.minute1);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
                     //Logg flight BRA123 har fått gate {this.AssignedGate} tildelt. F.eks
@@ -210,7 +210,7 @@ namespace AirportSimulation
 
                     
                 }
-                (int newHours2, int newMinutes2) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour2, this.minute2);
+                (int newHours2, int newMinutes2) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour2, this.minute2);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours2 && ElapsedMinutes == newMinutes2)
                 {
                     ParkFlightAtGate(AssignedGate);
@@ -218,13 +218,13 @@ namespace AirportSimulation
                 }
 
                 //Derfor blir det newHours1, newHours2, osv
-                (int newHours3, int newMinutes3) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour3, this.minute3);
+                (int newHours3, int newMinutes3) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour3, this.minute3);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours3 && ElapsedMinutes == newMinutes3)
                 {
                     StartDeparturePrep();
                 }
 
-                (int newHours4, int newMinutes4) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour4, this.minute4);
+                (int newHours4, int newMinutes4) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour4, this.minute4);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours4 && ElapsedMinutes == newMinutes4)
                 {
                     StartDeparting();
@@ -233,7 +233,7 @@ namespace AirportSimulation
                     this.AssignedGate.transferFlightToTaxi(this);
                 }
 
-                (int newHours6, int newMinutes6) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour5, this.minute5);
+                (int newHours6, int newMinutes6) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour5, this.minute5);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours6 && ElapsedMinutes == newMinutes6)
                 {
                     if(DesiredRunway.GetFlightOnRunway() == this)
@@ -246,25 +246,25 @@ namespace AirportSimulation
             // ~~~~ Incoming Flight ~~~~
             else if (this.FlightDirection == Direction.Incoming)
             {
-                (int newHours1, int newMinutes1) = convertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour6, this.minute6);
+                (int newHours1, int newMinutes1) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour6, this.minute6);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
                     NEWIncomingFlightPreperation();
                 }
 
-                (int newHours2, int newMinutes2) = convertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour7, this.minute7);
+                (int newHours2, int newMinutes2) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour7, this.minute7);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours2 && ElapsedMinutes == newMinutes2)
                 {
                     NEWIncomingFlightFromRunwayToTaxi();
                 }
 
-                (int newHours3, int newMinutes3) = convertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour8, this.minute8);
+                (int newHours3, int newMinutes3) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour8, this.minute8);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours3 && ElapsedMinutes == newMinutes3)
                 {
                     NEWIncomingFlightFromTaxiToGate();
                 }
 
-                (int newHours4, int newMinutes4) = convertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour9, this.minute9);
+                (int newHours4, int newMinutes4) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour9, this.minute9);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours4 && ElapsedMinutes == newMinutes4)
                 {
                     IncomingFlightFromGateToComplete();
