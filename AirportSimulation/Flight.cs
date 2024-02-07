@@ -306,7 +306,7 @@ namespace AirportSimulation
         {
             runway.SetFlightOnRunway(this);
             //broom broom
-            this.Status = FlightStatus.Departed;
+            this.SetStatus(FlightStatus.Departed);
             if (ElapsedMinutes == 0)
             {
                 string elapsedMinutes = "00";
@@ -332,7 +332,7 @@ namespace AirportSimulation
                 }
                 
             }
-                
+            
             runway.SetFlightOnRunway(null);
             runway.SetIsAvailable(true);
         }//Slutt takeoff
@@ -340,7 +340,7 @@ namespace AirportSimulation
         public void LandFlight(Runway runway)
         {
             runway.SetFlightOnRunway(this);
-            this.Status = FlightStatus.Arrived;
+            this.SetStatus(FlightStatus.Arrived);
             Console.WriteLine("Day: " + ElapsedDays + " -  at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has landed");
             DesiredTaxi.AddToTaxiQueue(this);
             runway.SetFlightOnRunway(null);
@@ -381,6 +381,7 @@ namespace AirportSimulation
 
             {
                 this.IsParked = true;
+                this.IsTraveling = false;
                 gateToPark.SetCurrentHolder(this);
 
             }
@@ -582,7 +583,6 @@ namespace AirportSimulation
             if (this.FlightDirection == Direction.Outgoing)
             {
 
-                // For outgoing flights, consider runways suitable for take-off
                 foreach (Runway runway in DesiredTaxi.GetConnectedRunways())
                 {
                     if (runway.RunwayQueue.Count < minQueueLength)
@@ -612,10 +612,8 @@ namespace AirportSimulation
             }
             else if (this.FlightDirection == Direction.Incoming)
             {
-                // For incoming flights, consider runways suitable for landing
                 foreach (Runway runway in DesiredTaxi.GetConnectedRunways())
                 {
-                    //Hva er IsAvailableForLanding?
                     if (runway.RunwayQueue.Count < minQueueLength)
                     {
                         selectedRunway = runway;
@@ -762,8 +760,7 @@ namespace AirportSimulation
 
         public void StartDeparturePrep()
         {
-            this.Status = FlightStatus.Boarding;
-
+            this.SetStatus(FlightStatus.Boarding);
             if (Logging)
             {
                 if (ElapsedMinutes == 0)
@@ -779,14 +776,11 @@ namespace AirportSimulation
                 }
                 
             }
-            
-
         }   
-        //Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " started boarding");
 
         public void StartDeparting()
         {
-            this.Status = FlightStatus.Departing;
+            this.SetStatus(FlightStatus.Departing);
             this.AssignedGate.SetCurrentHolder(null);
             this.AssignedGate.SetIsAvailable(true);
             this.IsParked = false;
@@ -847,7 +841,7 @@ namespace AirportSimulation
         {
             this.AssignedGate.SetIsAvailable(true);
             this.AssignedGate.SetCurrentHolder(null);
-            this.Status = FlightStatus.Completed;
+            this.SetStatus(FlightStatus.Completed);
             this.DesiredRunway = null;
             this.DesiredTaxi = null;
             this.AssignedGate = null;
@@ -883,7 +877,7 @@ namespace AirportSimulation
             this.FindTaxi();
             // Dette finner Runway og setter this.DesiredRunway = desiredRunway
             this.DesiredRunway = FindRunway();
-            this.Status = FlightStatus.Landed;
+            this.SetStatus(FlightStatus.Landed);
 
             // Logging
             if (Logging)
@@ -917,7 +911,7 @@ namespace AirportSimulation
         {
             this.DesiredTaxi.AddToTaxiQueue(this);
             
-            this.Status = FlightStatus.OnWayToGate;
+            this.SetStatus(FlightStatus.OnWayToGate);
 
             // Logging
             if (Logging)
@@ -947,7 +941,7 @@ namespace AirportSimulation
 
         public void NEWIncomingFlightFromTaxiToGate()
         {
-            this.Status = FlightStatus.Offloading;
+            this.SetStatus(FlightStatus.Offloading);
 
             // Logging
             if (Logging)
