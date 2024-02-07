@@ -853,6 +853,29 @@ namespace AirportSimulation
             this.DesiredRunway = null;
             this.DesiredTaxi = null;
             this.AssignedGate = null;
+            if (Logging)
+            {
+                if (ElapsedMinutes == 0)
+                {
+                    string newMinutes = "00";
+                    string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:00 Flight {Number} has offloaded all passengers and is complete.";
+                    LogHistory.Add(logMessage2);
+                }
+                else
+                {
+                    string newElapsedMinutes = "";
+                    if (ElapsedMinutes < 10)
+                    {
+                        newElapsedMinutes = $"0{ElapsedMinutes}";
+                    }
+                    else
+                    {
+                        newElapsedMinutes = $"{ElapsedMinutes}";
+                    }
+                    string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:{newElapsedMinutes} Flight {Number} has offloaded all passengers and has completed.";
+                    LogHistory.Add(logMessage2);
+                }
+            }
         }
 
         public void NEWIncomingFlightPreperation()
