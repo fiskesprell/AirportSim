@@ -83,6 +83,37 @@ namespace AirportSimulation
         private List<string> LogHistory { get; set; } = new List<string>();
 
 
+        // SILLY GOBLIN-STYLE CODING
+        // Outgoing
+        private int hour1 = 1;
+        private int minute1 = 45;
+
+        private int hour2 = 1;
+        private int minute2 = 30;
+        
+        private int hour3 = 1;
+        private int minute3 = 0;
+        
+        private int hour4 = 0;
+        private int minute4 = 15;
+        
+        private int hour5 = 0;
+        private int minute5 = 0;
+        
+        // Incoming
+        private int hour6 = 0;
+        private int minute6 = 0;
+        
+        private int hour7 = 0;
+        private int minute7 = 1;
+        
+        private int hour8 = 0;
+        private int minute8 = 11;
+        
+        private int hour9 = 0;
+        private int minute9 = 41;
+
+
         /// <summary>
         /// Creates a flight. Not the same as creating an aircraft. Needs a flightnumber, date and time of arrival/departure,
         /// direction of flight (incoming, outgoing) and an airport object (the airport it is either arriving to or departing from).
@@ -168,7 +199,7 @@ namespace AirportSimulation
             {
                 //Kalle på convertTime for å få riktig klokkeslett 1 time og 45 min "tilbake" i tid
                 //Dessverre kan man ikke overskrive variabler så må lage nye variabler hver gang
-                (int newHours1, int newMinutes1) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, 1, 45);
+                (int newHours1, int newMinutes1) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour1, this.minute1);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
                     //Logg flight BRA123 har fått gate {this.AssignedGate} tildelt. F.eks
@@ -179,7 +210,7 @@ namespace AirportSimulation
 
                     
                 }
-                (int newHours2, int newMinutes2) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, 1, 30);
+                (int newHours2, int newMinutes2) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour2, this.minute2);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours2 && ElapsedMinutes == newMinutes2)
                 {
                     parkGate(AssignedGate);
@@ -187,13 +218,13 @@ namespace AirportSimulation
                 }
 
                 //Derfor blir det newHours1, newHours2, osv
-                (int newHours3, int newMinutes3) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, 1, 0);
+                (int newHours3, int newMinutes3) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour3, this.minute3);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours3 && ElapsedMinutes == newMinutes3)
                 {
                     startDeparturePrep();
                 }
 
-                (int newHours4, int newMinutes4) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, 0, 15);
+                (int newHours4, int newMinutes4) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour4, this.minute4);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours4 && ElapsedMinutes == newMinutes4)
                 {
                     startDeparting();
@@ -202,13 +233,7 @@ namespace AirportSimulation
                     this.AssignedGate.transferFlightToTaxi(this);
                 }
 
-                (int newHours5, int newMinutes5) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, 0, 5);
-                if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours5 && ElapsedMinutes == newMinutes5)
-                {
-                    
-                }
-
-                (int newHours6, int newMinutes6) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, 0, 0);
+                (int newHours6, int newMinutes6) = convertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour5, this.minute5);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours6 && ElapsedMinutes == newMinutes6)
                 {
                     if(DesiredRunway.getFlightOnRunway() == this)
@@ -221,25 +246,25 @@ namespace AirportSimulation
             // ~~~~ Incoming Flight ~~~~
             else if (this.FlightDirection == Direction.Incoming)
             {
-                (int newHours1, int newMinutes1) = convertTimeForwards(ScheduledHour, ScheduledMinutes, 0, 0);
+                (int newHours1, int newMinutes1) = convertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour6, this.minute6);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
                     NEWIncomingFlightPreperation();
                 }
 
-                (int newHours2, int newMinutes2) = convertTimeForwards(ScheduledHour, ScheduledMinutes, 0, 1);
+                (int newHours2, int newMinutes2) = convertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour7, this.minute7);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours2 && ElapsedMinutes == newMinutes2)
                 {
                     NEWIncomingFlightFromRunwayToTaxi();
                 }
 
-                (int newHours3, int newMinutes3) = convertTimeForwards(ScheduledHour, ScheduledMinutes, 0, 11);
+                (int newHours3, int newMinutes3) = convertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour8, this.minute8);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours3 && ElapsedMinutes == newMinutes3)
                 {
                     NEWIncomingFlightFromTaxiToGate();
                 }
 
-                (int newHours4, int newMinutes4) = convertTimeForwards(ScheduledHour, ScheduledMinutes, 0, 41);
+                (int newHours4, int newMinutes4) = convertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour9, this.minute9);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours4 && ElapsedMinutes == newMinutes4)
                 {
                     IncomingFlightFromGateToComplete();
@@ -973,8 +998,133 @@ namespace AirportSimulation
                     LogHistory.Add(logMessage2);
                 }
             }
+        }
 
+        // Methods to change time spent on Gate, Taxi, Runway etc.
+        // Outgoing
+        /// <summary>
+        /// Hours & Minutes before takeoff to begin pre-boarding procedures.
+        /// This includes finding available gate, finding correct taxiway, 
+        /// and setting IsTraveling to true.
+        /// Hour = 1 Minutes = 20 means this procedure begins 1 hour and 20 minutes
+        /// before scheduled takeoff.
+        /// </summary>
+        /// <param name="hour">Hour(s) before takeoff to begin</param>
+        /// <param name="minute">Minute(s) before takeoff to begin</param>
+        public void SetOutgoingPreBoardingTime(int hour, int minute)
+        {
+            this.hour1 = hour;
+            this.minute1 = minute;
+        }
 
+        /// <summary>
+        /// Hours & Minutes before takeoff to begin onboarding procedures.
+        /// This includes parking at gate and beginning onboarding.
+        /// and setting IsTraveling to false.
+        /// Hour = 1 Minutes = 20 means this procedure begins 1 hour and 20 minutes
+        /// before scheduled takeoff.
+        /// </summary>
+        /// <param name="hour">Hour(s) before takeoff to begin</param>
+        /// <param name="minute">Minute(s) before takeoff to begin</param>
+        public void SetOutgoingOnboardingTime(int hour, int minute)
+        {
+            this.hour2 = hour;
+            this.minute2 = minute;
+        }
+
+        /// <summary>
+        /// Hours & Minutes before takeoff to begin Departure Preperation procedures.
+        /// This means setting Status to "Boarding"
+        /// Hour = 1 Minutes = 20 means this procedure begins 1 hour and 20 minutes
+        /// before scheduled takeoff.
+        /// </summary>
+        /// <param name="hour">Hour(s) before takeoff to begin</param>
+        /// <param name="minute">Minute(s) before takeoff to begin</param>
+        public void SetOutgoingDeparturePrepTime(int hour, int minute)
+        {
+            this.hour3 = hour;
+            this.minute3 = minute;
+        }
+
+        /// <summary>
+        /// Hours & Minutes before takeoff to begin Departure procedures.
+        /// This includes:
+        /// - finding a runway and taxi
+        /// - Transferring flight from gate to taxiway
+        /// Hour = 1 Minutes = 20 means this procedure begins 1 hour and 20 minutes
+        /// before scheduled takeoff.
+        /// </summary>
+        /// <param name="hour">Hour(s) before takeoff to begin</param>
+        /// <param name="minute">Minute(s) before takeoff to begin</param>
+        public void SetOutgoingDepartureTime(int hour, int minute)
+        {
+            this.hour4 = hour;
+            this.minute4 = minute;
+        }
+
+        /// <summary>
+        /// Hours & Minutes before scheduled takeoff to begin takeoff.
+        /// By default this value is set to 0 Hours 0 Minutes.
+        /// This includes:
+        /// - Taking off from Runway
+        /// </summary>
+        /// <param name="hour">Hour(s) before takeoff to begin</param>
+        /// <param name="minute">Minute(s) before takeoff to begin</param>
+        public void SetOutgoingTakeoffTime(int hour, int minute)
+        {
+            this.hour5 = hour;
+            this.minute5 = minute;
+        }
+
+        // Incoming
+        /// <summary>
+        /// Hours & Minutes after scheduled landing to begin landing procedures
+        /// By default this value is set to 0 hours 0 minutes
+        /// This includes:
+        /// - Finding Gate, Taxi and Runway
+        /// - Simulating a landing.
+        /// </summary>
+        /// <param name="hour">Hour(s) after landing to begin</param>
+        /// <param name="minute">Minute(s) after landing to begin</param>
+        public void SetIncomingLandingTime(int hour, int minute)
+        {
+            this.hour6 = hour;
+            this.minute6 = minute;
+        }
+
+        /// <summary>
+        /// Hours & Minutes after scheduled landing to begin going from Runway
+        /// to the taxiway.
+        /// </summary>
+        /// <param name="hour">Hour(s) after landing to begin</param>
+        /// <param name="minute">Minute(s) after landing to begin</param>
+        public void SetIncomingFinishedRunwayTime(int hour, int minute)
+        {
+            this.hour7 = hour;
+            this.minute7 = minute;
+        }
+        /// <summary>
+        /// Hours & Minutes after scheduled landing when the aircraft has 
+        /// finished driving through the taxiway and begins offloading
+        /// at the gate.
+        /// </summary>
+        /// <param name="hour">Hour(s) after landing to begin</param>
+        /// <param name="minute">Minute(s) after landing to begin</param>
+        public void SetIncomingFinishedTaxiTime(int hour, int minute)
+        {
+            this.hour8 = hour;
+            this.minute8 = minute;
+        }
+        /// <summary>
+        /// Hours & Minutes after scheduled landing for the aircraft to
+        /// finish offloading passengers and complete the flight.
+        /// </summary>
+        /// <param name="hour">Hour(s) after landing to begin</param>
+        /// <param name="minute">Minute(s) after landing to begin</param>
+        public void SetIncomingFinishedGateTime(int hour, int minute)
+        {
+            this.hour9 = hour;
+            this.minute9 = minute;
         }
 
     }//Slutt Flight klassen
