@@ -34,10 +34,13 @@ namespace AirportSimulation
         /// List containing all completed flights in this airport
         /// </summary>
         public List<Flight> CompletedFlights { get; set; } = new List<Flight> ();
-
-        
-
+        /// <summary>
+        /// Gets and sets the scheduled start date
+        /// </summary>
         private DateTime ScheduledStartDate { get; set; }
+       /// <summary>
+        /// Gets and sets the scheduled end date
+        /// </summary>
         private DateTime ScheduledEndDate { get; set; }
             
 
@@ -80,7 +83,7 @@ namespace AirportSimulation
         }
 
         /// <summary>
-        /// Calls the taxi constructor and adds the resulting object to the list of taxiways
+        /// Adds a taxi object to the airport
         /// </summary>
         public Taxi AddTaxi(string name)
         {
@@ -88,67 +91,93 @@ namespace AirportSimulation
             AllTaxis.Add(newTaxi);
             return newTaxi;
         }
-
+        /// <summary>
+        /// Adds a flight object to the airport
+        /// </summary>
         public void AddFlight(Flight flight)
         {
             this.AllFlights.Add(flight);
         }
-
+        /// <summary>
+        /// Gets all flights in the airport
+        /// </summary>
         public List<Flight> GetAllFlights()
         {
             return this.AllFlights;
         }
-
+        /// <summary>
+        /// Gets all runways the airport
+        /// </summary>
         public List<Runway> GetAllRunways()
         {
             return AllRunways;
         }
-
+        /// <summary>
+        /// Gets all taxis in the airport
+        /// </summary>
         public List<Taxi> GetAllTaxis()
         {
             return AllTaxis;
         }
-
+        /// <summary>
+        /// Gets all terminals in the airport
+        /// </summary>
         public List<Terminal> GetAllTerminals()
         {
             return AllTerminals;
         }
-
+        /// <summary>
+        /// Gets scheduled start date for the airport's simulation
+        /// </summary>
         public DateTime GetScheduledStartDate()
         {
             return ScheduledStartDate;
         }
-
+        /// <summary>
+        /// Sets scheduled start date for the airport's simulation
+        /// </summary>
         public void SetScheduledStartDate(DateTime scheduledStartDate)
         {
             ScheduledStartDate = scheduledStartDate;
         }
-
+        /// <summary>
+        /// Gets scheduled end date for the airport's simulation
+        /// </summary>
         public DateTime GetScheduledEndDate()
         {
             return ScheduledEndDate;
         }
-
+        /// <summary>
+        /// Sets scheduled end date for the airport's simulation
+        /// </summary>
         public void SetScheduledEndDate(DateTime scheduledEndDate)
         {
             ScheduledEndDate = scheduledEndDate;
         }
-
+        /// <summary>
+        /// Gets the name of the airport
+        /// </summary>
         public string GetAirportName()
         {
             return AirportName;
         }
-
+        /// <summary>
+        /// Adds a flight to the airport's completed flights
+        /// </summary>
         public void AddCompletedFlight(Flight flight)
         {
             this.CompletedFlights.Add(flight);
         }
-
+        /// <summary>
+        /// Removes a completed flight from the airport's <see cref="AllFlights"> list.
+        /// </summary>
         public void RemoveCompletedFlightFromAllFlights(Flight flight)
         {
             this.AllFlights.Remove(flight);
         }
-
+        /// <summary>
+        /// Prints flight number, frequency and scheduled day for all flights.
+        /// </summary>
         public void PrintAllFlights()
         {
             foreach(Flight flight in this.AllFlights)
