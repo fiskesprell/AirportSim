@@ -25,12 +25,6 @@ namespace AirportSimulation
         /// </summary>
         public Queue<Flight> TaxiQueue = new Queue<Flight>();
         /// <summary>
-        /// Amount of time it takes for plane to get from gate to the runway through the taxiway. <br/>
-        /// In seconds. Average value is 60.
-        /// </summary>
-        public double TravelTime { get; set; } = 60; //TravelTime is a the amount of time it takes to get from gate to runway
-        // TODO: Skal dette være sekunder? Er 60 en reasonable standardverdi?
-        /// <summary>
         /// Tells you if the taxiway is available or not. <br/>
         /// True = Taxiway is available. <br/>
         /// False = Taxiway is unavailable.

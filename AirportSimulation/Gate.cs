@@ -86,6 +86,7 @@
         {
             _connectedTaxis.Add(taxi);
         }
+       
 
         // Legger til en spesifikk lisens til gaten
         /// <summary>
