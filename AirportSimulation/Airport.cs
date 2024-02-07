@@ -13,27 +13,27 @@ namespace AirportSimulation
         /// <summary>
         /// The name of your Airport.
         /// </summary>
-        private string AirportName { get; set; }
+        public string AirportName { get; set; }
         /// <summary>
         /// List containing all terminals in this airport
         /// </summary>
-        private List<Terminal> AllTerminals = new List<Terminal>();
+        public List<Terminal> AllTerminals = new List<Terminal>();
         /// <summary>
         /// List containing all runways in this airport
         /// </summary>
-        private List<Runway> AllRunways { get; set; } = new List<Runway>();
+        public List<Runway> AllRunways { get; set; } = new List<Runway>();
         /// <summary>
         /// List containing all taxiways in this airport
         /// </summary>
-        private List<Taxi> AllTaxis { get; set; } = new List<Taxi>();
+        public List<Taxi> AllTaxis { get; set; } = new List<Taxi>();
        /// <summary>
         /// List containing all flights in this airport
         /// </summary>
-        private List<Flight> AllFlights { get; set; } = new List<Flight>();
+        public List<Flight> AllFlights { get; set; } = new List<Flight>();
        /// <summary>
         /// List containing all completed flights in this airport
         /// </summary>
-        private List<Flight> CompletedFlights { get; set; } = new List<Flight> ();
+        public List<Flight> CompletedFlights { get; set; } = new List<Flight> ();
 
         
 
