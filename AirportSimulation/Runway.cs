@@ -31,7 +31,7 @@ namespace AirportSimulation
         /// Adds a flight to the runwayqueue
         /// </summary>
         /// <param name="flight"></param>
-        public void addToRunwayQueue(Flight flight)
+        public void AddToRunwayQueue(Flight flight)
         {
             RunwayQueue.Enqueue(flight);
         }
@@ -41,27 +41,27 @@ namespace AirportSimulation
         /// Removes a flight from the queue. Based on the flightstatus it either goes to the runway and prepares for takeoff
         /// or it gets sent to the taxiqueue that is connected to their assigned gate
         /// </summary>
-        public void removeFromRunwayQueue()
+        public void RemoveFromRunwayQueue()
         {
             // NB: Denne funksjonen krever at du har en AssignedGate
             Flight flight = RunwayQueue.Dequeue();
 
-            if (flight.getDirection() == Direction.Outgoing)
+            if (flight.GetDirection() == Direction.Outgoing)
             {
-                addFlightToRunway(flight);
+                AddFlightToRunway(flight);
             }
 
             else
             {
                 //AssignedGate er private, bruk get
-                Gate desiredGate = flight.getAssignedGate();
+                Gate desiredGate = flight.GetAssignedGate();
                 Taxi optimalTaxi = null;
                 int queueSize = int.MaxValue;
                 //Går gjennom alle taxi som er connected til runwayen
                 foreach (Taxi taxi in ConnectedTaxi)
                 {
                     //Sjekker om gaten er connected til taxi
-                    if (taxi.getConnectedGates().Contains(desiredGate))
+                    if (taxi.GetConnectedGates().Contains(desiredGate))
                     {
                         //Hvis den er connected, sjekk køstørrelsen
                         //Hvis 
@@ -72,7 +72,7 @@ namespace AirportSimulation
                         }
                     }
                 }
-                optimalTaxi.addToTaxiQueue(flight);
+                optimalTaxi.AddToTaxiQueue(flight);
             }
 
         }
@@ -82,44 +82,44 @@ namespace AirportSimulation
         /// Adds a taxi object to the list of connected taxiways
         /// </summary>
         /// <param name="taxi"></param>
-        public void addConnectedTaxi(Taxi taxi)
+        public void AddConnectedTaxi(Taxi taxi)
         {
             ConnectedTaxi.Add(taxi);
         }
 
-        public void addFlightToRunway(Flight flight)
+        public void AddFlightToRunway(Flight flight)
         {
             this.IsAvailable = false;
             FlightOnRunway = flight;
 
         }
 
-        public void setIsAvailable(bool availability)
+        public void SetIsAvailable(bool availability)
         {
             this.IsAvailable=availability;
         }
 
-        public bool getIsAvailable()
+        public bool GetIsAvailable()
         {
             return IsAvailable;
         }
 
-        public void setFlightOnRunway(Flight flight)
+        public void SetFlightOnRunway(Flight flight)
         {
             FlightOnRunway = flight;
         }
 
-        public Flight getFlightOnRunway()
+        public Flight GetFlightOnRunway()
         {
             return FlightOnRunway;
         }
 
-        public string getRunwayName()
+        public string GetRunwayName()
         {
             return this.RunwayName;
         }
 
-        public Queue<Flight> getRunwayQueue()
+        public Queue<Flight> GetRunwayQueue()
         {
             return this.RunwayQueue;
         }

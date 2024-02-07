@@ -12,11 +12,11 @@ namespace AirportSimApp
 
             Flight newFlight = new Flight("Daily123", "Gatwick", new DateTime(2022, 2, 15), 15, 30, Direction.Incoming, gardermoen);
             //Flight newFlight2 = new Flight("Weekly321", "Gatwick", new DateTime(2022, 2, 15), 17, 00, Direction.Outgoing, gardermoen);
-            newFlight.setFlightFrequency(Frequency.Daily);
+            newFlight.SetFlightFrequency(Frequency.Daily);
             //newFlight2.setFlightFrequency(Frequency.Weekly);
-            gardermoen.addFlight(newFlight);
+            gardermoen.AddFlight(newFlight);
             //gardermoen.addFlight(newFlight2);
-            simulering.simulateTime(simulering, gardermoen, new DateTime(2022, 2, 14), new DateTime(2022, 2, 16));
+            simulering.SimulateTime(simulering, gardermoen, new DateTime(2022, 2, 14), new DateTime(2022, 2, 16));
 
         }
     }
