@@ -33,49 +33,49 @@ namespace AirportSimulation
         /// Method to add a runway to this airport
         /// </summary>
         /// <param name="name"></param>
-        Runway addRunway(string name);
+        Runway AddRunway(string name);
         
         /// <summary>
         /// Method to add a taxi to this airport
         /// </summary>
         /// <param name="name"></param>
-        Taxi addTaxi(string name);
+        Taxi AddTaxi(string name);
         
         /// <summary>
         /// Method to add a terminal to this airport
         /// </summary>
         /// <param name="name"></param>
-        Terminal addTerminal(string name);
+        Terminal AddTerminal(string name);
         
         /// <summary>
         /// Method to add a flight to this airport
         /// </summary>
-        void addFlight(Flight flight);
+        void AddFlight(Flight flight);
 
 
         /// <summary>
         /// Gets the name of the airport.
         /// </summary>
         /// <returns>A string containing the name of the airport.</returns>
-        string getAirportName();
+        string GetAirportName();
 
         /// <summary>
         /// Retrieves all taxis available at the airport.
         /// </summary>
         /// <returns>A list of <see cref="Taxi"/> objects representing all taxis at the airport.</returns>
-        List<Taxi> getAllTaxis();
+        List<Taxi> GetAllTaxis();
 
         /// <summary>
         /// Retrieves all runways at the airport.
         /// </summary>
         /// <returns>A list of <see cref="Runway"/> objects representing all runways at the airport.</returns>
-        List<Runway> getAllRunways();
+        List<Runway> GetAllRunways();
 
         /// <summary>
         /// Retrieves all flights associated with the airport.
         /// </summary>
         /// <returns>A list of <see cref="Flight"/> objects representing all flights.</returns>
-        List<Flight> getAllFlights();
+        List<Flight> GetAllFlights();
 
 
 

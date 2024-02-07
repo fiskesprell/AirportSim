@@ -48,21 +48,21 @@ namespace AirportSimulation
         public Airport(string airportName, string terminalName, string taxiName, string runwayName, string gateName)
         {
             this.AirportName = airportName;
-            Terminal terminal = addTerminal(terminalName);
+            Terminal terminal = AddTerminal(terminalName);
             //terminal.setIsInternational(true);
-            Taxi taxi = addTaxi(taxiName);
-            Runway runway = addRunway(runwayName);
-            Gate gate = terminal.addGate(gateName);
-            gate.addTaxi(taxi);
-            taxi.addConnectedGate(gate);
-            taxi.addConnectedRunway(runway);
-            runway.addConnectedTaxi(taxi);
+            Taxi taxi = AddTaxi(taxiName);
+            Runway runway = AddRunway(runwayName);
+            Gate gate = terminal.AddGate(gateName);
+            gate.AddTaxi(taxi);
+            taxi.AddConnectedGate(gate);
+            taxi.AddConnectedRunway(runway);
+            runway.AddConnectedTaxi(taxi);
         }
 
         /// <summary>
         /// Calls the terminal constructor and adds the resulting object to the list of terminals
         /// </summary>
-        public Terminal addTerminal(string name)
+        public Terminal AddTerminal(string name)
         {
             Terminal newTerminal = new Terminal(name);
             AllTerminals.Add(newTerminal);
@@ -72,7 +72,7 @@ namespace AirportSimulation
         /// <summary>
         /// Calls the runway constructor and adds the resulting object to the list of runways
         /// </summary>
-        public Runway addRunway(string name)
+        public Runway AddRunway(string name)
         {
             Runway newRunway = new Runway(name);
             AllRunways.Add(newRunway);
@@ -82,71 +82,79 @@ namespace AirportSimulation
         /// <summary>
         /// Calls the taxi constructor and adds the resulting object to the list of taxiways
         /// </summary>
-        public Taxi addTaxi(string name)
+        public Taxi AddTaxi(string name)
         {
             Taxi newTaxi = new Taxi(name);
             AllTaxis.Add(newTaxi);
             return newTaxi;
         }
 
-        public void addFlight(Flight flight)
+        public void AddFlight(Flight flight)
         {
             this.AllFlights.Add(flight);
         }
 
-        public List<Flight> getAllFlights()
+        public List<Flight> GetAllFlights()
         {
             return this.AllFlights;
         }
 
-        public List<Runway> getAllRunways()
+        public List<Runway> GetAllRunways()
         {
             return AllRunways;
         }
 
-        public List<Taxi> getAllTaxis()
+        public List<Taxi> GetAllTaxis()
         {
             return AllTaxis;
         }
 
-        public List<Terminal> getAllTerminals()
+        public List<Terminal> GetAllTerminals()
         {
             return AllTerminals;
         }
 
-        public DateTime getScheduledStartDate()
+        public DateTime GetScheduledStartDate()
         {
             return ScheduledStartDate;
         }
 
-        public void setScheduledStartDate(DateTime scheduledStartDate)
+        public void SetScheduledStartDate(DateTime scheduledStartDate)
         {
             ScheduledStartDate = scheduledStartDate;
         }
 
-        public DateTime getScheduledEndDate()
+        public DateTime GetScheduledEndDate()
         {
             return ScheduledEndDate;
         }
 
-        public void setScheduledEndDate(DateTime scheduledEndDate)
+        public void SetScheduledEndDate(DateTime scheduledEndDate)
         {
             ScheduledEndDate = scheduledEndDate;
         }
 
-        public string getAirportName()
+        public string GetAirportName()
         {
             return AirportName;
         }
 
-        public void addCompletedFlight(Flight flight)
+        public void AddCompletedFlight(Flight flight)
         {
             this.CompletedFlights.Add(flight);
         }
 
-        public void removeCompletedFlightFromAllFlights(Flight flight)
+        public void RemoveCompletedFlightFromAllFlights(Flight flight)
         {
             this.AllFlights.Remove(flight);
+        }
+
+        public void PrintAllFlights()
+        {
+            foreach(Flight flight in this.AllFlights)
+            {
+                Console.WriteLine($"{flight.GetFlightNumber} - {flight.GetFlightFrequency} - {flight.GetScheduledDay}");
+            }
         }
 
 

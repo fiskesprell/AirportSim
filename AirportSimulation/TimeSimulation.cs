@@ -21,32 +21,32 @@ namespace AirportSimulation
         public TimeSimulation()
         {}
 
-        public void simulateTime(TimeSimulation timeSimulation, Airport airport, DateTime start, DateTime end)
+        public void SimulateTime(TimeSimulation timeSimulation, Airport airport, DateTime start, DateTime end)
         {
             this.StartDate = start;
             this.EndDate = end;
 
             TimeSpan timeDifference = end - start;
 
-            airport.setScheduledStartDate(start);
-            airport.setScheduledEndDate(end);
+            airport.SetScheduledStartDate(start);
+            airport.SetScheduledEndDate(end);
 
             int days = timeDifference.Days +1;
             int hours = timeDifference.Hours;
             int minutes = timeDifference.Minutes+1;
 
             //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
-            if (airport.getAllRunways().Count == 0)
+            if (airport.GetAllRunways().Count == 0)
             {
                 throw new Exception("\n\nException: There are no runways in this airport. Try adding one with airportObject.addRunway(string name).\n");
             }
 
-            else if (airport.getAllTaxis().Count == 0)
+            else if (airport.GetAllTaxis().Count == 0)
             {
                 throw new Exception("\n\nException: There are no Taxiways in this airport. Try adding one with airportObject.addTaxi(string name)\n");
             }
 
-            else if (airport.getAllTerminals().Count == 0)
+            else if (airport.GetAllTerminals().Count == 0)
             {
                 throw new Exception("\n\nException: There are no terminals in this airport. Try adding one with airportObject.addTerminal(string name)\n");
             }
@@ -54,28 +54,28 @@ namespace AirportSimulation
 
             for (int i = 0; i < totalMinutes; i++)
             {
-                if (airport.getAllFlights().Count() > 0)
+                if (airport.GetAllFlights().Count() > 0)
                 {
-                    foreach (var taxi in airport.getAllTaxis())
+                    foreach (var taxi in airport.GetAllTaxis())
                     {
-                        if (taxi.getTaxiQueue().Count() != 0)
+                        if (taxi.GetTaxiQueue().Count() != 0)
                         {
-                            taxi.removeFromTaxiQueue();
+                            taxi.RemoveFromTaxiQueue();
                         }
                     }
 
-                    foreach (var runway in airport.getAllRunways())
+                    foreach (var runway in airport.GetAllRunways())
                     {
-                        if (runway.getRunwayQueue().Count() != 0)
+                        if (runway.GetRunwayQueue().Count() != 0)
                         {
-                            runway.removeFromRunwayQueue();
+                            runway.RemoveFromRunwayQueue();
                         }
                     }
 
-                    foreach (var flight in airport.getAllFlights().ToList())
+                    foreach (var flight in airport.GetAllFlights().ToList())
                     {
                         flight.updateElapsedTime(timeSimulation);
-                        flight.flightSim(airport, timeSimulation);
+                        flight.FlightSim(airport, timeSimulation);
                     }
                 }
 
@@ -101,7 +101,7 @@ namespace AirportSimulation
             }
         }
 
-        public DateTime getStartDate()
+        public DateTime GetStartDate()
         {
             return this.StartDate;
         }

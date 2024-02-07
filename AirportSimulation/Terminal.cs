@@ -8,7 +8,6 @@ namespace AirportSimulation
 {
     public class Terminal
     {
-        // Instance Variables
         /// <summary>
         /// The name of your Terminal.
         /// </summary>
@@ -33,39 +32,31 @@ namespace AirportSimulation
             this.TerminalName = TerminalName;
         }
 
-        //Legge til en gate i terminalen. Lurer på om vi skal kalle på Gate konstruktøren i denne 
-        //metoden slik at folk ikke trenger å lage et gate objekt for deretter å legge til?
-
         /// <summary>
         /// Creates agte object and adds it to this terminal
         /// </summary>
         /// <param name=""></param>
-        public Gate addGate(string name)
+        public Gate AddGate(string name)
         {
             Gate newGate = new Gate(name);
             ConnectedGates.Add(newGate);
-            Console.WriteLine("Terminalen " + TerminalName + " har fått tildelt gate " + newGate.getGateName());
+            Console.WriteLine("Terminalen " + TerminalName + " har fått tildelt gate " + newGate.GetGateName());
             return newGate;
         }
 
-        public List<Gate> getConnectedGates()
+        public List<Gate> GetConnectedGates()
         {
             return ConnectedGates;
         }
 
-        public bool getIsInternational() 
+        public bool GetIsInternational() 
         { 
             return IsInternational; 
         }
 
-        public void setIsInternational(bool isInternational)
+        public void SetIsInternational(bool isInternational)
         {
             IsInternational = isInternational;
         }
-
-        // Legge til noe for sikkerhetsjekk, spesielt hvis det er utland?
-
-
-        // Passjekk for utland?
     }
 }

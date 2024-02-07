@@ -82,7 +82,7 @@
         // Legge til et taxi object i listen over taxi som er tilkoblet gaten
         // Da kan vi bruke disse listene til å holde styr på hvor fly kan kjøre
 
-        public void addTaxi(Taxi taxi)
+        public void AddTaxi(Taxi taxi)
         {
             _connectedTaxis.Add(taxi);
         }
@@ -93,7 +93,7 @@
         /// Adds a licence to a specific gate
         /// </summary>
         /// <param name="licence"></param>
-        public void addLicence(GateLicence licence) 
+        public void AddLicence(GateLicence licence) 
         {
             Licence |= licence;
         }
@@ -103,7 +103,7 @@
         /// Removes a specific licence from a specific gate
         /// </summary>
         /// <param name="licence"></param>
-        public void removeLicence(GateLicence licence)
+        public void RemoveLicence(GateLicence licence)
         {
             Licence &= ~licence;
         }
@@ -112,7 +112,7 @@
         /// <summary>
         /// Removes all licences from a specific gate
         /// </summary>
-        public void removeAllLicences()
+        public void RemoveAllLicences()
         {
             Licence = GateLicence.None;
         }
@@ -124,14 +124,14 @@
         public void transferFlightToTaxi(Flight flight)
         {
             //Sjekker om lista er tom først
-            flight.getDesiredTaxi().addToTaxiQueue(flight);
-            flight.setIsTraveling(true);
+            flight.GetDesiredTaxi().AddToTaxiQueue(flight);
+            flight.SetIsTraveling(true);
         }
 
         /// <summary>
         /// Get method for GateName. This will return a string
         /// </summary>
-        public string getGateName()
+        public string GetGateName()
         {
             return GateName;
         }
@@ -139,7 +139,7 @@
         /// <summary>
         /// Get method for ConnectedTaxi. This will return a list of taxi objects
         /// </summary>
-        public List<Taxi> getConnectedTaxis()
+        public List<Taxi> GetConnectedTaxis()
         {
             return ConnectedTaxis;
         }
@@ -147,7 +147,7 @@
         /// <summary>
         /// Get method for IsAvailable. This will return a bool
         /// </summary>
-        public bool getIsAvailable()
+        public bool GetIsAvailable()
         {
             return IsAvailable;
         }
@@ -155,7 +155,7 @@
         /// <summary>
         /// Set method for IsAvailable. This will change the value of IsAvailable
         /// </summary>
-        public void setIsAvailable(bool status)
+        public void SetIsAvailable(bool status)
         {
             IsAvailable = status;
         }
@@ -163,12 +163,12 @@
         /// <summary>
         /// Get method for CurrentHolder. This will return a flight object
         /// </summary>
-        public Flight getCurrentHolder()
+        public Flight GetCurrentHolder()
         {
             return CurrentHolder;
         }
 
-        public void setCurrentHolder(Flight flight)
+        public void SetCurrentHolder(Flight flight)
         {
             CurrentHolder = flight;
         }
@@ -176,14 +176,14 @@
         /// <summary>
         /// Get method GateLicence. This will return an enumvalue
         /// </summary>
-        public GateLicence getGateLicence()
+        public GateLicence GetGateLicence()
         {
             return Licence;
         }
 
-        public bool checkGateLicence(Flight flight)
+        public bool CheckGateLicence(Flight flight)
         {
-            FlightType flighttype = flight.getFlightType();
+            FlightType flighttype = flight.GetFlightType();
             if ((this.Licence & (GateLicence)flighttype) == this.Licence)
             {
                 return true;
