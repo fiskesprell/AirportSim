@@ -9,18 +9,48 @@ using System.Threading.Tasks;
 
 namespace AirportSimulation
 {
+
+    /// <summary>
+    /// Manages the simulation of time within an airport context, tracking elapsed time and simulating events within a specified period.
+    /// </summary>
     public class TimeSimulation
     {
+
+        /// <summary>
+        /// The number of days that have elapsed in the simulation.
+        /// </summary>
         public int ElapsedDays { get; set; } = 0;
+
+        /// <summary>
+        /// The number of hours that have elapsed in the simulation.
+        /// </summary>
         public int ElapsedHours { get; set; } = 0;
+
+        /// <summary>
+        /// The number of minutes that have elapsed in the simulation.
+        /// </summary>
         public int ElapsedMinutes { get; set; } = 0;
 
+        /// <summary>
+        /// The starting date and time for the simulation.
+        /// </summary>
         public DateTime StartDate { get; set; }
+
+        /// <summary>
+        /// The ending date and time for the simulation.
+        /// </summary>
         public DateTime EndDate { get; set; }
 
         public TimeSimulation()
         {}
 
+        /// <summary>
+        /// Simulates the time running in an airport, processing events from a start date to an end date in DateTime format.
+        /// </summary>
+        /// <param name="timeSimulation">The TimeSimulation instance.</param>
+        /// <param name="airport">The airport to simulate.</param>
+        /// <param name="start">The start date and time of the simulation.</param>
+        /// <param name="end">The end date and time of the simulation.</param>
         public void SimulateTime(TimeSimulation timeSimulation, Airport airport, DateTime start, DateTime end)
         {
             this.StartDate = start;
@@ -101,6 +131,10 @@ namespace AirportSimulation
             }
         }
 
+        /// <summary>
+        /// Retrieves the start date of the simulation.
+        /// </summary>
+        /// <returns>The start date.</returns>
         public DateTime GetStartDate()
         {
             return this.StartDate;

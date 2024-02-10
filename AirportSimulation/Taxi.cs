@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace AirportSimulation
 {
+
+    /// <summary>
+    /// Represents a taxiway, managing connected gates, runways, and the queue of flights.
+    /// </summary>
     public class Taxi
     {
         /// <summary>
-        /// The name of your Taxiway.
+        /// The name of the taxiway.
         /// </summary>
         public string TaxiName { get; set; }
         /// <summary>
@@ -31,10 +35,11 @@ namespace AirportSimulation
         /// </summary>
         public bool IsAvailable { get; set; } = true;
 
+
         /// <summary>
-        /// Constructor for making a taxiway
+        /// Initializes a new instance of the Taxi class.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">The name of the taxiway, typically A-Z.</param>
         public Taxi(string name)
         {
             TaxiName = name;
@@ -44,7 +49,7 @@ namespace AirportSimulation
         /// <summary>
         /// This adds a flight to the taxi queue.
         /// </summary>
-        /// <param name="flight"></param>
+        /// <param name="flight">Flight</param>
         public void AddToTaxiQueue(Flight flight)
         {
             if (flight.GetDirection() == Direction.Outgoing)
@@ -114,7 +119,7 @@ namespace AirportSimulation
         /// <summary>
         /// Adds a gate to the list of connected gates
         /// </summary>
-        /// <param name="gate"></param>
+        /// <param name="gate">Gate to connect</param>
         public void AddConnectedGate(Gate gate)
         {
             ConnectedGates.Add(gate);
@@ -147,21 +152,36 @@ namespace AirportSimulation
             ConnectedRunways.Remove(runway);
         }
 
+        /// <summary>
+        /// Gets the gates connected to this taxiway.
+        /// </summary>
+        /// <returns>List of connected gates.</returns>
         public List<Gate> GetConnectedGates()
         {
             return ConnectedGates;
         }
-
+        /// <summary>
+        /// Gets the runways connected to this taxiway.
+        /// </summary>
+        /// <returns>List of connected runways.</returns>
         public List<Runway> GetConnectedRunways()
         {
             return ConnectedRunways;
         }
 
+        /// <summary>
+        /// Returns the name of the taxiway.
+        /// </summary>
+        /// <returns>The taxiway name.</returns>
         public string GetTaxiName()
         {
             return this.TaxiName;
         }
 
+        /// <summary>
+        /// Gets the queue of flights for this taxiway.
+        /// </summary>
+        /// <returns>The queue of flights.</returns>
         public Queue<Flight> GetTaxiQueue()
         {
             return this.TaxiQueue;
