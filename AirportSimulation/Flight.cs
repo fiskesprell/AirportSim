@@ -756,8 +756,9 @@ namespace AirportSimulation
 
 
         /// <summary>
-        /// Get method for the FlightStatus of a flight
+        /// Gets the FlightStatus of a flight
         /// </summary>
+        /// <returns>AssignedGate</returns>
         public FlightStatus GetStatus()
         {
 
@@ -765,81 +766,115 @@ namespace AirportSimulation
         }
 
         /// <summary>
-        /// Get method for AssignedGate. This will return a gate object
+        /// Gets the AssignedGate.
         /// </summary>
         public Gate GetAssignedGate()
         {
             return AssignedGate;
         }
-
+        /// <summary>
+        /// Sets the AssignedGate of a flight
+        /// </summary>
         public void SetAssignedGate(Gate gate)
         {
             AssignedGate = gate;
         }
 
         /// <summary>
-        /// Get method IsInternational. This will return a bool value
+        /// Gets IsInternational-status of a flight. True if international, false if domestic.
         /// </summary>
         public bool GetIsInternational()
         {
             return this.IsInternational;
         }
-
+        /// <summary>
+        /// Gets the direction of a flight
+        /// </summary>
+        /// <returns>AssignedGate</returns>
         public Direction GetDirection()
         {
             return this.FlightDirection;
         }
-
+        /// <summary>
+        /// Sets the desired taxi of a flight
+        /// </summary>
+        /// <returns>AssignedGate</returns>
         public void SetDesiredTaxi(Taxi taxi)
         {
             DesiredTaxi = taxi;
         }
-
+        /// <summary>
+        /// Gets the desired of a flight
+        /// </summary>
+        /// <returns>Desired taxi</returns>
         public Taxi GetDesiredTaxi()
         {
             return DesiredTaxi;
         }
-
+        /// <summary>
+        /// Sets the desired runway of a flight
+        /// </summary>
         public void SetDesiredRunway(Runway runway)
         {
             DesiredRunway = runway;
         }
-
+        /// <summary>
+        /// Gets the desired runway of a flight
+        /// </summary>
+        /// <returns>Desired runway</returns>
         public Runway GetDesiredRunway()
         {
             return DesiredRunway;
         }
-
+        /// <summary>
+        /// Gets the frequencyof a flight
+        /// </summary>
+        /// <returns>Frequency of flight</returns>
         public Frequency GetFlightFrequency()
         {
             return this.Frequency;
         }
-
+        /// <summary>
+        /// Sets the frequency of a flight
+        /// </summary>
         public void SetFlightFrequency(Frequency frequency)
         {
             this.Frequency = frequency;
         }
-
+        /// <summary>
+        /// Sets the company of a flight
+        /// </summary>
         public void SetCompany(string name)
         {
             this.Company = name;
         }
-
+        /// <summary>
+        /// Gets the company of a flight
+        /// </summary>
+        /// <returns>Company</returns>
         public string GetCompany()
         {
             return this.Company;
         }
-
+        /// <summary>
+        /// Sets the type of a flight
+        /// </summary>
         public void SetFlightType(FlightType flightType)
         {
             this.FlightType = flightType;
         }
-
+        /// <summary>
+        /// Gets the type of a flight
+        /// </summary>
+        /// <returns>FlightType</returns>
         public FlightType GetFlightType()
         {
             return this.FlightType;
         }
-
+        /// <summary>
+        /// Starts departure preparations by changing flight status. Logging the event is handled here if enabled.
+        /// </summary>
+        /// <returns>AssignedGate</returns>
         public void StartDeparturePrep()
         {
             this.SetStatus(FlightStatus.Boarding);
@@ -859,7 +894,9 @@ namespace AirportSimulation
                 
             }
         }   
-
+        /// <summary>
+        /// Starts flight departure and logs if enabled.
+        /// </summary>
         public void StartDeparting()
         {
             this.SetStatus(FlightStatus.Departing);
@@ -884,36 +921,65 @@ namespace AirportSimulation
             }
         }
 
+
+        /// <summary>
+        /// Gets the traveling status of a flight.
+        /// </summary>
+        /// <returns>True if the flight is currently traveling. Otherwise false.</returns>
         public bool GetIsTraveling()
         {
             return this.IsTraveling;
         }
 
+        /// <summary>
+        /// Sets the traveling status of a flight.
+        /// </summary>
+        /// <param name="isTraveling">The traveling status to set.</param>
         public void SetIsTraveling(bool isTraveling)
         {
             this.IsTraveling = isTraveling;
         }
 
+        /// <summary>
+        /// Gets the flight number.
+        /// </summary>
+        /// <returns>The flight number as a string.</returns>
         public string GetFlightNumber()
         {
             return this.Number;
         }
 
+        /// <summary>
+        /// Enables or disables logging for the flight.
+        /// </summary>
+        /// <param name="logging">If true, logging is enabled. Otherwise disabled.</param>
         public void SetLogging(bool logging)
         {
             this.Logging = logging;
         }
 
+        /// <summary>
+        /// Gets the log history of the flight.
+        /// </summary>
+        /// <returns>A list of log entries.</returns>
         public List<string> GetLogHistory()
         {
             return this.LogHistory;
         }
 
+        /// <summary>
+        /// Sets the scheduled day of the flight.
+        /// </summary>
+        /// <param name="scheduledDay">The scheduled day to set.</param>
         public void SetScheduledDay(DateTime scheduledDay)
         {
             this.ScheduledDay = scheduledDay;
         }
 
+        /// <summary>
+        /// Sets the flag indicating whether the flight has logged any activity.
+        /// </summary>
+        /// <param name="hasLogged">If true, the flight has logged activity; otherwise, it has not.</param>
         public void SetHasLogged(bool hasLogged)
         {
             this.HasLogged = hasLogged;
@@ -951,7 +1017,9 @@ namespace AirportSimulation
                 }
             }
         }
-
+        /// <summary>
+        /// Method to find taxi for an incoming flight, and set flight status to: Landed.
+        /// </summary>
         public void NEWIncomingFlightPreperation()
         {
             // Dette finner Gate og setter this.AssignedGate = gate
@@ -989,6 +1057,9 @@ namespace AirportSimulation
 
         }
 
+        /// <summary>
+        /// Method to add a flight to desired taxi queue and set flight status: OnWayToGate.
+        /// </summary>
         public void NEWIncomingFlightFromRunwayToTaxi()
         {
             this.DesiredTaxi.AddToTaxiQueue(this);
@@ -1020,7 +1091,9 @@ namespace AirportSimulation
                 }
             }
         }
-
+      /// < summary>
+        /// Method for a flight that has arrived at gate.
+        /// </summary>
         public void NEWIncomingFlightFromTaxiToGate()
         {
             this.SetStatus(FlightStatus.Offloading);
@@ -1052,7 +1125,10 @@ namespace AirportSimulation
 
 
         }
-
+        /// <summary>
+        /// Gets the scheduled day of a flight.
+        /// </summary>
+        /// </returns>ScheduledDay</returns>
         public DateTime GetScheduledDay()
         {
             return this.ScheduledDay;
