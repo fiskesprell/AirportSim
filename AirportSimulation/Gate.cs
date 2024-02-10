@@ -1,7 +1,16 @@
 ﻿namespace AirportSimulation
 {
-    // Ulike typer fly som gates har lov til å ha
-    // Å bruke Flags gjør at det er mulig å ha flere kategorier i stedet for bare 1
+    /// <summary>
+    /// Defines the types of aircraft licenses a gate can have, allowing for multiple categories simultaneously.
+    /// </summary>
+    /// <value>
+    /// None, 0
+    /// Commercial, 1 - Commercial flights allowed.
+    /// Transport, 2 - Transport flights allowed.
+    /// Personal, 4 - Personal flights allowed.
+    /// Military 8 - Military flights allowed.
+    /// </value>
+    /// <remarks>Flags to allow multiple licences</remarks>
     [Flags]
     public enum GateLicence
     {
@@ -13,19 +22,42 @@
     }
 
 
+    /// <summary>
+    /// Manages an airport gate's operations, including the types of aircraft it can accommodate, its availability, and its connection to taxiways. Is also able to be "held" by a Flight object.
+    /// </summary>
     public class Gate
 
     {
 
+        /// <summary>
+        /// Name of the gate, numerical format 0-99.
+        /// </summary>
+        // Format is not implemented with regex or otherwwise. We will discuss whether a new terminal should be preferred, or if devs should be allowed to create infinite gates.
         private string _gateName;
+
+        /// <summary>
+        /// Determines the type of planes allowed to use this gate through licensing.
+        /// </summary>
         private GateLicence _licence = GateLicence.Commercial;
+
+        /// <summary>
+        /// Manages a list of taxiways connected to the gate.
+        /// </summary>
         private List<Taxi> _connectedTaxis = new List<Taxi>();
+
+        /// <summary>
+        /// Indicates whether the gate is currently available for use.
+        /// </summary>
         private bool _isAvailable = true;
+
+        /// <summary>
+        /// Holds information about the flight currently using the gate.
+        /// </summary>
         private Flight _currentHolder;
 
         // Vi må diskutere hva som er logiske standardverdier
         /// <summary>
-        /// The name of your Gate.
+        /// Gets or sets the name of the gate.
         /// </summary>
         public string GateName
         {
@@ -34,8 +66,7 @@
         }
         // TODO: Fiks denne?
         /// <summary>
-        /// This gate's licence. Decides the type of planes allowed to use this gate. <br/>
-        /// Valid values are: None, Commercial, Transport, Personal, Military.
+        /// Gets or sets the licence(s) of the gate.
         /// </summary>
         private GateLicence Licence
         {
@@ -43,7 +74,7 @@
             set => _licence = value;
         }
         /// <summary>
-        /// List of taxiways connected to this gate.
+        /// Gets or sets the taxiways connected to the gate.
         /// </summary>
         private List<Taxi> ConnectedTaxis
         {
@@ -62,7 +93,7 @@
             set => _isAvailable = value;
         }
         /// <summary>
-        /// The flight currently using the gate.
+        /// Gets or sets the  flight currently using the gate.
         /// </summary>
         private Flight CurrentHolder
         {
@@ -125,7 +156,10 @@
         {
             //Sjekker om lista er tom først
             flight.GetDesiredTaxi().AddToTaxiQueue(flight);
-            flight.SetIsTraveling(true);
+            flight.SetIsTraveling(true);    /// <summary>
+    /// Defines the types of aircraft licenses a gate can have, allowing for multiple categories simultaneously.
+    /// </summary>
+    /// <value>
         }
 
         /// <summary>
@@ -181,6 +215,9 @@
             return Licence;
         }
 
+        /// <summary>
+        /// Checks the gate licence compared to the flight type.
+        /// </summary>
         public bool CheckGateLicence(Flight flight)
         {
             FlightType flighttype = flight.GetFlightType();
