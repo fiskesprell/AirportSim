@@ -33,7 +33,7 @@ namespace AirportSimulation
     /// Incoming - Flight arriving at the airport.
     /// Outgoing - Flight departing from the airport.
     //∕ Other - Flight heading elsewhere, i.e. maintenance, storage hangar.
-    </value>
+    ///</value>
     public enum Direction
     {
         Incoming,
