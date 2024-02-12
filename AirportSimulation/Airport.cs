@@ -219,6 +219,18 @@ namespace AirportSimulation
             }
         }
 
-
+        /// <summary>
+        /// Creates a new Taxi and Gate. These need to be connected and are therefore put in the same method.
+        /// The new Gate is connected to the Taxi, and the taxi is then added to AllTaxis.
+        /// </summary>
+        /// <param name="gateName">The name of your gate</param>
+        /// <param name="taxiName">The name of your taxi</param>
+        public void AddNewConnectedGateAndTaxi(String gateName, String taxiName)
+        {
+            Taxi newTaxi = new Taxi(taxiName);
+            Gate newGate = new Gate(gateName);
+            newTaxi.AddConnectedGate(newGate);
+            AllTaxis.Add(newTaxi);
+        }
     }
 }

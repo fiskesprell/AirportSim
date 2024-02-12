@@ -73,25 +73,43 @@ namespace AirportSimApp
             newFlight19.SetFlightType(FlightType.Commercial);
 
             // add flights
-            gardermoen.AddFlight(newFlight1);
-            gardermoen.AddFlight(newFlight2);
-            gardermoen.AddFlight(newFlight3);
-            gardermoen.AddFlight(newFlight4);
-            gardermoen.AddFlight(newFlight5);
-            gardermoen.AddFlight(newFlight6);
-            gardermoen.AddFlight(newFlight7);
-            gardermoen.AddFlight(newFlight8);
-            gardermoen.AddFlight(newFlight9);
-            gardermoen.AddFlight(newFlight10);
-            gardermoen.AddFlight(newFlight11);
-            gardermoen.AddFlight(newFlight12);
-            gardermoen.AddFlight(newFlight13);
-            gardermoen.AddFlight(newFlight14);
-            gardermoen.AddFlight(newFlight15);
-            gardermoen.AddFlight(newFlight16);
-            gardermoen.AddFlight(newFlight17);
-            gardermoen.AddFlight(newFlight18);
-            gardermoen.AddFlight(newFlight19);
+            gardermoen.AddNewFlight(newFlight1);
+            gardermoen.AddNewFlight(newFlight2);
+            gardermoen.AddNewFlight(newFlight3);
+            gardermoen.AddNewFlight(newFlight4);
+            gardermoen.AddNewFlight(newFlight5);
+            gardermoen.AddNewFlight(newFlight6);
+            gardermoen.AddNewFlight(newFlight7);
+            gardermoen.AddNewFlight(newFlight8);
+            gardermoen.AddNewFlight(newFlight9);
+            gardermoen.AddNewFlight(newFlight10);
+            gardermoen.AddNewFlight(newFlight11);
+            gardermoen.AddNewFlight(newFlight12);
+            gardermoen.AddNewFlight(newFlight13);
+            gardermoen.AddNewFlight(newFlight14);
+            gardermoen.AddNewFlight(newFlight15);
+            gardermoen.AddNewFlight(newFlight16);
+            gardermoen.AddNewFlight(newFlight17);
+            gardermoen.AddNewFlight(newFlight18);
+            gardermoen.AddNewFlight(newFlight19);
+
+
+            // Add Terminal
+            gardermoen.AddNewTerminal("SillyTerminal");
+            gardermoen.AddNewTaxi("sillygame");
+            gardermoen.AddNewRunway("sillyRunway");
+            gardermoen.AddNewConnectedGateAndTaxi("Silly", "Goblin");
+            
+            // Add Taxi
+
+
+            // add Runway
+
+
+            // add Gate
+
+
+
 
             simulering.SimulateTime(simulering, gardermoen, new DateTime(2022, 2, 14), new DateTime(2022, 2, 25));
 
