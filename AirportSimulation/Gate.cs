@@ -101,6 +101,9 @@
             set => _currentHolder = value;
         }
 
+        /// <summary>
+        /// Constructor for making a gate
+        /// </summary>
         public Gate() { }
 
         /// <summary>
@@ -230,6 +233,10 @@
             return false;
         }
 
+        /// <summary>
+        /// Adds the gateobject to the list of gates for the terminal passed as an argument
+        /// </summary>
+        /// <param name="terminal"></param>
         public void AddGateToTerminal(Terminal terminal)
         {
             terminal.AddExistingGate(this);

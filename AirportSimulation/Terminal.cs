@@ -36,9 +36,9 @@ namespace AirportSimulation
         /// Initializes a new instance of the Terminal class.
         /// </summary>
         /// <param name="TerminalName">The name for the terminal.</param>
-        public Terminal(string TerminalName)
+        public Terminal(string terminalName)
         {
-            this.TerminalName = TerminalName;
+            this.TerminalName = terminalName;
         }
 
         /// <summary>
@@ -53,6 +53,10 @@ namespace AirportSimulation
             return newGate;
         }
 
+        /// <summary>
+        /// Adds a gateobject to the list of gates for this terminal
+        /// </summary>
+        /// <param name="gate"></param>
         public void AddExistingGate(Gate gate)
         {
             ConnectedGates.Add(gate);
