@@ -585,7 +585,7 @@ namespace AirportSimulation
                     }
                     if (!foundGateLicence)
                     {
-                        throw new Exception($"\n\nException: You tried to simulate time for a flight with the FlightType: {this.FlightType}. There are no gates that have a licence for the assigned FlightType. Try adding more gates and add a licence for that FlightType or edit existing gates with addLicence()\n");
+
                     }
                 }
                 
