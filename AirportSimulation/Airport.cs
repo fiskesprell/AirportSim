@@ -222,6 +222,10 @@ namespace AirportSimulation
         /// <summary>
         /// Creates a new Taxi and Gate. These need to be connected and are therefore put in the same method.
         /// The new Gate is connected to the Taxi, and the taxi is then added to AllTaxis.
+        /// An alternative to using this method to create a new gate would be to use airport.GetAllTerminals() 
+        /// to get a list of find all terminals, create a new Gate object, 
+        /// then loop through the list of terminals to find one you want to add it to by using
+        /// terminal.AddConnectedGate().
         /// </summary>
         /// <param name="gateName">The name of your gate</param>
         /// <param name="taxiName">The name of your taxi</param>
