@@ -104,10 +104,15 @@
         /// <summary>
         /// Constructor for making a gate
         /// </summary>
-        public Gate(string name)
+        public Gate() { }
+
+        /// <summary>
+        /// Constructor for making a gate
+        /// </summary>
+        public Gate(string gateName)
         {
-            GateName = name;
-            Console.WriteLine("Gate " + name + " har blitt opprettet");
+            GateName = gateName;
+            Console.WriteLine("Gate " + gateName + " har blitt opprettet");
         }
 
         // Legge til et taxi object i listen over taxi som er tilkoblet gaten
@@ -226,6 +231,15 @@
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Adds the gateobject to the list of gates for the terminal passed as an argument
+        /// </summary>
+        /// <param name="terminal"></param>
+        public void AddGateToTerminal(Terminal terminal)
+        {
+            terminal.AddExistingGate(this);
         }
 
 

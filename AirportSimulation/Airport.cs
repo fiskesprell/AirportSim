@@ -42,7 +42,13 @@ namespace AirportSimulation
         /// Gets and sets the scheduled end date
         /// </summary>
         private DateTime ScheduledEndDate { get; set; }
-            
+
+        public Airport() { }
+
+        public Airport(string airportName)
+        {
+            this.AirportName = airportName;
+        }
 
         /// <summary>
         /// Constructor for making an airport
@@ -51,11 +57,11 @@ namespace AirportSimulation
         public Airport(string airportName, string terminalName, string taxiName, string runwayName, string gateName)
         {
             this.AirportName = airportName;
-            Terminal terminal = AddTerminal(terminalName);
+            Terminal terminal = AddNewTerminal(terminalName);
             //terminal.setIsInternational(true);
-            Taxi taxi = AddTaxi(taxiName);
-            Runway runway = AddRunway(runwayName);
-            Gate gate = terminal.AddGate(gateName);
+            Taxi taxi = AddNewTaxi(taxiName);
+            Runway runway = AddNewRunway(runwayName);
+            Gate gate = terminal.AddNewGate(gateName);
             gate.AddTaxi(taxi);
             taxi.AddConnectedGate(gate);
             taxi.AddConnectedRunway(runway);
@@ -65,36 +71,63 @@ namespace AirportSimulation
         /// <summary>
         /// Calls the terminal constructor and adds the resulting object to the list of terminals
         /// </summary>
-        public Terminal AddTerminal(string name)
+        public Terminal AddNewTerminal(string terminalName)
         {
-            Terminal newTerminal = new Terminal(name);
+            Terminal newTerminal = new Terminal(terminalName);
             AllTerminals.Add(newTerminal);
             return newTerminal;
         }
 
         /// <summary>
+        /// Adds a terminalobject to the list of terminals
+        /// </summary>
+        /// <param name="terminal"></param>
+        public void AddExistingTerminal(Terminal terminal)
+        {
+            AllTerminals.Add(terminal);
+        }
+
+        /// <summary>
         /// Calls the runway constructor and adds the resulting object to the list of runways
         /// </summary>
-        public Runway AddRunway(string name)
+        public Runway AddNewRunway(string runwayName)
         {
-            Runway newRunway = new Runway(name);
+            Runway newRunway = new Runway(runwayName);
             AllRunways.Add(newRunway);
             return newRunway;
         }
 
         /// <summary>
-        /// Adds a taxi object to the airport
+        /// Adds a runwayobject to the list of runways
         /// </summary>
-        public Taxi AddTaxi(string name)
+        /// <param name="runway"></param>
+        public void AddExistingRunway(Runway runway)
         {
-            Taxi newTaxi = new Taxi(name);
+            AllRunways.Add(runway);
+        }
+
+        /// <summary>
+        /// Call the taxi constructor and adds the resulting object taxi object to the list of taxis
+        /// </summary>
+        public Taxi AddNewTaxi(string taxiName)
+        {
+            Taxi newTaxi = new Taxi(taxiName);
             AllTaxis.Add(newTaxi);
             return newTaxi;
+        }
+
+        /// <summary>
+        /// Adds a taxiobject to the list of taxis
+        /// </summary>
+        /// <param name="taxi"></param>
+        public void AddExistingTaxi(Taxi taxi)
+        {
+            AllTaxis.Add(taxi);
         }
         /// <summary>
         /// Adds a flight object to the airport
         /// </summary>
-        public void AddFlight(Flight flight)
+        public void AddNewFlight(Flight flight)
         {
             this.AllFlights.Add(flight);
         }

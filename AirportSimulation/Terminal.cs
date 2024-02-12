@@ -30,25 +30,36 @@ namespace AirportSimulation
         /// </summary>
         private List<Gate> ConnectedGates = new List<Gate>();
 
+        public Terminal() { }
+
         /// <summary>
         /// Initializes a new instance of the Terminal class.
         /// </summary>
         /// <param name="TerminalName">The name for the terminal.</param>
-        public Terminal(string TerminalName)
+        public Terminal(string terminalName)
         {
-            this.TerminalName = TerminalName;
+            this.TerminalName = terminalName;
         }
 
         /// <summary>
         /// Creates gate object and adds it to this terminal
         /// </summary>
         /// <param name=""></param>
-        public Gate AddGate(string name)
+        public Gate AddNewGate(string name)
         {
             Gate newGate = new Gate(name);
             ConnectedGates.Add(newGate);
             Console.WriteLine("Terminalen " + TerminalName + " har fått tildelt gate " + newGate.GetGateName());
             return newGate;
+        }
+
+        /// <summary>
+        /// Adds a gateobject to the list of gates for this terminal
+        /// </summary>
+        /// <param name="gate"></param>
+        public void AddExistingGate(Gate gate)
+        {
+            ConnectedGates.Add(gate);
         }
 
         /// <summary>
