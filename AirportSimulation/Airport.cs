@@ -71,9 +71,9 @@ namespace AirportSimulation
         /// <summary>
         /// Calls the terminal constructor and adds the resulting object to the list of terminals
         /// </summary>
-        public Terminal AddNewTerminal(string name)
+        public Terminal AddNewTerminal(string terminalName)
         {
-            Terminal newTerminal = new Terminal(name);
+            Terminal newTerminal = new Terminal(terminalName);
             AllTerminals.Add(newTerminal);
             return newTerminal;
         }
@@ -90,9 +90,9 @@ namespace AirportSimulation
         /// <summary>
         /// Calls the runway constructor and adds the resulting object to the list of runways
         /// </summary>
-        public Runway AddNewRunway(string name)
+        public Runway AddNewRunway(string runwayName)
         {
-            Runway newRunway = new Runway(name);
+            Runway newRunway = new Runway(runwayName);
             AllRunways.Add(newRunway);
             return newRunway;
         }
@@ -109,9 +109,9 @@ namespace AirportSimulation
         /// <summary>
         /// Call the taxi constructor and adds the resulting object taxi object to the list of taxis
         /// </summary>
-        public Taxi AddNewTaxi(string name)
+        public Taxi AddNewTaxi(string taxiName)
         {
-            Taxi newTaxi = new Taxi(name);
+            Taxi newTaxi = new Taxi(taxiName);
             AllTaxis.Add(newTaxi);
             return newTaxi;
         }

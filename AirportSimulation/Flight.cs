@@ -187,17 +187,17 @@ namespace AirportSimulation
         /// Creates a flight. Not the same as creating an aircraft. Needs a flightnumber, date and time of arrival/departure,
         /// direction of flight (incoming, outgoing or other) and an airport object (the airport it is either arriving to or departing from).
         /// </summary>
-        /// <param name="number">Flight number. Commonly looks like "WN417".</param>
+        /// <param name="flightNumber">Flight number. Commonly looks like "WN417".</param>
         /// <param name="destination">Name of Airport the flight is going to.</param>
         /// <param name="travelDay">The date of departure.</param>
-        /// <param name="hour">The hour of the departure. Follows the 24-hour clock. Putting 18 here means the flight leaves at 6PM (18:XX).</param>
-        /// <param name="minute">The minute of the departure. Putting 30 here means the flight will leave at XX:30.</param>
+        /// <param name="travelHour">The hour of the departure. Follows the 24-hour clock. Putting 18 here means the flight leaves at 6PM (18:XX).</param>
+        /// <param name="travelMinute">The minute of the departure. Putting 30 here means the flight will leave at XX:30.</param>
         /// <param name="direction">Either <c>Direction.Outgoing</c> or <c>Direction.Incoming</c>. </param>
         /// <param name="airport">The Airport to which the flight belongs.</param>
         /// <exception cref="ArgumentException"></exception>
-        public Flight(string number, string destination, DateTime travelDay, int hour, int minute, Direction direction, Airport airport)
+        public Flight(string flightNumber, string destination, DateTime travelDay, int travelHour, int travelMinute, Direction direction, Airport airport)
         {
-            this.Number = number;
+            this.Number = flightNumber;
             this.Destination = destination;
             this.CurrentAirport = airport;
 
@@ -209,14 +209,14 @@ namespace AirportSimulation
                 if (this.FlightDirection == Direction.Outgoing)
                 {
                     this.ScheduledDay = travelDay;
-                    this.ScheduledHour = hour;
-                    this.ScheduledMinutes = minute;
+                    this.ScheduledHour = travelHour;
+                    this.ScheduledMinutes = travelMinute;
                 }
                 else
                 {
                     this.ScheduledDay = travelDay;
-                    this.ScheduledHour = hour;
-                    this.ScheduledMinutes = minute;
+                    this.ScheduledHour = travelHour;
+                    this.ScheduledMinutes = travelMinute;
                 }
             }
             else
@@ -229,25 +229,25 @@ namespace AirportSimulation
         /// <summary>
         /// Overload of a flight with additional parameters.
         /// </summary>
-        /// <param name="number">Flight number. Commonly looks like "WN417".</param>
+        /// <param name="flightNumber">Flight number. Commonly looks like "WN417".</param>
         /// <param name="destination">Name of Airport the flight is going to.</param>
         /// <param name="travelDay">The date of departure.</param>
-        /// <param name="hour">The hour of the departure. Follows the 24-hour clock. Putting 18 here means the flight leaves at 6PM (18:XX).</param>
-        /// <param name="minute">The minute of the departure. Putting 30 here means the flight will leave at XX:30.</param>
+        /// <param name="travelHour">The hour of the departure. Follows the 24-hour clock. Putting 18 here means the flight leaves at 6PM (18:XX).</param>
+        /// <param name="travelMinute">The minute of the departure. Putting 30 here means the flight will leave at XX:30.</param>
         /// <param name="direction">Either <c>Direction.Outgoing</c>, <c>Direction.Incoming</c> or <c>Direction.Other</c> </param>
         /// <param name="airport">The Airport to which the flight belongs.</param>
         /// <param name="isInternational">Indicates whether the flight is international.</param>
         /// <param name="flightType">Specifies the type of flight, as defined in the <c>FlightType</c> enum.</param>
         /// <param name="frequency">Defines the frequency of the flight, such as one-time, daily, or weekly, as specified in the <c>Frequency</c> enum.</param>
         /// <param name="company">The name of the company operating the flight.</param>
-        public Flight(string number, string destination, DateTime travelDay, int hour, int minute, Direction direction, Airport airport, bool isInternational, FlightType flightType, Frequency frequency, string company)
+        public Flight(string flightNumber, string destination, DateTime travelDay, int travelHour, int travelMinute, Direction direction, Airport airport, bool isInternational, FlightType flightType, Frequency frequency, string company)
         {
-            this.Number = number;
+            this.Number = flightNumber;
             this.Destination = destination;
             this.CurrentAirport = airport;
             this.ScheduledDay = travelDay;
-            this.ScheduledHour = hour;
-            this.ScheduledMinutes = minute;
+            this.ScheduledHour = travelHour;
+            this.ScheduledMinutes = travelMinute;
             this.FlightType = flightType;
             this.Frequency = frequency;
             this.Company = company;

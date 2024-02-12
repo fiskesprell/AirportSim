@@ -40,11 +40,11 @@ namespace AirportSimulation
         /// <summary>
         /// Initializes a new instance of the Taxi class.
         /// </summary>
-        /// <param name="name">The name of the taxiway, typically A-Z.</param>
-        public Taxi(string name)
+        /// <param name="taxiName">The name of the taxiway, typically A-Z.</param>
+        public Taxi(string taxiName)
         {
-            TaxiName = name;
-            Console.WriteLine("Taxi " + name + " har blitt opprettet");
+            TaxiName = taxiName;
+            Console.WriteLine("Taxi " + taxiName + " har blitt opprettet");
         }
 
         /// <summary>

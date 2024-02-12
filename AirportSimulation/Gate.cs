@@ -109,10 +109,10 @@
         /// <summary>
         /// Constructor for making a gate
         /// </summary>
-        public Gate(string name)
+        public Gate(string gateName)
         {
-            GateName = name;
-            Console.WriteLine("Gate " + name + " har blitt opprettet");
+            GateName = gateName;
+            Console.WriteLine("Gate " + gateName + " har blitt opprettet");
         }
 
         // Legge til et taxi object i listen over taxi som er tilkoblet gaten
