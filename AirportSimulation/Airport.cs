@@ -42,7 +42,13 @@ namespace AirportSimulation
         /// Gets and sets the scheduled end date
         /// </summary>
         private DateTime ScheduledEndDate { get; set; }
-            
+
+        public Airport() { }
+
+        public Airport(string airportName)
+        {
+            this.AirportName = airportName;
+        }
 
         /// <summary>
         /// Constructor for making an airport

@@ -35,6 +35,7 @@ namespace AirportSimulation
         /// </summary>
         public bool IsAvailable { get; set; } = true;
 
+        public Taxi() { }
 
         /// <summary>
         /// Initializes a new instance of the Taxi class.

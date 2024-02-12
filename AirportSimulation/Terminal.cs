@@ -30,6 +30,8 @@ namespace AirportSimulation
         /// </summary>
         private List<Gate> ConnectedGates = new List<Gate>();
 
+        public Terminal() { }
+
         /// <summary>
         /// Initializes a new instance of the Terminal class.
         /// </summary>

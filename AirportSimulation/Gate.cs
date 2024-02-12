@@ -101,6 +101,8 @@
             set => _currentHolder = value;
         }
 
+        public Gate() { }
+
         /// <summary>
         /// Constructor for making a gate
         /// </summary>

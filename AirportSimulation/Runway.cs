@@ -39,8 +39,8 @@ namespace AirportSimulation
         /// The flight currently occupying the runway, if any.
         /// </summary>
         public Flight FlightOnRunway = null;
-        
 
+        public Runway() { }
 
         // Constructor
         /// <summary>
@@ -52,6 +52,8 @@ namespace AirportSimulation
             this.RunwayName = runwayName;
             Console.WriteLine("Runway " + runwayName + " har blitt opprettet");
         }
+
+
 
         // Legge til en flight i køen rullebanekøen. Automatikk fra når en flight er fremst i taxi køen
         /// <summary>

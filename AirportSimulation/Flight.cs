@@ -177,6 +177,11 @@ namespace AirportSimulation
         private int hour9 = 0;
         private int minute9 = 41;
 
+        public Flight()
+        {
+
+        }
+
 
         /// <summary>
         /// Creates a flight. Not the same as creating an aircraft. Needs a flightnumber, date and time of arrival/departure,
