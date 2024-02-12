@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -146,8 +147,6 @@ namespace AirportSimulation
 
         private List<string> LogHistory { get; set; } = new List<string>();
 
-
-        // SILLY GOBLIN-STYLE CODING
         // Outgoing
         private int hour1 = 1;
         private int minute1 = 45;
@@ -282,9 +281,17 @@ namespace AirportSimulation
                 {
                     //Logg flight BRA123 har fått gate {this.AssignedGate} tildelt. F.eks
                     Gate availableGate = FindAvailableGate();
-                    Taxi taxi = FindTaxi();
-                    taxi.AddToTaxiQueue(this);
-                    IsTraveling = true;
+
+                    if (this.AssignedGate != null)
+                    {
+                        Taxi taxi = FindTaxi();
+                        taxi.AddToTaxiQueue(this);
+                        IsTraveling = true;
+                    }
+                    else
+                    {
+                        UpdateOutgoingNewHoursAndMinutesFromSetPoint(1);
+                    }
 
                     
                 }
@@ -328,6 +335,10 @@ namespace AirportSimulation
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
                     NEWIncomingFlightPreperation();
+                    if (this.AssignedGate == null)
+                    {
+                        FindGateBackup();
+                    }
                 }
 
                 (int newHours2, int newMinutes2) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour7, this.minute7);
@@ -579,14 +590,32 @@ namespace AirportSimulation
                                 }
                                 
                             }
-                            Console.WriteLine("\nDay: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has found an available gate:  " + this.AssignedGate.GetGateName());
-                            return gate;
+                            if (this.AssignedGate == null)
+                            {
+                                if (this.FlightDirection == Direction.Incoming)
+                                {
+                                    UpdateIncomingNewHoursAndMinutesFromSetPoint(6);
+                                }
+                                else if (this.FlightDirection == Direction.Outgoing)
+                                {
+                                    UpdateOutgoingNewHoursAndMinutesFromSetPoint(1);
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("\nDay: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has found an available gate:  " + this.AssignedGate.GetGateName());
+                                return gate;
+                            }
+
                         }
                     }
+                    
+                    /* TODO: Remove or put back
                     if (!foundGateLicence)
                     {
-
+                        throw new Exception($"\n\nException: You tried to simulate time for a flight with the FlightType: {this.FlightType}. There are no gates that have a licence for the assigned FlightType. Try adding more gates and add a licence for that FlightType or edit existing gates with addLicence()\n");
                     }
+                    */
                 }
                 
             }
@@ -1087,7 +1116,8 @@ namespace AirportSimulation
         /// </summary>
         public void NEWIncomingFlightFromRunwayToTaxi()
         {
-            this.DesiredTaxi.AddToTaxiQueue(this);
+            // Todo: Finne ut hva denne gjorde (skulle gjort) og re-implementer
+            // this.DesiredTaxi.AddToTaxiQueue(this);
             
             this.SetStatus(FlightStatus.OnWayToGate);
 
@@ -1143,8 +1173,18 @@ namespace AirportSimulation
                     {
                         newElapsedMinutes = $"{ElapsedMinutes}";
                     }
-                    string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:{newElapsedMinutes} flight {Number} exited the taxiway and is offloading passangers at {this.AssignedGate.GetGateName()}";
-                    LogHistory.Add(logMessage2);
+
+                    if (this.AssignedGate != null)
+                    {
+                        string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:{newElapsedMinutes} flight {Number} exited the taxiway and is offloading passangers at {this.AssignedGate.GetGateName()}";
+                        LogHistory.Add(logMessage2);
+                    }
+                    else
+                    {
+                        string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:{newElapsedMinutes} flight {Number} exited the taxiway and is offloading passangers at Gate X";
+                        LogHistory.Add(logMessage2);
+                    }
+
                 }
             }
         }
@@ -1282,6 +1322,363 @@ namespace AirportSimulation
         public DateTime GetScheduledDay()
         {
             return this.ScheduledDay;
+        }
+
+        /// <summary>
+        /// Inside the FlightSim() method in flight.cs, events like when to begin onboarding and when to takeoff are linked
+        /// to instance variables called hourX and minuteX.
+        /// This method updates all hours and minutes relating to OUTGOING flights.
+        /// If an event isn't working, for example when there are no available gates, this method will
+        /// try to run all following events one minute later than originally scheduled.
+        /// </summary>
+        /// <param name="fromWhichHourAndMinute">Number from 1-5. Setting this to 1 means hour1, hour2, hour3, hour4, and hour 5 are updated.
+        /// Setting this to 4 means that only hour4 and hour5 are affected.</param>
+        /// <exception cref="Exception"></exception>
+        private void UpdateOutgoingNewHoursAndMinutesFromSetPoint(int fromWhichHourAndMinute)
+        {
+            if (this.FlightDirection == Direction.Outgoing)
+            {
+                if (fromWhichHourAndMinute == 1)
+                {
+                    if (this.minute1 == 0)
+                    {
+                        this.hour1 -= 1;
+                        this.minute1 = 59;
+                    }
+                    else
+                    {
+                        this.minute1 -= 1;
+                    }
+
+                    if (this.minute2 == 0)
+                    {
+                        this.hour2 -= 1;
+                        this.minute2 = 59;
+                    }
+                    else
+                    {
+                        this.minute2 -= 1;
+                    }
+
+                    if (this.minute3 == 0)
+                    {
+                        this.hour3 -= 1;
+                        this.minute3 = 59;
+                    }
+                    else
+                    {
+                        this.minute3 -= 1;
+                    }
+
+                    if (this.minute4 == 0)
+                    {
+                        this.hour4 -= 1;
+                        this.minute4 = 59;
+                    }
+                    else
+                    {
+                        this.minute5 -= 1;
+                    }
+
+                    if (this.minute5 == 0)
+                    {
+                        this.hour5 -= 1;
+                        this.minute5 = 0;
+                    }
+                    else
+                    {
+                        this.minute5 -= 1;
+                    }
+
+                }
+                else if (fromWhichHourAndMinute == 2)
+                {
+                    if (this.minute2 == 0)
+                    {
+                        this.hour2 -= 1;
+                        this.minute2 = 59;
+                    }
+                    else
+                    {
+                        this.minute2 -= 1;
+                    }
+
+                    if (this.minute3 == 0)
+                    {
+                        this.hour3 -= 1;
+                        this.minute3 = 59;
+                    }
+                    else
+                    {
+                        this.minute3 -= 1;
+                    }
+
+                    if (this.minute4 == 0)
+                    {
+                        this.hour4 -= 1;
+                        this.minute4 = 59;
+                    }
+                    else
+                    {
+                        this.minute5 -= 1;
+                    }
+
+                    if (this.minute5 == 0)
+                    {
+                        this.hour5 -= 1;
+                        this.minute5 = 0;
+                    }
+                    else
+                    {
+                        this.minute5 -= 1;
+                    }
+                }
+
+                else if (fromWhichHourAndMinute == 3)
+                {
+                    if (this.minute3 == 0)
+                    {
+                        this.hour3 -= 1;
+                        this.minute3 = 59;
+                    }
+                    else
+                    {
+                        this.minute3 -= 1;
+                    }
+
+                    if (this.minute4 == 0)
+                    {
+                        this.hour4 -= 1;
+                        this.minute4 = 59;
+                    }
+                    else
+                    {
+                        this.minute5 -= 1;
+                    }
+
+                    if (this.minute5 == 0)
+                    {
+                        this.hour5 -= 1;
+                        this.minute5 = 0;
+                    }
+                    else
+                    {
+                        this.minute5 -= 1;
+                    }
+                }
+                else if (fromWhichHourAndMinute == 4)
+                {
+                    if (this.minute4 == 0)
+                    {
+                        this.hour4 -= 1;
+                        this.minute4 = 59;
+                    }
+                    else
+                    {
+                        this.minute5 -= 1;
+                    }
+
+                    if (this.minute5 == 0)
+                    {
+                        this.hour5 -= 1;
+                        this.minute5 = 0;
+                    }
+                    else
+                    {
+                        this.minute5 -= 1;
+                    }
+                }
+                else if (fromWhichHourAndMinute == 5)
+                {
+                    if (this.minute5 == 0)
+                    {
+                        this.hour5 -= 1;
+                        this.minute5 = 0;
+                    }
+                    else
+                    {
+                        this.minute5 -= 1;
+                    }
+                }
+                else
+                {
+                    throw new Exception($"\n\nException: You did not provide a valid number for UpdateOutgoingNewHoursAndMinutesFromSetPoint(). Please set fromWhichHourAndMinute to be a number from 1 to 5.\n");
+                }
+            }
+            else
+            {
+                throw new Exception($"\n\nException: Error setting time forwards. Flight is not set as Outgoing. This method is meant to only be used on Outgoing flights. Please set flight.FlightDirection as Outgoing and try again.\n");
+            }
+        }
+
+        /// <summary>
+        /// Inside the FlightSim() method in flight.cs, events like when to begin onboarding and when to takeoff are linked
+        /// to instance variables called hourX and minuteX.
+        /// This method updates all hours and minutes relating to INCOMING flights.
+        /// If an event isn't working, for example when there are no available gates, this method will
+        /// try to run all following events one minute later than originally scheduled.
+        /// </summary>
+        /// <param name="fromWhichHourAndMinute">Number from 6-9. Setting this to 6 means hour6, hour7, hour8, and hour 9 are updated.
+        /// Setting this to 8 means that only hour8 and hour9 are affected.</param>
+        /// <exception cref="Exception"></exception>
+        private void UpdateIncomingNewHoursAndMinutesFromSetPoint(int fromWhichHourAndMinute)
+        {
+            if (this.FlightDirection == Direction.Incoming)
+            {
+                if (fromWhichHourAndMinute == 6)
+                {
+                    if (this.minute6 == 59)
+                    {
+                        this.hour6 += 1;
+                        this.minute6 = 0;
+                    }
+                    else
+                    {
+                        this.minute6 += 1;
+                    }
+
+                    if (this.minute7 == 59)
+                    {
+                        this.hour7 += 1;
+                        this.minute7 = 0;
+                    }
+                    else
+                    {
+                        this.minute7 += 1;
+                    }
+
+                    if (this.minute8 == 59)
+                    {
+                        this.hour8 += 1;
+                        this.minute8 = 0;
+                    }
+                    else
+                    {
+                        this.minute8 += 1;
+                    }
+
+                    if (this.minute9 == 59)
+                    {
+                        this.hour9 += 1;
+                        this.minute9 = 0;
+                    }
+                    else
+                    {
+                        this.minute9 += 1;
+                    }
+                }
+                else if (fromWhichHourAndMinute == 7)
+                {
+                    if (this.minute7 == 59)
+                    {
+                        this.hour7 += 1;
+                        this.minute7 = 0;
+                    }
+                    else
+                    {
+                        this.minute7 += 1;
+                    }
+
+                    if (this.minute8 == 59)
+                    {
+                        this.hour8 += 1;
+                        this.minute8 = 0;
+                    }
+                    else
+                    {
+                        this.minute8 += 1;
+                    }
+
+                    if (this.minute9 == 59)
+                    {
+                        this.hour9 += 1;
+                        this.minute9 = 0;
+                    }
+                    else
+                    {
+                        this.minute9 += 1;
+                    }
+                }
+                else if (fromWhichHourAndMinute == 8)
+                {
+                    if (this.minute8 == 59)
+                    {
+                        this.hour8 += 1;
+                        this.minute8 = 0;
+                    }
+                    else
+                    {
+                        this.minute8 += 1;
+                    }
+
+                    if (this.minute9 == 59)
+                    {
+                        this.hour9 += 1;
+                        this.minute9 = 0;
+                    }
+                    else
+                    {
+                        this.minute9 += 1;
+                    }
+                }
+                else if (fromWhichHourAndMinute == 9)
+                {
+                    if (this.minute9 == 59)
+                    {
+                        this.hour9 += 1;
+                        this.minute9 = 0;
+                    }
+                    else
+                    {
+                        this.minute9 += 1;
+                    }
+                }
+                else
+                {
+                    throw new Exception($"\n\nException: You did not provide a valid number for UpdateIncomingNewHoursAndMinutesFromSetPoint(). Please set fromWhichHourAndMinute to be a number from 6 to 9.\n");
+                }
+            }
+            else
+            {
+                throw new Exception($"\n\nException: Error setting time forwards. Flight is not set as Incoming. This method is meant to only be used on Incoming flights. Please set flight.FlightDirection as Incoming and try again.\n");
+            }
+        }
+
+        /// <summary>
+        /// TODO: Slette denne, finn en bedre metode.
+        /// This method forces a gate on the flight if it has not previously found a gate.
+        /// This method should not exist, we should have another measure in place. However, due to time
+        /// limitations I had to implement this now. Please fix and delete later, me. Thanks.
+        /// </summary>
+        /// <returns></returns>
+        private Gate FindGateBackup()
+        {
+            bool foundTerminal = false;
+            foreach (var terminal in CurrentAirport.GetAllTerminals())
+            {
+                if (terminal.IsInternational == this.IsInternational)
+                {
+                    foreach (var gate in terminal.GetConnectedGates())
+                    {
+                        this.AssignedGate = gate;
+                        return gate;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            if (this.AssignedGate == null)
+            {
+                UpdateIncomingNewHoursAndMinutesFromSetPoint(6);
+                return null;
+            }
+            else
+            {
+                return this.AssignedGate;
+            }
         }
 
     }//Slutt Flight klassen

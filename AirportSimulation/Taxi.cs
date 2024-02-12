@@ -70,11 +70,20 @@ namespace AirportSimulation
 
             else if(flight.GetDirection() == Direction.Incoming)
             {
-                Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.GetFlightNumber() + " started traveling on " + this.TaxiName + " towards " + flight.GetAssignedGate().GetGateName());
+                if (flight.GetAssignedGate() != null)
+                {
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.GetFlightNumber() + " started traveling on " + this.TaxiName + " towards " + flight.GetAssignedGate().GetGateName());
+                }
+                else
+                {
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.GetFlightNumber() + " started traveling on " + this.TaxiName + " towards a Gate");
+                }
+
                 TaxiQueue.Enqueue(flight);
+
             }
 
-            
+
         }
 
         /// <summary>
