@@ -94,23 +94,14 @@ namespace AirportSimApp
             gardermoen.AddNewFlight(newFlight19);
 
 
-            // Add Terminal
+            // Add Terminal, Taxi, Runway, Gate
             gardermoen.AddNewTerminal("SillyTerminal");
             gardermoen.AddNewTaxi("sillygame");
             gardermoen.AddNewRunway("sillyRunway");
             gardermoen.AddNewConnectedGateAndTaxi("Silly", "Goblin");
-            
-            // Add Taxi
 
 
-            // add Runway
-
-
-            // add Gate
-
-
-
-
+            // Simulation start
             simulering.SimulateTime(simulering, gardermoen, new DateTime(2022, 2, 14), new DateTime(2022, 2, 25));
 
         }
