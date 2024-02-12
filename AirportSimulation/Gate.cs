@@ -230,6 +230,11 @@
             return false;
         }
 
+        public void AddGateToTerminal(Terminal terminal)
+        {
+            terminal.AddExistingGate(this);
+        }
+
 
     }
 }

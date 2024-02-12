@@ -61,7 +61,7 @@ namespace AirportSimulation
             //terminal.setIsInternational(true);
             Taxi taxi = AddTaxi(taxiName);
             Runway runway = AddRunway(runwayName);
-            Gate gate = terminal.AddGate(gateName);
+            Gate gate = terminal.AddNewGate(gateName);
             gate.AddTaxi(taxi);
             taxi.AddConnectedGate(gate);
             taxi.AddConnectedRunway(runway);

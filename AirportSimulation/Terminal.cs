@@ -45,12 +45,17 @@ namespace AirportSimulation
         /// Creates gate object and adds it to this terminal
         /// </summary>
         /// <param name=""></param>
-        public Gate AddGate(string name)
+        public Gate AddNewGate(string name)
         {
             Gate newGate = new Gate(name);
             ConnectedGates.Add(newGate);
             Console.WriteLine("Terminalen " + TerminalName + " har fått tildelt gate " + newGate.GetGateName());
             return newGate;
+        }
+
+        public void AddExistingGate(Gate gate)
+        {
+            ConnectedGates.Add(gate);
         }
 
         /// <summary>
