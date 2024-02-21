@@ -10,56 +10,59 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AirportSimulation
 {
-    /// <summary>
-    /// Defines the types of flights that can be scheduled within the airport simulation.
-    /// </summary>
-    /// <value>
-    /// Commercial - Represents a commercial flight.
-    /// Transport - Represents a transport flight.
-    /// Personal - Represents a personal flight.
-    /// Military - Represents a military flight.
-    /// </value>
+    
     [Flags]
     public enum FlightType
     {
+        /// <summary>
+        /// Defines the types of flights that can be scheduled within the airport simulation.
+        /// </summary>
+        /// <value>
+        /// Commercial - Represents a commercial flight.
+        /// Transport - Represents a transport flight.
+        /// Personal - Represents a personal flight.
+        /// Military - Represents a military flight.
+        /// </value>
         Commercial = 1,
         Transport = 2,
         Personal = 4,
         Military = 8,
     }
-    /// <summary>
-    /// Defines the direction of the flight as incoming, outgoing or other.
-    /// </summary>
-    /// <value>
-    /// Incoming - Flight arriving at the airport.
-    /// Outgoing - Flight departing from the airport.
-    //∕ Other - Flight heading elsewhere, i.e. maintenance, storage hangar.
-    ///</value>
+    
     public enum Direction
     {
+        /// <summary>
+        /// Defines the direction of the flight as incoming, outgoing or other.
+        /// </summary>
+        /// <value>
+        /// Incoming - Flight arriving at the airport.
+        /// Outgoing - Flight departing from the airport.
+        //∕ Other - Flight heading elsewhere, i.e. maintenance, storage hangar.
+        ///</value>
         Incoming,
         Outgoing,
         Other
     }
 
-    /// <summary>
-    /// Defines the current status of a flight.
-    /// </summary>
-    /// <value>
-    /// OnTime - Flight is on time.
-    /// ArrivingDelayed - Flight arrival is delayed.
-    /// DepartingDelayed - Flight departure is delayed.
-    /// Boarding - Passengers are currently boarding.
-    /// Departing - Flight is in the process of departing.
-    /// Departed - Flight has left the airport.
-    /// Arrived - Bør denne byttes med inTaxi?.
-    /// Landed - Flight has landed and is on the runway.
-    /// Completed - Flight is completed.
-    /// OnWayToGate - Flight is en route to its assigned gate.
-    /// Offloading - Passengers and cargo are being offloaded.
-    /// </value>
+    
     public enum FlightStatus
     {
+        /// <summary>
+        /// Defines the current status of a flight.
+        /// </summary>
+        /// <value>
+        /// OnTime - Flight is on time.
+        /// ArrivingDelayed - Flight arrival is delayed.
+        /// DepartingDelayed - Flight departure is delayed.
+        /// Boarding - Passengers are currently boarding.
+        /// Departing - Flight is in the process of departing.
+        /// Departed - Flight has left the airport.
+        /// Arrived - Bør denne byttes med inTaxi?.
+        /// Landed - Flight has landed and is on the runway.
+        /// Completed - Flight is completed.
+        /// OnWayToGate - Flight is en route to its assigned gate.
+        /// Offloading - Passengers and cargo are being offloaded.
+        /// </value>
         OnTime,
         ArrivingDelayed,
         DepartingDelayed,
@@ -72,51 +75,53 @@ namespace AirportSimulation
         OnWayToGate,
         Offloading,
     }
-    /// <summary>
-    /// Defines the frequency of a flight.
-    /// </summary>
-    /// <value>
-    /// OneTime - Flight occurs only once.
-    /// Daily - Flight occurs daily.
-    /// Weekly - Flight occurs weekly.
-    /// </value>
+    
     public enum Frequency
     {
+        /// <summary>
+        /// Defines the frequency of a flight.
+        /// </summary>
+        /// <value>
+        /// OneTime - Flight occurs only once.
+        /// Daily - Flight occurs daily.
+        /// Weekly - Flight occurs weekly.
+        /// </value>
         OneTime,
         Daily,
         Weekly
     }
 
-    /// <summary>
-    /// Represents a single flight within the airport simulation, including its details and current status.
-    /// </summary>
-    /// <property>
-    /// Number - The flight identifier number.
-    /// Company - The company operating the flight.
-    /// FlightType - The type of flight, as defined in the FlightType enum.
-    /// AssignedGate - The gate assigned to the flight.
-    /// IsInternational - Indicates if the flight is international, true if international, false if domestic.
-    /// ScheduledDay - The scheduled day of departure or arrival.
-    /// ScheduledHour - The scheduled hour of departure or arrival.
-    /// ScheduledMinutes - The scheduled minute of departure or arrival.
-    /// Destination - The flight's destination.
-    /// Status - The current status of the flight, as defined in the FlightStatus enum.
-    /// Frequency - The frequency of the flight.
-    /// FlightDirection - The direction of the flight, as defined in the FlightDirection enum.
-    /// ElapsedDays - The number of days elapsed since the flight was scheduled.
-    /// ElapsedHours - The number of hours elapsed since the flight was scheduled.
-    /// ElapsedMinutes - The number of minutes elapsed since the flight was scheduled.
-    /// CurrentAirport - The airport where the flight is currently located or being simulated.
-    /// IsParked - Indicates if the flight is currently parked at a gate.
-    /// DesiredTaxi - The taxiway desired or assigned for the flight's taxi.
-    /// DesiredRunway - The runway desired or assigned for the flight.
-    /// IsTraveling - Indicates if the flight is currently in the traveling state.
-    /// Logging - Indicates if logging is enabled for the flight events.
-    /// HasLogged - Indicates if the flight has already logged an event.
-    /// LogHistory - A collection of log entries related to the flight's operations.
-    /// </property>
+    
     public class Flight
     {
+        /// <summary>
+        /// Represents a single flight within the airport simulation, including its details and current status.
+        /// </summary>
+        /// <property>
+        /// Number - The flight identifier number.
+        /// Company - The company operating the flight.
+        /// FlightType - The type of flight, as defined in the FlightType enum.
+        /// AssignedGate - The gate assigned to the flight.
+        /// IsInternational - Indicates if the flight is international, true if international, false if domestic.
+        /// ScheduledDay - The scheduled day of departure or arrival.
+        /// ScheduledHour - The scheduled hour of departure or arrival.
+        /// ScheduledMinutes - The scheduled minute of departure or arrival.
+        /// Destination - The flight's destination.
+        /// Status - The current status of the flight, as defined in the FlightStatus enum.
+        /// Frequency - The frequency of the flight.
+        /// FlightDirection - The direction of the flight, as defined in the FlightDirection enum.
+        /// ElapsedDays - The number of days elapsed since the flight was scheduled.
+        /// ElapsedHours - The number of hours elapsed since the flight was scheduled.
+        /// ElapsedMinutes - The number of minutes elapsed since the flight was scheduled.
+        /// CurrentAirport - The airport where the flight is currently located or being simulated.
+        /// IsParked - Indicates if the flight is currently parked at a gate.
+        /// DesiredTaxi - The taxiway desired or assigned for the flight's taxi.
+        /// DesiredRunway - The runway desired or assigned for the flight.
+        /// IsTraveling - Indicates if the flight is currently in the traveling state.
+        /// Logging - Indicates if logging is enabled for the flight events.
+        /// HasLogged - Indicates if the flight has already logged an event.
+        /// LogHistory - A collection of log entries related to the flight's operations.
+        /// </property>
         private string Number { get; set; }
         private string Company { get; set; } = "Norwegian";
         private FlightType FlightType { get; set; } = FlightType.Commercial;
