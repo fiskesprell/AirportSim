@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AirportSimulationCl;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
@@ -9,89 +10,7 @@ using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AirportSimulation
-{
-    
-    [Flags]
-    public enum FlightType
-    {
-        /// <summary>
-        /// Defines the types of flights that can be scheduled within the airport simulation.
-        /// </summary>
-        /// <value>
-        /// Commercial - Represents a commercial flight.
-        /// Transport - Represents a transport flight.
-        /// Personal - Represents a personal flight.
-        /// Military - Represents a military flight.
-        /// </value>
-        Commercial = 1,
-        Transport = 2,
-        Personal = 4,
-        Military = 8,
-    }
-    
-    public enum Direction
-    {
-        /// <summary>
-        /// Defines the direction of the flight as incoming, outgoing or other.
-        /// </summary>
-        /// <value>
-        /// Incoming - Flight arriving at the airport.
-        /// Outgoing - Flight departing from the airport.
-        //∕ Other - Flight heading elsewhere, i.e. maintenance, storage hangar.
-        ///</value>
-        Incoming,
-        Outgoing,
-        Other
-    }
-
-    
-    public enum FlightStatus
-    {
-        /// <summary>
-        /// Defines the current status of a flight.
-        /// </summary>
-        /// <value>
-        /// OnTime - Flight is on time.
-        /// ArrivingDelayed - Flight arrival is delayed.
-        /// DepartingDelayed - Flight departure is delayed.
-        /// Boarding - Passengers are currently boarding.
-        /// Departing - Flight is in the process of departing.
-        /// Departed - Flight has left the airport.
-        /// Arrived - Bør denne byttes med inTaxi?.
-        /// Landed - Flight has landed and is on the runway.
-        /// Completed - Flight is completed.
-        /// OnWayToGate - Flight is en route to its assigned gate.
-        /// Offloading - Passengers and cargo are being offloaded.
-        /// </value>
-        OnTime,
-        ArrivingDelayed,
-        DepartingDelayed,
-        Boarding,
-        Departing,
-        Departed,
-        Arrived,
-        Landed,
-        Completed,
-        OnWayToGate,
-        Offloading,
-    }
-    
-    public enum Frequency
-    {
-        /// <summary>
-        /// Defines the frequency of a flight.
-        /// </summary>
-        /// <value>
-        /// OneTime - Flight occurs only once.
-        /// Daily - Flight occurs daily.
-        /// Weekly - Flight occurs weekly.
-        /// </value>
-        OneTime,
-        Daily,
-        Weekly
-    }
-
-    
+{   
     public class Flight
     {
         /// <summary>
@@ -134,8 +53,8 @@ namespace AirportSimulation
         private string Destination { get; set; }
         
         private FlightStatus Status { get; set; } = FlightStatus.OnTime;
-        private Frequency Frequency { get; set; } = Frequency.OneTime;
-        private Direction FlightDirection { get; set; }
+        private FlightFrequency Frequency { get; set; } = FlightFrequency.OneTime;
+        private FlightDirection FlightDirection { get; set; }
         public int ElapsedDays = 0;
         public int ElapsedHours = 0;
         public int ElapsedMinutes = 0;
@@ -194,18 +113,18 @@ namespace AirportSimulation
         /// <param name="direction">Either <c>Direction.Outgoing</c> or <c>Direction.Incoming</c>. </param>
         /// <param name="airport">The Airport to which the flight belongs.</param>
         /// <exception cref="ArgumentException"></exception>
-        public Flight(string flightNumber, string destination, DateTime travelDay, int travelHour, int travelMinute, Direction direction, Airport airport)
+        public Flight(string flightNumber, string destination, DateTime travelDay, int travelHour, int travelMinute, FlightDirection direction, Airport airport)
         {
             this.Number = flightNumber;
             this.Destination = destination;
             this.CurrentAirport = airport;
 
             //Hvis de sender inn noe som ikke er en av kategoriene i Direction enumen så vil en exception kastes
-            if (Enum.TryParse(direction.ToString(), out Direction flightDirection))
+            if (Enum.TryParse(direction.ToString(), out FlightDirection flightDirection))
             {
                 this.FlightDirection = direction;
 
-                if (this.FlightDirection == Direction.Outgoing)
+                if (this.FlightDirection == FlightDirection.Outgoing)
                 {
                     this.ScheduledDay = travelDay;
                     this.ScheduledHour = travelHour;
@@ -220,7 +139,7 @@ namespace AirportSimulation
             }
             else
             {
-                throw new ArgumentException($"Invalid direction: {direction}. Expected values are {string.Join(", ", Enum.GetNames(typeof(Direction)))}.", nameof(direction));
+                throw new ArgumentException($"Invalid direction: {direction}. Expected values are {string.Join(", ", Enum.GetNames(typeof(FlightDirection)))}.", nameof(direction));
             }
 
         }//Slutt konstruktør
@@ -239,7 +158,7 @@ namespace AirportSimulation
         /// <param name="flightType">Specifies the type of flight, as defined in the <c>FlightType</c> enum.</param>
         /// <param name="frequency">Defines the frequency of the flight, such as one-time, daily, or weekly, as specified in the <c>Frequency</c> enum.</param>
         /// <param name="company">The name of the company operating the flight.</param>
-        public Flight(string flightNumber, string destination, DateTime travelDay, int travelHour, int travelMinute, Direction direction, Airport airport, bool isInternational, FlightType flightType, Frequency frequency, string company)
+        public Flight(string flightNumber, string destination, DateTime travelDay, int travelHour, int travelMinute, FlightDirection direction, Airport airport, bool isInternational, FlightType flightType, FlightFrequency frequency, string company)
         {
             this.Number = flightNumber;
             this.Destination = destination;
@@ -277,7 +196,7 @@ namespace AirportSimulation
             int adjustedTravelDay = dayDifference.Days;
             
             // ~~~~ Outgoing Flight ~~~~
-            if (this.FlightDirection == Direction.Outgoing)
+            if (this.FlightDirection == FlightDirection.Outgoing)
             {
                 //Kalle på convertTime for å få riktig klokkeslett 1 time og 45 min "tilbake" i tid
                 //Dessverre kan man ikke overskrive variabler så må lage nye variabler hver gang
@@ -334,7 +253,7 @@ namespace AirportSimulation
             }
 
             // ~~~~ Incoming Flight ~~~~
-            else if (this.FlightDirection == Direction.Incoming)
+            else if (this.FlightDirection == FlightDirection.Incoming)
             {
                 (int newHours1, int newMinutes1) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour6, this.minute6);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
@@ -379,7 +298,7 @@ namespace AirportSimulation
             }
             
             
-            if (this.Frequency == Frequency.OneTime && (this.Status == FlightStatus.Arrived || this.Status == FlightStatus.Departed))
+            if (this.Frequency == FlightFrequency.OneTime && (this.Status == FlightStatus.Arrived || this.Status == FlightStatus.Departed))
             {
                 airport.AddCompletedFlight(this);
                 airport.RemoveCompletedFlightFromAllFlights(this);
@@ -395,7 +314,7 @@ namespace AirportSimulation
                 this.HasLogged = true;
             }
 
-            if (this.Frequency == Frequency.Daily && ( this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed ) && ElapsedHours == 1 && ElapsedMinutes == 0)
+            if (this.Frequency == FlightFrequency.Daily && ( this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed ) && ElapsedHours == 1 && ElapsedMinutes == 0)
             {
                 DateTime newDate = this.ScheduledDay.AddDays(1);
                 SetScheduledDay(newDate);
@@ -408,7 +327,7 @@ namespace AirportSimulation
                 
             }
 
-            if (this.Frequency == Frequency.Weekly && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed) && ElapsedHours == 1 && ElapsedMinutes == 0)
+            if (this.Frequency == FlightFrequency.Weekly && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed) && ElapsedHours == 1 && ElapsedMinutes == 0)
             {
                 DateTime newDate = this.ScheduledDay.AddDays(7);
                 SetScheduledDay(newDate);
@@ -508,7 +427,7 @@ namespace AirportSimulation
                 gateToPark.SetCurrentHolder(this);
 
             }
-            if (Logging && FlightDirection == Direction.Outgoing)
+            if (Logging && FlightDirection == FlightDirection.Outgoing)
             {
                 if (ElapsedMinutes == 0)
                 {
@@ -597,11 +516,11 @@ namespace AirportSimulation
                             }
                             if (this.AssignedGate == null)
                             {
-                                if (this.FlightDirection == Direction.Incoming)
+                                if (this.FlightDirection == FlightDirection.Incoming)
                                 {
                                     UpdateIncomingNewHoursAndMinutesFromSetPoint(6);
                                 }
-                                else if (this.FlightDirection == Direction.Outgoing)
+                                else if (this.FlightDirection == FlightDirection.Outgoing)
                                 {
                                     UpdateOutgoingNewHoursAndMinutesFromSetPoint(1);
                                 }
@@ -649,7 +568,7 @@ namespace AirportSimulation
             Taxi selectedTaxi = null;
             int minQueueLength = int.MaxValue;
 
-            if (this.FlightDirection == Direction.Outgoing)
+            if (this.FlightDirection == FlightDirection.Outgoing)
             {
                 if (this.AssignedGate.GetConnectedTaxis().Count() == 0)
                 {
@@ -667,7 +586,7 @@ namespace AirportSimulation
                         }
                         Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has been assigned " + selectedTaxi.GetTaxiName());
                         this.DesiredTaxi = selectedTaxi;
-                        if (Logging && FlightDirection == Direction.Outgoing)
+                        if (Logging && FlightDirection == FlightDirection.Outgoing)
                         {
                             if (ElapsedMinutes == 0)
                             {
@@ -688,7 +607,7 @@ namespace AirportSimulation
                 }
             }
 
-            else if (this.FlightDirection == Direction.Incoming)
+            else if (this.FlightDirection == FlightDirection.Incoming)
             {
                 // For incoming flights, a different selection strategy is needed
                 // This could involve selecting from a global list of taxiways, for example
@@ -721,7 +640,7 @@ namespace AirportSimulation
             Runway selectedRunway = null;
             int minQueueLength = int.MaxValue;
 
-            if (this.FlightDirection == Direction.Outgoing)
+            if (this.FlightDirection == FlightDirection.Outgoing)
             {
 
                 foreach (Runway runway in DesiredTaxi.GetConnectedRunways())
@@ -751,7 +670,7 @@ namespace AirportSimulation
                 }
                 return selectedRunway;
             }
-            else if (this.FlightDirection == Direction.Incoming)
+            else if (this.FlightDirection == FlightDirection.Incoming)
             {
                 foreach (Runway runway in DesiredTaxi.GetConnectedRunways())
                 {
@@ -850,7 +769,7 @@ namespace AirportSimulation
         /// Gets the direction of a flight
         /// </summary>
         /// <returns>AssignedGate</returns>
-        public Direction GetDirection()
+        public FlightDirection GetDirection()
         {
             return this.FlightDirection;
         }
@@ -889,14 +808,14 @@ namespace AirportSimulation
         /// Gets the frequencyof a flight
         /// </summary>
         /// <returns>Frequency of flight</returns>
-        public Frequency GetFlightFrequency()
+        public FlightFrequency GetFlightFrequency()
         {
             return this.Frequency;
         }
         /// <summary>
         /// Sets the frequency of a flight
         /// </summary>
-        public void SetFlightFrequency(Frequency frequency)
+        public void SetFlightFrequency(FlightFrequency frequency)
         {
             this.Frequency = frequency;
         }
@@ -1341,7 +1260,7 @@ namespace AirportSimulation
         /// <exception cref="Exception"></exception>
         private void UpdateOutgoingNewHoursAndMinutesFromSetPoint(int fromWhichHourAndMinute)
         {
-            if (this.FlightDirection == Direction.Outgoing)
+            if (this.FlightDirection == FlightDirection.Outgoing)
             {
                 if (fromWhichHourAndMinute == 1)
                 {
@@ -1528,7 +1447,7 @@ namespace AirportSimulation
         /// <exception cref="Exception"></exception>
         private void UpdateIncomingNewHoursAndMinutesFromSetPoint(int fromWhichHourAndMinute)
         {
-            if (this.FlightDirection == Direction.Incoming)
+            if (this.FlightDirection == FlightDirection.Incoming)
             {
                 if (fromWhichHourAndMinute == 6)
                 {

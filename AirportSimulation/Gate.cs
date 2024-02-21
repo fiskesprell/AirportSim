@@ -1,33 +1,11 @@
-﻿namespace AirportSimulation
+﻿using AirportSimulationCl;
+
+namespace AirportSimulation
 {
-    
-    [Flags]
-    public enum GateLicence
-    {
-        /// <summary>
-        /// Defines the types of aircraft licenses a gate can have, allowing for multiple categories simultaneously.
-        /// </summary>
-        /// <value>
-        /// None, 0
-        /// Commercial, 1 - Commercial flights allowed.
-        /// Transport, 2 - Transport flights allowed.
-        /// Personal, 4 - Personal flights allowed.
-        /// Military 8 - Military flights allowed.
-        /// </value>
-        /// <remarks>Flags to allow multiple licences</remarks>
-        None = 0,
-        Commercial = 1,
-        Transport = 2,
-        Personal = 4,
-        Military = 8
-    }
-
-
     /// <summary>
     /// Manages an airport gate's operations, including the types of aircraft it can accommodate, its availability, and its connection to taxiways. Is also able to be "held" by a Flight object.
     /// </summary>
     public class Gate
-
     {
 
         /// <summary>

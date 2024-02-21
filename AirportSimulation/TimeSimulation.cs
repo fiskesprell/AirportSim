@@ -84,6 +84,7 @@ namespace AirportSimulation
 
             for (int i = 0; i < totalMinutes; i++)
             {
+
                 if (airport.GetAllFlights().Count() > 0)
                 {
                     foreach (var taxi in airport.GetAllTaxis())
