@@ -20,6 +20,7 @@ namespace AirportSimulationCl
         private int PlaneWingspan;
         private int PlaneTopVelocity;
         private int PlaneWeight;
+        private double PlaneFuelBurnRate;
 
         //Tilgjengelighet
         private bool PlaneIsInUse;
@@ -31,6 +32,7 @@ namespace AirportSimulationCl
         //Kapasitet
         private int PlanePassangerCapacity;
         private int PlaneCargoCapacity;
+        private int PlaneFuelCapacity;
 
         //Historikk
         private List<Flight> PlaneHistory = new List<Flight>();
@@ -41,6 +43,8 @@ namespace AirportSimulationCl
         private void LandPlane() { }
 
         private void TakeoffPlane() { }
+
+        private void ParkPlaneAtGate() { }
 
         private void SchedulePlaneMaintanance() { }
 
