@@ -339,7 +339,7 @@ namespace AirportSimulation
                 (int newHours1, int newMinutes1) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour6, this.minute6);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
-                    NEWIncomingFlightPreperation();
+                    IncomingFlightPreperation();
                     if (this.AssignedGate == null)
                     {
                         FindGateBackup();
@@ -349,13 +349,13 @@ namespace AirportSimulation
                 (int newHours2, int newMinutes2) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour7, this.minute7);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours2 && ElapsedMinutes == newMinutes2)
                 {
-                    NEWIncomingFlightFromRunwayToTaxi();
+                    IncomingFlightFromRunwayToTaxi();
                 }
 
                 (int newHours3, int newMinutes3) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour8, this.minute8);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours3 && ElapsedMinutes == newMinutes3)
                 {
-                    NEWIncomingFlightFromTaxiToGate();
+                    IncomingFlightFromTaxiToGate();
                 }
 
                 (int newHours4, int newMinutes4) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour9, this.minute9);
@@ -1079,7 +1079,7 @@ namespace AirportSimulation
         /// <summary>
         /// Method to find taxi for an incoming flight, and set flight status to: Landed.
         /// </summary>
-        public void NEWIncomingFlightPreperation()
+        public void IncomingFlightPreperation()
         {
             // Dette finner Gate og setter this.AssignedGate = gate
             // Dette finner Taxi og setter this.DesiredTaxi = selectedTaxi;
@@ -1119,7 +1119,7 @@ namespace AirportSimulation
         /// <summary>
         /// Method to add a flight to desired taxi queue and set flight status: OnWayToGate.
         /// </summary>
-        public void NEWIncomingFlightFromRunwayToTaxi()
+        public void IncomingFlightFromRunwayToTaxi()
         {
             // Todo: Finne ut hva denne gjorde (skulle gjort) og re-implementer
             // this.DesiredTaxi.AddToTaxiQueue(this);
@@ -1154,7 +1154,7 @@ namespace AirportSimulation
       /// < summary>
         /// Method for a flight that has arrived at gate.
         /// </summary>
-        public void NEWIncomingFlightFromTaxiToGate()
+        public void IncomingFlightFromTaxiToGate()
         {
             this.SetStatus(FlightStatus.Offloading);
 
