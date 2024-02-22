@@ -11,11 +11,22 @@ namespace AirportSimulationCl
     {
         private readonly Gate _gate = new Gate();
 
+        /// <summary>
+        /// Adds a string for the gate name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public GateBuilder AddGateName(string name)
         {
             _gate.GateName = name;
             return this;
         }
+
+        /// <summary>
+        /// Adds a licence to this gate
+        /// </summary>
+        /// <param name="gateLicence"></param>
+        /// <returns></returns>
         public GateBuilder AddGateLicence(GateLicence gateLicence)
         {
             _gate.Licence |= gateLicence;
@@ -23,7 +34,10 @@ namespace AirportSimulationCl
         }
 
 
-
+        /// <summary>
+        /// Returns the finished gate object 
+        /// </summary>
+        /// <returns></returns>
         public Gate Build() 
         {
             return _gate;

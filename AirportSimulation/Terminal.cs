@@ -89,6 +89,9 @@ namespace AirportSimulation
             IsInternational = isInternational;
         }
 
+        /// <summary>
+        /// Prints out the relevant informasjon about this terminal
+        /// </summary>
        public void PrintTerminalInfo()
         {
             Console.WriteLine("Terminalname: " + TerminalName);
