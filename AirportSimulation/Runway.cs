@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AirportSimulationCl;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,7 +77,7 @@ namespace AirportSimulation
             // NB: Denne funksjonen krever at du har en AssignedGate
             Flight flight = RunwayQueue.Dequeue();
 
-            if (flight.GetDirection() == Direction.Outgoing)
+            if (flight.GetDirection() == FlightDirection.Outgoing)
             {
                 AddFlightToRunway(flight);
             }

@@ -88,5 +88,18 @@ namespace AirportSimulation
         {
             IsInternational = isInternational;
         }
+
+       public void PrintTerminalInfo()
+        {
+            Console.WriteLine("Terminalname: " + TerminalName);
+            Console.WriteLine("International: " + IsInternational);
+            Console.WriteLine("Gates: ");
+
+            foreach(Gate gate in ConnectedGates)
+            {
+                Console.WriteLine("Gatename: " + gate.GateName);
+            }
+            
+        }
     }
 }

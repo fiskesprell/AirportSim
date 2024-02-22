@@ -18,7 +18,9 @@ namespace AirportSimApp
                 .AddTerminalName("Terminal FuckYou")
                 .CreateAndAddNewGate("Gate AlleSuger", GateLicence.Commercial)
                 .AddGateToTerminal(testGate)
-                .Build();   
+                .Build();
+
+            testTerminal.PrintTerminalInfo();
         }
     }
 }

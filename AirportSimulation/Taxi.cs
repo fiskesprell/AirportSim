@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AirportSimulationCl;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,7 +54,7 @@ namespace AirportSimulation
         /// <param name="flight">Flight</param>
         public void AddToTaxiQueue(Flight flight)
         {
-            if (flight.GetDirection() == Direction.Outgoing)
+            if (flight.GetDirection() == FlightDirection.Outgoing)
             {
                 if (flight.GetStatus() != FlightStatus.Departing)
                 {
@@ -69,7 +70,7 @@ namespace AirportSimulation
             }
             
 
-            else if(flight.GetDirection() == Direction.Incoming)
+            else if(flight.GetDirection() == FlightDirection.Incoming)
             {
                 if (flight.GetAssignedGate() != null)
                 {
@@ -95,7 +96,7 @@ namespace AirportSimulation
 
             Flight flight = TaxiQueue.Dequeue();
             
-            if (flight.GetDirection() == Direction.Incoming || flight.GetStatus() == FlightStatus.ArrivingDelayed)
+            if (flight.GetDirection() == FlightDirection.Incoming || flight.GetStatus() == FlightStatus.ArrivingDelayed)
             {
                 flight.ParkFlightAtGate(flight.GetAssignedGate());
             }
