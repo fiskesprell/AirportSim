@@ -105,6 +105,8 @@ namespace AirportSimulation
 
                     foreach (var flight in airport.GetAllFlights().ToList())
                     {
+                        //Burde kanskje ha en sjekk her for at flyet har de riktige verdiene som trengs for å kjøre simuleringen?
+                        //Da kan vi lettere gi en exception hvis det mangler f.eks. FlightDirection eller annen viktig property
                         flight.updateElapsedTime(timeSimulation);
                         flight.FlightSim(airport, timeSimulation);
                     }
