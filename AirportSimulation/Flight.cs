@@ -48,6 +48,7 @@ namespace AirportSimulation
         private bool IsInternational { get; set; } = false;
 
         //Dette er nok formatet vi burde ha properties, getters og setters på
+        //Da kan vi fjerne mange metoder i denne filen og det vil bli mye mer oversiktlig
         private Plane _planeAssigned;
         public Plane PlaneAssigned
         {

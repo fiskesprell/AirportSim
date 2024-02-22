@@ -34,12 +34,23 @@ namespace AirportSimulation
         /// <summary>
         /// The starting date and time for the simulation.
         /// </summary>
-        public DateTime StartDate { get; set; }
+        private DateTime _startDate;
+        public DateTime StartDate
+        {
+            get => _startDate;
+            set => _startDate = value;
+        }
 
         /// <summary>
         /// The ending date and time for the simulation.
         /// </summary>
-        public DateTime EndDate { get; set; }
+        private DateTime _endDate;
+        public DateTime EndDate
+        {
+            get => _endDate;
+            set => _endDate = value;
+        }
+
 
         public TimeSimulation()
         {}
