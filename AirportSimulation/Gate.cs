@@ -47,7 +47,7 @@ namespace AirportSimulation
         /// <summary>
         /// Gets or sets the licence(s) of the gate.
         /// </summary>
-        private GateLicence Licence
+        public GateLicence Licence
         {
             get => _licence;
             set => _licence = value;

@@ -28,7 +28,7 @@ namespace AirportSimulation
         /// <summary>
         /// List of the gates connected to this terminal.
         /// </summary>
-        private List<Gate> ConnectedGates = new List<Gate>();
+        public List<Gate> ConnectedGates = new List<Gate>();
 
         public Terminal() { }
 
