@@ -47,6 +47,14 @@ namespace AirportSimulation
         private Gate AssignedGate { get; set; }
         private bool IsInternational { get; set; } = false;
 
+        //Dette er nok formatet vi burde ha properties, getters og setters på
+        private Plane _planeAssigned;
+        public Plane PlaneAssigned
+        {
+            get => _planeAssigned;
+            set => _planeAssigned = value;
+        }
+
         private DateTime ScheduledDay { get; set; }
         private int ScheduledHour { get; set; } = 0;
         private int ScheduledMinutes { get; set; } = 0;
@@ -102,7 +110,7 @@ namespace AirportSimulation
 
 
         /// <summary>
-        /// Creates a flight. Not the same as creating an aircraft. Needs a flightnumber, date and time of arrival/departure,
+        /// Creates a flight. Not the same as creating a plane. Needs a flightnumber, date and time of arrival/departure,
         /// direction of flight (incoming, outgoing or other) and an airport object (the airport it is either arriving to or departing from).
         /// </summary>
         /// <param name="flightNumber">Flight number. Commonly looks like "WN417".</param>
