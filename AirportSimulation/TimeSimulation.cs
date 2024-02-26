@@ -1,6 +1,7 @@
 //Code inspired by "Discrete Event Simulation: A Population Growth Example" By Arnaldo Perez
 //https://learn.microsoft.com/en-us/archive/msdn-magazine/2016/march/csharp-discrete-event-simulation-a-population-growth-example
 
+using AirportSimulationCl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,6 +70,11 @@ namespace AirportSimulation
 
             TimeSpan timeDifference = end - start;
 
+            //Eksempel på hvordan bruke custom exceptions
+            if (timeDifference.TotalSeconds < 0)
+                throw new InvalidScheduledTimeException("\nThe end date cannot be before the start date");
+
+
             airport.SetScheduledStartDate(start);
             airport.SetScheduledEndDate(end);
 
@@ -79,17 +85,17 @@ namespace AirportSimulation
             //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
             if (airport.GetAllRunways().Count == 0)
             {
-                throw new Exception("\n\nException: There are no runways in this airport. Try adding one with airportObject.addRunway(string name).\n");
+                throw new InvalidInfrastructureException("\nThere are no runways in this airport. Try adding one with airportObject.addRunway(string name).\n");
             }
 
             else if (airport.GetAllTaxis().Count == 0)
             {
-                throw new Exception("\n\nException: There are no Taxiways in this airport. Try adding one with airportObject.addTaxi(string name)\n");
+                throw new InvalidInfrastructureException("\nThere are no taxiways in this airport. Try adding one with airportObject.addTaxi(string name)\n");
             }
 
             else if (airport.GetAllTerminals().Count == 0)
             {
-                throw new Exception("\n\nException: There are no terminals in this airport. Try adding one with airportObject.addTerminal(string name)\n");
+                throw new InvalidInfrastructureException("\nThere are no terminals in this airport. Try adding one with airportObject.addTerminal(string name)\n");
             }
             int totalMinutes = 1440 * days + 60 * hours + minutes;
 

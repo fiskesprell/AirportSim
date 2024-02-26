@@ -557,12 +557,12 @@ namespace AirportSimulation
                 if (this.IsInternational)
                 {
                     string international = "International";
-                    throw new Exception($"\n\nException: There are no terminals on this airport that accepts {international} flights. Try configuring your terminal(s) with setIsInternational(true) or add a terminal with the correct configuration\n");
+                    throw new InvalidInfrastructureException($"\nThere are no terminals on this airport that accepts {international} flights. Try configuring your terminal(s) with setIsInternational(true) or add a terminal with the correct configuration\n");
                 }
                 else
                 {
                     string international = "Domestic";
-                    throw new Exception($"\n\nException: There are no terminals on this airport that accepts {international} flights. Try configuring your terminal(s) with setIsInternational(false) or add a terminal with the correct configuration\n");
+                    throw new InvalidInfrastructureException($"\nThere are no terminals on this airport that accepts {international} flights. Try configuring your terminal(s) with setIsInternational(false) or add a terminal with the correct configuration\n");
                 }
             }
 
