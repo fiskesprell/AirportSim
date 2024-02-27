@@ -122,12 +122,12 @@ namespace AirportSimulation
         /// <param name="direction">Either <c>Direction.Outgoing</c> or <c>Direction.Incoming</c>. </param>
         /// <param name="airport">The Airport to which the flight belongs.</param>
         /// <exception cref="ArgumentException"></exception>
-        public Flight(string flightNumber, Airport destination, DateTime travelDay, int travelHour, int travelMinute, FlightDirection direction, Airport airport, Plane plane)
+        public Flight(string flightNumber, Airport destination, DateTime travelDay, int travelHour, int travelMinute, FlightDirection direction, Airport airport)
         {
             this.Number = flightNumber;
             this.DestinationAirport = destination;
             this.CurrentAirport = airport;
-            this.AssignedPlane = plane;
+            this.AssignedPlane = AssignAvailablePlaneToFlight();
 
             if (travelHour > 23 || travelHour < 0)
                 throw new InvalidScheduledTimeException("There are only 24 hours in a day. Expected values are between 0 and 23.");
@@ -1629,7 +1629,7 @@ namespace AirportSimulation
         //Metode for å assigne et plane til flighten
         //Loope gjennom listen med available planes og finne et plane med riktig lisens?
         //og assigne det objektet til variablen AssignedPlane
-        public void AssignAvailablePlaneToFlight()
+        public Plane AssignAvailablePlaneToFlight()
         {
 
             if (this.CurrentAirport.ListOfPlanes.Count == 0)
@@ -1637,19 +1637,24 @@ namespace AirportSimulation
                 throw new InvalidInfrastructureException("There are no planes in this airport.");
             }
             //Går gjennom alle flyene som er laget
-            foreach(var plane in this.CurrentAirport.ListOfPlanes)
+            
+            else
             {
-                //Sjekker at flyet er riktig type, at det er ledig, og at det er på flyplassen
-                if ((plane.FlightType & this.FlightType) == this.FlightType && plane.PlaneIsAvailable == true && plane.CurrentAirport == this.CurrentAirport)
+                foreach (var plane in this.CurrentAirport.ListOfPlanes)
                 {
-                    //Setter flyet til instansvariabel og gjør det utilgjengelig
-                    //Dvs at vi må endre på metoden som vi kaller helt til slutt når et fly har landet for å kunne gjøre det tilgjegenlig igjen
-                    this.AssignedPlane = plane;
-                    plane.PlaneIsAvailable = false;
+                    //Sjekker at flyet er riktig type, at det er ledig, og at det er på flyplassen
+                    if ((plane.FlightType & this.FlightType) == this.FlightType && plane.PlaneIsAvailable == true && plane.CurrentAirport == this.CurrentAirport)
+                    {
+                        //Setter flyet til instansvariabel og gjør det utilgjengelig
+                        //Dvs at vi må endre på metoden som vi kaller helt til slutt når et fly har landet for å kunne gjøre det tilgjegenlig igjen
+                        plane.PlaneIsAvailable = false;
+                        return plane;
+                    }
+                    else
+                        throw new InvalidInfrastructureException("There are no available planes with the correct FlightType in this airport");
                 }
-                else
-                    throw new InvalidInfrastructureException("There are no available planes with the correct FlightType in this airport");
             }
+            throw new InvalidInfrastructureException("There are no available planes in this airport");
         }
 
     }//Slutt Flight klassen
