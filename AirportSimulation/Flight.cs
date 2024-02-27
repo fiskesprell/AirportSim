@@ -59,7 +59,7 @@ namespace AirportSimulation
         private DateTime ScheduledDay { get; set; }
         private int ScheduledHour { get; set; } = 0;
         private int ScheduledMinutes { get; set; } = 0;
-        private string Destination { get; set; }
+        private Airport DestinationAirport { get; set; }
         
         private FlightStatus Status { get; set; } = FlightStatus.OnTime;
         private FlightFrequency Frequency { get; set; } = FlightFrequency.OneTime;
@@ -115,18 +115,25 @@ namespace AirportSimulation
         /// direction of flight (incoming, outgoing or other) and an airport object (the airport it is either arriving to or departing from).
         /// </summary>
         /// <param name="flightNumber">Flight number. Commonly looks like "WN417".</param>
-        /// <param name="destination">Name of Airport the flight is going to.</param>
+        /// <param name="destination">Airport the flight is going to.</param>
         /// <param name="travelDay">The date of departure.</param>
         /// <param name="travelHour">The hour of the departure. Follows the 24-hour clock. Putting 18 here means the flight leaves at 6PM (18:XX).</param>
         /// <param name="travelMinute">The minute of the departure. Putting 30 here means the flight will leave at XX:30.</param>
         /// <param name="direction">Either <c>Direction.Outgoing</c> or <c>Direction.Incoming</c>. </param>
         /// <param name="airport">The Airport to which the flight belongs.</param>
         /// <exception cref="ArgumentException"></exception>
-        public Flight(string flightNumber, string destination, DateTime travelDay, int travelHour, int travelMinute, FlightDirection direction, Airport airport)
+        public Flight(string flightNumber, Airport destination, DateTime travelDay, int travelHour, int travelMinute, FlightDirection direction, Airport airport, Plane plane)
         {
             this.Number = flightNumber;
-            this.Destination = destination;
+            this.DestinationAirport = destination;
             this.CurrentAirport = airport;
+            this.AssignedPlane = plane;
+
+            if (travelHour > 23 || travelHour < 0)
+                throw new InvalidScheduledTimeException("There are only 24 hours in a day. Expected values are between 0 and 23.");
+
+            if (travelMinute > 59 || travelMinute < 0)
+                throw new InvalidScheduledTimeException("There are only 60 minutes in an hour. Expected values are between 0 and 59");
 
             //Hvis de sender inn noe som ikke er en av kategoriene i Direction enumen så vil en exception kastes
             if (Enum.TryParse(direction.ToString(), out FlightDirection flightDirection))
@@ -167,10 +174,10 @@ namespace AirportSimulation
         /// <param name="flightType">Specifies the type of flight, as defined in the <c>FlightType</c> enum.</param>
         /// <param name="frequency">Defines the frequency of the flight, such as one-time, daily, or weekly, as specified in the <c>Frequency</c> enum.</param>
         /// <param name="company">The name of the company operating the flight.</param>
-        public Flight(string flightNumber, string destination, DateTime travelDay, int travelHour, int travelMinute, FlightDirection direction, Airport airport, bool isInternational, FlightType flightType, FlightFrequency frequency, string company)
+        public Flight(string flightNumber, Airport destination, DateTime travelDay, int travelHour, int travelMinute, FlightDirection direction, Airport airport, bool isInternational, FlightType flightType, FlightFrequency frequency, string company)
         {
             this.Number = flightNumber;
-            this.Destination = destination;
+            this.DestinationAirport = destination;
             this.CurrentAirport = airport;
             this.ScheduledDay = travelDay;
             this.ScheduledHour = travelHour;
@@ -332,6 +339,7 @@ namespace AirportSimulation
                 SetDesiredRunway(null);
                 SetAssignedGate(null);
                 SetDesiredTaxi(null);
+                this.AssignedPlane.CurrentAirport = this.DestinationAirport;
                 this.AssignedPlane = null;
                 SetHasLogged(false);
                 LogHistory.Clear();
@@ -346,6 +354,7 @@ namespace AirportSimulation
                 SetDesiredRunway(null);
                 SetDesiredTaxi(null);
                 SetAssignedGate(null);
+                this.AssignedPlane.CurrentAirport = this.DestinationAirport;
                 this.AssignedPlane = null;
                 SetHasLogged(false);
                 LogHistory.Clear();
@@ -1622,6 +1631,11 @@ namespace AirportSimulation
         //og assigne det objektet til variablen AssignedPlane
         public void AssignAvailablePlaneToFlight()
         {
+
+            if (this.CurrentAirport.ListOfPlanes.Count == 0)
+            {
+                throw new InvalidInfrastructureException("There are no planes in this airport.");
+            }
             //Går gjennom alle flyene som er laget
             foreach(var plane in this.CurrentAirport.ListOfPlanes)
             {
@@ -1632,7 +1646,9 @@ namespace AirportSimulation
                     //Dvs at vi må endre på metoden som vi kaller helt til slutt når et fly har landet for å kunne gjøre det tilgjegenlig igjen
                     this.AssignedPlane = plane;
                     plane.PlaneIsAvailable = false;
-                } 
+                }
+                else
+                    throw new InvalidInfrastructureException("There are no available planes with the correct FlightType in this airport");
             }
         }
 
