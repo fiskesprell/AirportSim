@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirportSimulation
+namespace AirportSimulationCl
 {
     public class TaxiBuilder
     {
@@ -50,7 +50,7 @@ namespace AirportSimulation
         /// Sets the availability of the taxiway.
         /// </summary>
         /// <param name="isAvailable">The availability status to set.</param>
-        /// <returns>The builder instance for chaining.</returns>
+        /// <returns></returns>
         public TaxiBuilder IsAvailable(bool isAvailable)
         {
             _taxi.IsAvailable = isAvailable;
@@ -58,9 +58,9 @@ namespace AirportSimulation
         }
 
         /// <summary>
-        /// Returns the built Taxi object.
+        /// Builds and returns the configured Taxi object.
         /// </summary>
-        /// <returns>The Taxi object.</returns>
+        /// <returns>The built Taxi object.</returns>
         public Taxi Build()
         {
             return _taxi;
