@@ -26,7 +26,7 @@ namespace AirportSimulation
         /// <summary>
         /// Adds a gate to the taxi's ConnectedGates list.
         /// </summary>
-        /// <param Gate="gate">The gate object to add.</param>
+        /// <param name="gate">The gate object to add.</param>
         /// <returns></returns>
 
         public TaxiBuilder AddConnectedGate(Gate gate)
@@ -38,7 +38,7 @@ namespace AirportSimulation
         /// <summary>
         /// Adds a runway to the taxi's ConnectedGates list.
         /// </summary>
-        /// <param Runway="runway">The runway object to add.</param>
+        /// <param name="runway">The runway object to add.</param>
         /// <returns></returns>
         public TaxiBuilder AddConnectedRunway(Runway runway)
         {
