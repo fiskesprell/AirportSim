@@ -23,6 +23,12 @@ namespace AirportSimulationCl
             return this;
         }
 
+        public PlaneBuilder AddFlightType(FlightType flightType)
+        {
+            _plane.FlightType = flightType;
+            return this;
+        }
+
         /// <summary>
         /// Adds a string as the modelname of the plane
         /// </summary>
@@ -207,6 +213,12 @@ namespace AirportSimulationCl
         public PlaneBuilder AddFlightToHistory(Flight flight)
         {
             _plane.PlaneHistory.Add(flight);
+            return this;
+        }
+
+        public PlaneBuilder AddPlaneToAirport(Airport airport)
+        {
+            _plane.CurrentAirport = airport;
             return this;
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AirportSimulationCl;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -42,6 +43,13 @@ namespace AirportSimulation
         /// Gets and sets the scheduled end date
         /// </summary>
         private DateTime ScheduledEndDate { get; set; }
+
+        private List<Plane> _listOfPlanes = new List<Plane> ();
+
+        public List<Plane> ListOfPlanes
+        {
+            get => _listOfPlanes;
+        }
 
         public Airport() { }
 
@@ -236,5 +244,11 @@ namespace AirportSimulation
             newTaxi.AddConnectedGate(newGate);
             AllTaxis.Add(newTaxi);
         }
+
+        public void AddPlaneToListOfAvailablePlanes(Plane plane)
+        {
+            this.ListOfPlanes.Add(plane);
+        }
+
     }
 }

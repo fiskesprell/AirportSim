@@ -49,11 +49,11 @@ namespace AirportSimulation
 
         //Dette er nok formatet vi burde ha properties, getters og setters på
         //Da kan vi fjerne mange metoder i denne filen og det vil bli mye mer oversiktlig
-        private Plane _planeAssigned;
-        public Plane PlaneAssigned
+        private Plane _assignedPlane;
+        public Plane AssignedPlane
         {
-            get => _planeAssigned;
-            set => _planeAssigned = value;
+            get => _assignedPlane;
+            set => _assignedPlane = value;
         }
 
         private DateTime ScheduledDay { get; set; }
@@ -311,6 +311,7 @@ namespace AirportSimulation
             {
                 airport.AddCompletedFlight(this);
                 airport.RemoveCompletedFlightFromAllFlights(this);
+                this.AssignedPlane = null;
             }
             
             if (this.Logging && !(this.HasLogged) && ElapsedDays == adjustedTravelDay + 1 && ElapsedHours == 0 && ElapsedMinutes == 0 && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed))
@@ -331,6 +332,7 @@ namespace AirportSimulation
                 SetDesiredRunway(null);
                 SetAssignedGate(null);
                 SetDesiredTaxi(null);
+                this.AssignedPlane = null;
                 SetHasLogged(false);
                 LogHistory.Clear();
                 
@@ -344,6 +346,7 @@ namespace AirportSimulation
                 SetDesiredRunway(null);
                 SetDesiredTaxi(null);
                 SetAssignedGate(null);
+                this.AssignedPlane = null;
                 SetHasLogged(false);
                 LogHistory.Clear();
             }
@@ -1611,6 +1614,25 @@ namespace AirportSimulation
             else
             {
                 return this.AssignedGate;
+            }
+        }
+
+        //Metode for å assigne et plane til flighten
+        //Loope gjennom listen med available planes og finne et plane med riktig lisens?
+        //og assigne det objektet til variablen AssignedPlane
+        public void AssignAvailablePlaneToFlight()
+        {
+            //Går gjennom alle flyene som er laget
+            foreach(var plane in this.CurrentAirport.ListOfPlanes)
+            {
+                //Sjekker at flyet er riktig type, at det er ledig, og at det er på flyplassen
+                if ((plane.FlightType & this.FlightType) == this.FlightType && plane.PlaneIsAvailable == true && plane.CurrentAirport == this.CurrentAirport)
+                {
+                    //Setter flyet til instansvariabel og gjør det utilgjengelig
+                    //Dvs at vi må endre på metoden som vi kaller helt til slutt når et fly har landet for å kunne gjøre det tilgjegenlig igjen
+                    this.AssignedPlane = plane;
+                    plane.PlaneIsAvailable = false;
+                } 
             }
         }
 

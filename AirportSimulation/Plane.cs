@@ -29,6 +29,13 @@ namespace AirportSimulationCl
             set => _tailNumber = value;
         }
 
+        private FlightType _flightType;
+        public FlightType FlightType
+        {
+            get => _flightType;
+            set => _flightType = value;
+        }
+
         //Funksjonalitet
         private int _planeLength;
         public int PlaneLength
