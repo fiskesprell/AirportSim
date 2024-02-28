@@ -87,22 +87,22 @@ namespace AirportSimulation
             // NB: Denne funksjonen krever at du har en AssignedGate
             Flight flight = RunwayQueue.Dequeue();
 
-            if (flight.GetDirection() == FlightDirection.Outgoing)
+            if (flight.FlightDirection == FlightDirection.Outgoing)
             {
                 AddFlightToRunway(flight);
             }
 
             else
             {
-                //AssignedGate er private, bruk get
-                Gate desiredGate = flight.GetAssignedGate();
+
+                Gate desiredGate = flight.AssignedGate;
                 Taxi optimalTaxi = null;
                 int queueSize = int.MaxValue;
                 //Går gjennom alle taxi som er connected til runwayen
                 foreach (Taxi taxi in ConnectedTaxi)
                 {
                     //Sjekker om gaten er connected til taxi
-                    if (taxi.GetConnectedGates().Contains(desiredGate))
+                    if (taxi.ConnectedGates.Contains(desiredGate))
                     {
                         //Hvis den er connected, sjekk køstørrelsen
                         //Hvis 
@@ -137,60 +137,6 @@ namespace AirportSimulation
             this.IsAvailable = false;
             FlightOnRunway = flight;
 
-        }
-
-        /// <summary>
-        /// Sets the availability of the runway.
-        /// </summary>
-        /// <param name="availability">The availability status to set.</param>
-        public void SetIsAvailable(bool availability)
-        {
-            this.IsAvailable=availability;
-        }
-
-        /// <summary>
-        /// Returns the availability status of the runway.
-        /// </summary>
-        /// <returns>True if the runway is available. Otherwise, false.</returns>
-        public bool GetIsAvailable()
-        {
-            return IsAvailable;
-        }
-
-        /// <summary>
-        /// Sets the flight currently on the runway.
-        /// </summary>
-        /// <param name="flight">The flight to set.</param>
-        public void SetFlightOnRunway(Flight flight)
-        {
-            FlightOnRunway = flight;
-        }
-
-        /// <summary>
-        /// Gets the flight currently on the runway.
-        /// </summary>
-        /// <returns>The flight on the runway.</returns>
-        public Flight GetFlightOnRunway()
-        {
-            return FlightOnRunway;
-        }
-
-        /// <summary>
-        /// Returns the name of the runway.
-        /// </summary>
-        /// <returns>The runway name.</returns>
-        public string GetRunwayName()
-        {
-            return this.RunwayName;
-        }
-
-        /// <summary>
-        /// Returns the queue of flights for the runway.
-        /// </summary>
-        /// <returns>The runway's flight queue.</returns>
-        public Queue<Flight> GetRunwayQueue()
-        {
-            return this.RunwayQueue;
         }
     }
 

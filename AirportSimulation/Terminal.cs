@@ -55,7 +55,7 @@ namespace AirportSimulation
         {
             Gate newGate = new Gate(name);
             ConnectedGates.Add(newGate);
-            Console.WriteLine("Terminalen " + TerminalName + " har fått tildelt gate " + newGate.GetGateName());
+            Console.WriteLine("Terminalen " + TerminalName + " har fått tildelt gate " + newGate.GateName);
             return newGate;
         }
 
@@ -66,33 +66,6 @@ namespace AirportSimulation
         public void AddExistingGate(Gate gate)
         {
             ConnectedGates.Add(gate);
-        }
-
-        /// <summary>
-        /// Gets the list of all gates connected to this terminal.
-        /// </summary>
-        /// <returns>List of connected gates.</returns>
-        public List<Gate> GetConnectedGates()
-        {
-            return ConnectedGates;
-        }
-
-        /// <summary>
-        /// Checks if the terminal is designated for international flights.
-        /// </summary>
-        /// <returns>True if the terminal is for international flights, otherwise false.</returns>
-        public bool GetIsInternational() 
-        { 
-            return IsInternational; 
-        }
-
-        /// <summary>
-        /// Sets the terminal's designation for international flights.
-        /// </summary>
-        /// <param name="isInternational">Boolean value indicating whether the terminal is for international flights.</param>
-        public void SetIsInternational(bool isInternational)
-        {
-            IsInternational = isInternational;
         }
 
         /// <summary>

@@ -18,21 +18,21 @@ namespace AirportSimulation
         /// </summary>
         private string _taxiName;
         public string TaxiName
-        {get => _taxiName;set => _taxiName = value;}
+        { get => _taxiName; set => _taxiName = value;}
 
         /// <summary>
         /// List of gates connected to this taxiway.
         /// </summary>
         private List<Gate> _connectedGates = new List<Gate>();
         public List<Gate> ConnectedGates
-        {get => _connectedGates;}
+        { get => _connectedGates;}
 
         /// <summary>
         /// List of runways connected to this taxiway.
         /// </summary>
         private List<Runway> _connectedRunways = new List<Runway>();
         public List<Runway> ConnectedRunways
-        {get => _connectedRunways;}
+        { get => _connectedRunways;}
 
         /// <summary>
         /// Queue of flights that wish to use the taxiway.
@@ -68,31 +68,31 @@ namespace AirportSimulation
         /// <param name="flight">Flight</param>
         public void AddToTaxiQueue(Flight flight)
         {
-            if (flight.GetDirection() == FlightDirection.Outgoing)
+            if (flight.FlightDirection == FlightDirection.Outgoing)
             {
-                if (flight.GetStatus() != FlightStatus.Departing)
+                if (flight.Status != FlightStatus.Departing)
                 {
-                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.GetFlightNumber() + " started traveling on " + this.TaxiName + " towards " + flight.GetAssignedGate().GetGateName());
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.AssignedGate.GateName);
                     TaxiQueue.Enqueue(flight);
                 }
 
                 else
                 {
-                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.GetFlightNumber() + " started traveling on " + this.TaxiName + " towards " + flight.GetDesiredRunway().GetRunwayName());
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.DesiredRunway.RunwayName);
                     TaxiQueue.Enqueue(flight);
                 }
             }
             
 
-            else if(flight.GetDirection() == FlightDirection.Incoming)
+            else if(flight.FlightDirection == FlightDirection.Incoming)
             {
-                if (flight.GetAssignedGate() != null)
+                if (flight.AssignedGate != null)
                 {
-                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.GetFlightNumber() + " started traveling on " + this.TaxiName + " towards " + flight.GetAssignedGate().GetGateName());
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.AssignedGate.GateName);
                 }
                 else
                 {
-                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.GetFlightNumber() + " started traveling on " + this.TaxiName + " towards a Gate");
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards a Gate");
                 }
 
                 TaxiQueue.Enqueue(flight);
@@ -110,31 +110,31 @@ namespace AirportSimulation
 
             Flight flight = TaxiQueue.Dequeue();
             
-            if (flight.GetDirection() == FlightDirection.Incoming || flight.GetStatus() == FlightStatus.ArrivingDelayed)
+            if (flight.FlightDirection == FlightDirection.Incoming || flight.Status == FlightStatus.ArrivingDelayed)
             {
-                flight.ParkFlightAtGate(flight.GetAssignedGate());
+                flight.ParkFlightAtGate(flight.AssignedGate);
             }
             else
             {
-                if (flight.GetStatus() != FlightStatus.Departing)
+                if (flight.Status != FlightStatus.Departing)
                 {
                     //Hvis statusen er departing så er den ferdig med å boarde så da skal den finne en taxi for å finne en runway for å ta av
-                    if (!flight.GetIsTraveling())
+                    if (!flight.IsTraveling)
                     {
-                        flight.ParkFlightAtGate(flight.GetAssignedGate());
+                        flight.ParkFlightAtGate(flight.AssignedGate);
                     }
                 }
 
                 else
                 {
-                    if (flight.GetDesiredRunway() == null)
+                    if (flight.DesiredRunway == null)
                     {
                         Runway correctRunway = flight.FindRunway();
                         correctRunway.AddToRunwayQueue(flight);
                     }//hvis statusen ikke er "departing" så vil det si at den ikke har boardet enda og skal til gate. Dvs, den kommer fra hangar
                     else
                     {
-                        flight.GetDesiredRunway().AddToRunwayQueue(flight);
+                        flight.DesiredRunway.AddToRunwayQueue(flight);
                     }
                 }
                 
@@ -176,42 +176,6 @@ namespace AirportSimulation
         {
             ConnectedRunways.Remove(runway);
         }
-
-        /// <summary>
-        /// Gets the gates connected to this taxiway.
-        /// </summary>
-        /// <returns>List of connected gates.</returns>
-        public List<Gate> GetConnectedGates()
-        {
-            return ConnectedGates;
-        }
-        /// <summary>
-        /// Gets the runways connected to this taxiway.
-        /// </summary>
-        /// <returns>List of connected runways.</returns>
-        public List<Runway> GetConnectedRunways()
-        {
-            return ConnectedRunways;
-        }
-
-        /// <summary>
-        /// Returns the name of the taxiway.
-        /// </summary>
-        /// <returns>The taxiway name.</returns>
-        public string GetTaxiName()
-        {
-            return this.TaxiName;
-        }
-
-        /// <summary>
-        /// Gets the queue of flights for this taxiway.
-        /// </summary>
-        /// <returns>The queue of flights.</returns>
-        public Queue<Flight> GetTaxiQueue()
-        {
-            return this.TaxiQueue;
-        }
-
     }
 
 }

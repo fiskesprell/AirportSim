@@ -117,67 +117,10 @@ namespace AirportSimulation
         //taxi som har minst kø
 
         //Denne tror jeg overlapper veldig med findTaxi så vi kan slanke den eller bare fjerne den helt
-        public void transferFlightToTaxi(Flight flight)
+        public void TransferFlightToTaxi(Flight flight)
         {
-            //Sjekker om lista er tom først
-            flight.GetDesiredTaxi().AddToTaxiQueue(flight);
-            flight.SetIsTraveling(true);    /// <summary>
-    /// Defines the types of aircraft licenses a gate can have, allowing for multiple categories simultaneously.
-    /// </summary>
-    /// <value>
-        }
-
-        /// <summary>
-        /// Get method for GateName. This will return a string
-        /// </summary>
-        public string GetGateName()
-        {
-            return GateName;
-        }
-
-        /// <summary>
-        /// Get method for ConnectedTaxi. This will return a list of taxi objects
-        /// </summary>
-        public List<Taxi> GetConnectedTaxis()
-        {
-            return ConnectedTaxis;
-        }
-
-        /// <summary>
-        /// Get method for IsAvailable. This will return a bool
-        /// </summary>
-        public bool GetIsAvailable()
-        {
-            return IsAvailable;
-        }
-
-        /// <summary>
-        /// Set method for IsAvailable. This will change the value of IsAvailable
-        /// </summary>
-        public void SetIsAvailable(bool status)
-        {
-            IsAvailable = status;
-        }
-
-        /// <summary>
-        /// Get method for CurrentHolder. This will return a flight object
-        /// </summary>
-        public Flight GetCurrentHolder()
-        {
-            return CurrentHolder;
-        }
-
-        public void SetCurrentHolder(Flight flight)
-        {
-            CurrentHolder = flight;
-        }
-
-        /// <summary>
-        /// Get method GateLicence. This will return an enumvalue
-        /// </summary>
-        public GateLicence GetGateLicence()
-        {
-            return Licence;
+            flight.DesiredTaxi.AddToTaxiQueue(flight);
+            flight.IsTraveling = true;    
         }
 
         /// <summary>
@@ -185,7 +128,7 @@ namespace AirportSimulation
         /// </summary>
         public bool CheckGateLicence(Flight flight)
         {
-            FlightType flighttype = flight.GetFlightType();
+            FlightType flighttype = flight.FlightType;
             if ((this.Licence & (GateLicence)flighttype) == this.Licence)
             {
                 return true;

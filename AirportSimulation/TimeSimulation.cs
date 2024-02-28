@@ -74,26 +74,25 @@ namespace AirportSimulation
             if (timeDifference.TotalSeconds < 0)
                 throw new InvalidScheduledTimeException("\nThe end date cannot be before the start date");
 
-
-            airport.SetScheduledStartDate(start);
-            airport.SetScheduledEndDate(end);
+            airport.ScheduledStartDate = start;
+            airport.ScheduledEndDate = end;
 
             int days = timeDifference.Days +1;
             int hours = timeDifference.Hours;
             int minutes = timeDifference.Minutes+1;
 
             //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
-            if (airport.GetAllRunways().Count == 0)
+            if (airport.AllRunways.Count == 0)
             {
                 throw new InvalidInfrastructureException("\nThere are no runways in this airport. Try adding one with airportObject.addRunway(string name).\n");
             }
 
-            else if (airport.GetAllTaxis().Count == 0)
+            else if (airport.AllTaxis.Count == 0)
             {
                 throw new InvalidInfrastructureException("\nThere are no taxiways in this airport. Try adding one with airportObject.addTaxi(string name)\n");
             }
 
-            else if (airport.GetAllTerminals().Count == 0)
+            else if (airport.AllTerminals.Count == 0)
             {
                 throw new InvalidInfrastructureException("\nThere are no terminals in this airport. Try adding one with airportObject.addTerminal(string name)\n");
             }
@@ -102,25 +101,25 @@ namespace AirportSimulation
             for (int i = 0; i < totalMinutes; i++)
             {
 
-                if (airport.GetAllFlights().Count() > 0)
+                if (airport.AllFlights.Count() > 0)
                 {
-                    foreach (var taxi in airport.GetAllTaxis())
+                    foreach (var taxi in airport.AllTaxis)
                     {
-                        if (taxi.GetTaxiQueue().Count() != 0)
+                        if (taxi.TaxiQueue.Count() != 0)
                         {
                             taxi.RemoveFromTaxiQueue();
                         }
                     }
 
-                    foreach (var runway in airport.GetAllRunways())
+                    foreach (var runway in airport.AllRunways)
                     {
-                        if (runway.GetRunwayQueue().Count() != 0)
+                        if (runway.RunwayQueue.Count() != 0)
                         {
                             runway.RemoveFromRunwayQueue();
                         }
                     }
 
-                    foreach (var flight in airport.GetAllFlights().ToList())
+                    foreach (var flight in airport.AllFlights.ToList())
                     {
                         //Burde kanskje ha en sjekk her for at flyet har de riktige verdiene som trengs for å kjøre simuleringen?
                         //Da kan vi lettere gi en exception hvis det mangler f.eks. FlightDirection eller annen viktig property

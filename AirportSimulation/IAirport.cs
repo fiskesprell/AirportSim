@@ -52,33 +52,5 @@ namespace AirportSimulation
         /// </summary>
         void AddNewFlight(Flight flight);
 
-
-        /// <summary>
-        /// Gets the name of the airport.
-        /// </summary>
-        /// <returns>A string containing the name of the airport.</returns>
-        string GetAirportName();
-
-        /// <summary>
-        /// Retrieves all taxis available at the airport.
-        /// </summary>
-        /// <returns>A list of <see cref="Taxi"/> objects representing all taxis at the airport.</returns>
-        List<Taxi> GetAllTaxis();
-
-        /// <summary>
-        /// Retrieves all runways at the airport.
-        /// </summary>
-        /// <returns>A list of <see cref="Runway"/> objects representing all runways at the airport.</returns>
-        List<Runway> GetAllRunways();
-
-        /// <summary>
-        /// Retrieves all flights associated with the airport.
-        /// </summary>
-        /// <returns>A list of <see cref="Flight"/> objects representing all flights.</returns>
-        List<Flight> GetAllFlights();
-
-
-
-
     }
 }

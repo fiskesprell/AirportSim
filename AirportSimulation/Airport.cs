@@ -170,69 +170,7 @@ namespace AirportSimulation
         {
             this.AllFlights.Add(flight);
         }
-        /// <summary>
-        /// Gets all flights in the airport
-        /// </summary>
-        public List<Flight> GetAllFlights()
-        {
-            return this.AllFlights;
-        }
-        /// <summary>
-        /// Gets all runways the airport
-        /// </summary>
-        public List<Runway> GetAllRunways()
-        {
-            return AllRunways;
-        }
-        /// <summary>
-        /// Gets all taxis in the airport
-        /// </summary>
-        public List<Taxi> GetAllTaxis()
-        {
-            return AllTaxis;
-        }
-        /// <summary>
-        /// Gets all terminals in the airport
-        /// </summary>
-        public List<Terminal> GetAllTerminals()
-        {
-            return AllTerminals;
-        }
-        /// <summary>
-        /// Gets scheduled start date for the airport's simulation
-        /// </summary>
-        public DateTime GetScheduledStartDate()
-        {
-            return ScheduledStartDate;
-        }
-        /// <summary>
-        /// Sets scheduled start date for the airport's simulation
-        /// </summary>
-        public void SetScheduledStartDate(DateTime scheduledStartDate)
-        {
-            ScheduledStartDate = scheduledStartDate;
-        }
-        /// <summary>
-        /// Gets scheduled end date for the airport's simulation
-        /// </summary>
-        public DateTime GetScheduledEndDate()
-        {
-            return ScheduledEndDate;
-        }
-        /// <summary>
-        /// Sets scheduled end date for the airport's simulation
-        /// </summary>
-        public void SetScheduledEndDate(DateTime scheduledEndDate)
-        {
-            ScheduledEndDate = scheduledEndDate;
-        }
-        /// <summary>
-        /// Gets the name of the airport
-        /// </summary>
-        public string GetAirportName()
-        {
-            return AirportName;
-        }
+
         /// <summary>
         /// Adds a flight to the airport's completed flights
         /// </summary>
