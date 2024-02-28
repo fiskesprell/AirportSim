@@ -24,8 +24,9 @@ namespace AirportSimApp
 
             Airport testAirport = new Airport("Gardermoen", "Terminal A", "Taxi A", "Runway A", "Gate A");
             Airport testAirport2 = new Airport("Gardermoen", "Terminal A", "Taxi A", "Runway A", "Gate A");
+            testAirport.AddExistingTerminal(testTerminal);
             Flight testFlight = new Flight("Bra123", testAirport2, new DateTime(2024, 04, 16), 14, 30, FlightDirection.Outgoing, testAirport);
-            Flight testFlight2 = new Flight("Bra123", testAirport2, new DateTime(2024, 04, 16), 17, 30, FlightDirection.Incoming, testAirport);
+            Flight testFlight2 = new Flight("Bra123", testAirport2, new DateTime(2024, 04, 16), 14, 00, FlightDirection.Incoming, testAirport);
             testAirport.AddNewFlight(testFlight);
             testAirport.AddNewFlight(testFlight2);
             TimeSimulation testTimeSimulation = new TimeSimulation();
