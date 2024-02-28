@@ -153,7 +153,7 @@ namespace AirportSimulationCl
         /// <returns></returns>
         public FlightBuilder AddDesiredTaxi(Taxi taxi)
         {
-            _flight.DesiredTaxi = taxi;
+            _flight.AssignedTaxi = taxi;
             return this;
         }
 
@@ -164,7 +164,7 @@ namespace AirportSimulationCl
         /// <returns></returns>
         public FlightBuilder AddDesiredRunway(Runway runway)
         {
-            _flight.DesiredRunway = runway;
+            _flight.AssignedRunway = runway;
             return this;
         }
 

@@ -78,7 +78,7 @@ namespace AirportSimulation
 
                 else
                 {
-                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.DesiredRunway.RunwayName);
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.AssignedRunway.RunwayName);
                     TaxiQueue.Enqueue(flight);
                 }
             }
@@ -127,14 +127,14 @@ namespace AirportSimulation
 
                 else
                 {
-                    if (flight.DesiredRunway == null)
+                    if (flight.AssignedRunway == null)
                     {
                         Runway correctRunway = flight.FindRunway();
                         correctRunway.AddToRunwayQueue(flight);
                     }//hvis statusen ikke er "departing" så vil det si at den ikke har boardet enda og skal til gate. Dvs, den kommer fra hangar
                     else
                     {
-                        flight.DesiredRunway.AddToRunwayQueue(flight);
+                        flight.AssignedRunway.AddToRunwayQueue(flight);
                     }
                 }
                 

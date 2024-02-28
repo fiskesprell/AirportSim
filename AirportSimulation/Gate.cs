@@ -119,7 +119,7 @@ namespace AirportSimulation
         //Denne tror jeg overlapper veldig med findTaxi så vi kan slanke den eller bare fjerne den helt
         public void TransferFlightToTaxi(Flight flight)
         {
-            flight.DesiredTaxi.AddToTaxiQueue(flight);
+            flight.AssignedTaxi.AddToTaxiQueue(flight);
             flight.IsTraveling = true;    
         }
 
