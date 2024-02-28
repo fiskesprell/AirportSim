@@ -21,6 +21,13 @@ namespace AirportSimApp
                 .Build();
 
             testTerminal.PrintTerminalInfo();
+
+            Airport testAirport = new Airport("Gardermoen", "Terminal A", "Taxi A", "Runway A", "Gate A");
+            Airport testAirport2 = new Airport("Gardermoen", "Terminal A", "Taxi A", "Runway A", "Gate A");
+            Flight testFlight = new Flight("Bra123", testAirport2, new DateTime(2024, 04, 16), 14, 30, FlightDirection.Outgoing, testAirport);
+            testAirport.AddNewFlight(testFlight);
+            TimeSimulation testTimeSimulation = new TimeSimulation();
+            testTimeSimulation.SimulateTime(testAirport, new DateTime(2024, 04, 15), new DateTime(2024, 04, 17));
         }
     }
 }

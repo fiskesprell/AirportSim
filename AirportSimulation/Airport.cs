@@ -254,7 +254,7 @@ namespace AirportSimulation
         {
             foreach(Flight flight in this.AllFlights)
             {
-                Console.WriteLine($"{flight.GetFlightNumber} - {flight.GetFlightFrequency} - {flight.GetScheduledDay}");
+                Console.WriteLine($"{flight.Number} - {flight.Frequency} - {flight.ScheduledDay}");
             }
         }
 

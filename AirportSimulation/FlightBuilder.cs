@@ -52,7 +52,7 @@ namespace AirportSimulationCl
         /// <returns></returns>
         public FlightBuilder AddAssignedGate(Gate gate)
         {
-            _flight.Gate = gate;
+            _flight.AssignedGate = gate;
             return this;
         }
 
@@ -98,7 +98,7 @@ namespace AirportSimulationCl
         /// <returns></returns>
         public FlightBuilder AddFlightStatus(FlightStatus flightStatus)
         {
-            _flight.FlightStatus = flightStatus;
+            _flight.Status = flightStatus;
             return this;
         }
 
@@ -109,7 +109,7 @@ namespace AirportSimulationCl
         /// <returns></returns>
         public FlightBuilder AddFlightFrequency(FlightFrequency flightFrequency)
         {
-            _flight.FlightFrequency = flightFrequency;
+            _flight.Frequency = flightFrequency;
             return this;
         }
 
@@ -131,7 +131,7 @@ namespace AirportSimulationCl
         /// <returns></returns>
         public FlightBuilder AddPlane(Plane plane)
         {
-            _flight.Plane = plane;
+            _flight.AssignedPlane = plane;
             return this;
         }
 
@@ -153,7 +153,7 @@ namespace AirportSimulationCl
         /// <returns></returns>
         public FlightBuilder AddDesiredTaxi(Taxi taxi)
         {
-            _flight.Taxi = taxi;
+            _flight.DesiredTaxi = taxi;
             return this;
         }
 
@@ -164,7 +164,7 @@ namespace AirportSimulationCl
         /// <returns></returns>
         public FlightBuilder AddDesiredRunway(Runway runway)
         {
-            _flight.Runway = runway;
+            _flight.DesiredRunway = runway;
             return this;
         }
 

@@ -27,7 +27,7 @@ namespace AirportSimulation
         /// Gets or sets the licence(s) of the gate.
         /// </summary>
         public GateLicence Licence
-        {get => _licence;set => _licence |= value;}
+        {get => _licence; set => _licence |= value;}
 
         /// <summary>
         /// Manages a list of taxiways connected to the gate.
@@ -48,8 +48,8 @@ namespace AirportSimulation
         /// True = gate is available <br/>
         /// False = gate is unavailable
         /// </summary>
-        private bool IsAvailable
-        {get => _isAvailable;set => _isAvailable = value;}
+        public bool IsAvailable
+        {get => _isAvailable; set => _isAvailable = value;}
 
         /// <summary>
         /// Holds information about the flight currently using the gate.
