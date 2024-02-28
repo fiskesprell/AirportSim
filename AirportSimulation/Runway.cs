@@ -19,27 +19,37 @@ namespace AirportSimulation
         /// <summary>
         /// The name identifier for the runway. Typically in 1-9 format.
         /// </summary>
-        public String RunwayName;
+        private string _runwayName;
+        public string RunwayName
+        {get => _runwayName;set => _runwayName = value;}
 
         /// <summary>
         /// A list of taxiways that are connected to this runway.
         /// </summary>
-        public List<Taxi> ConnectedTaxi = new List<Taxi>(); // litt usikker på om denne er gjort riktig
+        private List<Taxi> _connectedTaxi = new List<Taxi>();
+        public List<Taxi> ConnectedTaxi
+        {get => _connectedTaxi;}
 
         /// <summary>
         /// Queue of flights waiting to take off or land on this runway.
         /// </summary>
-        public Queue<Flight> RunwayQueue = new Queue<Flight>();
+        private Queue<Flight> _runwayQueue = new Queue<Flight>();
+        public Queue<Flight> RunwayQueue
+        { get => _runwayQueue; }
 
         /// <summary>
         /// Indicates if the runway is currently available. True if available.
         /// </summary>
-        public bool IsAvailable = true;
+        private bool _isAvailable = true;
+        public bool IsAvailable
+        {get => _isAvailable;set => _isAvailable = value;}
 
         /// <summary>
         /// The flight currently occupying the runway, if any.
         /// </summary>
-        public Flight FlightOnRunway = null;
+        private Flight _flightOnRunway = null;
+        public Flight FlightOnRunway
+        {get => _flightOnRunway;set => _flightOnRunway = value;}
 
         public Runway() { }
 

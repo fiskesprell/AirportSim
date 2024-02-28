@@ -41,20 +41,29 @@ namespace AirportSimulation
         /// HasLogged - Indicates if the flight has already logged an event.
         /// LogHistory - A collection of log entries related to the flight's operations.
         /// </property>
-        private string Number { get; set; }
-        private string Company { get; set; } = "Norwegian";
-        private FlightType FlightType { get; set; } = FlightType.Commercial;
-        private Gate AssignedGate { get; set; }
-        private bool IsInternational { get; set; } = false;
+        private string _number;
+        public string Number
+        {get => _number; set => _number = value;}
+        
+        private string _company = "Norwegian";
+        public string Company
+        {get => _company;set => _company = value;}
+        
+        private FlightType _flightType = FlightType.Commercial;
+        public FlightType FlightType
+        {get => _flightType;set => _flightType = value;}
+        
+        private Gate _assignedGate;
+        public Gate AssignedGate
+        {get => _assignedGate;set => _assignedGate = value;}
+        
+        private bool _isInternational = false;
+        public bool IsInternational
+        {get => _isInternational;set => _isInternational = value;}
 
-        //Dette er nok formatet vi burde ha properties, getters og setters på
-        //Da kan vi fjerne mange metoder i denne filen og det vil bli mye mer oversiktlig
         private Plane _assignedPlane;
         public Plane AssignedPlane
-        {
-            get => _assignedPlane;
-            set => _assignedPlane = value;
-        }
+        {get => _assignedPlane; set => _assignedPlane = value;}
 
         private DateTime ScheduledDay { get; set; }
         private int ScheduledHour { get; set; } = 0;

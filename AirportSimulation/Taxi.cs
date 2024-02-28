@@ -16,25 +16,39 @@ namespace AirportSimulation
         /// <summary>
         /// The name of the taxiway.
         /// </summary>
-        public string TaxiName { get; set; }
+        private string _taxiName;
+        public string TaxiName
+        {get => _taxiName;set => _taxiName = value;}
+
         /// <summary>
         /// List of gates connected to this taxiway.
         /// </summary>
-        public List<Gate> ConnectedGates = new List<Gate>();
+        private List<Gate> _connectedGates = new List<Gate>();
+        public List<Gate> ConnectedGates
+        {get => _connectedGates;}
+
         /// <summary>
         /// List of runways connected to this taxiway.
         /// </summary>
-        public List<Runway> ConnectedRunways = new List<Runway>();
+        private List<Runway> _connectedRunways = new List<Runway>();
+        public List<Runway> ConnectedRunways
+        {get => _connectedRunways;}
+
         /// <summary>
         /// Queue of flights that wish to use the taxiway.
         /// </summary>
-        public Queue<Flight> TaxiQueue = new Queue<Flight>();
+        private Queue<Flight> _taxiQueue = new Queue<Flight>();
+        public Queue<Flight> TaxiQueue
+        {get => _taxiQueue; }
+
         /// <summary>
         /// Tells you if the taxiway is available or not. <br/>
         /// True = Taxiway is available. <br/>
         /// False = Taxiway is unavailable.
         /// </summary>
-        public bool IsAvailable { get; set; } = true;
+        private bool _isAvailable = true;
+        public bool IsAvailable
+        {get => _isAvailable;set => _isAvailable = value;}
 
         public Taxi() { }
 

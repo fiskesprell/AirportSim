@@ -10,46 +10,77 @@ namespace AirportSimulation
 {
     public class Airport : IAirport
     {
-        // Instance Variables
         /// <summary>
         /// The name of your Airport.
         /// </summary>
-        public string AirportName { get; set; }
+        private string _airportName;
+        public string AirportName
+        {get => _airportName;set => _airportName = value;}
+
         /// <summary>
         /// List containing all terminals in this airport
         /// </summary>
-        public List<Terminal> AllTerminals = new List<Terminal>();
+        private List<Terminal> _allTerminals = new List<Terminal>();
+        public List<Terminal> AllTerminals
+        {get => _allTerminals;}
+
         /// <summary>
         /// List containing all runways in this airport
         /// </summary>
-        public List<Runway> AllRunways { get; set; } = new List<Runway>();
+        private List<Runway> _allRunways = new List<Runway>();
+        public List<Runway> AllRunways
+        { get => _allRunways;}
+
         /// <summary>
         /// List containing all taxiways in this airport
         /// </summary>
-        public List<Taxi> AllTaxis { get; set; } = new List<Taxi>();
-       /// <summary>
+        private List<Taxi> _allTaxis = new List<Taxi>();
+        public List<Taxi> AllTaxis
+        {get => _allTaxis;}
+
+        /// <summary>
         /// List containing all flights in this airport
         /// </summary>
-        public List<Flight> AllFlights { get; set; } = new List<Flight>();
-       /// <summary>
+        private List<Flight> _allFlights = new List<Flight>();
+        public List<Flight> AllFlights
+        {get => _allFlights;}
+
+        /// <summary>
         /// List containing all completed flights in this airport
         /// </summary>
-        public List<Flight> CompletedFlights { get; set; } = new List<Flight> ();
+        private List<Flight> _completedFlights = new List<Flight>();
+        public List<Flight> CompletedFlights
+        {get => _completedFlights;}
+
         /// <summary>
         /// Gets and sets the scheduled start date
         /// </summary>
-        private DateTime ScheduledStartDate { get; set; }
-       /// <summary>
+        /// <remarks>
+        /// This property represents the scheduled start date for the simulation
+        /// </remarks>
+        private DateTime _scheduledStartDate;
+        public DateTime ScheduledStartDate
+        {get => _scheduledStartDate; set => _scheduledStartDate = value;}
+
+        /// <summary>
         /// Gets and sets the scheduled end date
         /// </summary>
-        private DateTime ScheduledEndDate { get; set; }
+        /// <remarks>
+        /// This property represent the end date fort the simulation
+        /// </remarks>
+        private DateTime _scheduledEndDate;
+        public DateTime ScheduledEndDate
+        {get => _scheduledEndDate; set => _scheduledEndDate = value;}
 
+        /// <summary>
+        /// Gets the list of planes
+        /// </summary>
+        /// <remarks>
+        /// A list of planes that are have been or are at this airport
+        /// </remarks>
         private List<Plane> _listOfPlanes = new List<Plane> ();
-
         public List<Plane> ListOfPlanes
-        {
-            get => _listOfPlanes;
-        }
+        {get => _listOfPlanes;}
 
         public Airport() { }
 

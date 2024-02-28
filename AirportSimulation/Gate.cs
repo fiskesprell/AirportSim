@@ -13,72 +13,53 @@ namespace AirportSimulation
         /// </summary>
         // Format is not implemented with regex or otherwwise. We will discuss whether a new terminal should be preferred, or if devs should be allowed to create infinite gates.
         private string _gateName;
+        /// <summary>
+        /// Gets or sets the name of the gate.
+        /// </summary>
+        public string GateName
+        {get => _gateName;set => _gateName = value;}
 
         /// <summary>
         /// Determines the type of planes allowed to use this gate through licensing.
         /// </summary>
         private GateLicence _licence = GateLicence.Commercial;
+        /// <summary>
+        /// Gets or sets the licence(s) of the gate.
+        /// </summary>
+        public GateLicence Licence
+        {get => _licence;set => _licence |= value;}
 
         /// <summary>
         /// Manages a list of taxiways connected to the gate.
         /// </summary>
         private List<Taxi> _connectedTaxis = new List<Taxi>();
+        /// <summary>
+        /// Gets or sets the taxiways connected to the gate.
+        /// </summary>
+        public List<Taxi> ConnectedTaxis
+        {get => _connectedTaxis;}
 
         /// <summary>
         /// Indicates whether the gate is currently available for use.
         /// </summary>
         private bool _isAvailable = true;
-
-        /// <summary>
-        /// Holds information about the flight currently using the gate.
-        /// </summary>
-        private Flight _currentHolder;
-
-        // Vi må diskutere hva som er logiske standardverdier
-        /// <summary>
-        /// Gets or sets the name of the gate.
-        /// </summary>
-        public string GateName
-        {
-            get => _gateName;
-            set => _gateName = value;
-        }
-        // TODO: Fiks denne?
-        /// <summary>
-        /// Gets or sets the licence(s) of the gate.
-        /// </summary>
-        public GateLicence Licence
-        {
-            get => _licence;
-            set => _licence = value;
-        }
-        /// <summary>
-        /// Gets or sets the taxiways connected to the gate.
-        /// </summary>
-        private List<Taxi> ConnectedTaxis
-        {
-            get => _connectedTaxis;
-            set => _connectedTaxis = value;
-        }
-
         /// <summary>
         /// Whether the gate is available or not. <br/>
         /// True = gate is available <br/>
         /// False = gate is unavailable
         /// </summary>
         private bool IsAvailable
-        {
-            get => _isAvailable;
-            set => _isAvailable = value;
-        }
+        {get => _isAvailable;set => _isAvailable = value;}
+
+        /// <summary>
+        /// Holds information about the flight currently using the gate.
+        /// </summary>
+        private Flight _currentHolder;
         /// <summary>
         /// Gets or sets the  flight currently using the gate.
         /// </summary>
-        private Flight CurrentHolder
-        {
-            get => _currentHolder;
-            set => _currentHolder = value;
-        }
+        public Flight CurrentHolder
+        {get => _currentHolder;set => _currentHolder = value;}
 
         /// <summary>
         /// Constructor for making a gate

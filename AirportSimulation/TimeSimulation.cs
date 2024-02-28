@@ -20,37 +20,37 @@ namespace AirportSimulation
         /// <summary>
         /// The number of days that have elapsed in the simulation.
         /// </summary>
-        public int ElapsedDays { get; set; } = 0;
+        private int _elapsedDays = 0;
+        public int ElapsedDays
+        {get => _elapsedDays;set => _elapsedDays = value;}
 
         /// <summary>
         /// The number of hours that have elapsed in the simulation.
         /// </summary>
-        public int ElapsedHours { get; set; } = 0;
+        private int _elapsedHours = 0;
+        public int ElapsedHours
+        {get => _elapsedHours;set => _elapsedHours = value;}
 
         /// <summary>
         /// The number of minutes that have elapsed in the simulation.
         /// </summary>
-        public int ElapsedMinutes { get; set; } = 0;
+        private int _elapsedMinutes = 0;
+        public int ElapsedMinutes
+        {get => _elapsedMinutes;set => _elapsedMinutes = value;}
 
         /// <summary>
         /// The starting date and time for the simulation.
         /// </summary>
         private DateTime _startDate;
         public DateTime StartDate
-        {
-            get => _startDate;
-            set => _startDate = value;
-        }
+        {get => _startDate;set => _startDate = value;}
 
         /// <summary>
         /// The ending date and time for the simulation.
         /// </summary>
         private DateTime _endDate;
         public DateTime EndDate
-        {
-            get => _endDate;
-            set => _endDate = value;
-        }
+        {get => _endDate;set => _endDate = value;}
 
 
         public TimeSimulation()

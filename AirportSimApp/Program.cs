@@ -20,8 +20,7 @@ namespace AirportSimApp
                 .AddGateToTerminal(testGate)
                 .Build();
 
-            testTerminal.PrintTerminalInfo();'
-                ).Build();
+            testTerminal.PrintTerminalInfo();
         }
     }
 }

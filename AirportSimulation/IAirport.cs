@@ -17,16 +17,16 @@ namespace AirportSimulation
         /// <summary>
         /// A list containing all the taxis in this airport
         /// </summary>
-        List<Taxi> AllTaxis { get; set; }
+        List<Taxi> AllTaxis { get; }
         /// <summary>
         /// A list containing all the runways in this airport
         /// </summary>
-        List<Runway> AllRunways { get; set; }
+        List<Runway> AllRunways { get; }
 
         /// <summary>
         /// A list containing all the flights in this airport
         /// </summary>
-        List<Flight> AllFlights { get; set; }
+        List<Flight> AllFlights { get; }
         
 
         /// <summary>

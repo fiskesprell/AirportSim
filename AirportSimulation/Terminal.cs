@@ -15,7 +15,9 @@ namespace AirportSimulation
         /// <summary>
         /// The name of the terminal.
         /// </summary>
-        public string TerminalName { get; set; }
+        private string _terminalName;
+        public string TerminalName
+        {get => _terminalName;set => _terminalName = value;}
 
         /// <summary>
         /// Whether the Terminal is used by international flights or not. <br/>
@@ -23,12 +25,16 @@ namespace AirportSimulation
         /// False = Used by domestic flights <br/>
         /// Default value is false.
         /// </summary>
-        public bool IsInternational { get; set; } = false;
+        private bool _isInternational = false;
+        public bool IsInternational
+        {get => _isInternational;set => _isInternational = value;}
 
         /// <summary>
         /// List of the gates connected to this terminal.
         /// </summary>
-        public List<Gate> ConnectedGates = new List<Gate>();
+        private List<Gate> _connectedGates = new List<Gate>();
+        public List<Gate> ConnectedGates
+        {get => _connectedGates;}
 
         public Terminal() { }
 

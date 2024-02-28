@@ -16,7 +16,7 @@ namespace AirportSimulationCl
         /// </summary>
         /// <param name="name">The name to set for the runway.</param>
         /// <returns></returns>
-        public RunwayBuilder WithName(string name)
+        public RunwayBuilder AddRunwayName(string name)
         {
             _runway.RunwayName = name;
             return this;
