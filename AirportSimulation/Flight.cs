@@ -144,33 +144,42 @@ namespace AirportSimulation
 
 
         // Outgoing
-        private int hour1 = 1;
-        private int minute1 = 45;
+        //ScheduledXFindGateOutgoing
+        private int ScheduledHourFindGateOutgoing = 1;
+        private int ScheduledMinuteFindGateoutgoing = 45;
 
-        private int hour2 = 1;
-        private int minute2 = 30;
+        //ScheduledXParkAtGateOutgoing
+        private int ScheduledHourParkAtGateOutgoing = 1;
+        private int ScheduledMinuteParkAtGateOutgoing = 30;
         
-        private int hour3 = 1;
-        private int minute3 = 0;
+        //ScheduledXStartBoardingOutgoing
+        private int ScheduledHourStartBoardingOutgoing = 1;
+        private int ScheduledMinuteStartBoardingOutgoing = 0;
         
-        private int hour4 = 0;
-        private int minute4 = 15;
+        //ScheduledXDepartFromGateOutgoing
+        private int ScheduledHourDepartFromGateOutgoing = 0;
+        private int ScheduledMinuteDepartFromGateOutgoing = 15;
         
-        private int hour5 = 0;
-        private int minute5 = 0;
+        //ScheduledXTakeoffOutgoing
+        private int ScheduledHourTakeoffOutgoing = 0;
+        private int ScheduledMinuteTakeoffOutgoing = 0;
         
         // Incoming
-        private int hour6 = 0;
-        private int minute6 = 0;
+        //ScheduledXFindGateIncoming
+        private int ScheduledHourFindGateIncoming = 0;
+        private int ScheduledMinuteFindGateIncoming = 0;
         
-        private int hour7 = 0;
-        private int minute7 = 1;
+        //ScheduledXLeaveRunwayIncoming
+        private int ScheduledHourLeaveRunwayIncoming = 0;
+        private int ScheduledMinuteLeaveRunwayIncoming = 1;
         
-        private int hour8 = 0;
-        private int minute8 = 11;
+        //ScheduledXParkAtGateIncoming
+        private int ScheduledHourParkAtGateIncoming = 0;
+        private int ScheduledMinuteParkAtGateInocming = 11;
         
-        private int hour9 = 0;
-        private int minute9 = 41;
+        //ScheduledXCompletedDisembarkation
+        private int ScheduledHourCompletedDisembarkation = 0;
+        private int ScheduledMinuteCompletedDisembarkation = 41;
 
         public Flight() { }
 
@@ -282,10 +291,9 @@ namespace AirportSimulation
             {
                 //Kalle på convertTime for å få riktig klokkeslett 1 time og 45 min "tilbake" i tid
                 //Dessverre kan man ikke overskrive variabler så må lage nye variabler hver gang
-                (int newHours1, int newMinutes1) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour1, this.minute1);
+                (int newHours1, int newMinutes1) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourFindGateOutgoing, this.ScheduledMinuteFindGateoutgoing);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
-                    //Logg flight BRA123 har fått gate {this.AssignedGate} tildelt. F.eks
                     Gate availableGate = FindAvailableGate();
 
                     if (this.AssignedGate != null)
@@ -301,21 +309,20 @@ namespace AirportSimulation
 
                     
                 }
-                (int newHours2, int newMinutes2) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour2, this.minute2);
+                (int newHours2, int newMinutes2) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourParkAtGateOutgoing, this.ScheduledMinuteParkAtGateOutgoing);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours2 && ElapsedMinutes == newMinutes2)
                 {
                     ParkFlightAtGate(AssignedGate);
                     IsTraveling = false;
                 }
 
-                //Derfor blir det newHours1, newHours2, osv
-                (int newHours3, int newMinutes3) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour3, this.minute3);
+                (int newHours3, int newMinutes3) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourStartBoardingOutgoing, this.ScheduledMinuteStartBoardingOutgoing);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours3 && ElapsedMinutes == newMinutes3)
                 {
                     StartDeparturePrep();
                 }
 
-                (int newHours4, int newMinutes4) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour4, this.minute4);
+                (int newHours4, int newMinutes4) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourDepartFromGateOutgoing, this.ScheduledMinuteDepartFromGateOutgoing);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours4 && ElapsedMinutes == newMinutes4)
                 {
                     StartDeparting();
@@ -324,7 +331,7 @@ namespace AirportSimulation
                     this.AssignedGate.TransferFlightToTaxi(this);
                 }
 
-                (int newHours6, int newMinutes6) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.hour5, this.minute5);
+                (int newHours6, int newMinutes6) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourTakeoffOutgoing, this.ScheduledMinuteTakeoffOutgoing);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours6 && ElapsedMinutes == newMinutes6)
                 {
                     if(AssignedRunway.FlightOnRunway == this)
@@ -337,7 +344,7 @@ namespace AirportSimulation
             // ~~~~ Incoming Flight ~~~~
             else if (this.FlightDirection == FlightDirection.Incoming)
             {
-                (int newHours1, int newMinutes1) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour6, this.minute6);
+                (int newHours1, int newMinutes1) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourFindGateIncoming, this.ScheduledMinuteFindGateIncoming);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
                     IncomingFlightPreperation();
@@ -347,19 +354,19 @@ namespace AirportSimulation
                     }
                 }
 
-                (int newHours2, int newMinutes2) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour7, this.minute7);
+                (int newHours2, int newMinutes2) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourLeaveRunwayIncoming, this.ScheduledMinuteLeaveRunwayIncoming);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours2 && ElapsedMinutes == newMinutes2)
                 {
                     IncomingFlightFromRunwayToTaxi();
                 }
 
-                (int newHours3, int newMinutes3) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour8, this.minute8);
+                (int newHours3, int newMinutes3) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourParkAtGateIncoming, this.ScheduledMinuteParkAtGateInocming);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours3 && ElapsedMinutes == newMinutes3)
                 {
                     IncomingFlightFromTaxiToGate();
                 }
 
-                (int newHours4, int newMinutes4) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.hour9, this.minute9);
+                (int newHours4, int newMinutes4) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourCompletedDisembarkation, this.ScheduledMinuteCompletedDisembarkation);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours4 && ElapsedMinutes == newMinutes4)
                 {
                     IncomingFlightFromGateToComplete();
@@ -1034,8 +1041,8 @@ namespace AirportSimulation
         /// <param name="minute">Minute(s) before takeoff to begin</param>
         public void SetOutgoingPreBoardingTime(int hour, int minute)
         {
-            this.hour1 = hour;
-            this.minute1 = minute;
+            this.ScheduledHourFindGateOutgoing = hour;
+            this.ScheduledMinuteFindGateoutgoing = minute;
         }
 
         /// <summary>
@@ -1049,8 +1056,8 @@ namespace AirportSimulation
         /// <param name="minute">Minute(s) before takeoff to begin</param>
         public void SetOutgoingOnboardingTime(int hour, int minute)
         {
-            this.hour2 = hour;
-            this.minute2 = minute;
+            this.ScheduledHourParkAtGateOutgoing = hour;
+            this.ScheduledMinuteParkAtGateOutgoing = minute;
         }
 
         /// <summary>
@@ -1063,8 +1070,8 @@ namespace AirportSimulation
         /// <param name="minute">Minute(s) before takeoff to begin</param>
         public void SetOutgoingDeparturePrepTime(int hour, int minute)
         {
-            this.hour3 = hour;
-            this.minute3 = minute;
+            this.ScheduledHourStartBoardingOutgoing = hour;
+            this.ScheduledMinuteStartBoardingOutgoing = minute;
         }
 
         /// <summary>
@@ -1079,8 +1086,8 @@ namespace AirportSimulation
         /// <param name="minute">Minute(s) before takeoff to begin</param>
         public void SetOutgoingDepartureTime(int hour, int minute)
         {
-            this.hour4 = hour;
-            this.minute4 = minute;
+            this.ScheduledHourDepartFromGateOutgoing = hour;
+            this.ScheduledMinuteDepartFromGateOutgoing = minute;
         }
 
         /// <summary>
@@ -1093,8 +1100,8 @@ namespace AirportSimulation
         /// <param name="minute">Minute(s) before takeoff to begin</param>
         public void SetOutgoingTakeoffTime(int hour, int minute)
         {
-            this.hour5 = hour;
-            this.minute5 = minute;
+            this.ScheduledHourTakeoffOutgoing = hour;
+            this.ScheduledMinuteTakeoffOutgoing = minute;
         }
 
         // Incoming
@@ -1109,8 +1116,8 @@ namespace AirportSimulation
         /// <param name="minute">Minute(s) after landing to begin</param>
         public void SetIncomingLandingTime(int hour, int minute)
         {
-            this.hour6 = hour;
-            this.minute6 = minute;
+            this.ScheduledHourFindGateIncoming = hour;
+            this.ScheduledMinuteFindGateIncoming = minute;
         }
 
         /// <summary>
@@ -1121,8 +1128,8 @@ namespace AirportSimulation
         /// <param name="minute">Minute(s) after landing to begin</param>
         public void SetIncomingFinishedRunwayTime(int hour, int minute)
         {
-            this.hour7 = hour;
-            this.minute7 = minute;
+            this.ScheduledHourLeaveRunwayIncoming = hour;
+            this.ScheduledMinuteLeaveRunwayIncoming = minute;
         }
         /// <summary>
         /// Hours & Minutes after scheduled landing when the aircraft has 
@@ -1133,8 +1140,8 @@ namespace AirportSimulation
         /// <param name="minute">Minute(s) after landing to begin</param>
         public void SetIncomingFinishedTaxiTime(int hour, int minute)
         {
-            this.hour8 = hour;
-            this.minute8 = minute;
+            this.ScheduledHourParkAtGateIncoming = hour;
+            this.ScheduledMinuteParkAtGateInocming = minute;
         }
         /// <summary>
         /// Hours & Minutes after scheduled landing for the aircraft to
@@ -1144,8 +1151,8 @@ namespace AirportSimulation
         /// <param name="minute">Minute(s) after landing to begin</param>
         public void SetIncomingFinishedGateTime(int hour, int minute)
         {
-            this.hour9 = hour;
-            this.minute9 = minute;
+            this.ScheduledHourCompletedDisembarkation = hour;
+            this.ScheduledMinuteCompletedDisembarkation = minute;
         }
 
         /// <summary>
@@ -1164,164 +1171,164 @@ namespace AirportSimulation
             {
                 if (fromWhichHourAndMinute == 1)
                 {
-                    if (this.minute1 == 0)
+                    if (this.ScheduledMinuteFindGateoutgoing == 0)
                     {
-                        this.hour1 -= 1;
-                        this.minute1 = 59;
+                        this.ScheduledHourFindGateOutgoing -= 1;
+                        this.ScheduledMinuteFindGateoutgoing = 59;
                     }
                     else
                     {
-                        this.minute1 -= 1;
+                        this.ScheduledMinuteFindGateoutgoing -= 1;
                     }
 
-                    if (this.minute2 == 0)
+                    if (this.ScheduledMinuteParkAtGateOutgoing == 0)
                     {
-                        this.hour2 -= 1;
-                        this.minute2 = 59;
+                        this.ScheduledHourParkAtGateOutgoing -= 1;
+                        this.ScheduledMinuteParkAtGateOutgoing = 59;
                     }
                     else
                     {
-                        this.minute2 -= 1;
+                        this.ScheduledMinuteParkAtGateOutgoing -= 1;
                     }
 
-                    if (this.minute3 == 0)
+                    if (this.ScheduledMinuteStartBoardingOutgoing == 0)
                     {
-                        this.hour3 -= 1;
-                        this.minute3 = 59;
+                        this.ScheduledHourStartBoardingOutgoing -= 1;
+                        this.ScheduledMinuteStartBoardingOutgoing = 59;
                     }
                     else
                     {
-                        this.minute3 -= 1;
+                        this.ScheduledMinuteStartBoardingOutgoing -= 1;
                     }
 
-                    if (this.minute4 == 0)
+                    if (this.ScheduledMinuteDepartFromGateOutgoing == 0)
                     {
-                        this.hour4 -= 1;
-                        this.minute4 = 59;
+                        this.ScheduledHourDepartFromGateOutgoing -= 1;
+                        this.ScheduledMinuteDepartFromGateOutgoing = 59;
                     }
                     else
                     {
-                        this.minute5 -= 1;
+                        this.ScheduledMinuteTakeoffOutgoing -= 1;
                     }
 
-                    if (this.minute5 == 0)
+                    if (this.ScheduledMinuteTakeoffOutgoing == 0)
                     {
-                        this.hour5 -= 1;
-                        this.minute5 = 0;
+                        this.ScheduledHourTakeoffOutgoing -= 1;
+                        this.ScheduledMinuteTakeoffOutgoing = 0;
                     }
                     else
                     {
-                        this.minute5 -= 1;
+                        this.ScheduledMinuteTakeoffOutgoing -= 1;
                     }
 
                 }
                 else if (fromWhichHourAndMinute == 2)
                 {
-                    if (this.minute2 == 0)
+                    if (this.ScheduledMinuteParkAtGateOutgoing == 0)
                     {
-                        this.hour2 -= 1;
-                        this.minute2 = 59;
+                        this.ScheduledHourParkAtGateOutgoing -= 1;
+                        this.ScheduledMinuteParkAtGateOutgoing = 59;
                     }
                     else
                     {
-                        this.minute2 -= 1;
+                        this.ScheduledMinuteParkAtGateOutgoing -= 1;
                     }
 
-                    if (this.minute3 == 0)
+                    if (this.ScheduledMinuteStartBoardingOutgoing == 0)
                     {
-                        this.hour3 -= 1;
-                        this.minute3 = 59;
+                        this.ScheduledHourStartBoardingOutgoing -= 1;
+                        this.ScheduledMinuteStartBoardingOutgoing = 59;
                     }
                     else
                     {
-                        this.minute3 -= 1;
+                        this.ScheduledMinuteStartBoardingOutgoing -= 1;
                     }
 
-                    if (this.minute4 == 0)
+                    if (this.ScheduledMinuteDepartFromGateOutgoing == 0)
                     {
-                        this.hour4 -= 1;
-                        this.minute4 = 59;
+                        this.ScheduledHourDepartFromGateOutgoing -= 1;
+                        this.ScheduledMinuteDepartFromGateOutgoing = 59;
                     }
                     else
                     {
-                        this.minute5 -= 1;
+                        this.ScheduledMinuteTakeoffOutgoing -= 1;
                     }
 
-                    if (this.minute5 == 0)
+                    if (this.ScheduledMinuteTakeoffOutgoing == 0)
                     {
-                        this.hour5 -= 1;
-                        this.minute5 = 0;
+                        this.ScheduledHourTakeoffOutgoing -= 1;
+                        this.ScheduledMinuteTakeoffOutgoing = 0;
                     }
                     else
                     {
-                        this.minute5 -= 1;
+                        this.ScheduledMinuteTakeoffOutgoing -= 1;
                     }
                 }
 
                 else if (fromWhichHourAndMinute == 3)
                 {
-                    if (this.minute3 == 0)
+                    if (this.ScheduledMinuteStartBoardingOutgoing == 0)
                     {
-                        this.hour3 -= 1;
-                        this.minute3 = 59;
+                        this.ScheduledHourStartBoardingOutgoing -= 1;
+                        this.ScheduledMinuteStartBoardingOutgoing = 59;
                     }
                     else
                     {
-                        this.minute3 -= 1;
+                        this.ScheduledMinuteStartBoardingOutgoing -= 1;
                     }
 
-                    if (this.minute4 == 0)
+                    if (this.ScheduledMinuteDepartFromGateOutgoing == 0)
                     {
-                        this.hour4 -= 1;
-                        this.minute4 = 59;
+                        this.ScheduledHourDepartFromGateOutgoing -= 1;
+                        this.ScheduledMinuteDepartFromGateOutgoing = 59;
                     }
                     else
                     {
-                        this.minute5 -= 1;
+                        this.ScheduledMinuteTakeoffOutgoing -= 1;
                     }
 
-                    if (this.minute5 == 0)
+                    if (this.ScheduledMinuteTakeoffOutgoing == 0)
                     {
-                        this.hour5 -= 1;
-                        this.minute5 = 0;
+                        this.ScheduledHourTakeoffOutgoing -= 1;
+                        this.ScheduledMinuteTakeoffOutgoing = 0;
                     }
                     else
                     {
-                        this.minute5 -= 1;
+                        this.ScheduledMinuteTakeoffOutgoing -= 1;
                     }
                 }
                 else if (fromWhichHourAndMinute == 4)
                 {
-                    if (this.minute4 == 0)
+                    if (this.ScheduledMinuteDepartFromGateOutgoing == 0)
                     {
-                        this.hour4 -= 1;
-                        this.minute4 = 59;
+                        this.ScheduledHourDepartFromGateOutgoing -= 1;
+                        this.ScheduledMinuteDepartFromGateOutgoing = 59;
                     }
                     else
                     {
-                        this.minute5 -= 1;
+                        this.ScheduledMinuteTakeoffOutgoing -= 1;
                     }
 
-                    if (this.minute5 == 0)
+                    if (this.ScheduledMinuteTakeoffOutgoing == 0)
                     {
-                        this.hour5 -= 1;
-                        this.minute5 = 0;
+                        this.ScheduledHourTakeoffOutgoing -= 1;
+                        this.ScheduledMinuteTakeoffOutgoing = 0;
                     }
                     else
                     {
-                        this.minute5 -= 1;
+                        this.ScheduledMinuteTakeoffOutgoing -= 1;
                     }
                 }
                 else if (fromWhichHourAndMinute == 5)
                 {
-                    if (this.minute5 == 0)
+                    if (this.ScheduledMinuteTakeoffOutgoing == 0)
                     {
-                        this.hour5 -= 1;
-                        this.minute5 = 0;
+                        this.ScheduledHourTakeoffOutgoing -= 1;
+                        this.ScheduledMinuteTakeoffOutgoing = 0;
                     }
                     else
                     {
-                        this.minute5 -= 1;
+                        this.ScheduledMinuteTakeoffOutgoing -= 1;
                     }
                 }
                 else
@@ -1351,110 +1358,110 @@ namespace AirportSimulation
             {
                 if (fromWhichHourAndMinute == 6)
                 {
-                    if (this.minute6 == 59)
+                    if (this.ScheduledMinuteFindGateIncoming == 59)
                     {
-                        this.hour6 += 1;
-                        this.minute6 = 0;
+                        this.ScheduledHourFindGateIncoming += 1;
+                        this.ScheduledMinuteFindGateIncoming = 0;
                     }
                     else
                     {
-                        this.minute6 += 1;
+                        this.ScheduledMinuteFindGateIncoming += 1;
                     }
 
-                    if (this.minute7 == 59)
+                    if (this.ScheduledMinuteLeaveRunwayIncoming == 59)
                     {
-                        this.hour7 += 1;
-                        this.minute7 = 0;
+                        this.ScheduledHourLeaveRunwayIncoming += 1;
+                        this.ScheduledMinuteLeaveRunwayIncoming = 0;
                     }
                     else
                     {
-                        this.minute7 += 1;
+                        this.ScheduledMinuteLeaveRunwayIncoming += 1;
                     }
 
-                    if (this.minute8 == 59)
+                    if (this.ScheduledMinuteParkAtGateInocming == 59)
                     {
-                        this.hour8 += 1;
-                        this.minute8 = 0;
+                        this.ScheduledHourParkAtGateIncoming += 1;
+                        this.ScheduledMinuteParkAtGateInocming = 0;
                     }
                     else
                     {
-                        this.minute8 += 1;
+                        this.ScheduledMinuteParkAtGateInocming += 1;
                     }
 
-                    if (this.minute9 == 59)
+                    if (this.ScheduledMinuteCompletedDisembarkation == 59)
                     {
-                        this.hour9 += 1;
-                        this.minute9 = 0;
+                        this.ScheduledHourCompletedDisembarkation += 1;
+                        this.ScheduledMinuteCompletedDisembarkation = 0;
                     }
                     else
                     {
-                        this.minute9 += 1;
+                        this.ScheduledMinuteCompletedDisembarkation += 1;
                     }
                 }
                 else if (fromWhichHourAndMinute == 7)
                 {
-                    if (this.minute7 == 59)
+                    if (this.ScheduledMinuteLeaveRunwayIncoming == 59)
                     {
-                        this.hour7 += 1;
-                        this.minute7 = 0;
+                        this.ScheduledHourLeaveRunwayIncoming += 1;
+                        this.ScheduledMinuteLeaveRunwayIncoming = 0;
                     }
                     else
                     {
-                        this.minute7 += 1;
+                        this.ScheduledMinuteLeaveRunwayIncoming += 1;
                     }
 
-                    if (this.minute8 == 59)
+                    if (this.ScheduledMinuteParkAtGateInocming == 59)
                     {
-                        this.hour8 += 1;
-                        this.minute8 = 0;
+                        this.ScheduledHourParkAtGateIncoming += 1;
+                        this.ScheduledMinuteParkAtGateInocming = 0;
                     }
                     else
                     {
-                        this.minute8 += 1;
+                        this.ScheduledMinuteParkAtGateInocming += 1;
                     }
 
-                    if (this.minute9 == 59)
+                    if (this.ScheduledMinuteCompletedDisembarkation == 59)
                     {
-                        this.hour9 += 1;
-                        this.minute9 = 0;
+                        this.ScheduledHourCompletedDisembarkation += 1;
+                        this.ScheduledMinuteCompletedDisembarkation = 0;
                     }
                     else
                     {
-                        this.minute9 += 1;
+                        this.ScheduledMinuteCompletedDisembarkation += 1;
                     }
                 }
                 else if (fromWhichHourAndMinute == 8)
                 {
-                    if (this.minute8 == 59)
+                    if (this.ScheduledMinuteParkAtGateInocming == 59)
                     {
-                        this.hour8 += 1;
-                        this.minute8 = 0;
+                        this.ScheduledHourParkAtGateIncoming += 1;
+                        this.ScheduledMinuteParkAtGateInocming = 0;
                     }
                     else
                     {
-                        this.minute8 += 1;
+                        this.ScheduledMinuteParkAtGateInocming += 1;
                     }
 
-                    if (this.minute9 == 59)
+                    if (this.ScheduledMinuteCompletedDisembarkation == 59)
                     {
-                        this.hour9 += 1;
-                        this.minute9 = 0;
+                        this.ScheduledHourCompletedDisembarkation += 1;
+                        this.ScheduledMinuteCompletedDisembarkation = 0;
                     }
                     else
                     {
-                        this.minute9 += 1;
+                        this.ScheduledMinuteCompletedDisembarkation += 1;
                     }
                 }
                 else if (fromWhichHourAndMinute == 9)
                 {
-                    if (this.minute9 == 59)
+                    if (this.ScheduledMinuteCompletedDisembarkation == 59)
                     {
-                        this.hour9 += 1;
-                        this.minute9 = 0;
+                        this.ScheduledHourCompletedDisembarkation += 1;
+                        this.ScheduledMinuteCompletedDisembarkation = 0;
                     }
                     else
                     {
-                        this.minute9 += 1;
+                        this.ScheduledMinuteCompletedDisembarkation += 1;
                     }
                 }
                 else
