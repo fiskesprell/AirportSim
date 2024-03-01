@@ -40,6 +40,8 @@ namespace AirportSimulation
         /// Logging - Indicates if logging is enabled for the flight events.
         /// HasLogged - Indicates if the flight has already logged an event.
         /// LogHistory - A collection of log entries related to the flight's operations.
+        /// Delay - True = Delayed, False = On time.
+        /// DelayInMinutes = Minutes the flight is delayed.
         /// </property>
         private string _number;
         public string Number
@@ -141,6 +143,14 @@ namespace AirportSimulation
         private List<string> _logHistory = new List<string>();
         public List<string> LogHistory
         { get => _logHistory; }
+
+        private bool _delayed = false;
+        public bool Delayed
+        { get => _delayed; set => _delayed = value;}
+
+        private int _delayInMinutes = 0;
+        public int DelayInMinutes
+        { get => _delayInMinutes; set => _delayInMinutes = value;}
 
 
         // Outgoing
@@ -1333,12 +1343,12 @@ namespace AirportSimulation
                 }
                 else
                 {
-                    throw new Exception($"\n\nException: You did not provide a valid number for UpdateOutgoingNewHoursAndMinutesFromSetPoint(). Please set fromWhichHourAndMinute to be a number from 1 to 5.\n");
+                    throw new InvalidScheduledTimeException($"\n\nException: You did not provide a valid number for UpdateOutgoingNewHoursAndMinutesFromSetPoint(). Please set fromWhichHourAndMinute to be a number from 1 to 5.\n");
                 }
             }
             else
             {
-                throw new Exception($"\n\nException: Error setting time forwards. Flight is not set as Outgoing. This method is meant to only be used on Outgoing flights. Please set flight.FlightDirection as Outgoing and try again.\n");
+                throw new ArgumentException($"\n\nException: Error setting time forwards. Flight is not set as Outgoing. This method is meant to only be used on Outgoing flights. Please set flight.FlightDirection as Outgoing and try again.\n");
             }
         }
 

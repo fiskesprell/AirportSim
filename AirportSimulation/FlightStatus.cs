@@ -13,8 +13,6 @@ namespace AirportSimulationCl
         /// </summary>
         /// <value>
         /// OnTime - Flight is on time.
-        /// ArrivingDelayed - Flight arrival is delayed.
-        /// DepartingDelayed - Flight departure is delayed.
         /// Boarding - Passengers are currently boarding.
         /// Departing - Flight is in the process of departing.
         /// Departed - Flight has left the airport.
@@ -25,8 +23,6 @@ namespace AirportSimulationCl
         /// Offloading - Passengers and cargo are being offloaded.
         /// </value>
         OnTime,
-        ArrivingDelayed,
-        DepartingDelayed,
         Boarding,
         Departing,
         Departed,
