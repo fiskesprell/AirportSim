@@ -166,7 +166,7 @@ namespace AirportSimulation
         /// <summary>
         /// Adds a flight object to the airport
         /// </summary>
-        public void AddNewFlight(Flight flight)
+        public void AddExistingFlight(Flight flight)
         {
             this.AllFlights.Add(flight);
         }
