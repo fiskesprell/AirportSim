@@ -151,7 +151,7 @@ namespace AirportSimulationCl
         /// </summary>
         /// <param name="taxi">The taxi to set.</param>
         /// <returns></returns>
-        public FlightBuilder AddDesiredTaxi(Taxi taxi)
+        public FlightBuilder AddAssignedTaxi(Taxi taxi)
         {
             _flight.AssignedTaxi = taxi;
             return this;
@@ -162,7 +162,7 @@ namespace AirportSimulationCl
         /// </summary>
         /// <param name="plane">The runway to set.</param>
         /// <returns></returns>
-        public FlightBuilder AddDesiredRunway(Runway runway)
+        public FlightBuilder AddAssignedRunway(Runway runway)
         {
             _flight.AssignedRunway = runway;
             return this;
