@@ -191,7 +191,6 @@ namespace AirportSimulation
         private int ScheduledHourCompletedDisembarkation = 0;
         private int ScheduledMinuteCompletedDisembarkation = 41;
 
-        public Flight() { }
 
 
         /// <summary>
@@ -276,6 +275,9 @@ namespace AirportSimulation
 
         }//Slutt overload konstruktør
 
+        public Flight() { }
+
+
         /// <summary>
         /// This method will continously update the elapsed time for each flight object
         /// </summary>
@@ -335,7 +337,7 @@ namespace AirportSimulation
                 (int newHours4, int newMinutes4) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourDepartFromGateOutgoing, this.ScheduledMinuteDepartFromGateOutgoing);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours4 && ElapsedMinutes == newMinutes4)
                 {
-                    StartDeparting();
+                    StartDeparture();
                     Runway correctRunway = this.FindRunway();
                     Taxi correctTaxi = this.FindTaxi();
                     this.AssignedGate.TransferFlightToTaxi(this);
@@ -566,7 +568,7 @@ namespace AirportSimulation
         /// <summary>
         /// This method will change the status of the flight. 
         /// </summary>
-        public void SetStatus(FlightStatus status)
+        public void SetFlightStatus(FlightStatus status)
         {
             if (Logging)
             {
@@ -866,7 +868,7 @@ namespace AirportSimulation
         /// <summary>
         /// Starts flight departure and logs if enabled.
         /// </summary>
-        public void StartDeparting()
+        public void StartDeparture()
         {
             this.SetStatus(FlightStatus.Departing);
             this.AssignedGate.CurrentHolder = null;
@@ -1064,7 +1066,7 @@ namespace AirportSimulation
         /// </summary>
         /// <param name="hour">Hour(s) before takeoff to begin</param>
         /// <param name="minute">Minute(s) before takeoff to begin</param>
-        public void SetOutgoingOnboardingTime(int hour, int minute)
+        public void SetOutgoingBoardingTime(int hour, int minute)
         {
             this.ScheduledHourParkAtGateOutgoing = hour;
             this.ScheduledMinuteParkAtGateOutgoing = minute;
