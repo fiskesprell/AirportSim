@@ -69,9 +69,10 @@ namespace AirportSimulation
         }
 
         /// <summary>
-        /// Prints out the relevant informasjon about this terminal
+        /// Prints out the relevant information about this terminal. This includes the terminal’s name, 
+        /// whether it is international or not, and the terminal’s connected gates.
         /// </summary>
-       public void PrintTerminalInfo()
+        public void PrintTerminalInfo()
         {
             Console.WriteLine("Terminalname: " + TerminalName);
             Console.WriteLine("International: " + IsInternational);

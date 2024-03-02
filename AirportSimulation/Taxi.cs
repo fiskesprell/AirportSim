@@ -42,7 +42,7 @@ namespace AirportSimulation
         {get => _taxiQueue; }
 
         /// <summary>
-        /// Tells you if the taxiway is available or not. <br/>
+        /// Tells you whether the taxiway is available or not. <br/>
         /// True = Taxiway is available. <br/>
         /// False = Taxiway is unavailable.
         /// </summary>

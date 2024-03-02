@@ -70,7 +70,7 @@ namespace AirportSimulation
 
             TimeSpan timeDifference = end - start;
 
-            //Eksempel pÂ hvordan bruke custom exceptions
+            //Eksempel pÅEhvordan bruke custom exceptions
             if (timeDifference.TotalSeconds < 0)
                 throw new InvalidScheduledTimeException("\nThe end date cannot be before the start date");
 
@@ -121,7 +121,7 @@ namespace AirportSimulation
 
                     foreach (var flight in airport.AllFlights.ToList())
                     {
-                        //Burde kanskje ha en sjekk her for at flyet har de riktige verdiene som trengs for Â kj¯re simuleringen?
+                        //Burde kanskje ha en sjekk her for at flyet har de riktige verdiene som trengs for ÅEkj¯re simuleringen?
                         //Da kan vi lettere gi en exception hvis det mangler f.eks. FlightDirection eller annen viktig property
                         flight.updateElapsedTime(this);
                         flight.FlightSim(airport, this);
@@ -148,15 +148,6 @@ namespace AirportSimulation
                 }
                 
             }
-        }
-
-        /// <summary>
-        /// Retrieves the start date of the simulation.
-        /// </summary>
-        /// <returns>The start date.</returns>
-        public DateTime GetStartDate()
-        {
-            return this.StartDate;
         }
     }
 }
