@@ -47,7 +47,7 @@ namespace AirportSimulation
         public string Number
         { get => _number; set => _number = value;}
         
-        private string _company = "Norwegian";
+        private string _company;
         public string Company
         { get => _company; set => _company = value;}
         

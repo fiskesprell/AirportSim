@@ -166,7 +166,7 @@ namespace AirportSimulation
         /// <summary>
         /// Adds a flight object to the airport
         /// </summary>
-        public void AddNewFlight(Flight flight)
+        public void AddExistingFlight(Flight flight)
         {
             this.AllFlights.Add(flight);
         }
@@ -206,7 +206,7 @@ namespace AirportSimulation
         /// </summary>
         /// <param name="gateName">The name of your gate</param>
         /// <param name="taxiName">The name of your taxi</param>
-        public void AddNewConnectedGateAndTaxi(String gateName, String taxiName)
+        public void AddNewConnectedGateAndTaxi(string gateName, string taxiName)
         {
             Taxi newTaxi = new Taxi(taxiName);
             Gate newGate = new Gate(gateName);
