@@ -422,7 +422,7 @@ namespace AirportSimulation
             {
                 DateTime newDate = this.ScheduledDay.AddDays(1);
                 this.ScheduledDay = newDate;
-                this.SetStatus(FlightStatus.OnTime);
+                this.SetFlightStatus(FlightStatus.OnTime);
                 this.AssignedRunway = null;
                 this.AssignedGate = null;
                 this.AssignedTaxi = null;
@@ -439,7 +439,7 @@ namespace AirportSimulation
             {
                 DateTime newDate = this.ScheduledDay.AddDays(7);
                 this.ScheduledDay = newDate;
-                this.SetStatus(FlightStatus.OnTime);
+                this.SetFlightStatus(FlightStatus.OnTime);
                 this.AssignedRunway = null;
                 this.AssignedGate = null;
                 this.AssignedTaxi = null;
@@ -458,7 +458,7 @@ namespace AirportSimulation
         public void TakeoffFlight(Runway runway)
         {
             runway.FlightOnRunway = this;
-            this.SetStatus(FlightStatus.Departed);
+            this.SetFlightStatus(FlightStatus.Departed);
             if (ElapsedMinutes == 0)
             {
                 string elapsedMinutes = "00";
@@ -492,7 +492,7 @@ namespace AirportSimulation
         public void LandFlight(Runway runway)
         {
             runway.FlightOnRunway = this;
-            this.SetStatus(FlightStatus.Arrived);
+            this.SetFlightStatus(FlightStatus.Arrived);
             Console.WriteLine("Day: " + ElapsedDays + " -  at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has landed");
             AssignedTaxi.AddToTaxiQueue(this);
             runway.FlightOnRunway = null;
@@ -848,7 +848,7 @@ namespace AirportSimulation
         /// <returns>AssignedGate</returns>
         public void StartDeparturePrep()
         {
-            this.SetStatus(FlightStatus.Boarding);
+            this.SetFlightStatus(FlightStatus.Boarding);
             if (Logging)
             {
                 if (ElapsedMinutes == 0)
@@ -870,7 +870,7 @@ namespace AirportSimulation
         /// </summary>
         public void StartDeparture()
         {
-            this.SetStatus(FlightStatus.Departing);
+            this.SetFlightStatus(FlightStatus.Departing);
             this.AssignedGate.CurrentHolder = null;
             this.AssignedGate.IsAvailable = true;
             this.IsParked = false;
@@ -896,7 +896,7 @@ namespace AirportSimulation
         {
             this.AssignedGate.IsAvailable = true;
             this.AssignedGate.CurrentHolder = null;
-            this.SetStatus(FlightStatus.Completed);
+            this.SetFlightStatus(FlightStatus.Completed);
             this.AssignedRunway = null;
             this.AssignedTaxi = null;
             this.AssignedGate = null;
@@ -934,7 +934,7 @@ namespace AirportSimulation
             this.FindTaxi();
             // Dette finner Runway og setter this.DesiredRunway = desiredRunway
             this.AssignedRunway = FindRunway();
-            this.SetStatus(FlightStatus.Landed);
+            this.SetFlightStatus(FlightStatus.Landed);
 
             // Logging
             if (Logging)
@@ -970,7 +970,7 @@ namespace AirportSimulation
             // Todo: Finne ut hva denne gjorde (skulle gjort) og re-implementer
             // this.DesiredTaxi.AddToTaxiQueue(this);
             
-            this.SetStatus(FlightStatus.OnWayToGate);
+            this.SetFlightStatus(FlightStatus.OnWayToGate);
 
             // Logging
             if (Logging)
@@ -1002,7 +1002,7 @@ namespace AirportSimulation
         /// </summary>
         public void IncomingFlightFromTaxiToGate()
         {
-            this.SetStatus(FlightStatus.Offloading);
+            this.SetFlightStatus(FlightStatus.Offloading);
 
             // Logging
             if (Logging)
