@@ -162,17 +162,6 @@ namespace AirportSimulationCl
         }
 
         /// <summary>
-        /// Adds an airport to represent where the plane is currently
-        /// </summary>
-        /// <param name="planeCurrentAirport"></param>
-        /// <returns></returns>
-        public PlaneBuilder AddPlaneCurrentAirport(Airport planeCurrentAirport)
-        {
-            _plane.CurrentAirport = planeCurrentAirport;
-            return this;
-        }
-
-        /// <summary>
         /// Adds an int for the max passengercapacity for the plane
         /// </summary>
         /// <param name="planePassengerCapacity"></param>
