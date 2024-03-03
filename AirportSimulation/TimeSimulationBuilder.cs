@@ -23,7 +23,7 @@ namespace AirportSimulationCl
         }
 
         /// <summary>
-        /// Sets a enddate for the simulation
+        /// Sets an enddate for the simulation
         /// </summary>
         /// <param name="endDate"></param>
         /// <returns></returns>
@@ -33,6 +33,10 @@ namespace AirportSimulationCl
             return this;
         }
 
+        /// <summary>
+        /// Returns a TimeSimulation object with the given configuration of the TimeSimulationBuilder object
+        /// </summary>
+        /// <returns></returns>
         public TimeSimulation Build() 
         { 
             return _timeSimulation; 
