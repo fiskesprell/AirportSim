@@ -27,8 +27,8 @@ namespace AirportSimApp
             testAirport.AddExistingTerminal(testTerminal);
             Flight testFlight = new Flight("Bra123", testAirport2, new DateTime(2024, 04, 16), 14, 30, FlightDirection.Outgoing, testAirport);
             Flight testFlight2 = new Flight("Bra123", testAirport2, new DateTime(2024, 04, 16), 14, 00, FlightDirection.Incoming, testAirport);
-            testAirport.AddNewFlight(testFlight);
-            testAirport.AddNewFlight(testFlight2);
+            testAirport.AddExistingFlight(testFlight);
+            testAirport.AddExistingFlight(testFlight2);
             TimeSimulation testTimeSimulation = new TimeSimulation();
             testTimeSimulation.SimulateTime(testAirport, new DateTime(2024, 04, 15), new DateTime(2024, 04, 17));
         }
