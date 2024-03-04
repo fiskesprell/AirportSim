@@ -16,17 +16,17 @@ namespace AirportSimulationCl
             flight.Events.TookOff += HandleTookOff;
         }
 
-        private void HandlePlaneAssignedToFlight(object sender, FligthEventArgs args)
+        private void HandlePlaneAssignedToFlight(object sender, FlightEventArgs args)
         {
             Console.WriteLine($"Flight {args.Name} has been assigned a plane: {args.Plane}");
         }
 
-        private void HandleStartedBoarding(object sender, FligthEventArgs e)
+        private void HandleStartedBoarding(object sender, FlightEventArgs e)
         {
             Console.WriteLine($"Flight {e.Name} has started boarding.");
         }
 
-        private void HandleTookOff(object sender, FligthEventArgs e)
+        private void HandleTookOff(object sender, FlightEventArgs e)
         {
             Console.WriteLine($"Flight {e.Name} has taken off.");
             Console.WriteLine("This is an event test");

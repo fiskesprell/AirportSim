@@ -201,11 +201,13 @@ namespace AirportSimulation
 
         public class FlightEvents
         {
-            public event EventHandler<FligthEventArgs> PlaneAssignedToFlight;
-            public event EventHandler<FligthEventArgs> StartedBoarding;
-            public event EventHandler<FligthEventArgs> TookOff;
+            public delegate void FlightEventHandler(object source, FlightEventArgs args);
 
-            public virtual void OnTookOff(Flight sender, FligthEventArgs args) 
+            public event EventHandler<FlightEventArgs> PlaneAssignedToFlight;
+            public event EventHandler<FlightEventArgs> StartedBoarding;
+            public event EventHandler<FlightEventArgs> TookOff;
+
+            public virtual void OnTookOff(Flight sender, FlightEventArgs args) 
             {
                 TookOff?.Invoke(sender, args);
             }
@@ -514,7 +516,7 @@ namespace AirportSimulation
             runway.FlightOnRunway = null;
             runway.IsAvailable = true;
 
-            Events.OnTookOff(this, new FligthEventArgs(Number, AssignedPlane, LogHistory));
+            Events.OnTookOff(this, new FlightEventArgs(Number, AssignedPlane, LogHistory));
         }//Slutt takeoff
 
         public void LandFlight(Runway runway)

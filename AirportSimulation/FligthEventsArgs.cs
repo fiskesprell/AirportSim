@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AirportSimulationCl
 {
-    public class FligthEventArgs : EventArgs
+    public class FlightEventArgs : EventArgs
     {
         private string _name;
         public string Name
@@ -20,7 +20,7 @@ namespace AirportSimulationCl
         public List<string> FlightLog
         { get => _flightLog; }
 
-        public FligthEventArgs(string name, Plane plane, List<string> flightLog)
+        public FlightEventArgs(string name, Plane plane, List<string> flightLog)
         {
             _name = name;
             _plane = plane;
