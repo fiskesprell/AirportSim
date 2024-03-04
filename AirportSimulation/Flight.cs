@@ -152,14 +152,6 @@ namespace AirportSimulation
         public int DelayInMinutes
         { get => _delayInMinutes; set => _delayInMinutes = value;}
 
-        private FlightEvents _events = new FlightEvents();
-        public FlightEvents Events
-        { get => _events; }
-
-        private FlightEventSubscriber _flightEventSubscriber = new FlightEventSubscriber();
-        public FlightEventSubscriber FlightEventSubscriber
-        { get => _flightEventSubscriber; }
-
 
         // Outgoing
         //ScheduledXFindGateOutgoing
@@ -199,18 +191,15 @@ namespace AirportSimulation
         private int ScheduledHourCompletedDisembarkation = 0;
         private int ScheduledMinuteCompletedDisembarkation = 41;
 
-        public class FlightEvents
+        public delegate void FlightEventHandler(object source, FlightEventArgs args);
+
+        public event EventHandler<FlightEventArgs> PlaneAssignedToFlight;
+        public event EventHandler<FlightEventArgs> StartedBoarding;
+        public event EventHandler<FlightEventArgs> TookOff;
+
+        public virtual void OnTookOff(Flight sender, FlightEventArgs args)
         {
-            public delegate void FlightEventHandler(object source, FlightEventArgs args);
-
-            public event EventHandler<FlightEventArgs> PlaneAssignedToFlight;
-            public event EventHandler<FlightEventArgs> StartedBoarding;
-            public event EventHandler<FlightEventArgs> TookOff;
-
-            public virtual void OnTookOff(Flight sender, FlightEventArgs args) 
-            {
-                TookOff?.Invoke(sender, args);
-            }
+            TookOff?.Invoke(sender, args);
         }
 
 
@@ -232,7 +221,6 @@ namespace AirportSimulation
             this.Number = flightNumber;
             this.DestinationAirport = destination;
             this.CurrentAirport = airport;
-            this.FlightEventSubscriber.SubscribeToFlightEvents(this);
             //Assigne et ledig plane til flighten når det opprettes
             //this.AssignedPlane = AssignAvailablePlaneToFlight();
 
@@ -295,13 +283,11 @@ namespace AirportSimulation
             this.FlightDirection = direction;
             this.IsInternational = isInternational;
             this.FlightType = flightType;
-            this.FlightEventSubscriber.SubscribeToFlightEvents(this);
 
         }//Slutt overload konstruktør
 
         public Flight() 
         {
-            this.FlightEventSubscriber.SubscribeToFlightEvents(this);
         }
 
 
@@ -516,7 +502,7 @@ namespace AirportSimulation
             runway.FlightOnRunway = null;
             runway.IsAvailable = true;
 
-            Events.OnTookOff(this, new FlightEventArgs(Number, AssignedPlane, LogHistory));
+            OnTookOff(this, new FlightEventArgs(Number, AssignedPlane, LogHistory));
         }//Slutt takeoff
 
         public void LandFlight(Runway runway)

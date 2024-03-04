@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace AirportSimulationCl
 {
+    /*
     public class FlightEventSubscriber
     {
+        //La brukeren gjøre dette
         public void SubscribeToFlightEvents(Flight flight) 
         {
             flight.Events.PlaneAssignedToFlight += HandlePlaneAssignedToFlight;
@@ -32,4 +34,5 @@ namespace AirportSimulationCl
             Console.WriteLine("This is an event test");
         }
     }
+    */
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AirportSimulationCl
 {
+    //Legg xml kommentarer her
     public class InvalidInfrastructureException : Exception
     {
         public InvalidInfrastructureException() : base() { }

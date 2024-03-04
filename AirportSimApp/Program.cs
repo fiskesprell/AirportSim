@@ -25,12 +25,24 @@ namespace AirportSimApp
             Airport testAirport = new Airport("Gardermoen", "Terminal A", "Taxi A", "Runway A", "Gate A");
             Airport testAirport2 = new Airport("Gardermoen", "Terminal A", "Taxi A", "Runway A", "Gate A");
             testAirport.AddExistingTerminal(testTerminal);
+
+
             Flight testFlight = new Flight("Bra123", testAirport2, new DateTime(2024, 04, 16), 14, 30, FlightDirection.Outgoing, testAirport);
             Flight testFlight2 = new Flight("Bra123", testAirport2, new DateTime(2024, 04, 16), 14, 00, FlightDirection.Incoming, testAirport);
             testAirport.AddExistingFlight(testFlight);
             testAirport.AddExistingFlight(testFlight2);
+
+
+            testFlight.TookOff += TestFlight_TookOff;
+
+
             TimeSimulation testTimeSimulation = new TimeSimulation();
             testTimeSimulation.SimulateTime(testAirport, new DateTime(2024, 04, 15), new DateTime(2024, 04, 17));
+        }
+
+        private static void TestFlight_TookOff(object? sender, FlightEventArgs e)
+        {
+            Console.WriteLine("test");
         }
     }
 }
