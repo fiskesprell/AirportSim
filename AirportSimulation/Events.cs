@@ -7,20 +7,29 @@ using System.Threading.Tasks;
 
 namespace AirportSimulationCl
 {
-    internal class Events
+    /*
+    public class Events
     {
         // Delegate
-        public delegate void FlightEventHandler(Flight Flight, Plane plane);
+        public delegate void FlightEventHandler(object source, EventArgs args);
 
         // Events (ingen håndtering enda)
-        public event FlightEventHandler? FlightGetsAssignedGate;
-        public event FlightEventHandler? FlightGetsAssignedTaxi;
-        public event FlightEventHandler? FlightGetsAssignedRunway;
-        public event FlightEventHandler? FlightHasLeftRunway;
-        public event FlightEventHandler? FlightHasLanded;
-        public event FlightEventHandler? FlightHasBegunOnboarding;
-        public event FlightEventHandler? FlightHasBegunOffloading;
+        // Navnekonvensjoner for events er at det er past-tense
+        public event FlightEventHandler FoundAssignedGate;
+        public event FlightEventHandler? FoundAssignedTaxi;
+        public event FlightEventHandler? FoundAssignedRunway;
+        public event FlightEventHandler? TookOff;
+        public event FlightEventHandler? Landed;
+        public event FlightEventHandler? Boarded;
+        public event FlightEventHandler? Disembarked;
+
+        protected virtual void OnTakenOff()
+        {
+            if (TookOff != null)
+                TookOff(this, EventArgs.Empty);
+        }
         
 
     }
+    */
 }

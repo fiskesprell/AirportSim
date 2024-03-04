@@ -110,7 +110,7 @@ namespace AirportSimulation
 
             Flight flight = TaxiQueue.Dequeue();
             
-            if (flight.FlightDirection == FlightDirection.Incoming || flight.Status == FlightStatus.ArrivingDelayed)
+            if (flight.FlightDirection == FlightDirection.Incoming)
             {
                 flight.ParkFlightAtGate(flight.AssignedGate);
             }
