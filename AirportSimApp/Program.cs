@@ -32,7 +32,7 @@ namespace AirportSimApp
             testAirport.AddExistingFlight(testFlight);
             testAirport.AddExistingFlight(testFlight2);
 
-
+            //Dette er slik 
             testFlight.TookOff += TestFlight_TookOff;
 
 
