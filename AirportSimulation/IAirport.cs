@@ -50,7 +50,7 @@ namespace AirportSimulation
         /// <summary>
         /// Method to add a flight to this airport
         /// </summary>
-        void AddNewFlight(Flight flight);
+        void AddExistingFlight(Flight flight);
 
     }
 }

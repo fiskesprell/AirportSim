@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AirportSimulationCl;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,6 +37,10 @@ namespace AirportSimulation
         public List<Gate> ConnectedGates
         {get => _connectedGates;}
 
+        private Airport _airport;
+        public Airport Airport
+        { get => _airport; set => _airport = value;}
+
         public Terminal() { }
 
         /// <summary>
@@ -55,7 +60,7 @@ namespace AirportSimulation
         {
             Gate newGate = new Gate(name);
             ConnectedGates.Add(newGate);
-            Console.WriteLine("Terminalen " + TerminalName + " har fått tildelt gate " + newGate.GateName);
+            newGate.Terminal = this;
             return newGate;
         }
 
@@ -66,6 +71,7 @@ namespace AirportSimulation
         public void AddExistingGate(Gate gate)
         {
             ConnectedGates.Add(gate);
+            gate.Terminal = this;
         }
 
         /// <summary>
@@ -83,6 +89,24 @@ namespace AirportSimulation
                 Console.WriteLine("Gatename: " + gate.GateName);
             }
             
+        }
+
+        /// <summary>
+        /// Creates a new Taxi and Gate. These need to be connected and are therefore put in the same method.
+        /// The new Gate is connected to the Taxi, and the taxi is then added to AllTaxis.
+        /// An alternative to using this method to create a new gate would be to use airport.GetAllTerminals() 
+        /// to get a list of find all terminals, create a new Gate object, 
+        /// then loop through the list of terminals to find one you want to add it to by using
+        /// terminal.AddConnectedGate().
+        /// </summary>
+        /// <param name="gateName">The name of your gate</param>
+        /// <param name="taxiName">The name of your taxi</param>
+        public void AddNewConnectedGateAndTaxi(string gateName, string taxiName)
+        {
+            Taxi newTaxi = new Taxi(taxiName);
+            Gate newGate = new Gate(gateName);
+            newTaxi.AddConnectedGate(newGate);
+            this.Airport.AllTaxis.Add(newTaxi);
         }
     }
 }

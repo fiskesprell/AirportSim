@@ -59,7 +59,6 @@ namespace AirportSimulation
         public Taxi(string taxiName)
         {
             TaxiName = taxiName;
-            Console.WriteLine("Taxi " + taxiName + " har blitt opprettet");
         }
 
         /// <summary>
@@ -110,7 +109,7 @@ namespace AirportSimulation
 
             Flight flight = TaxiQueue.Dequeue();
             
-            if (flight.FlightDirection == FlightDirection.Incoming || flight.Status == FlightStatus.ArrivingDelayed)
+            if (flight.FlightDirection == FlightDirection.Incoming)
             {
                 flight.ParkFlightAtGate(flight.AssignedGate);
             }

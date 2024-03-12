@@ -63,8 +63,10 @@ namespace AirportSimulation
         /// <param name="airport">The airport to simulate.</param>
         /// <param name="start">The start date and time of the simulation.</param>
         /// <param name="end">The end date and time of the simulation.</param>
-        public void SimulateTime(Airport airport, DateTime start, DateTime end)
+        public void SimulateTime(TimeConfigManager timeConfigManager,Airport airport, DateTime start, DateTime end)
         {
+
+            Console.WriteLine("The simulation has now started:");
             this.StartDate = start;
             this.EndDate = end;
 
@@ -124,7 +126,7 @@ namespace AirportSimulation
                         //Burde kanskje ha en sjekk her for at flyet har de riktige verdiene som trengs for ÅEkj¯re simuleringen?
                         //Da kan vi lettere gi en exception hvis det mangler f.eks. FlightDirection eller annen viktig property
                         flight.updateElapsedTime(this);
-                        flight.FlightSim(airport, this);
+                        flight.FlightSim(timeConfigManager, airport, this);
                     }
                 }
 

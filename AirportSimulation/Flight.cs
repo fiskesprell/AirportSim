@@ -292,7 +292,7 @@ namespace AirportSimulation
         /// <summary>
         /// This method keeps track of the chain of events during the simulation
         /// </summary>
-        public void FlightSim(Airport airport, TimeSimulation timeSimulation)
+        public void FlightSim(TimeConfigManager timeConfigManager, Airport airport, TimeSimulation timeSimulation)
         {
             DateTime startSim = timeSimulation.StartDate;
             TimeSpan dayDifference = this.ScheduledDay - startSim;
@@ -342,8 +342,10 @@ namespace AirportSimulation
                     Taxi correctTaxi = this.FindTaxi();
                     this.AssignedGate.TransferFlightToTaxi(this);
                 }
-
-                (int newHours6, int newMinutes6) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourTakeoffOutgoing, this.ScheduledMinuteTakeoffOutgoing);
+                //Console.WriteLine("Test");
+                //WTF?!?!?!?
+                //(this.ScheduledHourDepartFromGateOutgoing, this.ScheduledMinuteDepartFromGateOutgoing) = timeConfigManager.GetTravelTime(this.AssignedGate.Terminal, AssignedRunway);
+                (int newHours6, int newMinutes6) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourDepartFromGateOutgoing, this.ScheduledMinuteDepartFromGateOutgoing);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours6 && ElapsedMinutes == newMinutes6)
                 {
                     if(AssignedRunway.FlightOnRunway == this)
@@ -637,7 +639,7 @@ namespace AirportSimulation
                             }
                             else
                             {
-                                Console.WriteLine("\nDay: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has found an available gate:  " + this.AssignedGate.GateName);
+                                //Console.WriteLine("\nDay: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has found an available gate:  " + this.AssignedGate.GateName);
                                 return gate;
                             }
 
@@ -694,7 +696,6 @@ namespace AirportSimulation
                             selectedTaxi = taxi;
                             minQueueLength = taxi.TaxiQueue.Count;
                         }
-                        Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has been assigned " + selectedTaxi.TaxiName);
                         this.AssignedTaxi = selectedTaxi;
                         if (Logging && FlightDirection == FlightDirection.Outgoing)
                         {
@@ -761,7 +762,6 @@ namespace AirportSimulation
                         minQueueLength = runway.RunwayQueue.Count;
                     }
                 }
-                Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has been assigned " + selectedRunway.RunwayName);
                 AssignedRunway = selectedRunway;
                 if (Logging)
                 {

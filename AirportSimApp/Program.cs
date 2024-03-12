@@ -20,9 +20,20 @@ namespace AirportSimApp
                 .AddGateToTerminal(testGate)
                 .Build();
 
-            testTerminal.PrintTerminalInfo();
+            Runway runway2 = new Runway("Runway Test");
+            Taxi taxi2 = new Taxi("Taxi test");
+
+            TimeConfigManager timeConfigManager = new TimeConfigManager();
 
             Airport testAirport = new Airport("Gardermoen", "Terminal A", "Taxi A", "Runway A", "Gate A");
+            testAirport.AddExistingRunway(runway2);
+            testAirport.AddExistingTaxi(taxi2);
+            runway2.AddConnectedTaxi(taxi2);
+            taxi2.AddConnectedRunway(runway2);
+            taxi2.AddConnectedGate(testGate);
+            timeConfigManager.AddTimeConfig(testGate.Terminal, runway2, 20, 0);
+
+
             Airport testAirport2 = new Airport("Gardermoen", "Terminal A", "Taxi A", "Runway A", "Gate A");
             testAirport.AddExistingTerminal(testTerminal);
             Flight testFlight = new Flight("Bra123", testAirport2, new DateTime(2024, 04, 16), 14, 30, FlightDirection.Outgoing, testAirport);
@@ -30,7 +41,9 @@ namespace AirportSimApp
             testAirport.AddExistingFlight(testFlight);
             testAirport.AddExistingFlight(testFlight2);
             TimeSimulation testTimeSimulation = new TimeSimulation();
-            testTimeSimulation.SimulateTime(testAirport, new DateTime(2024, 04, 15), new DateTime(2024, 04, 17));
+
+
+            testTimeSimulation.SimulateTime(timeConfigManager, testAirport, new DateTime(2024, 04, 15), new DateTime(2024, 04, 17));
         }
     }
 }

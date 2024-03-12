@@ -51,8 +51,6 @@ namespace AirportSimulation
         public Flight FlightOnRunway
         {get => _flightOnRunway;set => _flightOnRunway = value;}
 
-        public Runway() { }
-
         // Constructor
         /// <summary>
         /// Initializes a new instance of the Runway class.
@@ -61,10 +59,9 @@ namespace AirportSimulation
         public Runway(string runwayName)
         {
             this.RunwayName = runwayName;
-            Console.WriteLine("Runway " + runwayName + " har blitt opprettet");
         }
 
-
+        public Runway() { }
 
         // Legge til en flight i køen rullebanekøen. Automatikk fra når en flight er fremst i taxi køen
         /// <summary>
