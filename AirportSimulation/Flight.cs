@@ -303,8 +303,8 @@ namespace AirportSimulation
             {
                 //Kalle på convertTime for å få riktig klokkeslett 1 time og 45 min "tilbake" i tid
                 //Dessverre kan man ikke overskrive variabler så må lage nye variabler hver gang
-                (int newHours1, int newMinutes1) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourFindGateOutgoing, this.ScheduledMinuteFindGateoutgoing);
-                if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
+                (int OutgoingFindGateTimeHours, int OutgoingFindGateTimeMinutes) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourFindGateOutgoing, this.ScheduledMinuteFindGateoutgoing);
+                if (ElapsedDays == adjustedTravelDay && ElapsedHours == OutgoingFindGateTimeHours && ElapsedMinutes == OutgoingFindGateTimeMinutes)
                 {
                     Gate availableGate = FindAvailableGate();
 
@@ -321,32 +321,33 @@ namespace AirportSimulation
 
                     
                 }
-                (int newHours2, int newMinutes2) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourParkAtGateOutgoing, this.ScheduledMinuteParkAtGateOutgoing);
-                if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours2 && ElapsedMinutes == newMinutes2)
+                (int OutgoingParkAtGateTimeHours, int OutgoingParkAtGateTimeMinutes) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourParkAtGateOutgoing, this.ScheduledMinuteParkAtGateOutgoing);
+                if (ElapsedDays == adjustedTravelDay && ElapsedHours == OutgoingParkAtGateTimeHours && ElapsedMinutes == OutgoingParkAtGateTimeMinutes)
                 {
                     ParkFlightAtGate(AssignedGate);
                     IsTraveling = false;
                 }
 
-                (int newHours3, int newMinutes3) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourStartBoardingOutgoing, this.ScheduledMinuteStartBoardingOutgoing);
-                if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours3 && ElapsedMinutes == newMinutes3)
+                (int BoardingTimeHours, int BoardingTimeMinutes) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourStartBoardingOutgoing, this.ScheduledMinuteStartBoardingOutgoing);
+                if (ElapsedDays == adjustedTravelDay && ElapsedHours == BoardingTimeHours && ElapsedMinutes == BoardingTimeMinutes)
                 {
                     StartDeparturePrep();
                 }
 
-                (int newHours4, int newMinutes4) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourDepartFromGateOutgoing, this.ScheduledMinuteDepartFromGateOutgoing);
-                if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours4 && ElapsedMinutes == newMinutes4)
+                (int DepartFromGateTimeHours, int DepartFromGateTimeMinutes) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourDepartFromGateOutgoing, this.ScheduledMinuteDepartFromGateOutgoing);
+                if (ElapsedDays == adjustedTravelDay && ElapsedHours == DepartFromGateTimeHours && ElapsedMinutes == DepartFromGateTimeMinutes)
                 {
                     StartDeparture();
                     Runway correctRunway = this.FindRunway();
                     Taxi correctTaxi = this.FindTaxi();
                     this.AssignedGate.TransferFlightToTaxi(this);
                 }
-                //Console.WriteLine("Test");
-                //WTF?!?!?!?
-                //(this.ScheduledHourDepartFromGateOutgoing, this.ScheduledMinuteDepartFromGateOutgoing) = timeConfigManager.GetTravelTime(this.AssignedGate.Terminal, AssignedRunway);
-                (int newHours6, int newMinutes6) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourDepartFromGateOutgoing, this.ScheduledMinuteDepartFromGateOutgoing);
-                if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours6 && ElapsedMinutes == newMinutes6)
+
+                if (this.AssignedGate != null && this.AssignedRunway != null)
+                    this.ScheduledMinuteDepartFromGateOutgoing = timeConfigManager.GetTravelTime(this);
+                
+                (int TakeoffTimeHours, int TakeoffTimeMinutes) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourDepartFromGateOutgoing, this.ScheduledMinuteDepartFromGateOutgoing);
+                if (ElapsedDays == adjustedTravelDay && ElapsedHours == TakeoffTimeHours && ElapsedMinutes == TakeoffTimeMinutes)
                 {
                     if(AssignedRunway.FlightOnRunway == this)
                     {
