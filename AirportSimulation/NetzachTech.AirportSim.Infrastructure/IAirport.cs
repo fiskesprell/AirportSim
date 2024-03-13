@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AirportSimulation;
+using AirportSimulationCl.NetzachTech.AirportSim.Infrastructure;
 
-namespace AirportSimulationCl.NetzachTech.AirportSim.Infrastructure
+namespace NetzachTech.AirportSim.Infrastructure
 {
     public interface IAirport
     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetzachTech.AirportSim.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -83,6 +84,11 @@ namespace AirportSimulationCl.NetzachTech.AirportSim.Infrastructure
                 Console.WriteLine("Gatename: " + gate.GateName);
             }
 
+        }
+
+        internal void AddExistingGate(Gate gate)
+        {
+            throw new NotImplementedException();
         }
     }
 }
