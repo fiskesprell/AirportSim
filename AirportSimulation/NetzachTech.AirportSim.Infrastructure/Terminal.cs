@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirportSimulation
+namespace AirportSimulationCl.NetzachTech.AirportSim.Infrastructure
 {
 
     /// <summary>
@@ -17,7 +17,7 @@ namespace AirportSimulation
         /// </summary>
         private string _terminalName;
         public string TerminalName
-        {get => _terminalName;set => _terminalName = value;}
+        { get => _terminalName; set => _terminalName = value; }
 
         /// <summary>
         /// Whether the Terminal is used by international flights or not. <br/>
@@ -27,14 +27,14 @@ namespace AirportSimulation
         /// </summary>
         private bool _isInternational = false;
         public bool IsInternational
-        {get => _isInternational;set => _isInternational = value;}
+        { get => _isInternational; set => _isInternational = value; }
 
         /// <summary>
         /// List of the gates connected to this terminal.
         /// </summary>
         private List<Gate> _connectedGates = new List<Gate>();
         public List<Gate> ConnectedGates
-        {get => _connectedGates;}
+        { get => _connectedGates; }
 
         public Terminal() { }
 
@@ -44,7 +44,7 @@ namespace AirportSimulation
         /// <param name="TerminalName">The name for the terminal.</param>
         public Terminal(string terminalName)
         {
-            this.TerminalName = terminalName;
+            TerminalName = terminalName;
         }
 
         /// <summary>
@@ -78,11 +78,11 @@ namespace AirportSimulation
             Console.WriteLine("International: " + IsInternational);
             Console.WriteLine("Gates: ");
 
-            foreach(Gate gate in ConnectedGates)
+            foreach (Gate gate in ConnectedGates)
             {
                 Console.WriteLine("Gatename: " + gate.GateName);
             }
-            
+
         }
     }
 }

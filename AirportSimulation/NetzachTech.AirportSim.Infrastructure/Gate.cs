@@ -1,6 +1,7 @@
-﻿using AirportSimulationCl.NetzachTech.AirportSim.Enums;
+﻿using AirportSimulation;
+using AirportSimulationCl.NetzachTech.AirportSim.Enums;
 
-namespace AirportSimulation
+namespace AirportSimulationCl.NetzachTech.AirportSim.Infrastructure
 {
     /// <summary>
     /// Manages an airport gate's operations, including the types of aircraft it can accommodate, its availability, and its connection to taxiways. Is also able to be "held" by a Flight object.
@@ -17,7 +18,7 @@ namespace AirportSimulation
         /// Gets or sets the name of the gate.
         /// </summary>
         public string GateName
-        {get => _gateName;set => _gateName = value;}
+        { get => _gateName; set => _gateName = value; }
 
         /// <summary>
         /// Determines the type of planes allowed to use this gate through licensing.
@@ -27,7 +28,7 @@ namespace AirportSimulation
         /// Gets or sets the licence(s) of the gate.
         /// </summary>
         public GateLicence Licence
-        {get => _licence; set => _licence |= value;}
+        { get => _licence; set => _licence |= value; }
 
         /// <summary>
         /// Manages a list of taxiways connected to the gate.
@@ -37,7 +38,7 @@ namespace AirportSimulation
         /// Gets or sets the taxiways connected to the gate.
         /// </summary>
         public List<Taxi> ConnectedTaxis
-        {get => _connectedTaxis;}
+        { get => _connectedTaxis; }
 
         /// <summary>
         /// Indicates whether the gate is currently available for use.
@@ -49,7 +50,7 @@ namespace AirportSimulation
         /// False = gate is unavailable
         /// </summary>
         public bool IsAvailable
-        {get => _isAvailable; set => _isAvailable = value;}
+        { get => _isAvailable; set => _isAvailable = value; }
 
         /// <summary>
         /// Holds information about the flight currently using the gate.
@@ -59,7 +60,7 @@ namespace AirportSimulation
         /// Gets or sets the  flight currently using the gate.
         /// </summary>
         public Flight CurrentHolder
-        {get => _currentHolder;set => _currentHolder = value;}
+        { get => _currentHolder; set => _currentHolder = value; }
 
         /// <summary>
         /// Constructor for making a gate
@@ -82,14 +83,14 @@ namespace AirportSimulation
         {
             _connectedTaxis.Add(taxi);
         }
-       
+
 
         // Legger til en spesifikk lisens til gaten
         /// <summary>
         /// Adds a licence to a specific gate
         /// </summary>
         /// <param name="licence"></param>
-        public void AddLicence(GateLicence licence) 
+        public void AddLicence(GateLicence licence)
         {
             Licence |= licence;
         }
@@ -120,7 +121,7 @@ namespace AirportSimulation
         public void TransferFlightToTaxi(Flight flight)
         {
             flight.AssignedTaxi.AddToTaxiQueue(flight);
-            flight.IsTraveling = true;    
+            flight.IsTraveling = true;
         }
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace AirportSimulation
         public bool CheckGateLicence(Flight flight)
         {
             FlightType flighttype = flight.FlightType;
-            if ((this.Licence & (GateLicence)flighttype) == this.Licence)
+            if ((Licence & (GateLicence)flighttype) == Licence)
             {
                 return true;
             }

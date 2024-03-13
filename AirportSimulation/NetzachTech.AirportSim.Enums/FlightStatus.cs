@@ -31,5 +31,6 @@ namespace AirportSimulationCl.NetzachTech.AirportSim.Enums
         Completed,
         OnWayToGate,
         Offloading,
+        ArrivingDelayed
     }
 }
