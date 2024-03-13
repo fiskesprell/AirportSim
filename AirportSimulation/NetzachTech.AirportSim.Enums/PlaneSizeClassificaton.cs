@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace tbd
+namespace AirportSimulationCl.NetzachTech.AirportSim.Enums
 {
     /// <summary>
     /// Represents plane size classifications based on wingspan and common planes.

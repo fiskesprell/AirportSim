@@ -1,4 +1,5 @@
 ﻿using AirportSimulationCl;
+using AirportSimulationCl.NetzachTech.AirportSim.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AirportSimulation
-{   
+{
     public class Flight
     {
         /// <summary>
