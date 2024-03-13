@@ -1,7 +1,8 @@
 ﻿using AirportSimulation;
 using AirportSimulationCl.NetzachTech.AirportSim.Enums;
+using AirportSimulationCl.NetzachTech.AirportSim.Infrastructure;
 
-namespace AirportSimulationCl.NetzachTech.AirportSim.Infrastructure
+namespace NetzachTech.AirportSim.Infrastructure
 {
     /// <summary>
     /// Manages an airport gate's operations, including the types of aircraft it can accommodate, its availability, and its connection to taxiways. Is also able to be "held" by a Flight object.
