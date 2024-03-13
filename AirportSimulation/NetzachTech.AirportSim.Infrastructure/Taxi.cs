@@ -1,11 +1,13 @@
-﻿using AirportSimulationCl.NetzachTech.AirportSim.Enums;
+﻿using AirportSimulation;
+using AirportSimulationCl.NetzachTech.AirportSim.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirportSimulation
+
+namespace AirportSimulationCl.NetzachTech.AirportSim.Infrastructure
 {
 
     /// <summary>
@@ -18,28 +20,28 @@ namespace AirportSimulation
         /// </summary>
         private string _taxiName;
         public string TaxiName
-        { get => _taxiName; set => _taxiName = value;}
+        { get => _taxiName; set => _taxiName = value; }
 
         /// <summary>
         /// List of gates connected to this taxiway.
         /// </summary>
         private List<Gate> _connectedGates = new List<Gate>();
         public List<Gate> ConnectedGates
-        { get => _connectedGates;}
+        { get => _connectedGates; }
 
         /// <summary>
         /// List of runways connected to this taxiway.
         /// </summary>
         private List<Runway> _connectedRunways = new List<Runway>();
         public List<Runway> ConnectedRunways
-        { get => _connectedRunways;}
+        { get => _connectedRunways; }
 
         /// <summary>
         /// Queue of flights that wish to use the taxiway.
         /// </summary>
         private Queue<Flight> _taxiQueue = new Queue<Flight>();
         public Queue<Flight> TaxiQueue
-        {get => _taxiQueue; }
+        { get => _taxiQueue; }
 
         /// <summary>
         /// Tells you whether the taxiway is available or not. <br/>
@@ -48,7 +50,7 @@ namespace AirportSimulation
         /// </summary>
         private bool _isAvailable = true;
         public bool IsAvailable
-        {get => _isAvailable;set => _isAvailable = value;}
+        { get => _isAvailable; set => _isAvailable = value; }
 
         public Taxi() { }
 
@@ -72,27 +74,27 @@ namespace AirportSimulation
             {
                 if (flight.Status != FlightStatus.Departing)
                 {
-                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.AssignedGate.GateName);
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + TaxiName + " towards " + flight.AssignedGate.GateName);
                     TaxiQueue.Enqueue(flight);
                 }
 
                 else
                 {
-                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.AssignedRunway.RunwayName);
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + TaxiName + " towards " + flight.AssignedRunway.RunwayName);
                     TaxiQueue.Enqueue(flight);
                 }
             }
-            
 
-            else if(flight.FlightDirection == FlightDirection.Incoming)
+
+            else if (flight.FlightDirection == FlightDirection.Incoming)
             {
                 if (flight.AssignedGate != null)
                 {
-                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.AssignedGate.GateName);
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + TaxiName + " towards " + flight.AssignedGate.GateName);
                 }
                 else
                 {
-                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards a Gate");
+                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + TaxiName + " towards a Gate");
                 }
 
                 TaxiQueue.Enqueue(flight);
@@ -105,11 +107,11 @@ namespace AirportSimulation
         /// <summary>
         /// Removes the flight from the start of the queue. Based on the status of said flight, it either gets access to a runway queue, or arrives at their gate
         /// </summary>
-        public void RemoveFromTaxiQueue() 
-        { 
+        public void RemoveFromTaxiQueue()
+        {
 
             Flight flight = TaxiQueue.Dequeue();
-            
+
             if (flight.FlightDirection == FlightDirection.Incoming || flight.Status == FlightStatus.ArrivingDelayed)
             {
                 flight.ParkFlightAtGate(flight.AssignedGate);
@@ -137,7 +139,7 @@ namespace AirportSimulation
                         flight.AssignedRunway.AddToRunwayQueue(flight);
                     }
                 }
-                
+
             }
         }
 

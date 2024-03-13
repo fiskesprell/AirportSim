@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AirportSimulation;
 
-namespace AirportSimulation
+namespace AirportSimulationCl.NetzachTech.AirportSim.Infrastructure
 {
     public interface IAirport
     {
@@ -27,30 +28,30 @@ namespace AirportSimulation
         /// A list containing all the flights in this airport
         /// </summary>
         List<Flight> AllFlights { get; }
-        
+
 
         /// <summary>
         /// Method to add a runway to this airport
         /// </summary>
         /// <param name="name"></param>
         Runway AddNewRunway(string name);
-        
+
         /// <summary>
         /// Method to add a taxi to this airport
         /// </summary>
         /// <param name="name"></param>
         Taxi AddNewTaxi(string name);
-        
+
         /// <summary>
         /// Method to add a terminal to this airport
         /// </summary>
         /// <param name="name"></param>
         Terminal AddNewTerminal(string name);
-        
+
         /// <summary>
         /// Method to add a flight to this airport
         /// </summary>
-        void AddNewFlight(Flight flight);
+        void AddExistingFlight(Flight flight);
 
     }
 }

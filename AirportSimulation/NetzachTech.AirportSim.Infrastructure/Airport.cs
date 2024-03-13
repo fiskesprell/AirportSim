@@ -1,4 +1,5 @@
-﻿using AirportSimulationCl;
+﻿using AirportSimulation;
+using AirportSimulationCl.NetzachTech.AirportSim.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirportSimulation
+namespace NetzachTech.AirportSim.Infrastructure
 {
     public class Airport : IAirport
     {
@@ -15,42 +16,42 @@ namespace AirportSimulation
         /// </summary>
         private string _airportName;
         public string AirportName
-        {get => _airportName;set => _airportName = value;}
+        { get => _airportName; set => _airportName = value; }
 
         /// <summary>
         /// List containing all terminals in this airport
         /// </summary>
         private List<Terminal> _allTerminals = new List<Terminal>();
         public List<Terminal> AllTerminals
-        {get => _allTerminals;}
+        { get => _allTerminals; }
 
         /// <summary>
         /// List containing all runways in this airport
         /// </summary>
         private List<Runway> _allRunways = new List<Runway>();
         public List<Runway> AllRunways
-        { get => _allRunways;}
+        { get => _allRunways; }
 
         /// <summary>
         /// List containing all taxiways in this airport
         /// </summary>
         private List<Taxi> _allTaxis = new List<Taxi>();
         public List<Taxi> AllTaxis
-        {get => _allTaxis;}
+        { get => _allTaxis; }
 
         /// <summary>
         /// List containing all flights in this airport
         /// </summary>
         private List<Flight> _allFlights = new List<Flight>();
         public List<Flight> AllFlights
-        {get => _allFlights;}
+        { get => _allFlights; }
 
         /// <summary>
         /// List containing all completed flights in this airport
         /// </summary>
         private List<Flight> _completedFlights = new List<Flight>();
         public List<Flight> CompletedFlights
-        {get => _completedFlights;}
+        { get => _completedFlights; }
 
         /// <summary>
         /// Gets and sets the scheduled start date
@@ -60,7 +61,7 @@ namespace AirportSimulation
         /// </remarks>
         private DateTime _scheduledStartDate;
         public DateTime ScheduledStartDate
-        {get => _scheduledStartDate; set => _scheduledStartDate = value;}
+        { get => _scheduledStartDate; set => _scheduledStartDate = value; }
 
         /// <summary>
         /// Gets and sets the scheduled end date
@@ -70,7 +71,7 @@ namespace AirportSimulation
         /// </remarks>
         private DateTime _scheduledEndDate;
         public DateTime ScheduledEndDate
-        {get => _scheduledEndDate; set => _scheduledEndDate = value;}
+        { get => _scheduledEndDate; set => _scheduledEndDate = value; }
 
         /// <summary>
         /// Gets the list of planes
@@ -78,15 +79,15 @@ namespace AirportSimulation
         /// <remarks>
         /// A list of planes that are have been or are at this airport
         /// </remarks>
-        private List<Plane> _listOfPlanes = new List<Plane> ();
+        private List<Plane> _listOfPlanes = new List<Plane>();
         public List<Plane> ListOfPlanes
-        {get => _listOfPlanes;}
+        { get => _listOfPlanes; }
 
         public Airport() { }
 
         public Airport(string airportName)
         {
-            this.AirportName = airportName;
+            AirportName = airportName;
         }
 
         /// <summary>
@@ -95,7 +96,7 @@ namespace AirportSimulation
         /// <param name="AirportName"></param>
         public Airport(string airportName, string terminalName, string taxiName, string runwayName, string gateName)
         {
-            this.AirportName = airportName;
+            AirportName = airportName;
             Terminal terminal = AddNewTerminal(terminalName);
             //terminal.setIsInternational(true);
             Taxi taxi = AddNewTaxi(taxiName);
@@ -168,7 +169,7 @@ namespace AirportSimulation
         /// </summary>
         public void AddExistingFlight(Flight flight)
         {
-            this.AllFlights.Add(flight);
+            AllFlights.Add(flight);
         }
 
         /// <summary>
@@ -176,21 +177,21 @@ namespace AirportSimulation
         /// </summary>
         public void AddCompletedFlight(Flight flight)
         {
-            this.CompletedFlights.Add(flight);
+            CompletedFlights.Add(flight);
         }
         /// <summary>
         /// Removes a completed flight from the airport's <see cref="AllFlights"> list.
         /// </summary>
         public void RemoveCompletedFlightFromAllFlights(Flight flight)
         {
-            this.AllFlights.Remove(flight);
+            AllFlights.Remove(flight);
         }
         /// <summary>
         /// Prints flight number, frequency and scheduled day for all flights.
         /// </summary>
         public void PrintAllFlights()
         {
-            foreach(Flight flight in this.AllFlights)
+            foreach (Flight flight in AllFlights)
             {
                 Console.WriteLine($"{flight.Number} - {flight.Frequency} - {flight.ScheduledDay}");
             }
@@ -216,7 +217,7 @@ namespace AirportSimulation
 
         public void AddPlaneToListOfAvailablePlanes(Plane plane)
         {
-            this.ListOfPlanes.Add(plane);
+            ListOfPlanes.Add(plane);
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using AirportSimulationCl.NetzachTech.AirportSim.Enums;
+﻿using AirportSimulation;
+using AirportSimulationCl.NetzachTech.AirportSim.Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirportSimulation
+namespace AirportSimulationCl.NetzachTech.AirportSim.Infrastructure
 {
     /// <summary>
     /// Manages a runway's operations including flight queue, connected taxiways, and availability.
@@ -21,14 +22,14 @@ namespace AirportSimulation
         /// </summary>
         private string _runwayName;
         public string RunwayName
-        {get => _runwayName;set => _runwayName = value;}
+        { get => _runwayName; set => _runwayName = value; }
 
         /// <summary>
         /// A list of taxiways that are connected to this runway.
         /// </summary>
         private List<Taxi> _connectedTaxi = new List<Taxi>();
         public List<Taxi> ConnectedTaxi
-        {get => _connectedTaxi;}
+        { get => _connectedTaxi; }
 
         /// <summary>
         /// Queue of flights waiting to take off or land on this runway.
@@ -42,14 +43,14 @@ namespace AirportSimulation
         /// </summary>
         private bool _isAvailable = true;
         public bool IsAvailable
-        {get => _isAvailable;set => _isAvailable = value;}
+        { get => _isAvailable; set => _isAvailable = value; }
 
         /// <summary>
         /// The flight currently occupying the runway, if any.
         /// </summary>
         private Flight _flightOnRunway = null;
         public Flight FlightOnRunway
-        {get => _flightOnRunway;set => _flightOnRunway = value;}
+        { get => _flightOnRunway; set => _flightOnRunway = value; }
 
         public Runway() { }
 
@@ -60,7 +61,7 @@ namespace AirportSimulation
         /// <param name="runwayName">The name of the runway.</param>
         public Runway(string runwayName)
         {
-            this.RunwayName = runwayName;
+            RunwayName = runwayName;
             Console.WriteLine("Runway " + runwayName + " har blitt opprettet");
         }
 
@@ -134,7 +135,7 @@ namespace AirportSimulation
         /// <param name="flight">The flight to add to the runway.</param>
         public void AddFlightToRunway(Flight flight)
         {
-            this.IsAvailable = false;
+            IsAvailable = false;
             FlightOnRunway = flight;
 
         }
