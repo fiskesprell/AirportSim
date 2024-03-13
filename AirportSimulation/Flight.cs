@@ -1,6 +1,6 @@
 ﻿using AirportSimulationCl;
-using AirportSimulationCl.NetzachTech.AirportSim.Enums;
-using AirportSimulationCl.NetzachTech.AirportSim.Infrastructure;
+using NetzachTech.AirportSim.Enums;
+using NetzachTech.AirportSim.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -1557,6 +1557,10 @@ namespace AirportSimulation
             throw new InvalidInfrastructureException("There are no available planes in this airport");
         }
 
+        internal void FlightSim(Airport airport, TimeSimulation timeSimulation)
+        {
+            throw new NotImplementedException();
+        }
     }//Slutt Flight klassen
 }//Slutt namespace
 

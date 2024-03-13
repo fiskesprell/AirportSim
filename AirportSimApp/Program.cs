@@ -1,8 +1,7 @@
 ﻿using AirportSimulation;
-using AirportSimulationCl.NetzachTech.AirportSim.Enums;
-using AirportSimulationCl.NetzachTech.AirportSim.Infrastructure;
+using NetzachTech.AirportSim.Enums;
+using NetzachTech.AirportSim.Infrastructure;
 using NetzachTech.AirportSim.Builders;
-
 
 
 namespace AirportSimApp
@@ -25,11 +24,11 @@ namespace AirportSimApp
 
             testTerminal.PrintTerminalInfo();
 
-            Airport testAirport = new Airport("Gardermoen", "Terminal A", "Taxi A", "Runway A", "Gate A");
-            Airport testAirport2 = new Airport("Gardermoen", "Terminal A", "Taxi A", "Runway A", "Gate A");
+            Airport testAirport = new("Gardermoen", "Terminal A", "Taxi A", "Runway A", "Gate A");
+            Airport testAirport2 = new("Gardermoen", "Terminal A", "Taxi A", "Runway A", "Gate A");
             testAirport.AddExistingTerminal(testTerminal);
-            Flight testFlight = new Flight("Bra123", testAirport2, new DateTime(2024, 04, 16), 14, 30, FlightDirection.Outgoing, testAirport);
-            Flight testFlight2 = new Flight("Bra123", testAirport2, new DateTime(2024, 04, 16), 14, 00, FlightDirection.Incoming, testAirport);
+            Flight testFlight = new("Bra123", testAirport2, new DateTime(2024, 04, 16), 14, 30, FlightDirection.Outgoing, testAirport);
+            Flight testFlight2 = new("Bra123", testAirport2, new DateTime(2024, 04, 16), 14, 00, FlightDirection.Incoming, testAirport);
             testAirport.AddExistingFlight(testFlight);
             testAirport.AddExistingFlight(testFlight2);
             TimeSimulation testTimeSimulation = new TimeSimulation();

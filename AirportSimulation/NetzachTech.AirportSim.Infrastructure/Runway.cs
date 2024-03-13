@@ -1,5 +1,5 @@
 ﻿using AirportSimulation;
-using AirportSimulationCl.NetzachTech.AirportSim.Enums;
+using NetzachTech.AirportSim.Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirportSimulationCl.NetzachTech.AirportSim.Infrastructure
+namespace NetzachTech.AirportSim.Infrastructure
 {
     /// <summary>
     /// Manages a runway's operations including flight queue, connected taxiways, and availability.

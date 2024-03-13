@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirportSimulationCl.NetzachTech.AirportSim.Infrastructure
+namespace NetzachTech.AirportSim.Infrastructure
 {
 
     /// <summary>

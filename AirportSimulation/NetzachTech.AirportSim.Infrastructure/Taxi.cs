@@ -1,5 +1,5 @@
 ﻿using AirportSimulation;
-using AirportSimulationCl.NetzachTech.AirportSim.Enums;
+using NetzachTech.AirportSim.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace AirportSimulationCl.NetzachTech.AirportSim.Infrastructure
+namespace NetzachTech.AirportSim.Infrastructure
 {
 
     /// <summary>
