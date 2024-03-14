@@ -367,7 +367,6 @@ namespace AirportSimulation
                     if(AssignedRunway.FlightOnRunway == this)
                     {
                         TakeoffFlight(AssignedRunway);
-                        this.Status = FlightStatus.Departed;
                     }
                 }
             }
