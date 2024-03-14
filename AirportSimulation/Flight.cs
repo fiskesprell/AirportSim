@@ -367,6 +367,7 @@ namespace AirportSimulation
                     if(AssignedRunway.FlightOnRunway == this)
                     {
                         TakeoffFlight(AssignedRunway);
+                        this.Status = FlightStatus.Departed;
                     }
                 }
             }
@@ -415,27 +416,31 @@ namespace AirportSimulation
 
                 }
             }
-            
-            
-            if (this.Frequency == FlightFrequency.OneTime && (this.Status == FlightStatus.Arrived || this.Status == FlightStatus.Departed))
-            {
-                airport.AddCompletedFlight(this);
-                airport.RemoveCompletedFlightFromAllFlights(this);
-                //Setter AssignedPlane til null og gjøre planet ledig igjen
-                //this.AssignedPlane.PlaneIsAvailable = true;
-                //this.AssignedPlane = null;
-            }
-            
-            if (this.Logging && !(this.HasLogged) && ElapsedDays == (adjustedTravelDay-1) && ElapsedHours == 23 && ElapsedMinutes == 59 && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed))
+            //Console.Write("ElapsedDays: " + ElapsedDays + " - AdjustedTravelDay: " + adjustedTravelDay + " - ElapsedMinutes: " + ElapsedMinutes + " - ElapsedHours: " + ElapsedHours + " - Logging: " + this.Logging + " - HasLogged: " + this.HasLogged + " - Status: " + this.Status + "\n");
+            if (this.Logging && !(this.HasLogged) && ElapsedDays == (adjustedTravelDay+1) && ElapsedHours == 0 && ElapsedMinutes == 0 && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed))
             {
                 Console.WriteLine("\nThis is the eventlog for flight: " + this.Number);
-                foreach(string log in LogHistory)
+                foreach (string log in LogHistory)
                 {
                     Console.WriteLine(log);
                 }
                 this.HasLogged = true;
             }
 
+
+            if (this.Frequency == FlightFrequency.OneTime && (this.Status == FlightStatus.Arrived || this.Status == FlightStatus.Departed))
+            {
+                if (Logging && HasLogged == true)
+                {
+                    airport.AddCompletedFlight(this);
+                    airport.RemoveCompletedFlightFromAllFlights(this);
+                }
+                //Setter AssignedPlane til null og gjøre planet ledig igjen
+                //this.AssignedPlane.PlaneIsAvailable = true;
+                //this.AssignedPlane = null;
+            }
+            
+            
             if (this.Frequency == FlightFrequency.Daily && ( this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed ) && ElapsedHours == 1 && ElapsedMinutes == 0)
             {
                 DateTime newDate = this.ScheduledDay.AddDays(1);
@@ -603,7 +608,7 @@ namespace AirportSimulation
                 }
                 
             }
-            Status = status;
+            this.Status = status;
         }//Slutt changeStatus
 
         /// <summary>

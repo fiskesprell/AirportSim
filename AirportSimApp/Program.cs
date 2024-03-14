@@ -58,13 +58,13 @@ namespace AirportSimApp
             test3.AddExistingTaxi(taxi);
             test3.AddExistingTerminal(testTerminal3);
             test3.AddExistingRunway(runway);
-            Flight testFlight3 = new Flight("Bra123", testAirport2, new DateTime(2024, 04, 16), 14, 30, FlightDirection.Outgoing, test3);
+            Flight testFlight3 = new Flight("Bra123", testAirport2, new DateTime(2024, 04, 15), 14, 30, FlightDirection.Outgoing, test3);
             test3.AddExistingFlight(testFlight3);
 
             TimeConfigManager timeConfigManager1 = new TimeConfigManager();
             //timeConfigManager1.AddTimeConfig(testTerminal3, runway, 15);
             
-            testTimeSimulation.SimulateTime(timeConfigManager1, test3, new DateTime(2024, 04, 15), new DateTime(2024, 04, 17));
+            testTimeSimulation.SimulateTime(timeConfigManager1, test3, new DateTime(2024, 04, 15), new DateTime(2024, 04, 16));
 
 
         }
