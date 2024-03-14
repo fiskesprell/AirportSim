@@ -52,8 +52,6 @@ namespace NetzachTech.AirportSim.Infrastructure
         public Flight FlightOnRunway
         { get => _flightOnRunway; set => _flightOnRunway = value; }
 
-        public Runway() { }
-
         // Constructor
         /// <summary>
         /// Initializes a new instance of the Runway class.
@@ -61,11 +59,10 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <param name="runwayName">The name of the runway.</param>
         public Runway(string runwayName)
         {
-            RunwayName = runwayName;
-            Console.WriteLine("Runway " + runwayName + " har blitt opprettet");
+            this.RunwayName = runwayName;
         }
 
-
+        public Runway() { }
 
         // Legge til en flight i køen rullebanekøen. Automatikk fra når en flight er fremst i taxi køen
         /// <summary>

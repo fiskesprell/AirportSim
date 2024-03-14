@@ -62,6 +62,10 @@ namespace NetzachTech.AirportSim.Infrastructure
         public Flight CurrentHolder
         { get => _currentHolder; set => _currentHolder = value; }
 
+        private Terminal _terminal;
+        public Terminal Terminal
+        { get =>  _terminal; set => _terminal = value;}
+
         /// <summary>
         /// Constructor for making a gate
         /// </summary>
@@ -73,7 +77,6 @@ namespace NetzachTech.AirportSim.Infrastructure
         public Gate(string gateName)
         {
             GateName = gateName;
-            Console.WriteLine("Gate " + gateName + " har blitt opprettet");
         }
 
         // Legge til et taxi object i listen over taxi som er tilkoblet gaten

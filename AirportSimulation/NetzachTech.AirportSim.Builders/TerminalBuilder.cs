@@ -58,6 +58,7 @@ namespace NetzachTech.AirportSim.Builders
         public TerminalBuilder AddGateToTerminal(Gate gate)
         {
             _terminal.ConnectedGates.Add(gate);
+            gate.Terminal = _terminal;
             return this;
         }
 

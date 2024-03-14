@@ -61,7 +61,6 @@ namespace NetzachTech.AirportSim.Infrastructure
         public Taxi(string taxiName)
         {
             TaxiName = taxiName;
-            Console.WriteLine("Taxi " + taxiName + " har blitt opprettet");
         }
 
         /// <summary>
@@ -74,13 +73,29 @@ namespace NetzachTech.AirportSim.Infrastructure
             {
                 if (flight.Status != FlightStatus.Departing)
                 {
-                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + TaxiName + " towards " + flight.AssignedGate.GateName);
+                    if (flight.ElapsedMinutes == 0)
+                    {
+                        string elapsedMinutes = "00";
+                        Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + elapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.AssignedGate.GateName);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.AssignedGate.GateName);
+                    }
                     TaxiQueue.Enqueue(flight);
                 }
 
                 else
                 {
-                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + TaxiName + " towards " + flight.AssignedRunway.RunwayName);
+                    if (flight.ElapsedMinutes == 0)
+                    {
+                        string elapsedMinutes = "00";
+                        Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + elapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.AssignedRunway.RunwayName);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.AssignedRunway.RunwayName);
+                    }
                     TaxiQueue.Enqueue(flight);
                 }
             }
@@ -111,8 +126,8 @@ namespace NetzachTech.AirportSim.Infrastructure
         {
 
             Flight flight = TaxiQueue.Dequeue();
-
-            if (flight.FlightDirection == FlightDirection.Incoming || flight.Status == FlightStatus.ArrivingDelayed)
+            
+            if (flight.FlightDirection == FlightDirection.Incoming)
             {
                 flight.ParkFlightAtGate(flight.AssignedGate);
             }
