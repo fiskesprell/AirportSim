@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetzachTech.AirportSim.Enums
+namespace NetzachTech.AirportSim.FlightOperations
 {
     public enum FlightDirection
     {
