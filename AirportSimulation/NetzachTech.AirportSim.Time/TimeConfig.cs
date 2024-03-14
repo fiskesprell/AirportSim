@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NetzachTech.AirportSim.Infrastructure;
 
-namespace AirportSimulationCl.NetzachTech.AirportSim.Time
+namespace NetzachTech.AirportSim.Time
 {
     /// <summary>
     /// Class used to define how long it takes to drive from Terminal x to Runway x.

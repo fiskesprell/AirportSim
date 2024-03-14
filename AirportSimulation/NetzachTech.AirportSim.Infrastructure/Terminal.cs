@@ -91,11 +91,6 @@ namespace NetzachTech.AirportSim.Infrastructure
 
         }
 
-        internal void AddExistingGate(Gate gate)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Creates a new Taxi and Gate. These need to be connected and are therefore put in the same method.
         /// The new Gate is connected to the Taxi, and the taxi is then added to AllTaxis.

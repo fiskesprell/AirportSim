@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirportSimulationCl.NetzachTech.AirportSim.Time
+namespace NetzachTech.AirportSim.Time
 {
 
     /// <summary>
