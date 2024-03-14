@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirportSimulationCl
+namespace AirportSimulationCl.NetzachTech.AirportSim.Time
 {
     /// <summary>
     /// Class used to define how long it takes to drive from Terminal x to Runway x.
@@ -17,7 +17,7 @@ namespace AirportSimulationCl
         /// </summary>
         private int _minutes;
         public int Minutes
-        { get => _minutes; set => _minutes = value;}
+        { get => _minutes; set => _minutes = value; }
 
         /// <summary>
         /// The chosen terminalobject for the timeconfiguration
@@ -39,11 +39,11 @@ namespace AirportSimulationCl
         /// <param name="terminal"></param>
         /// <param name="runway"></param>
         /// <param name="minutes"></param>
-        public TimeConfig(Terminal terminal, Runway runway, int minutes) 
+        public TimeConfig(Terminal terminal, Runway runway, int minutes)
         {
-            this.Terminal = terminal;
-            this.Runway = runway;
-            this.Minutes = minutes;
+            Terminal = terminal;
+            Runway = runway;
+            Minutes = minutes;
         }
 
 

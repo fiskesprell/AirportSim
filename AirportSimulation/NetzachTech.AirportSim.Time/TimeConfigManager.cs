@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirportSimulationCl
+namespace AirportSimulationCl.NetzachTech.AirportSim.Time
 {
     /// <summary>
     /// Class used to hold and loop through all the TimeConfig objects.
     /// </summary>
     public class TimeConfigManager
-        
+
     {
         /// <summary>
         /// default drivingtime from any given terminal to any given runway. If an timeconfigobject is not created, this wil be the time used.
@@ -22,7 +22,7 @@ namespace AirportSimulationCl
         /// A list containing all the created timeconfig objects
         /// </summary>
         private List<TimeConfig> _timeConfigs = new List<TimeConfig>();
-        public List<TimeConfig> TimeConfigs 
+        public List<TimeConfig> TimeConfigs
         { get => _timeConfigs; }
 
         /// <summary>

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirportSimulation
+namespace AirportSimulationCl.NetzachTech.AirportSim.Time
 {
 
     /// <summary>
@@ -23,39 +23,39 @@ namespace AirportSimulation
         /// </summary>
         private int _elapsedDays = 0;
         public int ElapsedDays
-        {get => _elapsedDays;set => _elapsedDays = value;}
+        { get => _elapsedDays; set => _elapsedDays = value; }
 
         /// <summary>
         /// The number of hours that have elapsed in the simulation.
         /// </summary>
         private int _elapsedHours = 0;
         public int ElapsedHours
-        {get => _elapsedHours;set => _elapsedHours = value;}
+        { get => _elapsedHours; set => _elapsedHours = value; }
 
         /// <summary>
         /// The number of minutes that have elapsed in the simulation.
         /// </summary>
         private int _elapsedMinutes = 0;
         public int ElapsedMinutes
-        {get => _elapsedMinutes;set => _elapsedMinutes = value;}
+        { get => _elapsedMinutes; set => _elapsedMinutes = value; }
 
         /// <summary>
         /// The starting date and time for the simulation.
         /// </summary>
         private DateTime _startDate;
         public DateTime StartDate
-        {get => _startDate;set => _startDate = value;}
+        { get => _startDate; set => _startDate = value; }
 
         /// <summary>
         /// The ending date and time for the simulation.
         /// </summary>
         private DateTime _endDate;
         public DateTime EndDate
-        {get => _endDate;set => _endDate = value;}
+        { get => _endDate; set => _endDate = value; }
 
 
         public TimeSimulation()
-        {}
+        { }
 
         /// <summary>
         /// Simulates the time running in an airport, processing events from a start date to an end date in DateTime format.
@@ -64,12 +64,12 @@ namespace AirportSimulation
         /// <param name="airport">The airport to simulate.</param>
         /// <param name="start">The start date and time of the simulation.</param>
         /// <param name="end">The end date and time of the simulation.</param>
-        public void SimulateTime(TimeConfigManager timeConfigManager,Airport airport, DateTime start, DateTime end)
+        public void SimulateTime(TimeConfigManager timeConfigManager, Airport airport, DateTime start, DateTime end)
         {
 
             Console.WriteLine("The simulation has now started:");
-            this.StartDate = start;
-            this.EndDate = end;
+            StartDate = start;
+            EndDate = end;
 
             TimeSpan timeDifference = end - start;
 
@@ -80,9 +80,9 @@ namespace AirportSimulation
             airport.ScheduledStartDate = start;
             airport.ScheduledEndDate = end;
 
-            int days = timeDifference.Days +1;
+            int days = timeDifference.Days + 1;
             int hours = timeDifference.Hours;
-            int minutes = timeDifference.Minutes+1;
+            int minutes = timeDifference.Minutes + 1;
 
             //Legger inn en sjekk at det finnes minst et objekt av hver del av infrastrukturen, ellers vil ikke simuleringen begynne
             if (airport.AllRunways.Count == 0)
@@ -144,12 +144,12 @@ namespace AirportSimulation
                 }
                 ElapsedMinutes += 1;
 
-                if (i == totalMinutes -1)
+                if (i == totalMinutes - 1)
                 {
                     Console.WriteLine("\nSimulation is now done");
-                    
+
                 }
-                
+
             }
         }
     }
