@@ -332,21 +332,36 @@ namespace AirportSimulation
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == BoardingTimeHours && ElapsedMinutes == BoardingTimeMinutes)
                 {
                     StartDeparturePrep();
+                    Console.WriteLine("Started boarding etc");
+                    Runway correctRunway = this.FindRunway();
+                    Taxi correctTaxi = this.FindTaxi();
+                }
+
+                if (this.AssignedGate != null && this.AssignedRunway != null)
+                {
+                    this.ScheduledMinuteDepartFromGateOutgoing = timeConfigManager.GetTravelTime(this);
                 }
 
                 (int DepartFromGateTimeHours, int DepartFromGateTimeMinutes) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourDepartFromGateOutgoing, this.ScheduledMinuteDepartFromGateOutgoing);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == DepartFromGateTimeHours && ElapsedMinutes == DepartFromGateTimeMinutes)
                 {
+                    /*
+                    Console.WriteLine("Instansvariablene:");
+                    Console.WriteLine(this.ScheduledMinuteDepartFromGateOutgoing);
+                    Console.WriteLine(this.ScheduledHourDepartFromGateOutgoing);
+                    Console.WriteLine("\nDe nye verdiene etter metodekall:");
+                    Console.WriteLine(DepartFromGateTimeHours);
+                    Console.WriteLine(DepartFromGateTimeMinutes);
+                    Console.WriteLine("\nScheduled tid fra objektet:");
+                    Console.WriteLine(ScheduledHour);
+                    Console.WriteLine(ScheduledMinutes);
+                    */
                     StartDeparture();
-                    Runway correctRunway = this.FindRunway();
-                    Taxi correctTaxi = this.FindTaxi();
                     this.AssignedGate.TransferFlightToTaxi(this);
                 }
 
-                if (this.AssignedGate != null && this.AssignedRunway != null)
-                    this.ScheduledMinuteDepartFromGateOutgoing = timeConfigManager.GetTravelTime(this);
-                
-                (int TakeoffTimeHours, int TakeoffTimeMinutes) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourDepartFromGateOutgoing, this.ScheduledMinuteDepartFromGateOutgoing);
+              
+                (int TakeoffTimeHours, int TakeoffTimeMinutes) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourTakeoffOutgoing, this.ScheduledMinuteTakeoffOutgoing);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == TakeoffTimeHours && ElapsedMinutes == TakeoffTimeMinutes)
                 {
                     if(AssignedRunway.FlightOnRunway == this)
@@ -411,7 +426,7 @@ namespace AirportSimulation
                 //this.AssignedPlane = null;
             }
             
-            if (this.Logging && !(this.HasLogged) && ElapsedDays == adjustedTravelDay + 1 && ElapsedHours == 0 && ElapsedMinutes == 0 && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed))
+            if (this.Logging && !(this.HasLogged) && ElapsedDays == (adjustedTravelDay-1) && ElapsedHours == 23 && ElapsedMinutes == 59 && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed))
             {
                 Console.WriteLine("\nThis is the eventlog for flight: " + this.Number);
                 foreach(string log in LogHistory)

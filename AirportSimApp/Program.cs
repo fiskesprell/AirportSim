@@ -62,7 +62,7 @@ namespace AirportSimApp
             test3.AddExistingFlight(testFlight3);
 
             TimeConfigManager timeConfigManager1 = new TimeConfigManager();
-            timeConfigManager1.AddTimeConfig(testTerminal3, runway, 30);
+            //timeConfigManager1.AddTimeConfig(testTerminal3, runway, 15);
             
             testTimeSimulation.SimulateTime(timeConfigManager1, test3, new DateTime(2024, 04, 15), new DateTime(2024, 04, 17));
 
