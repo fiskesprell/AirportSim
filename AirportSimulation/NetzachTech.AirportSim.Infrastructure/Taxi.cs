@@ -69,54 +69,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <param name="flight">Flight</param>
         public void AddToTaxiQueue(Flight flight)
         {
-            if (flight.FlightDirection == FlightDirection.Outgoing)
-            {
-                if (flight.Status != FlightStatus.Departing)
-                {
-                    if (flight.ElapsedMinutes == 0)
-                    {
-                        string elapsedMinutes = "00";
-                        Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + elapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.AssignedGate.GateName);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.AssignedGate.GateName);
-                    }
-                    TaxiQueue.Enqueue(flight);
-                }
-
-                else
-                {
-                    if (flight.ElapsedMinutes == 0)
-                    {
-                        string elapsedMinutes = "00";
-                        Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + elapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.AssignedRunway.RunwayName);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + this.TaxiName + " towards " + flight.AssignedRunway.RunwayName);
-                    }
-                    TaxiQueue.Enqueue(flight);
-                }
-            }
-
-
-            else if (flight.FlightDirection == FlightDirection.Incoming)
-            {
-                if (flight.AssignedGate != null)
-                {
-                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + TaxiName + " towards " + flight.AssignedGate.GateName);
-                }
-                else
-                {
-                    Console.WriteLine("Day: " + flight.ElapsedDays + " - at: " + flight.ElapsedHours + ":" + flight.ElapsedMinutes + " flight " + flight.Number + " started traveling on " + TaxiName + " towards a Gate");
-                }
-
-                TaxiQueue.Enqueue(flight);
-
-            }
-
-
+            TaxiQueue.Enqueue(flight);
         }
 
         /// <summary>
