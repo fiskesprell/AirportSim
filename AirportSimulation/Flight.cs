@@ -184,7 +184,7 @@ namespace AirportSimulation
         
         //ScheduledXLeaveRunwayIncoming
         private int ScheduledHourLeaveRunwayIncoming = 0;
-        private int ScheduledMinuteLeaveRunwayIncoming = 1;
+        private int ScheduledMinuteLeaveRunwayIncoming = 5;
         
         //ScheduledXParkAtGateIncoming
         private int ScheduledHourParkAtGateIncoming = 0;
@@ -192,7 +192,7 @@ namespace AirportSimulation
         
         //ScheduledXCompletedDisembarkation
         private int ScheduledHourCompletedDisembarkation = 0;
-        private int ScheduledMinuteCompletedDisembarkation = 41;
+        private int ScheduledMinuteCompletedDisembarkation = 20;
 
 
 
@@ -376,30 +376,32 @@ namespace AirportSimulation
                     }
                 }
 
+                (int newHours2, int newMinutes2) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourLeaveRunwayIncoming, this.ScheduledMinuteLeaveRunwayIncoming);
+                if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours2 && ElapsedMinutes == newMinutes2)
+                {
+
+                    IncomingFlightFromRunwayToTaxi();
+                }
+
                 if (this.AssignedGate != null && this.AssignedRunway != null)
                 {
                     this.ScheduledMinuteParkAtGateIncoming = timeConfigManager.GetTravelTime(this);
                 }
 
-                (int newHours2, int newMinutes2) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourLeaveRunwayIncoming, this.ScheduledMinuteLeaveRunwayIncoming);
-                if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours2 && ElapsedMinutes == newMinutes2)
-                {
-                    IncomingFlightFromRunwayToTaxi();
-                }
-
-                (int newHours3, int newMinutes3) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourParkAtGateIncoming, this.ScheduledMinuteParkAtGateIncoming);
+                (int newHours3, int newMinutes3) = ConvertTimeForwards(ScheduledHour+this.ScheduledHourLeaveRunwayIncoming, ScheduledMinutes+this.ScheduledMinuteLeaveRunwayIncoming, this.ScheduledHourParkAtGateIncoming, this.ScheduledMinuteParkAtGateIncoming);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours3 && ElapsedMinutes == newMinutes3)
                 {
+
                     IncomingFlightFromTaxiToGate();
                 }
 
-                (int newHours4, int newMinutes4) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourCompletedDisembarkation, this.ScheduledMinuteCompletedDisembarkation);
+                (int newHours4, int newMinutes4) = ConvertTimeForwards(ScheduledHour+this.ScheduledHourLeaveRunwayIncoming+this.ScheduledHourParkAtGateIncoming, ScheduledMinutes+this.ScheduledMinuteLeaveRunwayIncoming+this.ScheduledMinuteParkAtGateIncoming, this.ScheduledHourCompletedDisembarkation, this.ScheduledMinuteCompletedDisembarkation);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours4 && ElapsedMinutes == newMinutes4)
                 {
+                    Console.WriteLine(newHours4);
+                    Console.WriteLine(newMinutes4);
                     IncomingFlightFromGateToComplete();
                 }
-
-
             }
 
             else
@@ -493,7 +495,6 @@ namespace AirportSimulation
         {
             runway.FlightOnRunway = this;
             this.SetFlightStatus(FlightStatus.Arrived);
-            //Console.WriteLine("Day: " + ElapsedDays + " -  at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has landed");
             AssignedTaxi.AddToTaxiQueue(this);
             runway.FlightOnRunway = null;
             runway.IsAvailable = true;
@@ -759,13 +760,13 @@ namespace AirportSimulation
 
         }
 
-        public (int, int) ConvertTimeForwards(int hour, int minutes, int subtractedHours, int subtractedMinutes)
+        public (int, int) ConvertTimeForwards(int hour, int minutes, int addedHours, int addedMinutes)
         {
             // TODO: Fiks hva som skjer om det går en dag fremover
-            int newHours = hour + subtractedHours;
-            int newMinutes = minutes + subtractedMinutes;
+            int newHours = hour + addedHours;
+            int newMinutes = minutes + addedMinutes;
 
-            while (newMinutes > 60)
+            if (newMinutes >= 60)
             {
                 newHours += 1;
                 newMinutes -= 60;
