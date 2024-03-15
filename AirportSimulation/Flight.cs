@@ -564,7 +564,7 @@ namespace AirportSimulation
                     bool foundGateLicence = false;
                     foreach(var gate in terminal.ConnectedGates)
                     {
-                        if (gate.IsAvailable == true && gate.CheckGateLicence(this) == true)
+                        if (gate.IsAvailable && gate.CheckGateLicence(this) && (!this.IsInternational || (this.IsInternational && terminal.IsInternational)))
                         {
                             this.AssignedGate = gate;
                             gate.IsAvailable = false;
@@ -594,12 +594,7 @@ namespace AirportSimulation
                         }
                     }
                     
-                    /* TODO: Remove or put back
-                    if (!foundGateLicence)
-                    {
-                        throw new Exception($"\n\nException: You tried to simulate time for a flight with the FlightType: {this.FlightType}. There are no gates that have a licence for the assigned FlightType. Try adding more gates and add a licence for that FlightType or edit existing gates with addLicence()\n");
-                    }
-                    */
+                  
                 }
                 
             }
@@ -1341,6 +1336,8 @@ namespace AirportSimulation
                     return null;
                 }
             }
+
+
 
             if (this.AssignedGate == null)
             {
