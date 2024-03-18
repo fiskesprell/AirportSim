@@ -200,7 +200,8 @@ namespace AirportSimulation
         // Incoming: Implemented (not tested)
         public event EventHandler<FlightPlaneGateArgs> FlightIsAssignedGate;
 
-        // Implemented (not tested)
+        // Outgoing: Implemented (not tested)
+        // Incoming: Implemented (not tested)
         public event EventHandler<FlightPlaneArgs> FlightIsAssignedPlane;
 
         // Outgoing: Implemented (not tested)
@@ -223,10 +224,10 @@ namespace AirportSimulation
         // Outgoing: Implemented (not tested)
         public event EventHandler<FlightPlaneGateArgs> FlightHasFinishedOnboarding;
 
-        // Outgoing: Implemented (not tested)
+        // Incoming: Implemented (not tested)
         public event EventHandler<FlightPlaneGateArgs> FlightHasBegunOffloading;
 
-        // Outgoing: Implemented (not tested)
+        // Incoming: Implemented (not tested)
         public event EventHandler<FlightPlaneGateArgs> FlightHasFinishedOffloading;
 
         /// <summary>
@@ -1482,61 +1483,61 @@ namespace AirportSimulation
         protected virtual void OnPlaneAssigned(Plane plane, int elapsedDays, int elapsedHours, int elapsedMinutes)
         {
             var args = new FlightPlaneArgs(this, plane, elapsedDays, elapsedHours, elapsedMinutes);
-            FlightIsAssignedPlane.Invoke(this, args);
+            FlightIsAssignedPlane?.Invoke(this, args);
         }
 
         protected virtual void OnGateAssigned(Plane plane, Gate gate, int elapsedDays, int elapsedHours, int elapsedMinutes)
         {
             var args = new FlightPlaneGateArgs(this, plane, gate, elapsedDays, elapsedHours, elapsedMinutes);
-            FlightIsAssignedGate.Invoke(this, args);
+            FlightIsAssignedGate?.Invoke(this, args);
         }
 
         protected virtual void OnTaxiAssigned(Plane plane, Taxi taxi, int elapsedDays, int elapsedHours, int elapsedMinutes)
         {
             var args = new FlightPlaneTaxiArgs(this, plane, taxi, elapsedDays, elapsedHours, elapsedMinutes);
-            FlightIsAssignedTaxi.Invoke(this, args);
+            FlightIsAssignedTaxi?.Invoke(this, args);
         }
 
         protected virtual void OnRunwayAssigned(Plane plane, Runway runway, int elapsedDays, int elapsedHours, int elapsedMinutes)
         {
             var args = new FlightPlaneRunwayArgs(this, plane, runway, elapsedDays, elapsedHours, elapsedMinutes);
-            FlightIsAssignedRunway.Invoke(this, args);
+            FlightIsAssignedRunway?.Invoke(this, args);
         }
 
         protected virtual void OnFlightTakeoff(Plane plane, Runway runway, int elapsedDays, int elapsedHours, int elapsedMinutes)
         {
             var args = new FlightPlaneRunwayArgs(this, plane, runway, elapsedDays, elapsedHours, elapsedMinutes);
-            FlightHasTakenOff.Invoke(this, args);
+            FlightHasTakenOff?.Invoke(this, args);
         }
 
         protected virtual void OnFlightLanding(Plane plane, Runway runway, int elapsedDays, int elapsedHours, int elapsedMinutes)
         {
             var args = new FlightPlaneRunwayArgs(this, plane, runway, elapsedDays, elapsedHours, elapsedMinutes);
-            FlightHasLanded.Invoke(this, args);
+            FlightHasLanded?.Invoke(this, args);
         }
 
         protected virtual void OnOnboardingStart(Plane plane, Gate gate, int elapsedDays, int elapsedHours, int elapsedMinutes)
         {
             var args = new FlightPlaneGateArgs(this, plane, gate, elapsedDays, elapsedHours, elapsedMinutes);
-            FlightHasBegunOnboarding.Invoke(this, args);
+            FlightHasBegunOnboarding?.Invoke(this, args);
         }
 
         protected virtual void OnOnboardingEnd(Plane plane, Gate gate, int elapsedDays, int elapsedHours, int elapsedMinutes)
         {
             var args = new FlightPlaneGateArgs(this, plane, gate, elapsedDays, elapsedHours, elapsedMinutes);
-            FlightHasFinishedOnboarding.Invoke(this, args);
+            FlightHasFinishedOnboarding?.Invoke(this, args);
         }
 
         protected virtual void OnOffloadingStart(Plane plane, Gate gate, int elapsedDays, int elapsedHours, int elapsedMinutes)
         {
             var args = new FlightPlaneGateArgs(this, plane, gate, elapsedDays, elapsedHours, elapsedMinutes);
-            FlightHasBegunOffloading.Invoke(this, args);
+            FlightHasBegunOffloading?.Invoke(this, args);
         }
 
         protected virtual void OnOffloadingEnd(Plane plane, Gate gate, int elapsedDays, int elapsedHours, int elapsedMinutes)
         {
             var args = new FlightPlaneGateArgs(this, plane, gate, elapsedDays, elapsedHours, elapsedMinutes);
-            FlightHasFinishedOffloading.Invoke(this, args);
+            FlightHasFinishedOffloading?.Invoke(this, args);
         }
 
 

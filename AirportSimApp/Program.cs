@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 using NetzachTech.AirportSim.EventArguments;
 
 
-
 namespace AirportSimApp
 {
     internal class Program
@@ -87,17 +86,97 @@ namespace AirportSimApp
 
 
             // +-+-+-+ TESTING EVENTS +-+-+-+
-            testFlight3.FlightIsAssignedGate += HandleAssignedGate;
-
-            static void HandleAssignedGate(Object? sender, FlightPlaneGateArgs e){
-                Console.WriteLine($"hi! {e.gate.GateName}");
+            // Subscribing to events
+            // __Outgoing
+            testFlight3.FlightIsAssignedGate += TestOutgoingGateEvent;
+            testFlight3.FlightIsAssignedPlane += TestOutgoingPlaneEvent;
+            testFlight3.FlightIsAssignedTaxi += TestOutgoingTaxiEvent;
+            testFlight3.FlightIsAssignedRunway += TestOutgoingRunwayEvent;
+            testFlight3.FlightHasTakenOff += TestOutgoingTakeOffEvent;
+            testFlight3.FlightHasBegunOnboarding += TestOutgoingOnboardingStartEvent;
+            testFlight3.FlightHasFinishedOnboarding += TestOutgoingOnboardingEndEvent;
+            // __Incoming
+            testFlight4.FlightIsAssignedGate += TestIncomingGateEvent;
+            testFlight4.FlightIsAssignedPlane += TestIncomingPlaneEvent;
+            testFlight4.FlightIsAssignedTaxi += TestIncomingTaxiEvent;
+            testFlight4.FlightIsAssignedRunway += TestIncomingRunwayEvent;
+            testFlight4.FlightHasLanded += TestIncomingLandingEvent;
+            testFlight4.FlightHasBegunOffloading += TestIncomingOffloadingStartEvent;
+            testFlight4.FlightHasFinishedOffloading += TestIncomingOffloadingEndEvent;
+            // Event Handling Methods
+            //__Outgoing
+            static void TestOutgoingGateEvent(object? sender, FlightPlaneGateArgs e)
+            {
+                Console.WriteLine(";;;;;;;;;;;;; EVENT TEST TestOutgoingGateEvent");
+                e.PrintAll();
             }
+            static void TestOutgoingPlaneEvent(Object? sender, FlightPlaneArgs e)
+            {
+                Console.WriteLine(";;;;;;;;;;;;; EVENT TEST TestOutgoingPlaneEvent");
+                e.PrintAll();
+            }
+            static void TestOutgoingTaxiEvent(Object? sender, FlightPlaneTaxiArgs e)
+            {
+                Console.WriteLine(";;;;;;;;;;;;; EVENT TEST TestOutgoingTaxiEvent");
+                e.PrintAll();
+            }
+            static void TestOutgoingRunwayEvent(Object? sender, FlightPlaneRunwayArgs e)
+            {
+                Console.WriteLine(";;;;;;;;;;;;; EVENT TEST TestOutgoingRunwayEvent");
+                e.PrintAll();
+            }
+            static void TestOutgoingTakeOffEvent(Object? sender, FlightPlaneRunwayArgs e)
+            {
+                Console.WriteLine(";;;;;;;;;;;;; EVENT TEST TestOutgoingTakeOffEvent");
+                e.PrintAll();
+            }
+            static void TestOutgoingOnboardingStartEvent(Object? sender, FlightPlaneGateArgs e)
+            {
+                Console.WriteLine(";;;;;;;;;;;;; EVENT TEST TestOutgoingOnboardingStartEvent");
+                e.PrintAll();
+            }
+            static void TestOutgoingOnboardingEndEvent(Object? sender, FlightPlaneGateArgs e)
+            {
+                Console.WriteLine(";;;;;;;;;;;;; EVENT TEST TestOutgoingOnboardingEndEvent");
+                e.PrintAll();
 
-
-
-
-
-
+            }
+            //__Incoming
+            static void TestIncomingGateEvent(Object? sender, FlightPlaneGateArgs e)
+            {
+                Console.WriteLine(";;;;;;;;;;;;; EVENT TEST TestIncomingGateEvent");
+                e.PrintAll();
+            }
+            static void TestIncomingPlaneEvent(Object? sender, FlightPlaneArgs e)
+            {
+                Console.WriteLine(";;;;;;;;;;;;; EVENT TEST TestIncomingPlaneEvent");
+                e.PrintAll();
+            }
+            static void TestIncomingTaxiEvent(Object? sender, FlightPlaneTaxiArgs e)
+            {
+                Console.WriteLine(";;;;;;;;;;;;; EVENT TEST TestIncomingTaxiEvent");
+                e.PrintAll();
+            }
+            static void TestIncomingRunwayEvent(Object? sender, FlightPlaneRunwayArgs e)
+            {
+                Console.WriteLine(";;;;;;;;;;;;; EVENT TEST TestIncomingRunwayEvent");
+                e.PrintAll();
+            }
+            static void TestIncomingLandingEvent(Object? sender, FlightPlaneRunwayArgs e)
+            {
+                Console.WriteLine(";;;;;;;;;;;;; EVENT TEST TestIncomingLandingEvent");
+                e.PrintAll();
+            }
+            static void TestIncomingOffloadingStartEvent(Object? sender, FlightPlaneGateArgs e)
+            {
+                Console.WriteLine(";;;;;;;;;;;;; EVENT TEST TestIncomingOffloadingStartEvent");
+                e.PrintAll();
+            }
+            static void TestIncomingOffloadingEndEvent(Object? sender, FlightPlaneGateArgs e)
+            {
+                Console.WriteLine(";;;;;;;;;;;;; EVENT TEST TestIncomingOffloadingEndEvent");
+                e.PrintAll();
+            }
 
 
             testTimeSimulation.SimulateTime(timeConfigManager1, test3, new DateTime(2024, 04, 15), new DateTime(2024, 04, 16));

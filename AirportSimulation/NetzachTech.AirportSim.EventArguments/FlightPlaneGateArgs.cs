@@ -36,5 +36,24 @@ namespace NetzachTech.AirportSim.EventArguments
             this.ElapsedHours = ElapsedHours;
             this.ElapsedMinutes = ElapsedMinutes;
         }
+
+        // TODO: Delete? Test method.
+        public void PrintAll()
+        {
+            if (flight != null)
+            {
+                Console.WriteLine($"FLIGHT: {flight.Number}");
+            }
+            if (plane != null)
+            {
+                Console.WriteLine($"PLANE: {plane.TailNumber}");
+            }
+            if (gate != null)
+            {
+                Console.WriteLine($"GATE: {gate.GateName}");
+            }
+
+            Console.WriteLine($"ELAPSED TIME: {ElapsedDays} Days, {ElapsedHours} Hours, {ElapsedMinutes} Minutes.");
+        }
     }
 }
