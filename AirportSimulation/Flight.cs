@@ -583,7 +583,8 @@ namespace AirportSimulation
                     bool foundGateLicence = false;
                     foreach(var gate in terminal.ConnectedGates)
                     {
-                        if (gate.IsAvailable && gate.CheckGateLicence(this) && (!this.IsInternational || (this.IsInternational && terminal.ReadyForInternational)))
+                        if (gate.IsAvailable && gate.CheckGateLicence(this) && ((this.IsInternational && terminal.ReadyForInternational && !terminal.StrictlyInternational) || (!this.IsInternational && !terminal.StrictlyInternational) || (this.IsInternational && terminal.StrictlyInternational)))
+
                         {
                             this.AssignedGate = gate;
                             gate.IsAvailable = false;
@@ -621,7 +622,8 @@ namespace AirportSimulation
                     
                   
                 }
-                
+                return null;
+
             }
             if (!foundTerminal)
             {
