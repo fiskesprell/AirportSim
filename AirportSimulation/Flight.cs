@@ -246,8 +246,8 @@ namespace AirportSimulation
             this.Number = flightNumber;
             this.DestinationAirport = destination;
             this.CurrentAirport = airport;
-            //Assigne et ledig plane til flighten når det opprettes
-            this.AssignedPlane = AssignAvailablePlaneToFlight();
+
+            
 
             if (travelHour > 23 || travelHour < 0)
                 throw new InvalidScheduledTimeException("There are only 24 hours in a day. Expected values are between 0 and 23.");
@@ -334,6 +334,7 @@ namespace AirportSimulation
             TimeSpan dayDifference = this.ScheduledDay - startSim;
             int adjustedTravelDay = dayDifference.Days;
             
+
             // ~~~~ Outgoing Flight ~~~~
             if (this.FlightDirection == FlightDirection.Outgoing)
             {
@@ -342,6 +343,8 @@ namespace AirportSimulation
                 (int OutgoingFindGateTimeHours, int OutgoingFindGateTimeMinutes) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourFindGateOutgoing, this.ScheduledMinuteFindGateoutgoing);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == OutgoingFindGateTimeHours && ElapsedMinutes == OutgoingFindGateTimeMinutes)
                 {
+                    if (this.AssignedPlane == null)
+                        this.AssignedPlane = AssignAvailablePlaneToFlight();
                     Gate availableGate = FindAvailableGate();
 
                     if (this.AssignedGate != null)
@@ -402,6 +405,11 @@ namespace AirportSimulation
                 (int newHours1, int newMinutes1) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourFindGateIncoming, this.ScheduledMinuteFindGateIncoming);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
+                    //Burde kanskje implementere at en incoming flight må lage et planeobjekt i konstruktøren?
+                    //Blir feil at et incoming fly får et plane assigned når det lander, det har jo flydd i et planeobjekt i x antall timer før det lander
+                    //Det kan vi kan gjøre da er at når et fly lander, så kan det flyet legges til i listen med alle planes på flyplassen og gjøre det tilgjengelig for neste outgoing
+                    if (this.AssignedPlane == null)
+                        this.AssignedPlane = AssignAvailablePlaneToFlight();
                     IncomingFlightPreperation();
                     if (this.AssignedGate == null)
                     {
@@ -431,8 +439,7 @@ namespace AirportSimulation
                 (int newHours4, int newMinutes4) = ConvertTimeForwards(ScheduledHour+this.ScheduledHourLeaveRunwayIncoming+this.ScheduledHourParkAtGateIncoming, ScheduledMinutes+this.ScheduledMinuteLeaveRunwayIncoming+this.ScheduledMinuteParkAtGateIncoming, this.ScheduledHourCompletedDisembarkation, this.ScheduledMinuteCompletedDisembarkation);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours4 && ElapsedMinutes == newMinutes4)
                 {
-                    Console.WriteLine(newHours4);
-                    Console.WriteLine(newMinutes4);
+
                     IncomingFlightFromGateToComplete();
                 }
             }
@@ -466,8 +473,8 @@ namespace AirportSimulation
                     airport.RemoveCompletedFlightFromAllFlights(this);
                 }
                 //Setter AssignedPlane til null og gjøre planet ledig igjen
-                this.AssignedPlane.PlaneIsAvailable = true;
-                this.AssignedPlane = null;
+                //this.AssignedPlane.PlaneIsAvailable = true;
+                //this.AssignedPlane = null;
             }
             
             
@@ -596,6 +603,18 @@ namespace AirportSimulation
             FlightType flightType = this.FlightType;
 
             bool foundTerminal = false;
+            //Plan for oppdatering av FindGate
+
+            //Sjekke internationalverdi for flight
+            //Hvis innlands så sjekk alle terminaler, finn en som ikke er strictly international
+            //Velg første gate som er ledig på hvilken som helst terminal
+
+            //Hvis international så sjekk alle terminaler, finn enten en som er strictly inter eller readyForInter
+            //Velg hvilken som helst gate i strictly, eller gå gjennom  alle gates i ready og finn en gate som er ready og available
+
+            //i readyForInter kan det være gates som ikke er ready
+            //I strictly er alle gates ready
+
             foreach (var terminal in CurrentAirport.AllTerminals)
             {
                 if (terminal.ReadyForInternational == this.IsInternational)
@@ -604,8 +623,8 @@ namespace AirportSimulation
                     bool foundGateLicence = false;
                     foreach(var gate in terminal.ConnectedGates)
                     {
-                        // Todo: Sjekk om siste terminal.IsInternational har rød strek / er riktig?
-                        if (gate.IsAvailable && gate.CheckGateLicence(this) && (!this.IsInternational || (this.IsInternational && terminal.IsInternational)))
+                        if (gate.IsAvailable && gate.CheckGateLicence(this) && ((this.IsInternational && terminal.ReadyForInternational && !terminal.StrictlyInternational) || (!this.IsInternational && !terminal.StrictlyInternational) || (this.IsInternational && terminal.StrictlyInternational)))
+
                         {
                             this.AssignedGate = gate;
                             OnGateAssigned(this.AssignedPlane, gate, ElapsedDays, ElapsedHours, ElapsedMinutes);
@@ -634,11 +653,18 @@ namespace AirportSimulation
                             }
 
                         }
+
                     }
+                    if (!foundGateLicence)
+                    {
+                        throw new InvalidInfrastructureException($"There are no gates on this airport that can handle plane of {this.AssignedPlane.PlaneSizeClassification} classification");
+                    }
+
                     
                   
                 }
-                
+                return null;
+
             }
             if (!foundTerminal)
             {
@@ -1417,23 +1443,33 @@ namespace AirportSimulation
             
             else
             {
+                bool foundPlane = false;
                 foreach (var plane in this.CurrentAirport.ListOfPlanes)
                 {
                     //Sjekker at flyet er riktig type, at det er ledig, og at det er på flyplassen
-                    if ((plane.FlightType & this.FlightType) == this.FlightType && plane.PlaneIsAvailable == true && plane.CurrentAirport == this.CurrentAirport)
+                    if ((plane.FlightType == this.FlightType) && (plane.PlaneIsAvailable == true) && (plane.CurrentAirport == this.CurrentAirport))
                     {
-                        //Setter flyet til instansvariabel og gjør det utilgjengelig
-                        //Dvs at vi må endre på metoden som vi kaller helt til slutt når et fly har landet for å kunne gjøre det tilgjegenlig igjen
                         plane.PlaneIsAvailable = false;
+                        plane.CurrentFlight = this;
                         OnPlaneAssigned(plane, ElapsedDays, ElapsedHours, ElapsedMinutes);
-                        return plane;
-                        
+                        foundPlane = true;
+                        if (Logging)
+                        {
+                            string logMessage = $"Flight {Number} got assigned the plane: {plane.TailNumber}:{plane.PlaneName}:{plane.PlaneModel} at Day: {ElapsedDays + 1}, Time: {ElapsedHours.ToString("D2")}: {ElapsedMinutes.ToString("D2")}";
+                            if(!LogHistory.Contains(logMessage))
+                                LogHistory.Add(logMessage);
+                        }
                     }
-                    else
-                        throw new InvalidInfrastructureException("There are no available planes with the correct FlightType in this airport");
+                    return plane;
+                }
+
+                if (!foundPlane)
+                {
+
+                    throw new InvalidInfrastructureException("There are no available planes in this airport");
                 }
             }
-            throw new InvalidInfrastructureException("There are no available planes in this airport");
+            return null;
         }
 
         internal void FlightSim(Airport airport, TimeSimulation timeSimulation)

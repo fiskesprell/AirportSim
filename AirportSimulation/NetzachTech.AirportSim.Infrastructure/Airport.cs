@@ -204,6 +204,8 @@ namespace NetzachTech.AirportSim.Infrastructure
         public void AddPlaneToListOfAvailablePlanes(Plane plane)
         {
             ListOfPlanes.Add(plane);
+            foreach(var fly in this.ListOfPlanes)
+                Console.WriteLine(fly);
         }
 
     }

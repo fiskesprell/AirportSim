@@ -24,7 +24,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         public string TailNumber
         { get => _tailNumber; set => _tailNumber = value; }
 
-        private FlightType _flightType;
+        private FlightType _flightType = FlightType.Commercial;
         public FlightType FlightType
         { get => _flightType; set => _flightType = value; }
 
@@ -66,7 +66,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         public Flight CurrentFlight
         { get => _currentFlight; set => _currentFlight = value; }
 
-        private bool _planeIsAvailable;
+        private bool _planeIsAvailable = true;
         public bool PlaneIsAvailable
         { get => _planeIsAvailable; set => _planeIsAvailable = value; }
 
