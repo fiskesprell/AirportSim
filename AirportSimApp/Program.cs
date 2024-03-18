@@ -3,6 +3,8 @@ using NetzachTech.AirportSim.FlightOperations;
 using NetzachTech.AirportSim.Infrastructure;
 using NetzachTech.AirportSim.Builders;
 using NetzachTech.AirportSim.Time;
+using System.Runtime.CompilerServices;
+using NetzachTech.AirportSim.EventArguments;
 
 
 
@@ -79,7 +81,23 @@ namespace AirportSimApp
                 .AddPlaneToAirport(test3)
                 .AddPlaneSize(PlaneSizeClassification.C)
                 .Build();
-            
+
+
+
+            // +-+-+-+ TESTING EVENTS +-+-+-+
+            testFlight3.FlightIsAssignedGate += HandleAssignedGate;
+
+            static void HandleAssignedGate(Object? sender, FlightPlaneGateArgs e){
+                Console.WriteLine($"hi! {e.gate.GateName}");
+            }
+
+
+
+
+
+
+
+
             testTimeSimulation.SimulateTime(timeConfigManager1, test3, new DateTime(2024, 04, 15), new DateTime(2024, 04, 16));
 
 
