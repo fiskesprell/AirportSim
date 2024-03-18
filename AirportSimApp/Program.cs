@@ -62,10 +62,10 @@ namespace AirportSimApp
             test3.AddExistingTaxi(taxi);
             test3.AddExistingTerminal(testTerminal3);
             test3.AddExistingRunway(runway);
-            //Flight testFlight3 = new Flight("TestOutgoing", testAirport2, new DateTime(2024, 04, 15), 14, 00, FlightDirection.Outgoing, test3);
+            Flight testFlight3 = new Flight("TestOutgoing", testAirport2, new DateTime(2024, 04, 15), 14, 00, FlightDirection.Outgoing, test3);
             
             Flight testFlight4 = new Flight("TestIncoming",testAirport2, new DateTime(2024, 04, 15), 16, 30, FlightDirection.Incoming, test3);
-            //test3.AddExistingFlight(testFlight3);
+            test3.AddExistingFlight(testFlight3);
             test3.AddExistingFlight(testFlight4);
 
 

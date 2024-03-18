@@ -372,6 +372,9 @@ namespace AirportSimulation
                 (int newHours1, int newMinutes1) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourFindGateIncoming, this.ScheduledMinuteFindGateIncoming);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
+                    //Burde kanskje implementere at en incoming flight må lage et planeobjekt i konstruktøren?
+                    //Blir feil at et incoming fly får et plane assigned når det lander, det har jo flydd i et planeobjekt i x antall timer før det lander
+                    //Det kan vi kan gjøre da er at når et fly lander, så kan det flyet legges til i listen med alle planes på flyplassen og gjøre det tilgjengelig for neste outgoing
                     if (this.AssignedPlane == null)
                         this.AssignedPlane = AssignAvailablePlaneToFlight();
                     IncomingFlightPreperation();
@@ -403,8 +406,7 @@ namespace AirportSimulation
                 (int newHours4, int newMinutes4) = ConvertTimeForwards(ScheduledHour+this.ScheduledHourLeaveRunwayIncoming+this.ScheduledHourParkAtGateIncoming, ScheduledMinutes+this.ScheduledMinuteLeaveRunwayIncoming+this.ScheduledMinuteParkAtGateIncoming, this.ScheduledHourCompletedDisembarkation, this.ScheduledMinuteCompletedDisembarkation);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours4 && ElapsedMinutes == newMinutes4)
                 {
-                    Console.WriteLine(newHours4);
-                    Console.WriteLine(newMinutes4);
+
                     IncomingFlightFromGateToComplete();
                 }
             }
@@ -561,6 +563,18 @@ namespace AirportSimulation
             FlightType flightType = this.FlightType;
 
             bool foundTerminal = false;
+            //Plan for oppdatering av FindGate
+
+            //Sjekke internationalverdi for flight
+            //Hvis innlands så sjekk alle terminaler, finn en som ikke er strictly international
+            //Velg første gate som er ledig på hvilken som helst terminal
+
+            //Hvis international så sjekk alle terminaler, finn enten en som er strictly inter eller readyForInter
+            //Velg hvilken som helst gate i strictly, eller gå gjennom  alle gates i ready og finn en gate som er ready og available
+
+            //i readyForInter kan det være gates som ikke er ready
+            //I strictly er alle gates ready
+
             foreach (var terminal in CurrentAirport.AllTerminals)
             {
                 if (terminal.ReadyForInternational == this.IsInternational)
@@ -597,7 +611,13 @@ namespace AirportSimulation
                             }
 
                         }
+
                     }
+                    if (!foundGateLicence)
+                    {
+                        throw new InvalidInfrastructureException($"There are no gates on this airport that can handle plane of {this.AssignedPlane.PlaneSizeClassification} classification");
+                    }
+
                     
                   
                 }
