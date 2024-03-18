@@ -71,6 +71,12 @@ namespace NetzachTech.AirportSim.Time
             StartDate = start;
             EndDate = end;
 
+            Console.WriteLine("Antall flights pÂ flyplassen:");
+            Console.WriteLine(airport.AllFlights.Count());
+
+            Console.WriteLine("Antall fly pÂ flyplassen:");
+            Console.WriteLine(airport.ListOfPlanes.Count());
+
             TimeSpan timeDifference = end - start;
 
             //Eksempel pÅEhvordan bruke custom exceptions
