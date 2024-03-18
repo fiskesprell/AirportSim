@@ -26,9 +26,9 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// False = Used by domestic flights <br/>
         /// Default value is false.
         /// </summary>
-        private bool _isInternational = false;
-        public bool IsInternational
-        { get => _isInternational; set => _isInternational = value; }
+        private bool _readyForInternational = false;
+        public bool ReadyForInternational
+        { get => _readyForInternational; set => _readyForInternational = value; }
 
         /// <summary>
         /// List of the gates connected to this terminal.
@@ -40,6 +40,10 @@ namespace NetzachTech.AirportSim.Infrastructure
         private Airport _airport;
         public Airport Airport
         { get => _airport; set => _airport = value;}
+
+        private bool _strictlyInternational = false;
+        public bool StrictlyInternational
+        { get => _strictlyInternational; set => _strictlyInternational= value; }
 
         public Terminal() { }
 
@@ -81,7 +85,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         public void PrintTerminalInfo()
         {
             Console.WriteLine("Terminalname: " + TerminalName);
-            Console.WriteLine("International: " + IsInternational);
+            Console.WriteLine("International: " + ReadyForInternational);
             Console.WriteLine("Gates: ");
 
             foreach (Gate gate in ConnectedGates)

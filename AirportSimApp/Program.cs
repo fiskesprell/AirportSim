@@ -6,7 +6,6 @@ using NetzachTech.AirportSim.Time;
 
 
 
-
 namespace AirportSimApp
 {
     internal class Program
@@ -15,13 +14,13 @@ namespace AirportSimApp
         {
             Gate testGate = new GateBuilder()
                 .AddGateName("Gate 4623724273")
-                .AddGateLicence(GateLicence.Commercial)
+                .AddGateLicence(GateLicence.C)
                 .Build();
 
 
             Terminal testTerminal = new TerminalBuilder()
                 .AddTerminalName("Terminal FuckYou")
-                .CreateAndAddNewGate("Gate AlleSuger", GateLicence.Commercial)
+                .CreateAndAddNewGate("Gate AlleSuger", GateLicence.C)
                 .AddGateToTerminal(testGate)
                 .Build();
 
@@ -67,7 +66,14 @@ namespace AirportSimApp
             test3.AddExistingFlight(testFlight3);
 
             TimeConfigManager timeConfigManager1 = new TimeConfigManager();
-            //timeConfigManager1.AddTimeConfig(testTerminal3, runway, 15);
+            timeConfigManager1.AddTimeConfig(testTerminal3, runway, 15);
+
+            Plane plane = new PlaneBuilder()
+                .AddPlaneName("Boing")
+                .AddPlaneModel("737")
+                .AddPlaneToAirport(test3)
+                .AddPlaneSize(PlaneSizeClassification.C)
+                .Build();
             
             testTimeSimulation.SimulateTime(timeConfigManager1, test3, new DateTime(2024, 04, 15), new DateTime(2024, 04, 16));
 

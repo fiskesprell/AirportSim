@@ -28,6 +28,10 @@ namespace NetzachTech.AirportSim.Infrastructure
         public FlightType FlightType
         { get => _flightType; set => _flightType = value; }
 
+        private PlaneSizeClassification _planeSizeClassification = PlaneSizeClassification.C;
+        public PlaneSizeClassification PlaneSizeClassification
+        { get => _planeSizeClassification; set => _planeSizeClassification = value; }
+
         //Funksjonalitet
         private int _planeLength;
         public int PlaneLength
@@ -95,6 +99,11 @@ namespace NetzachTech.AirportSim.Infrastructure
 
 
         public Plane() { }
+
+        public Plane(Airport airport)
+        {
+            _currentAirport = airport;
+        }
 
         private void LandPlane() { }
 

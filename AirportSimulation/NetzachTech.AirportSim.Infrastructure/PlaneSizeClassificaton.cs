@@ -15,31 +15,31 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// Category A: Wingspan < 15 meters. Example: Cessna 172.
         /// </summary>
-        A,
+        A = 1,
 
         /// <summary>
         /// Category B: Wingspan 15-24 meters. Example: Bombardier Q400.
         /// </summary>
-        B,
+        B = 2,
 
         /// <summary>
         /// Category C: Wingspan 24-36 meters. Examples: Boeing 737, Airbus A320.
         /// </summary>
-        C,
+        C = 4,
 
         /// <summary>
         /// Category D: Wingspan 36-52 meters. Examples: Boeing 767, Airbus A330.
         /// </summary>
-        D,
+        D = 8,
 
         /// <summary>
         /// Category E: Wingspan 52-65 meters. Examples: Boeing 777, Airbus A340.
         /// </summary>
-        E,
+        E = 16,
 
         /// <summary>
         /// Category F: Wingspan 65-80 meters. Examples: Airbus A380, Antonov An-124 Ruslan.
         /// </summary>
-        F
+        F = 32
     }
 }

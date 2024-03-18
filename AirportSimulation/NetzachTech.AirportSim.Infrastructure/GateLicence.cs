@@ -21,9 +21,11 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// </value>
         /// <remarks>Flags to allow multiple licences</remarks>
         None = 0,
-        Commercial = 1,
-        Transport = 2,
-        Personal = 4,
-        Military = 8
+        A = 1,
+        B = 2,
+        C = 4,
+        D = 8,
+        E = 16,
+        F = 32,
     }
 }

@@ -213,12 +213,19 @@ namespace NetzachTech.AirportSim.Builders
             return this;
         }
 
+        public PlaneBuilder AddPlaneSize(PlaneSizeClassification planeSizeClassification)
+        {
+            _plane.PlaneSizeClassification = planeSizeClassification;
+            return this;
+        }
+
         /// <summary>
         /// returns the finished Plane object
         /// </summary>
         /// <returns></returns>
         public Plane Build()
         {
+            _plane.CurrentAirport.AddPlaneToListOfAvailablePlanes(_plane);
             return _plane;
         }
     }

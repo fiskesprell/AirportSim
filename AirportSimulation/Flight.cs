@@ -214,7 +214,7 @@ namespace AirportSimulation
             this.DestinationAirport = destination;
             this.CurrentAirport = airport;
             //Assigne et ledig plane til flighten når det opprettes
-            //this.AssignedPlane = AssignAvailablePlaneToFlight();
+            this.AssignedPlane = AssignAvailablePlaneToFlight();
 
             if (travelHour > 23 || travelHour < 0)
                 throw new InvalidScheduledTimeException("There are only 24 hours in a day. Expected values are between 0 and 23.");
@@ -335,7 +335,6 @@ namespace AirportSimulation
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == BoardingTimeHours && ElapsedMinutes == BoardingTimeMinutes)
                 {
                     StartDeparturePrep();
-                    Console.WriteLine("Started boarding etc");
                     Runway correctRunway = this.FindRunway();
                     Taxi correctTaxi = this.FindTaxi();
                 }
@@ -348,17 +347,7 @@ namespace AirportSimulation
                 (int DepartFromGateTimeHours, int DepartFromGateTimeMinutes) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourDepartFromGateOutgoing, this.ScheduledMinuteDepartFromGateOutgoing);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == DepartFromGateTimeHours && ElapsedMinutes == DepartFromGateTimeMinutes)
                 {
-                    /*
-                    Console.WriteLine("Instansvariablene:");
-                    Console.WriteLine(this.ScheduledMinuteDepartFromGateOutgoing);
-                    Console.WriteLine(this.ScheduledHourDepartFromGateOutgoing);
-                    Console.WriteLine("\nDe nye verdiene etter metodekall:");
-                    Console.WriteLine(DepartFromGateTimeHours);
-                    Console.WriteLine(DepartFromGateTimeMinutes);
-                    Console.WriteLine("\nScheduled tid fra objektet:");
-                    Console.WriteLine(ScheduledHour);
-                    Console.WriteLine(ScheduledMinutes);
-                    */
+
                     StartDeparture();
                     this.AssignedGate.TransferFlightToTaxi(this);
                 }
@@ -418,7 +407,6 @@ namespace AirportSimulation
 
                 }
             }
-            //Console.Write("ElapsedDays: " + ElapsedDays + " - AdjustedTravelDay: " + adjustedTravelDay + " - ElapsedMinutes: " + ElapsedMinutes + " - ElapsedHours: " + ElapsedHours + " - Logging: " + this.Logging + " - HasLogged: " + this.HasLogged + " - Status: " + this.Status + "\n");
             if (this.Logging && !(this.HasLogged) && ElapsedDays == (adjustedTravelDay+1) && ElapsedHours == 0 && ElapsedMinutes == 0 && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed))
             {
                 Console.WriteLine("\nThis is the eventlog for flight: " + this.Number);
@@ -438,8 +426,8 @@ namespace AirportSimulation
                     airport.RemoveCompletedFlightFromAllFlights(this);
                 }
                 //Setter AssignedPlane til null og gjøre planet ledig igjen
-                //this.AssignedPlane.PlaneIsAvailable = true;
-                //this.AssignedPlane = null;
+                this.AssignedPlane.PlaneIsAvailable = true;
+                this.AssignedPlane = null;
             }
             
             
@@ -452,9 +440,9 @@ namespace AirportSimulation
                 this.AssignedGate = null;
                 this.AssignedTaxi = null;
                 //Setter at flyet er nå på denne flyplassen og er ledig
-                //this.AssignedPlane.CurrentAirport = this.DestinationAirport;
-                //this.AssignedPlane.PlaneIsAvailable = true;
-                //this.AssignedPlane = null;
+                this.AssignedPlane.CurrentAirport = this.DestinationAirport;
+                this.AssignedPlane.PlaneIsAvailable = true;
+                this.AssignedPlane = null;
                 this.HasLogged = false;
                 LogHistory.Clear();
                 
@@ -468,9 +456,9 @@ namespace AirportSimulation
                 this.AssignedRunway = null;
                 this.AssignedGate = null;
                 this.AssignedTaxi = null;
-                //this.AssignedPlane.CurrentAirport = this.DestinationAirport;
-                //this.AssignedPlane.PlaneIsAvailable = true;
-                //this.AssignedPlane = null;
+                this.AssignedPlane.CurrentAirport = this.DestinationAirport;
+                this.AssignedPlane.PlaneIsAvailable = true;
+                this.AssignedPlane = null;
                 this.HasLogged = false;
                 LogHistory.Clear();
             }
@@ -623,7 +611,7 @@ namespace AirportSimulation
             bool foundTerminal = false;
             foreach (var terminal in CurrentAirport.AllTerminals)
             {
-                if (terminal.IsInternational == this.IsInternational)
+                if (terminal.ReadyForInternational == this.IsInternational)
                 {
                     foundTerminal = true;
                     bool foundGateLicence = false;
@@ -662,7 +650,6 @@ namespace AirportSimulation
                             }
                             else
                             {
-                                //Console.WriteLine("\nDay: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has found an available gate:  " + this.AssignedGate.GateName);
                                 return gate;
                             }
 
@@ -1522,7 +1509,7 @@ namespace AirportSimulation
             bool foundTerminal = false;
             foreach (var terminal in CurrentAirport.AllTerminals)
             {
-                if (terminal.IsInternational == this.IsInternational)
+                if (terminal.ReadyForInternational == this.IsInternational)
                 {
                     foreach (var gate in terminal.ConnectedGates)
                     {

@@ -23,7 +23,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// Determines the type of planes allowed to use this gate through licensing.
         /// </summary>
-        private GateLicence _licence = GateLicence.Commercial;
+        private GateLicence _licence = GateLicence.C;
         /// <summary>
         /// Gets or sets the licence(s) of the gate.
         /// </summary>
@@ -132,8 +132,8 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// </summary>
         public bool CheckGateLicence(Flight flight)
         {
-            FlightType flighttype = flight.FlightType;
-            if ((Licence & (GateLicence)flighttype) == Licence)
+            PlaneSizeClassification planeSize = flight.AssignedPlane.PlaneSizeClassification;
+            if ((Licence & (GateLicence)planeSize) == Licence)
             {
                 return true;
             }

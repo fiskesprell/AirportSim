@@ -30,7 +30,7 @@ namespace NetzachTech.AirportSim.Builders
         /// <returns></returns>
         public TerminalBuilder SetIsInternational(bool isInternational)
         {
-            _terminal.IsInternational = isInternational;
+            _terminal.ReadyForInternational = isInternational;
             return this;
         }
 
