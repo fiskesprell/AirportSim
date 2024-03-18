@@ -62,6 +62,10 @@ namespace NetzachTech.AirportSim.Infrastructure
         public bool PlaneIsInUse
         { get => _planeIsInUse; set => _planeIsInUse = value; }
 
+        private Flight _currentFlight;
+        public Flight CurrentFlight
+        { get => _currentFlight; set => _currentFlight = value; }
+
         private bool _planeIsAvailable;
         public bool PlaneIsAvailable
         { get => _planeIsAvailable; set => _planeIsAvailable = value; }
@@ -100,28 +104,71 @@ namespace NetzachTech.AirportSim.Infrastructure
 
         public Plane() { }
 
-        public Plane(Airport airport)
+        private void LandPlane() 
         {
-            _currentAirport = airport;
+            this.CurrentAirport = this.CurrentFlight.CurrentAirport;
         }
 
-        private void LandPlane() { }
+        private void TakeoffPlane() 
+        {
+            this.CurrentAirport = this.CurrentFlight.DestinationAirport;
+        }
 
-        private void TakeoffPlane() { }
+        private void ParkPlaneAtGate() 
+        {
+            CurrentFlight.IsParked = true;
+            CurrentFlight.IsTraveling = false;
+        }
 
-        private void ParkPlaneAtGate() { }
+        private void SchedulePlaneMaintanance() 
+        {
+            DateTime newMaintanance = this.PlaneLastMaintanace.AddDays(5);
+            this.ScheduledMaintananace = newMaintanance;
+        }
 
-        private void SchedulePlaneMaintanance() { }
+        private void PerformPlaneMaintanace() 
+        {
+            this.PlaneIsAvailable = false;
+            this.PlaneIsInUse = false;
+            this.PlaneLastMaintanace = this.CurrentAirport.ScheduledStartDate.AddDays(this.CurrentFlight.ElapsedDays);
 
-        private void PerformPlaneMaintanace() { }
 
-        private void AssignPlaneToAirport() { }
+        }
 
-        private void TakePlaneOutOfUse() { }
+        private void AssignPlaneToAirport(Airport airport) 
+        {
+            _currentAirport = airport;
+            airport.AddPlaneToListOfAvailablePlanes(this);
+        }
 
-        private void SetPlaneInUse() { }
+        private void TakePlaneOutOfUse() 
+        {
+            this.PlaneIsAvailable = false;
+            this.PlaneIsInUse = false;
+        }
 
-        private void PrintPlaneHistory() { }
+        private void SetPlaneInUse() 
+        {
+            this.PlaneIsInUse = true;
+            this.PlaneIsAvailable = true;
+        }
+
+        private void CompleteFlight() 
+        {
+            if (this.CurrentFlight != null)
+            {
+                this.PlaneHistory.Add(this.CurrentFlight);
+            }
+
+            this.CurrentFlight = null;
+            this.PlaneIsAvailable = true;
+        }
+
+        private void PrintPlaneHistory() 
+        {
+            foreach (var log in PlaneHistory)
+                Console.WriteLine(log);
+        }
 
 
 
