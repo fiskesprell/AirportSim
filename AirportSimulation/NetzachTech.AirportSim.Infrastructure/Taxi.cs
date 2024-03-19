@@ -23,6 +23,11 @@ namespace NetzachTech.AirportSim.Infrastructure
         { get => _taxiName; set => _taxiName = value; }
 
         /// <summary>
+        /// Gets or sets the type of the taxiway, distinguishing between main and crossing taxiways.
+        /// </summary>
+        public TaxiwayType TaxiwayType { get; set; }
+
+        /// <summary>
         /// List of gates connected to this taxiway.
         /// </summary>
         private List<Gate> _connectedGates = new List<Gate>();
@@ -58,9 +63,11 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// Initializes a new instance of the Taxi class.
         /// </summary>
         /// <param name="taxiName">The name of the taxiway, typically A-Z.</param>
-        public Taxi(string taxiName)
+        /// <param name="taxiwayType">The type of the taxiway.</param> 
+        public Taxi(string taxiName, TaxiwayType taxiwayType)
         {
             TaxiName = taxiName;
+            TaxiwayType = taxiwayType;
         }
 
         /// <summary>

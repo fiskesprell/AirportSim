@@ -105,9 +105,9 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// </summary>
         /// <param name="gateName">The name of your gate</param>
         /// <param name="taxiName">The name of your taxi</param>
-        public void AddNewConnectedGateAndTaxi(string gateName, string taxiName)
+        public void AddNewConnectedGateAndTaxi(string gateName, string taxiName, TaxiwayType taxiwayType)
         {
-            Taxi newTaxi = new Taxi(taxiName);
+            Taxi newTaxi = new Taxi(taxiName, taxiwayType);
             Gate newGate = new Gate(gateName);
             newTaxi.AddConnectedGate(newGate);
             this.Airport.AllTaxis.Add(newTaxi);
