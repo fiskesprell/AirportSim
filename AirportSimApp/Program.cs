@@ -26,7 +26,7 @@ namespace AirportSimApp
                 .Build();
 
             Runway runway2 = new Runway("Runway Test");
-            Taxi taxi2 = new Taxi("Taxi test");
+            Taxi taxi2 = new Taxi("Taxi test", TaxiwayType.Crossing);
 
             TimeConfigManager timeConfigManager = new TimeConfigManager();
 
@@ -53,7 +53,7 @@ namespace AirportSimApp
             Airport test3 = new Airport("Gardermoen");
             Terminal testTerminal3 = new Terminal("Terminal A");
             Gate gate = new Gate("Gate4");
-            Taxi taxi = new Taxi("Taxi B");
+            Taxi taxi = new Taxi("Taxi B",TaxiwayType.Main);
             Runway runway = new Runway("Runway C");
             testTerminal3.AddExistingGate(gate);
             gate.AddTaxi(taxi);

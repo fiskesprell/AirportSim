@@ -99,7 +99,7 @@ namespace NetzachTech.AirportSim.Infrastructure
             AirportName = airportName;
             Terminal terminal = AddNewTerminal(terminalName);
             //terminal.setIsInternational(true);
-            Taxi taxi = AddNewTaxi(taxiName);
+            Taxi taxi = AddNewTaxi(taxiName, TaxiwayType.Main);
             Runway runway = AddNewRunway(runwayName);
             Gate gate = terminal.AddNewGate(gateName);
             gate.AddTaxi(taxi);
@@ -151,11 +151,12 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// Call the taxi constructor and adds the resulting object taxi object to the list of taxis
         /// </summary>
-        public Taxi AddNewTaxi(string taxiName)
+        public Taxi AddNewTaxi(string taxiName, TaxiwayType taxiwayType)
         {
-            Taxi newTaxi = new Taxi(taxiName);
+            Taxi newTaxi = new Taxi(taxiName,taxiwayType);
             AllTaxis.Add(newTaxi);
             return newTaxi;
+
         }
 
         /// <summary>

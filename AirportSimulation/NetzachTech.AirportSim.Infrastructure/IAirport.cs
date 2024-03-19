@@ -41,7 +41,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// Method to add a taxi to this airport
         /// </summary>
         /// <param name="name"></param>
-        Taxi AddNewTaxi(string name);
+        Taxi AddNewTaxi(string name, TaxiwayType taxiwayType);
 
         /// <summary>
         /// Method to add a terminal to this airport
