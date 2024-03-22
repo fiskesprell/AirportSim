@@ -53,7 +53,7 @@ namespace AirportSimApp
             Airport test3 = new Airport("Gardermoen");
             Terminal testTerminal3 = new Terminal("Terminal A");
             Gate gate = new Gate("Gate4");
-            Taxi taxi = new Taxi("Taxi B",TaxiwayType.Main);
+            Taxi taxi = new Taxi("Taxi B", TaxiwayType.Main);
             Runway runway = new Runway("Runway C");
             testTerminal3.AddExistingGate(gate);
             gate.AddTaxi(taxi);
@@ -76,6 +76,15 @@ namespace AirportSimApp
             timeConfigManager1.AddTimeConfig(testTerminal3, runway, 15);
 
             Plane plane = new PlaneBuilder()
+                .AddTailNumber("TestTailNumber")
+                .AddPlaneName("Boing")
+                .AddPlaneModel("737")
+                .AddPlaneToAirport(test3)
+                .AddPlaneSize(PlaneSizeClassification.C)
+                .AddPlaneToFlight(testFlight4)
+                .Build();
+
+            Plane plane2 = new PlaneBuilder()
                 .AddTailNumber("TestTailNumber")
                 .AddPlaneName("Boing")
                 .AddPlaneModel("737")
@@ -180,6 +189,9 @@ namespace AirportSimApp
 
 
             testTimeSimulation.SimulateTime(timeConfigManager1, test3, new DateTime(2024, 04, 15), new DateTime(2024, 04, 16));
+
+            foreach (var Plane in test3.ListOfPlanes)
+                Console.WriteLine(Plane.TailNumber);
 
 
         }

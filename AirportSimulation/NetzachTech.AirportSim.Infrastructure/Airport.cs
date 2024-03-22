@@ -209,5 +209,10 @@ namespace NetzachTech.AirportSim.Infrastructure
                 Console.WriteLine(fly);
         }
 
+        public void RemovePlaneFromListOfPlanes(Plane plane)
+        {
+            ListOfPlanes.Remove(plane);
+        }
+
     }
 }

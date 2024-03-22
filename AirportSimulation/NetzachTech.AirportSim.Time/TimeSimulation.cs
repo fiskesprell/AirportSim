@@ -124,8 +124,7 @@ namespace NetzachTech.AirportSim.Time
 
                     foreach (var flight in airport.AllFlights.ToList())
                     {
-                        //Burde kanskje ha en sjekk her for at flyet har de riktige verdiene som trengs for ÅEkj¯re simuleringen?
-                        //Da kan vi lettere gi en exception hvis det mangler f.eks. FlightDirection eller annen viktig property
+
                         flight.updateElapsedTime(this);
                         flight.FlightSim(timeConfigManager, airport, this);
                     }

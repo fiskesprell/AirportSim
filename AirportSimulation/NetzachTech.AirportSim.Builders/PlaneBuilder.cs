@@ -219,6 +219,13 @@ namespace NetzachTech.AirportSim.Builders
             return this;
         }
 
+        public PlaneBuilder AddPlaneToFlight(Flight flight)
+        {
+            _plane.CurrentFlight = flight;
+            flight.AssignedPlane = _plane;
+            return this;
+        }
+
         /// <summary>
         /// returns the finished Plane object
         /// </summary>

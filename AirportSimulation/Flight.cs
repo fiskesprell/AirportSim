@@ -156,6 +156,10 @@ namespace AirportSimulation
         public int DelayInMinutes
         { get => _delayInMinutes; set => _delayInMinutes = value;}
 
+        private bool _nulled;
+        public bool Nulled
+        { get => _nulled; set => _nulled = value;}
+
 
         // Outgoing
         //ScheduledXFindGateOutgoing
@@ -409,8 +413,7 @@ namespace AirportSimulation
                     //Burde kanskje implementere at en incoming flight må lage et planeobjekt i konstruktøren?
                     //Blir feil at et incoming fly får et plane assigned når det lander, det har jo flydd i et planeobjekt i x antall timer før det lander
                     //Det kan vi kan gjøre da er at når et fly lander, så kan det flyet legges til i listen med alle planes på flyplassen og gjøre det tilgjengelig for neste outgoing
-                    if (this.AssignedPlane == null)
-                        this.AssignedPlane = AssignAvailablePlaneToFlight();
+
                     IncomingFlightPreperation();
                     if (this.AssignedGate == null)
                     {
@@ -468,19 +471,44 @@ namespace AirportSimulation
 
             if (this.Frequency == FlightFrequency.OneTime && (this.Status == FlightStatus.Arrived || this.Status == FlightStatus.Departed))
             {
+                //Legger inn en Nulled-sjekk her ellers vil den prøve å endre disse propertiene hvert minutt fra flyet er ferdig frem til midnatt
+                
+
+
+                if (!Nulled)
+                {
+                    if (this.FlightDirection == FlightDirection.Outgoing)
+                    {
+                        airport.RemovePlaneFromListOfPlanes(this.AssignedPlane);
+                    }
+                    else
+                        airport.AddPlaneToListOfAvailablePlanes(this.AssignedPlane);
+
+                    this.AssignedPlane.PlaneIsAvailable = true;
+                    this.AssignedPlane.CurrentAirport = airport;
+                    this.AssignedPlane = null;
+                    this.Nulled = true;
+                }
+
                 if (Logging && HasLogged == true)
                 {
                     airport.AddCompletedFlight(this);
                     airport.RemoveCompletedFlightFromAllFlights(this);
                 }
                 //Setter AssignedPlane til null og gjøre planet ledig igjen
-                //this.AssignedPlane.PlaneIsAvailable = true;
-                //this.AssignedPlane = null;
+                
             }
             
             
             if (this.Frequency == FlightFrequency.Daily && ( this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed ) && ElapsedHours == 1 && ElapsedMinutes == 0)
             {
+                if (this.FlightDirection == FlightDirection.Outgoing)
+                {
+                    airport.RemovePlaneFromListOfPlanes(this.AssignedPlane);
+                }
+                else
+                    airport.AddPlaneToListOfAvailablePlanes(this.AssignedPlane);
+
                 DateTime newDate = this.ScheduledDay.AddDays(1);
                 this.ScheduledDay = newDate;
                 this.SetFlightStatus(FlightStatus.OnTime);
@@ -488,7 +516,7 @@ namespace AirportSimulation
                 this.AssignedGate = null;
                 this.AssignedTaxi = null;
                 //Setter at flyet er nå på denne flyplassen og er ledig
-                this.AssignedPlane.CurrentAirport = this.DestinationAirport;
+                this.AssignedPlane.CurrentAirport = airport;
                 this.AssignedPlane.PlaneIsAvailable = true;
                 this.AssignedPlane = null;
                 this.HasLogged = false;
@@ -498,13 +526,20 @@ namespace AirportSimulation
 
             if (this.Frequency == FlightFrequency.Weekly && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed) && ElapsedHours == 1 && ElapsedMinutes == 0)
             {
+                if (this.FlightDirection == FlightDirection.Outgoing)
+                {
+                    airport.RemovePlaneFromListOfPlanes(this.AssignedPlane);
+                }
+                else
+                    airport.AddPlaneToListOfAvailablePlanes(this.AssignedPlane);
+
                 DateTime newDate = this.ScheduledDay.AddDays(7);
                 this.ScheduledDay = newDate;
                 this.SetFlightStatus(FlightStatus.OnTime);
                 this.AssignedRunway = null;
                 this.AssignedGate = null;
                 this.AssignedTaxi = null;
-                this.AssignedPlane.CurrentAirport = this.DestinationAirport;
+                this.AssignedPlane.CurrentAirport = airport;
                 this.AssignedPlane.PlaneIsAvailable = true;
                 this.AssignedPlane = null;
                 this.HasLogged = false;
