@@ -109,17 +109,6 @@ namespace NetzachTech.AirportSim.Builders
         }
 
         /// <summary>
-        /// Adds a double for the fuel burnrate of the plane
-        /// </summary>
-        /// <param name="fuelBurnRate"></param>
-        /// <returns></returns>
-        public PlaneBuilder AddFuelBurnRate(double fuelBurnRate)
-        {
-            _plane.PlaneFuelBurnRate = fuelBurnRate;
-            return this;
-        }
-
-        /// <summary>
         /// Adds a boolean to represent if the plane is currently operational
         /// </summary>
         /// <param name="isInUse"></param>
@@ -185,16 +174,6 @@ namespace NetzachTech.AirportSim.Builders
             return this;
         }
 
-        /// <summary>
-        /// Adds an int for the max fuelcapacity the plane has
-        /// </summary>
-        /// <param name="planeFuelCapacity"></param>
-        /// <returns></returns>
-        public PlaneBuilder AddPlaneFuelCapacity(int planeFuelCapacity)
-        {
-            _plane.PlaneFuelCapacity = planeFuelCapacity;
-            return this;
-        }
 
         /// <summary>
         /// Adds aflight object to the list of flights this plane has been used for
