@@ -349,7 +349,7 @@ namespace AirportSimulation
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == OutgoingFindGateTimeHours && ElapsedMinutes == OutgoingFindGateTimeMinutes)
                 {
                     if (this.AssignedPlane == null)
-                        this.AssignedPlane = AssignAvailablePlaneToFlight();
+                        this.AssignedPlane = AssignAvailablePlaneToFlight(this.CurrentAirport);
                     Gate availableGate = FindAvailableGate();
 
                     if (this.AssignedGate != null)
@@ -410,9 +410,16 @@ namespace AirportSimulation
                 (int newHours1, int newMinutes1) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourFindGateIncoming, this.ScheduledMinuteFindGateIncoming);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours1 && ElapsedMinutes == newMinutes1)
                 {
-                    //Burde kanskje implementere at en incoming flight må lage et planeobjekt i konstruktøren?
-                    //Blir feil at et incoming fly får et plane assigned når det lander, det har jo flydd i et planeobjekt i x antall timer før det lander
-                    //Det kan vi kan gjøre da er at når et fly lander, så kan det flyet legges til i listen med alle planes på flyplassen og gjøre det tilgjengelig for neste outgoing
+                    //Hvis et incoming fly ikke har fått et plane assigned gjennom builder eller konstruktør
+                    //så vil den se gjennom listen med available planes på den flyplassen denne flighten kommer fra
+                    //og assigner et ledig fly derifra
+                    //Denne vil alltid i våre tester throwe en exception siden vi ikke har laget et plane for andre flyplasser enn akkurat den vi tester
+                    //men  dette vil gjøre at det er mer realistisk assignment av planes til flights
+                    //og det vil kan skape en rundgang av planes
+                    if (this.AssignedPlane == null)
+                    {
+                        this.AssignedPlane = AssignAvailablePlaneToFlight(this.DestinationAirport);
+                    }
 
                     IncomingFlightPreperation();
                     if (this.AssignedGate == null)
@@ -473,8 +480,6 @@ namespace AirportSimulation
             {
                 //Legger inn en Nulled-sjekk her ellers vil den prøve å endre disse propertiene hvert minutt fra flyet er ferdig frem til midnatt
                 
-
-
                 if (!Nulled)
                 {
                     if (this.FlightDirection == FlightDirection.Outgoing)
@@ -1416,12 +1421,12 @@ namespace AirportSimulation
                 }
                 else
                 {
-                    throw new Exception($"\n\nException: You did not provide a valid number for UpdateIncomingNewHoursAndMinutesFromSetPoint(). Please set fromWhichHourAndMinute to be a number from 6 to 9.\n");
+                    throw new InvalidScheduledTimeException($"\n\nException: You did not provide a valid number for UpdateIncomingNewHoursAndMinutesFromSetPoint(). Please set fromWhichHourAndMinute to be a number from 6 to 9.\n");
                 }
             }
             else
             {
-                throw new Exception($"\n\nException: Error setting time forwards. Flight is not set as Incoming. This method is meant to only be used on Incoming flights. Please set flight.FlightDirection as Incoming and try again.\n");
+                throw new InvalidScheduledTimeException($"\n\nException: Error setting time forwards. Flight is not set as Incoming. This method is meant to only be used on Incoming flights. Please set flight.FlightDirection as Incoming and try again.\n");
             }
         }
 
@@ -1468,19 +1473,19 @@ namespace AirportSimulation
         //Metode for å assigne et plane til flighten
         //Loope gjennom listen med available planes og finne et plane med riktig lisens?
         //og assigne det objektet til variablen AssignedPlane
-        public Plane AssignAvailablePlaneToFlight()
+        public Plane AssignAvailablePlaneToFlight(Airport airport)
         {
 
-            if (this.CurrentAirport.ListOfPlanes.Count == 0)
+            if (airport.ListOfPlanes.Count == 0)
             {
-                throw new InvalidInfrastructureException("There are no planes in this airport.");
+                throw new InsufficientResourceException("There are no planes in this airport.");
             }
             //Går gjennom alle flyene som er laget
             
             else
             {
                 bool foundPlane = false;
-                foreach (var plane in this.CurrentAirport.ListOfPlanes)
+                foreach (var plane in airport.ListOfPlanes)
                 {
                     //Sjekker at flyet er riktig type, at det er ledig, og at det er på flyplassen
                     if ((plane.FlightType == this.FlightType) && (plane.PlaneIsAvailable == true) && (plane.CurrentAirport == this.CurrentAirport))
@@ -1502,7 +1507,7 @@ namespace AirportSimulation
                 if (!foundPlane)
                 {
 
-                    throw new InvalidInfrastructureException("There are no available planes in this airport");
+                    throw new InsufficientResourceException("There are no available planes in this airport");
                 }
             }
             return null;

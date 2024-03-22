@@ -190,9 +190,6 @@ namespace AirportSimApp
 
             testTimeSimulation.SimulateTime(timeConfigManager1, test3, new DateTime(2024, 04, 15), new DateTime(2024, 04, 16));
 
-            foreach (var Plane in test3.ListOfPlanes)
-                Console.WriteLine(Plane.TailNumber);
-
 
         }
     }
