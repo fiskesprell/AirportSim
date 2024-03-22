@@ -201,14 +201,20 @@ namespace NetzachTech.AirportSim.Infrastructure
         }
 
         
-
+        /// <summary>
+        /// Adds a planeobject to the list of available planes at this airport.
+        /// </summary>
+        /// <param name="plane"></param>
         public void AddPlaneToListOfAvailablePlanes(Plane plane)
         {
             ListOfPlanes.Add(plane);
-            foreach(var fly in this.ListOfPlanes)
-                Console.WriteLine(fly);
+
         }
 
+        /// <summary>
+        /// Removes a plane from the list of available planes at this airport.
+        /// </summary>
+        /// <param name="plane"></param>
         public void RemovePlaneFromListOfPlanes(Plane plane)
         {
             ListOfPlanes.Remove(plane);

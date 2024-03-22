@@ -15,7 +15,7 @@ namespace NetzachTech.AirportSim.Time
 
     {
         /// <summary>
-        /// default drivingtime from any given terminal to any given runway. If an timeconfigobject is not created, this wil be the time used.
+        /// Default drivingtime from any given terminal to any given runway. If an timeconfigobject is not created, this wil be the time used.
         /// </summary>
         private int defaultMinutes = 15;
 

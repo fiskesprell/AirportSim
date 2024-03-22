@@ -37,10 +37,16 @@ namespace NetzachTech.AirportSim.Infrastructure
         public List<Gate> ConnectedGates
         { get => _connectedGates; }
 
+        /// <summary>
+        /// Represents which airport this terminal belongs to.
+        /// </summary>
         private Airport _airport;
         public Airport Airport
         { get => _airport; set => _airport = value;}
 
+        /// <summary>
+        /// Represent whether a terminal is for strickly international traffic or not.
+        /// </summary>
         private bool _strictlyInternational = false;
         public bool StrictlyInternational
         { get => _strictlyInternational; set => _strictlyInternational= value; }

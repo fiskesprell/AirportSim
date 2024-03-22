@@ -489,8 +489,7 @@ namespace AirportSimulation
                     else
                         airport.AddPlaneToListOfAvailablePlanes(this.AssignedPlane);
 
-                    this.AssignedPlane.PlaneIsAvailable = true;
-                    this.AssignedPlane.CurrentAirport = airport;
+                    this.AssignedPlane.CompleteFlight(airport);
                     this.AssignedPlane = null;
                     this.Nulled = true;
                 }
@@ -521,8 +520,7 @@ namespace AirportSimulation
                 this.AssignedGate = null;
                 this.AssignedTaxi = null;
                 //Setter at flyet er nå på denne flyplassen og er ledig
-                this.AssignedPlane.CurrentAirport = airport;
-                this.AssignedPlane.PlaneIsAvailable = true;
+                this.AssignedPlane.CompleteFlight(airport);
                 this.AssignedPlane = null;
                 this.HasLogged = false;
                 LogHistory.Clear();
@@ -544,8 +542,7 @@ namespace AirportSimulation
                 this.AssignedRunway = null;
                 this.AssignedGate = null;
                 this.AssignedTaxi = null;
-                this.AssignedPlane.CurrentAirport = airport;
-                this.AssignedPlane.PlaneIsAvailable = true;
+                this.AssignedPlane.CompleteFlight(airport);
                 this.AssignedPlane = null;
                 this.HasLogged = false;
                 LogHistory.Clear();
@@ -554,7 +551,7 @@ namespace AirportSimulation
 
 
         ///<summary>
-        /// Method
+        /// Method that handles flights taking off
         ///</summary>
         public void TakeoffFlight(Runway runway)
         {
@@ -572,6 +569,10 @@ namespace AirportSimulation
             runway.IsAvailable = true;
         }//Slutt takeoff
 
+        /// <summary>
+        /// Method that handles flights landing
+        /// </summary>
+        /// <param name="runway"></param>
         public void LandFlight(Runway runway)
         {
             runway.FlightOnRunway = this;
@@ -916,6 +917,9 @@ namespace AirportSimulation
             }
         }
 
+        /// <summary>
+        /// Methods that handles completing an incoming flight 
+        /// </summary>
         public void IncomingFlightFromGateToComplete()
         {
             OnOffloadingEnd(this.AssignedPlane, this.AssignedGate, ElapsedDays, ElapsedHours, ElapsedMinutes);
@@ -967,7 +971,7 @@ namespace AirportSimulation
                 LogHistory.Add(logMessage);
             }
         }
-      /// < summary>
+        /// < summary>
         /// Method for a flight that has arrived at gate.
         /// </summary>
         public void IncomingFlightFromTaxiToGate()
@@ -1473,6 +1477,12 @@ namespace AirportSimulation
         //Metode for å assigne et plane til flighten
         //Loope gjennom listen med available planes og finne et plane med riktig lisens?
         //og assigne det objektet til variablen AssignedPlane
+        /// <summary>
+        /// Method to assign an available plane at the given airport to this flight.
+        /// </summary>
+        /// <param name="airport"></param>
+        /// <returns></returns>
+        /// <exception cref="InsufficientResourceException"></exception>
         public Plane AssignAvailablePlaneToFlight(Airport airport)
         {
 
