@@ -200,38 +200,27 @@ namespace AirportSimulation
         private int ScheduledMinuteCompletedDisembarkation = 20;
 
         // +-+-+-+ Events +-+-+-+
-        // Outgoing: Implemented (not tested)
-        // Incoming: Implemented (not tested)
+        /// <summary>
+        /// 
+        /// </summary>
         public event EventHandler<FlightPlaneGateArgs> FlightIsAssignedGate;
 
-        // Outgoing: Implemented (not tested)
-        // Incoming: Implemented (not tested)
         public event EventHandler<FlightPlaneArgs> FlightIsAssignedPlane;
 
-        // Outgoing: Implemented (not tested)
-        // Incoming: Implemented (not tested)
         public event EventHandler<FlightPlaneTaxiArgs> FlightIsAssignedTaxi;
 
-        // Outgoing: Implemented (not tested)
-        // Incoming: Implemented (not tested)
         public event EventHandler<FlightPlaneRunwayArgs> FlightIsAssignedRunway;
 
-        // Outgoing: Implemented (not tested)
         public event EventHandler<FlightPlaneRunwayArgs> FlightHasTakenOff;
 
-        // Incoming: Implemented (not tested)
         public event EventHandler<FlightPlaneRunwayArgs> FlightHasLanded;
 
-        // Outgoing: Implemented (not tested)
         public event EventHandler<FlightPlaneGateArgs> FlightHasBegunOnboarding;
 
-        // Outgoing: Implemented (not tested)
         public event EventHandler<FlightPlaneGateArgs> FlightHasFinishedOnboarding;
 
-        // Incoming: Implemented (not tested)
         public event EventHandler<FlightPlaneGateArgs> FlightHasBegunOffloading;
 
-        // Incoming: Implemented (not tested)
         public event EventHandler<FlightPlaneGateArgs> FlightHasFinishedOffloading;
 
         /// <summary>

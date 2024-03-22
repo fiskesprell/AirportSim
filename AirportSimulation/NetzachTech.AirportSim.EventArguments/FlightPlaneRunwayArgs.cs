@@ -11,21 +11,46 @@ namespace NetzachTech.AirportSim.EventArguments
 {
     public class FlightPlaneRunwayArgs : EventArgs
     {
-        // todo: XML-comments
-        // Instance Variables
+        /// <summary>
+        /// Flight object associated with the event.
+        /// </summary>
         public Flight flight;
 
+        /// <summary>
+        /// Plane object associated with the event.
+        /// </summary>
         public Plane plane;
 
+        /// <summary>
+        /// Runway object associated with the event.
+        /// </summary>
         public Runway runway;
 
+        /// <summary>
+        /// Days elapsed since the simulation started.
+        /// </summary>
         public int ElapsedDays;
 
+        /// <summary>
+        /// Hours elapsed since the simulation started.
+        /// </summary>
         public int ElapsedHours;
 
+        /// <summary>
+        /// Minutes elapsed since the simulation started.
+        /// </summary>
         public int ElapsedMinutes;
 
         // Constructor
+        /// <summary>
+        /// Constructor for the FlightPlaneRunwayArgs class.
+        /// </summary>
+        /// <param name="flight">Flight object associated with the event.</param>
+        /// <param name="plane">Plane object associated with the event.</param>
+        /// <param name="runway">Runway object associated with the event.</param>
+        /// <param name="ElapsedDays">Days elapsed since the simulation started.</param>
+        /// <param name="ElapsedHours">Hours elapsed since the simulation started.</param>
+        /// <param name="ElapsedMinutes">Minutes elapsed since the simulation started.</param>
         public FlightPlaneRunwayArgs(Flight flight, Plane plane, Runway runway, int ElapsedDays, int ElapsedHours, int ElapsedMinutes)
         {
             this.flight = flight;
@@ -37,6 +62,9 @@ namespace NetzachTech.AirportSim.EventArguments
         }
 
         // TODO: Delete? Test method.
+        /// <summary>
+        /// Prints all instance variables associated with the event.
+        /// </summary>
         public void PrintAll()
         {
             if (flight != null)
