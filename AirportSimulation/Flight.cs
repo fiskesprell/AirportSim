@@ -201,26 +201,44 @@ namespace AirportSimulation
 
         // +-+-+-+ Events +-+-+-+
         /// <summary>
-        /// 
+        /// Event handler for when a Flight is assigned a Gate.
         /// </summary>
         public event EventHandler<FlightPlaneGateArgs> FlightIsAssignedGate;
-
+        /// <summary>
+        /// Event handler for wehn a Flight is assigned a Plane.
+        /// </summary>
         public event EventHandler<FlightPlaneArgs> FlightIsAssignedPlane;
-
+        /// <summary>
+        /// Event handler for when a Flight is assigned a Taxi
+        /// </summary>
         public event EventHandler<FlightPlaneTaxiArgs> FlightIsAssignedTaxi;
-
+        /// <summary>
+        /// Event handler for when a Flight is assigned a Runway.
+        /// </summary>
         public event EventHandler<FlightPlaneRunwayArgs> FlightIsAssignedRunway;
-
+        /// <summary>
+        /// Event handler for when a Flight has taken off.
+        /// </summary>
         public event EventHandler<FlightPlaneRunwayArgs> FlightHasTakenOff;
-
+        /// <summary>
+        /// Event handler for when a flight has landed.
+        /// </summary>
         public event EventHandler<FlightPlaneRunwayArgs> FlightHasLanded;
-
+        /// <summary>
+        /// Event handler for when a Flight has begun boarding passengers.
+        /// </summary>
         public event EventHandler<FlightPlaneGateArgs> FlightHasBegunOnboarding;
-
+        /// <summary>
+        /// Event handler for when a Flight has finished boarding passengers.
+        /// </summary>
         public event EventHandler<FlightPlaneGateArgs> FlightHasFinishedOnboarding;
-
+        /// <summary>
+        /// Event handler for when a Flight has begun offloading passengers.
+        /// </summary>
         public event EventHandler<FlightPlaneGateArgs> FlightHasBegunOffloading;
-
+        /// <summary>
+        /// Event handler for when a flight has finished offloading passengers.
+        /// </summary>
         public event EventHandler<FlightPlaneGateArgs> FlightHasFinishedOffloading;
 
         /// <summary>
