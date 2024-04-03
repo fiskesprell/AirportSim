@@ -406,7 +406,8 @@ namespace AirportSimulation
                 {
                     if(AssignedRunway.FlightOnRunway == this)
                     {
-                        TakeoffFlight(AssignedRunway);
+                        OnFlightTakeoff(this.AssignedPlane, this.AssignedRunway, ElapsedDays, ElapsedMinutes, ElapsedHours);
+                        this.AssignedPlane.TakeoffPlane(this);
                     }
                 }
             }
@@ -564,7 +565,7 @@ namespace AirportSimulation
         {
             runway.FlightOnRunway = this;
             this.SetFlightStatus(FlightStatus.Departed);
-            OnFlightTakeoff(this.AssignedPlane, this.AssignedRunway, ElapsedDays, ElapsedMinutes, ElapsedHours);
+            
 
             if (Logging)
             {

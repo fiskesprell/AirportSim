@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AirportSimulation;
 using NetzachTech.AirportSim.FlightOperations;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace NetzachTech.AirportSim.Infrastructure
@@ -158,9 +159,21 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// Takes off the plane from the runway.
         /// </summary>
-        public void TakeoffPlane() 
+        public void TakeoffPlane(Flight flight) 
         {
+            this.CurrentFlight.AssignedRunway.FlightOnRunway = flight;
+            this.CurrentFlight.SetFlightStatus(FlightStatus.Departed);
+
+            if (this.CurrentFlight.Logging)
+            {
+                string logMessage = $"Flight {this.CurrentFlight.Number} took off at Day: {this.CurrentFlight.ElapsedDays + 1}, Time: {this.CurrentFlight.ElapsedHours.ToString("D2")}:{this.CurrentFlight.ElapsedMinutes.ToString("D2")}.";
+                this.CurrentFlight.LogHistory.Add(logMessage);
+            }
+
             this.CurrentAirport = this.CurrentFlight.DestinationAirport;
+            this.CurrentFlight.AssignedRunway.FlightOnRunway = null;
+            this.CurrentFlight.AssignedRunway.IsAvailable = true;
+
         }
 
         /// <summary>
