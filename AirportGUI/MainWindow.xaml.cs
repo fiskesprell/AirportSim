@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using NetzachTech.AirportSim.Infrastructure;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,19 @@ namespace AirportGUI
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void CreateAirportButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            string airportName = AirportNameTextBox.Text;
+            Airport airport = new Airport(airportName);
+
+            CustomizeAirport customizeAirportPage = new CustomizeAirport();
+            customizeAirportPage.InitializeAirport(airport);
+            MainFrame.Navigate(customizeAirportPage);
+
+
         }
     }
 }
