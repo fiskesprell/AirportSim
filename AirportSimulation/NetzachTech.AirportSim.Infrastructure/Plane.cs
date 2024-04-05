@@ -151,39 +151,64 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// Lands the plane at the airport.
         /// </summary>
-        public void LandPlane() 
+        public void LandPlane(Flight flight) 
         {
-            this.CurrentAirport = this.CurrentFlight.CurrentAirport;
+            flight.AssignedRunway.FlightOnRunway = flight;
+            
+            flight.AssignedTaxi.AddToTaxiQueue(flight);
+            flight.AssignedRunway.FlightOnRunway = null;
+            flight.AssignedRunway.IsAvailable = true;
+
+            if (flight.Logging)
+            {
+                string logMessage = $"Flight {flight.Number} landed on runway {flight.AssignedRunway.RunwayName} at Day:{flight.ElapsedDays + 1}, Time:{flight.ElapsedHours.ToString("D2")}:{flight.ElapsedMinutes.ToString("D2")}";
+                flight.LogHistory.Add(logMessage);
+            }
+
+            flight.SetFlightStatus(FlightStatus.Arrived);
+            this.CurrentAirport = flight.CurrentAirport;
         }
+
 
         /// <summary>
         /// Takes off the plane from the runway.
         /// </summary>
         public void TakeoffPlane(Flight flight) 
         {
-            this.CurrentFlight.AssignedRunway.FlightOnRunway = flight;
-            this.CurrentFlight.SetFlightStatus(FlightStatus.Departed);
+            flight.AssignedRunway.FlightOnRunway = flight;
+            
 
-            if (this.CurrentFlight.Logging)
+            if (flight.Logging)
             {
-                string logMessage = $"Flight {this.CurrentFlight.Number} took off at Day: {this.CurrentFlight.ElapsedDays + 1}, Time: {this.CurrentFlight.ElapsedHours.ToString("D2")}:{this.CurrentFlight.ElapsedMinutes.ToString("D2")}.";
-                this.CurrentFlight.LogHistory.Add(logMessage);
+                string logMessage = $"Flight {flight.Number} took off at Day: {flight.ElapsedDays + 1}, Time: {flight.ElapsedHours.ToString("D2")}:{flight.ElapsedMinutes.ToString("D2")}.";
+                flight.LogHistory.Add(logMessage);
             }
 
-            this.CurrentAirport = this.CurrentFlight.DestinationAirport;
-            this.CurrentFlight.AssignedRunway.FlightOnRunway = null;
-            this.CurrentFlight.AssignedRunway.IsAvailable = true;
+            flight.SetFlightStatus(FlightStatus.Departed);
+            this.CurrentAirport = flight.DestinationAirport;
+            flight.AssignedRunway.FlightOnRunway = null;
+            flight.AssignedRunway.IsAvailable = true;
 
         }
 
         /// <summary>
         /// Parks the plane at the assigned gate
         /// </summary>
-        public void ParkPlaneAtGate() 
+        public void ParkPlaneAtGate(Flight flight)
         {
-            CurrentFlight.IsParked = true;
-            CurrentFlight.IsTraveling = false;
+            Gate gateToPark = flight.AssignedGate;
+
+            if (gateToPark == null)
+            {
+                gateToPark = flight.FindAvailableGate();
+
+            }
+
+            flight.IsParked = true;
+            flight.IsTraveling = false;
+            gateToPark.CurrentHolder = flight;
         }
+
 
         /// <summary>
         /// Updates the time the next scheduled maintanance is due
