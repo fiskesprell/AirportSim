@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,16 +20,16 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// A list containing all the taxis in this airport
         /// </summary>
-        List<Taxi> AllTaxis { get; }
+        ObservableCollection<Taxi> AllTaxis { get; }
         /// <summary>
         /// A list containing all the runways in this airport
         /// </summary>
-        List<Runway> AllRunways { get; }
+        ObservableCollection<Runway> AllRunways { get; }
 
         /// <summary>
         /// A list containing all the flights in this airport
         /// </summary>
-        List<Flight> AllFlights { get; }
+        ObservableCollection<Flight> AllFlights { get; }
 
 
         /// <summary>

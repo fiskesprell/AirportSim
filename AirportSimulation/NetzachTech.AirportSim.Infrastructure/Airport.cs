@@ -2,6 +2,7 @@
 using NetzachTech.AirportSim.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -21,36 +22,36 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// List containing all terminals in this airport
         /// </summary>
-        private List<Terminal> _allTerminals = new List<Terminal>();
-        public List<Terminal> AllTerminals
+        private ObservableCollection<Terminal> _allTerminals = new ObservableCollection<Terminal>();
+        public ObservableCollection<Terminal> AllTerminals
         { get => _allTerminals; }
 
         /// <summary>
         /// List containing all runways in this airport
         /// </summary>
-        private List<Runway> _allRunways = new List<Runway>();
-        public List<Runway> AllRunways
+        private ObservableCollection<Runway> _allRunways = new ObservableCollection<Runway>();
+        public ObservableCollection<Runway> AllRunways
         { get => _allRunways; }
 
         /// <summary>
         /// List containing all taxiways in this airport
         /// </summary>
-        private List<Taxi> _allTaxis = new List<Taxi>();
-        public List<Taxi> AllTaxis
+        private ObservableCollection<Taxi> _allTaxis = new ObservableCollection<Taxi>();
+        public ObservableCollection<Taxi> AllTaxis
         { get => _allTaxis; }
 
         /// <summary>
         /// List containing all flights in this airport
         /// </summary>
-        private List<Flight> _allFlights = new List<Flight>();
-        public List<Flight> AllFlights
+        private ObservableCollection<Flight> _allFlights = new ObservableCollection<Flight>();
+        public ObservableCollection<Flight> AllFlights
         { get => _allFlights; }
 
         /// <summary>
         /// List containing all completed flights in this airport
         /// </summary>
-        private List<Flight> _completedFlights = new List<Flight>();
-        public List<Flight> CompletedFlights
+        private ObservableCollection<Flight> _completedFlights = new ObservableCollection<Flight>();
+        public ObservableCollection<Flight> CompletedFlights
         { get => _completedFlights; }
 
         /// <summary>
@@ -79,8 +80,8 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <remarks>
         /// A list of planes that are have been or are at this airport
         /// </remarks>
-        private List<Plane> _listOfPlanes = new List<Plane>();
-        public List<Plane> ListOfPlanes
+        private ObservableCollection<Plane> _listOfPlanes = new ObservableCollection<Plane>();
+        public ObservableCollection<Plane> ListOfPlanes
         { get => _listOfPlanes; }
 
         public Airport() { }

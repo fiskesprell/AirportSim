@@ -36,31 +36,36 @@ namespace AirportGUI
         public CustomizeAirport()
         {
             InitializeComponent();
-            System.Diagnostics.Debug.WriteLine("CustomizeAirport page constructed.");
+            this.DataContext = new CustomizeAirportViewModel(_airport);
 
         }
 
         public void InitializeAirport(Airport airport)
         {
             _airport = airport;
-            this.DataContext = this;
         }
 
         public void CreateTerminalButton_Click(object sender, RoutedEventArgs e)
         {
             string terminalName = TerminalNameTextBox.Text;
-            Terminal terminal = new Terminal(terminalName);
-            _airport.AddExistingTerminal(terminal);
-            NotifyPropertyChanged(nameof(Airport));
+            var viewModel = DataContext as CustomizeAirportViewModel;
+            if (viewModel == null)
+                return;
+
+            if(viewModel.CreateTerminalCommand.CanExecute(terminalName))
+                viewModel.CreateTerminalCommand.Execute(terminalName);
 
         }
 
         public void CreateTaxiButton_Click(object sender, RoutedEventArgs e)
         {
             string taxiName = TaxiNameTextBox.Text;
-            Taxi taxi = new Taxi(taxiName, TaxiwayType.Main);
-            _airport.AddExistingTaxi(taxi);
-            NotifyPropertyChanged(nameof(Airport));
+            var viewModel = DataContext as CustomizeAirportViewModel;
+            if (viewModel == null)
+                return;
+
+            if (viewModel.CreateTaxiwayCommand.CanExecute(taxiName))
+                viewModel.CreateTaxiwayCommand.Execute(taxiName);
 
 
         }
@@ -68,30 +73,74 @@ namespace AirportGUI
         public void CreateRunwayButton_Click(object sender, RoutedEventArgs e)
         {
             string runwayName = RunwayNameTextBox.Text;
-            Runway runway = new Runway(runwayName);
-            _airport.AddExistingRunway(runway);
-            NotifyPropertyChanged(nameof(Airport));
+            var viewModel = DataContext as CustomizeAirportViewModel;
+            if (viewModel == null)
+                return;
+
+            if (viewModel.CreateRunwayCommand.CanExecute(runwayName))
+                viewModel.CreateRunwayCommand.Execute(runwayName);
 
         }
 
         public void CreateGateButton_Click(object sender, RoutedEventArgs e)
         {
             string gateName = GateNameTextBox.Text;
-            Gate gate = new Gate(gateName);
-
             string terminalName = Terminal2NameTextBox.Text;
 
-            if (_airport.AllTerminals.Count == 0)
-                MessageBox.Show("No terminals in this airport");
 
-            foreach (var terminal in _airport.AllTerminals)
+            Gate gate = new Gate(gateName);
+
+            var viewModel = DataContext as CustomizeAirportViewModel;
+            if (viewModel == null)
             {
-                
-                if (terminal.TerminalName == terminalName)
-                    terminal.AddExistingGate(gate);
+                MessageBox.Show("Viewmodel not found");
+                return;
             }
-            NotifyPropertyChanged(nameof(Airport));
 
+            Terminal selectedTerminal = viewModel.Airport.AllTerminals.FirstOrDefault(t => t.TerminalName == terminalName);
+
+            
+            if (selectedTerminal != null) 
+            {
+                MessageBox.Show("Terminal not found");
+                return;
+            }
+
+            var parameter = new GateCreationInfo(gateName, selectedTerminal);
+
+            if (viewModel.CreateGateCommand.CanExecute(parameter))
+                viewModel.CreateGateCommand.Execute(parameter);
+            else
+                MessageBox.Show("Cannot create gate at this time");
+
+        }
+
+        public void ConfigureTerminalsButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConfigureTerminals configureTerminals = new ConfigureTerminals(_airport);
+            configureTerminals.InitializeViewModel(_airport);
+            this.Content = configureTerminals;
+        }
+
+        public void ConfigureGatesButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConfigureGates configureGates = new ConfigureGates(_airport);
+            configureGates.InitializeViewModel(_airport);
+            this.Content = configureGates;
+        }
+
+        public void ConfigureRunwaysButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConfigureRunways configureRunways = new ConfigureRunways(_airport);
+            configureRunways.InitializeViewModel(_airport);
+            this.Content= configureRunways;
+        }
+
+        public void ConfigureTaxiwaysButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConfigureTaxiways configureTaxiways = new ConfigureTaxiways(_airport);
+            configureTaxiways.InitializeViewModel(_airport);
+            this.Content = ConfigureTaxiways;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -50,48 +50,10 @@
                     </VisualBrush>
                 </TextBox.Background>
             </TextBox>
-            <Button Grid.Column="1" Grid.Row="3" x:Name="CreateTerminalButton" Content="Create Terminal" Click="CreateTerminalButton_Click"/>
+            <Button Grid.Column="1" Grid.Row="3" x:Name="CreateTerminalButton" Content="Create Terminal" Command="{Binding CreateTerminalCommand}" CommandParameter="{Binding Text, ElementName=TerminalNameTextBox}"/>
         </StackPanel>
-        
+
         <StackPanel Grid.Column="1" Grid.Row="4">
-            <StackPanel.Resources>
-                <Style TargetType="Control">
-                    <Setter Property="Margin" Value="0,5"/>
-                </Style>
-            </StackPanel.Resources>
-            <Label Content="Add Taxiway:"/>
-            <TextBox x:Name="TaxiNameTextBox">
-                    <TextBox.Background>
-                        <VisualBrush>
-                            <VisualBrush.Visual>
-                                <TextBlock Text="Enter Taxiway name..." Opacity="0.5" FontStyle="Italic" Margin="5,0,0,0" />
-                            </VisualBrush.Visual>
-                        </VisualBrush>
-                    </TextBox.Background>
-                </TextBox>
-                <Button Grid.Column="1" Grid.Row="5" x:Name="CreateTaxiButton" Content="Create Taxiways" Click="CreateTaxiButton_Click"/>
-        </StackPanel>
-        
-        <StackPanel Grid.Column="1" Grid.Row="6">
-            <StackPanel.Resources>
-                <Style TargetType="Control">
-                    <Setter Property="Margin" Value="0,5"/>
-                </Style>
-            </StackPanel.Resources>
-            <Label Content="Add Runway:"/>
-            <TextBox x:Name="RunwayNameTextBox">
-                <TextBox.Background>
-                    <VisualBrush>
-                        <VisualBrush.Visual>
-                            <TextBlock Text="Enter Runway name..." Opacity="0.5" FontStyle="Italic" Margin="5,0,0,0" />
-                        </VisualBrush.Visual>
-                    </VisualBrush>
-                </TextBox.Background>
-            </TextBox>
-            <Button Grid.Column="1" Grid.Row="7" x:Name="CreateRunwayButton" Content="Create Runway" Click="CreateRunwayButton_Click"/>
-        </StackPanel>
-        
-        <StackPanel Grid.Column="1" Grid.Row="8">
             <StackPanel.Resources>
                 <Style TargetType="Control">
                     <Setter Property="Margin" Value="0,5"/>
@@ -107,7 +69,7 @@
                     </VisualBrush>
                 </TextBox.Background>
             </TextBox>
-            
+
             <TextBox x:Name="Terminal2NameTextBox">
                 <TextBox.Background>
                     <VisualBrush>
@@ -117,10 +79,50 @@
                     </VisualBrush>
                 </TextBox.Background>
             </TextBox>
-            <Button Grid.Column="1" Grid.Row="9" x:Name="CreateGateButton" Content="Create Gate" Click="CreateGateButton_Click"/>
+            <Button Grid.Column="1" Grid.Row="5" x:Name="CreateGateButton" Content="Create Gate" Click="CreateGateButton_Click"/>
         </StackPanel>
 
-        <TextBlock  Grid.Row="1" Grid.Column="2"   Text="Infrastructure of the Airport:" Margin="10" FontWeight="Bold" />
+        <StackPanel Grid.Column="1" Grid.Row="6">
+            <StackPanel.Resources>
+                <Style TargetType="Control">
+                    <Setter Property="Margin" Value="0,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <Label Content="Add Taxiway:"/>
+            <TextBox x:Name="TaxiNameTextBox">
+                    <TextBox.Background>
+                        <VisualBrush>
+                            <VisualBrush.Visual>
+                                <TextBlock Text="Enter Taxiway name..." Opacity="0.5" FontStyle="Italic" Margin="5,0,0,0" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </TextBox.Background>
+                </TextBox>
+            <Button Grid.Column="1" Grid.Row="7" x:Name="CreateTaxiButton" Content="Create Taxiways" Command="{Binding CreateTaxiwayCommand}" CommandParameter="{Binding Text, ElementName=TaxiNameTextBox}"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Column="1" Grid.Row="8">
+            <StackPanel.Resources>
+                <Style TargetType="Control">
+                    <Setter Property="Margin" Value="0,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <Label Content="Add Runway:"/>
+            <TextBox x:Name="RunwayNameTextBox">
+                <TextBox.Background>
+                    <VisualBrush>
+                        <VisualBrush.Visual>
+                            <TextBlock Text="Enter Runway name..." Opacity="0.5" FontStyle="Italic" Margin="5,0,0,0" />
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </TextBox.Background>
+            </TextBox>
+            <Button Grid.Column="1" Grid.Row="9" x:Name="CreateRunwayButton" Content="Create Runway" Command="{Binding CreateRunwayCommand}" CommandParameter="{Binding Text, ElementName=RunwayNameTextBox}"/>
+        </StackPanel>
+        
+        
+
+        <TextBlock  Grid.Row="1" Grid.Column="2"   Text="Terminals and Gates:" Margin="10" FontWeight="Bold" />
         <ListBox Grid.Row="2" Grid.Column="2" ItemsSource="{Binding Airport.AllTerminals}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -137,7 +139,9 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ListBox Grid.Column="2" Grid.Row="3" ItemsSource="{Binding Airport.AllRunways}">
+
+        <TextBlock  Grid.Row="3" Grid.Column="2"   Text="Runways:" Margin="10" FontWeight="Bold" />
+        <ListBox Grid.Row="4" Grid.Column="2" ItemsSource="{Binding Airport.AllRunways}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -147,7 +151,8 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ListBox Grid.Column="2" Grid.Row="4" ItemsSource="{Binding Airport.AllTaxiways}">
+        <TextBlock  Grid.Row="5" Grid.Column="2"   Text="Taxiways:" Margin="10" FontWeight="Bold" />
+        <ListBox Grid.Row="6" Grid.Column="2"  ItemsSource="{Binding Airport.AllTaxiways}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -156,6 +161,12 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <Button MaxHeight="30" Grid.Column="3" Grid.Row="2" x:Name="ConfigureTerminals" Content="Configure terminals" Click="ConfigureTerminalsButton_Click"/>
+        <Button MaxHeight="30" Grid.Column="3" Grid.Row="3" x:Name="ConfigureGates" Content="Configure gates" Click="ConfigureGatesButton_Click"/>
+        <Button MaxHeight="30" Grid.Column="3" Grid.Row="4" x:Name="ConfigureRunways" Content="Configure runways" Click="ConfigureRunwaysButton_Click"/>
+        <Button MaxHeight="30" Grid.Column="3" Grid.Row="5" x:Name="ConfigureTaxiways" Content="Configure taxiways" Click="ConfigureTaxiwaysButton_Click"/>
+
 
     </Grid>
 </Page>
