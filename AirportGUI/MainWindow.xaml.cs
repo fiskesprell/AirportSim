@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 namespace AirportGUI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindo.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
