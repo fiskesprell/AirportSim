@@ -21,9 +21,11 @@ namespace AirportGUI
     /// </summary>
     public partial class ConfigureTerminals : Page
     {
+        private Airport _airport;
         public ConfigureTerminals(Airport airport)
         {
             InitializeComponent();
+            _airport = airport;
             InitializeViewModel(airport);
         }
 

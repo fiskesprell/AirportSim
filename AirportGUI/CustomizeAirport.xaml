@@ -14,6 +14,8 @@
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="15"/>
         </Grid.ColumnDefinitions>
@@ -122,26 +124,30 @@
         
         
 
-        <TextBlock  Grid.Row="1" Grid.Column="2"   Text="Terminals and Gates:" Margin="10" FontWeight="Bold" />
+        <TextBlock  Grid.Row="1" Grid.Column="2"   Text="Terminals:" Margin="10" FontWeight="Bold" />
         <ListBox Grid.Row="2" Grid.Column="2" ItemsSource="{Binding Airport.AllTerminals}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding TerminalName}" FontWeight="Bold" />
-                        <ListBox ItemsSource="{Binding Gates}" Margin="20,0,0,0">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}" />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                        <TextBlock Text="{Binding TerminalName}" FontWeight="Bold"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <TextBlock  Grid.Row="3" Grid.Column="2"   Text="Runways:" Margin="10" FontWeight="Bold" />
-        <ListBox Grid.Row="4" Grid.Column="2" ItemsSource="{Binding Airport.AllRunways}">
+        <TextBlock  Grid.Row="1" Grid.Column="3"   Text="Gates:" Margin="10" FontWeight="Bold" />
+        <ListBox Grid.Row="2" Grid.Column="3" ItemsSource="{Binding Airport.AllRunways}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding GateName}" FontWeight="Bold"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock  Grid.Row="1" Grid.Column="4"   Text="Runways:" Margin="10" FontWeight="Bold" />
+        <ListBox Grid.Row="2" Grid.Column="4" ItemsSource="{Binding Airport.AllRunways}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -151,8 +157,8 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <TextBlock  Grid.Row="5" Grid.Column="2"   Text="Taxiways:" Margin="10" FontWeight="Bold" />
-        <ListBox Grid.Row="6" Grid.Column="2"  ItemsSource="{Binding Airport.AllTaxiways}">
+        <TextBlock  Grid.Row="1" Grid.Column="5"   Text="Taxiways:" Margin="10" FontWeight="Bold" />
+        <ListBox Grid.Row="2" Grid.Column="5"  ItemsSource="{Binding Airport.AllTaxiways}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -162,10 +168,12 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button MaxHeight="30" Grid.Column="3" Grid.Row="2" x:Name="ConfigureTerminals" Content="Configure terminals" Click="ConfigureTerminalsButton_Click"/>
+        <Button MaxHeight="30" Grid.Column="2" Grid.Row="3" x:Name="ConfigureTerminals" Content="Configure terminals" Click="ConfigureTerminalsButton_Click"/>
         <Button MaxHeight="30" Grid.Column="3" Grid.Row="3" x:Name="ConfigureGates" Content="Configure gates" Click="ConfigureGatesButton_Click"/>
-        <Button MaxHeight="30" Grid.Column="3" Grid.Row="4" x:Name="ConfigureRunways" Content="Configure runways" Click="ConfigureRunwaysButton_Click"/>
-        <Button MaxHeight="30" Grid.Column="3" Grid.Row="5" x:Name="ConfigureTaxiways" Content="Configure taxiways" Click="ConfigureTaxiwaysButton_Click"/>
+        <Button MaxHeight="30" Grid.Column="4" Grid.Row="3" x:Name="ConfigureRunways" Content="Configure runways" Click="ConfigureRunwaysButton_Click"/>
+        <Button MaxHeight="30" Grid.Column="5" Grid.Row="3" x:Name="ConfigureTaxiways" Content="Configure taxiways" Click="ConfigureTaxiwaysButton_Click"/>
+
+        <Button Grid.Column="1" Grid.Row="9" x:Name="SetUpFlightsPlanes" Content="Configure Planes and Flights" Click="SetUpPlanesFlightsButton_Click"/>
 
 
     </Grid>

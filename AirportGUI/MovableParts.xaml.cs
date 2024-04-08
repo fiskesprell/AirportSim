@@ -16,22 +16,17 @@ using NetzachTech.AirportSim.Infrastructure;
 
 namespace AirportGUI
 {
+    
     /// <summary>
-    /// Interaction logic for ConfigureGates.xaml
+    /// Interaction logic for MovableParts.xaml
     /// </summary>
-    public partial class ConfigureGates : Page
+    public partial class MovableParts : Page
     {
         private Airport _airport;
-        public ConfigureGates(Airport airport)
+        public MovableParts(Airport airport)
         {
-            InitializeComponent();
             _airport = airport;
-            InitializeViewModel(airport);
-        }
-
-        public void InitializeViewModel(Airport airport)
-        {
-            this.DataContext = new CustomizeAirportViewModel(airport);
+            InitializeComponent();
         }
     }
 }

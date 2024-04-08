@@ -34,9 +34,7 @@ namespace AirportGUI
             {
                 Airport airport = new Airport(airportName);
 
-                CustomizeAirport customizeAirportPage = new CustomizeAirport();
-
-                customizeAirportPage.InitializeAirport(airport);
+                CustomizeAirport customizeAirportPage = new CustomizeAirport(airport);
                 this.Content = customizeAirportPage;
 
             }
@@ -45,6 +43,11 @@ namespace AirportGUI
                 MessageBox.Show(ex.Message, "Error Creating Airport");
             }
             
+        }
+
+        public void Navigate(Page page)
+        {
+            this.Content = page;
         }
     }
 }

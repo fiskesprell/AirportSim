@@ -33,16 +33,12 @@ namespace AirportGUI
         }
         public string AirportName => _airport?.AirportName;
 
-        public CustomizeAirport()
+        public CustomizeAirport(Airport airport)
         {
             InitializeComponent();
+            _airport = airport;
             this.DataContext = new CustomizeAirportViewModel(_airport);
 
-        }
-
-        public void InitializeAirport(Airport airport)
-        {
-            _airport = airport;
         }
 
         public void CreateTerminalButton_Click(object sender, RoutedEventArgs e)
@@ -119,28 +115,40 @@ namespace AirportGUI
         {
             ConfigureTerminals configureTerminals = new ConfigureTerminals(_airport);
             configureTerminals.InitializeViewModel(_airport);
-            this.Content = configureTerminals;
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow?.Navigate(configureTerminals);
+
         }
 
         public void ConfigureGatesButton_Click(object sender, RoutedEventArgs e)
         {
             ConfigureGates configureGates = new ConfigureGates(_airport);
             configureGates.InitializeViewModel(_airport);
-            this.Content = configureGates;
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow?.Navigate(configureGates);
         }
 
         public void ConfigureRunwaysButton_Click(object sender, RoutedEventArgs e)
         {
             ConfigureRunways configureRunways = new ConfigureRunways(_airport);
             configureRunways.InitializeViewModel(_airport);
-            this.Content= configureRunways;
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow?.Navigate(configureRunways);
         }
 
         public void ConfigureTaxiwaysButton_Click(object sender, RoutedEventArgs e)
         {
             ConfigureTaxiways configureTaxiways = new ConfigureTaxiways(_airport);
             configureTaxiways.InitializeViewModel(_airport);
-            this.Content = ConfigureTaxiways;
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow?.Navigate(configureTaxiways);
+        }
+
+        public void SetUpPlanesFlightsButton_Click(object sender, RoutedEventArgs e)
+        {
+            MovableParts movableParts = new MovableParts(_airport);
+            var mainwindow = Application.Current.MainWindow as MainWindow;
+            mainwindow?.Navigate(movableParts);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
