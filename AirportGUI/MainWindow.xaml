@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AirportGUI"
-        mc:Ignorable="d" FontSize="14"
-        Title="NetZachTech Airport Simulation" Height="450" Width="800">
-    <Grid>
-        <Frame x:Name="MainFrame" />
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Background="White">
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15"/>
             <ColumnDefinition Width="auto" />
@@ -26,19 +26,14 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="15" />
         </Grid.RowDefinitions>
-
-        <TextBlock Grid.Column="1" Grid.Row="1" FontSize="18" FontWeight="Bold">
-            NetZachTech
-        </TextBlock>
-        <StackPanel Grid.Column="1" Grid.Row="2">
+        <DockPanel>
+            <Frame Grid.Column="0" Grid.Row="6" x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+        </DockPanel>
+        <StackPanel Grid.Column="1" Grid.Row="1">
             <Label Content="Airport Name:"/>
             <TextBox x:Name="AirportNameTextBox" />
-
-            <!-- Add more input controls for additional information as needed -->
-
             <Button Grid.Column="1" Grid.Row="2" x:Name="CreateAirportButton" Content="Create Airport" Click="CreateAirportButton_Click"/>
         </StackPanel>
-
 
     </Grid>
 </Window>
