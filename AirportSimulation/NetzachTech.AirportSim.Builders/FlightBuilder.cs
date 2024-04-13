@@ -87,11 +87,24 @@ namespace NetzachTech.AirportSim.Builders
         /// </summary>
         /// <param name="destination airport">The airport to set.</param>
         /// <returns></returns>
-        public FlightBuilder AddDestinationAirport(Airport airport)
+        public FlightBuilder AddDestinationAirport(Airport destinationAirport)
         {
-            _flight.DestinationAirport = airport;
+            _flight.DestinationAirport = destinationAirport;
             return this;
         }
+
+        /// <summary>
+        /// Sets the airport the flight is currently on.
+        /// </summary>
+        /// <param name="currentAirport"></param>
+        /// <returns></returns>
+        public FlightBuilder AddCurrentAirport(Airport currentAirport)
+        {
+            _flight.CurrentAirport = currentAirport;
+            return this;
+        }
+
+
 
         /// <summary>
         /// Sets the flight status.

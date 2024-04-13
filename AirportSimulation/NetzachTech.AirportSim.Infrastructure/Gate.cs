@@ -81,7 +81,10 @@ namespace NetzachTech.AirportSim.Infrastructure
 
         // Legge til et taxi object i listen over taxi som er tilkoblet gaten
         // Da kan vi bruke disse listene til å holde styr på hvor fly kan kjøre
-
+        /// <summary>
+        /// Adds taxi object to the list of taxiways connected to the gate.
+        /// </summary>
+        /// <param name="taxi"></param>
         public void AddTaxi(Taxi taxi)
         {
             _connectedTaxis.Add(taxi);

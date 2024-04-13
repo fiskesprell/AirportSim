@@ -246,18 +246,18 @@ namespace AirportSimulation
         /// direction of flight (incoming, outgoing or other) and an airport object (the airport it is either arriving to or departing from).
         /// </summary>
         /// <param name="flightNumber">Flight number. Commonly looks like "WN417".</param>
-        /// <param name="destination">Airport the flight is going to.</param>
+        /// <param name="destinationAirport">Airport the flight is going to.</param>
         /// <param name="travelDay">The date of departure.</param>
         /// <param name="travelHour">The hour of the departure. Follows the 24-hour clock. Putting 18 here means the flight leaves at 6PM (18:XX).</param>
         /// <param name="travelMinute">The minute of the departure. Putting 30 here means the flight will leave at XX:30.</param>
         /// <param name="direction">Either <c>Direction.Outgoing</c> or <c>Direction.Incoming</c>. </param>
-        /// <param name="airport">The Airport to which the flight belongs.</param>
+        /// <param name="currentAirport">The Airport to which the flight belongs.</param>
         /// <exception cref="ArgumentException"></exception>
-        public Flight(string flightNumber, Airport destination, DateTime travelDay, int travelHour, int travelMinute, FlightDirection direction, Airport airport)
+        public Flight(string flightNumber, Airport destinationAirport, DateTime travelDay, int travelHour, int travelMinute, FlightDirection direction, Airport currentAirport)
         {
             this.Number = flightNumber;
-            this.DestinationAirport = destination;
-            this.CurrentAirport = airport;
+            this.DestinationAirport = destinationAirport;
+            this.CurrentAirport = currentAirport;
 
             
 
