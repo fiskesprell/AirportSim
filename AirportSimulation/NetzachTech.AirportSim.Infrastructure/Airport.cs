@@ -1,5 +1,4 @@
-﻿using AirportSimulation;
-using NetzachTech.AirportSim.Infrastructure;
+﻿using AirportSimulationCl;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,99 +6,101 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NetzachTech.AirportSim.Infrastructure
+namespace AirportSimulation
 {
     public class Airport : IAirport
     {
         /// <summary>
-        /// The name of your Airport.
+        /// String representing the name of the airport.
         /// </summary>
         private string _airportName;
         public string AirportName
-        { get => _airportName; set => _airportName = value; }
+        {get => _airportName;set => _airportName = value;}
 
         /// <summary>
-        /// List containing all terminals in this airport
+        /// List of Terminal objects in this airport.
         /// </summary>
         private List<Terminal> _allTerminals = new List<Terminal>();
         public List<Terminal> AllTerminals
-        { get => _allTerminals; }
+        {get => _allTerminals;}
 
         /// <summary>
-        /// List containing all runways in this airport
+        /// List of Runway objects in this airport.
         /// </summary>
         private List<Runway> _allRunways = new List<Runway>();
         public List<Runway> AllRunways
-        { get => _allRunways; }
+        { get => _allRunways;}
 
         /// <summary>
-        /// List containing all taxiways in this airport
+        /// List of Taxi objects of in this airport.
         /// </summary>
         private List<Taxi> _allTaxis = new List<Taxi>();
         public List<Taxi> AllTaxis
-        { get => _allTaxis; }
+        {get => _allTaxis;}
 
         /// <summary>
-        /// List containing all flights in this airport
+        /// List of Flight objects of all the flights scheduled in this airport.
         /// </summary>
         private List<Flight> _allFlights = new List<Flight>();
         public List<Flight> AllFlights
-        { get => _allFlights; }
+        {get => _allFlights;}
 
         /// <summary>
-        /// List containing all completed flights in this airport
+        /// List of flights that have completed their journey.
         /// </summary>
         private List<Flight> _completedFlights = new List<Flight>();
         public List<Flight> CompletedFlights
-        { get => _completedFlights; }
+        {get => _completedFlights;}
 
         /// <summary>
-        /// Gets and sets the scheduled start date
+        /// Gets and sets the scheduled start date. DateTime object that represents what date the simulation is ending.
         /// </summary>
-        /// <remarks>
-        /// This property represents the scheduled start date for the simulation
-        /// </remarks>
         private DateTime _scheduledStartDate;
         public DateTime ScheduledStartDate
-        { get => _scheduledStartDate; set => _scheduledStartDate = value; }
+        {get => _scheduledStartDate; set => _scheduledStartDate = value;}
 
         /// <summary>
-        /// Gets and sets the scheduled end date
+        /// Gets and sets the scheduled end date. DateTime object that represents what date the simulation is ending.
         /// </summary>
-        /// <remarks>
-        /// This property represent the end date fort the simulation
-        /// </remarks>
         private DateTime _scheduledEndDate;
         public DateTime ScheduledEndDate
-        { get => _scheduledEndDate; set => _scheduledEndDate = value; }
+        {get => _scheduledEndDate; set => _scheduledEndDate = value;}
 
         /// <summary>
-        /// Gets the list of planes
+        /// Gets the list of planes. List of planes that have been or are currently at the airport. This list is accessible for additions but not direct reassignment from outside the class.
         /// </summary>
-        /// <remarks>
-        /// A list of planes that are have been or are at this airport
-        /// </remarks>
-        private List<Plane> _listOfPlanes = new List<Plane>();
+        private List<Plane> _listOfPlanes = new List<Plane> ();
         public List<Plane> ListOfPlanes
-        { get => _listOfPlanes; }
+        {get => _listOfPlanes;}
 
+        /// <summary>
+        /// Constructor for making an empty airport.
+        /// </summary>
         public Airport() { }
 
+        /// <summary>
+        /// Constructor for making a named, but otherwise empty airport.
+        /// </summary>
+        /// <param name="airportName">The name of the airport.</param>
         public Airport(string airportName)
         {
-            AirportName = airportName;
+            this.AirportName = airportName;
         }
 
         /// <summary>
-        /// Constructor for making an airport
+        /// Constructor for making an Airport object with basic infrastructure. These Terminal, Taxi, Runway, and Gate objects will be connected to each other and assigned to this airport. By default, the Terminal object will not be allowed to serve international flights.
         /// </summary>
-        /// <param name="AirportName"></param>
+        /// <param name="airportName">The name of the airport.</param>
+        /// <param name="terminalName">The name for the initial terminal.</param>
+        /// <param name="taxiName">The name for the initial taxi pathway.</param>
+        /// <param name="runwayName">The name for the initial runway.</param>
+        /// <param name="gateName">The name for the initial gate connected to the terminal.</param>
         public Airport(string airportName, string terminalName, string taxiName, string runwayName, string gateName)
         {
-            AirportName = airportName;
+            this.AirportName = airportName;
             Terminal terminal = AddNewTerminal(terminalName);
             //terminal.setIsInternational(true);
-            Taxi taxi = AddNewTaxi(taxiName, TaxiwayType.Main);
+            Taxi taxi = AddNewTaxi(taxiName);
             Runway runway = AddNewRunway(runwayName);
             Gate gate = terminal.AddNewGate(gateName);
             gate.AddTaxi(taxi);
@@ -109,28 +110,26 @@ namespace NetzachTech.AirportSim.Infrastructure
         }
 
         /// <summary>
-        /// Calls the terminal constructor and adds the resulting object to the list of terminals
+        /// Creates a new Terminal object and adds it to the airport’s AllTerminals list.
         /// </summary>
         public Terminal AddNewTerminal(string terminalName)
         {
             Terminal newTerminal = new Terminal(terminalName);
             AllTerminals.Add(newTerminal);
-            newTerminal.Airport = this;
             return newTerminal;
         }
 
         /// <summary>
-        /// Adds a terminalobject to the list of terminals
+        /// Adds a previously created Terminal object to the airport’s AllTerminals list.
         /// </summary>
         /// <param name="terminal"></param>
         public void AddExistingTerminal(Terminal terminal)
         {
             AllTerminals.Add(terminal);
-            terminal.Airport = this;
         }
 
         /// <summary>
-        /// Calls the runway constructor and adds the resulting object to the list of runways
+        /// Creates a new Runway object and adds it to the airport’s AllRunways list.
         /// </summary>
         public Runway AddNewRunway(string runwayName)
         {
@@ -140,7 +139,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         }
 
         /// <summary>
-        /// Adds a runwayobject to the list of runways
+        /// Adds a previously created Runway object to the airport’s AllRunways list.
         /// </summary>
         /// <param name="runway"></param>
         public void AddExistingRunway(Runway runway)
@@ -149,18 +148,17 @@ namespace NetzachTech.AirportSim.Infrastructure
         }
 
         /// <summary>
-        /// Call the taxi constructor and adds the resulting object taxi object to the list of taxis
+        /// Creates a new Taxi object and adds it to the airport’s AllTaxis list.
         /// </summary>
-        public Taxi AddNewTaxi(string taxiName, TaxiwayType taxiwayType)
+        public Taxi AddNewTaxi(string taxiName)
         {
-            Taxi newTaxi = new Taxi(taxiName,taxiwayType);
+            Taxi newTaxi = new Taxi(taxiName);
             AllTaxis.Add(newTaxi);
             return newTaxi;
-
         }
 
         /// <summary>
-        /// Adds a taxiobject to the list of taxis
+        /// Adds a previously created Taxi object to the airport’s AllTaxis list.
         /// </summary>
         /// <param name="taxi"></param>
         public void AddExistingTaxi(Taxi taxi)
@@ -168,56 +166,59 @@ namespace NetzachTech.AirportSim.Infrastructure
             AllTaxis.Add(taxi);
         }
         /// <summary>
-        /// Adds a flight object to the airport
+        /// Adds a previously created Flight object to the airport’s AllFlights list.
         /// </summary>
         public void AddExistingFlight(Flight flight)
         {
-            AllFlights.Add(flight);
+            this.AllFlights.Add(flight);
         }
 
         /// <summary>
-        /// Adds a flight to the airport's completed flights
+        /// Adds a given flight into the airport’s CompletedFlights list.
         /// </summary>
         public void AddCompletedFlight(Flight flight)
         {
-            CompletedFlights.Add(flight);
+            this.CompletedFlights.Add(flight);
         }
         /// <summary>
-        /// Removes a completed flight from the airport's <see cref="AllFlights"> list.
+        /// Removes a Flight object from the airport’s AllFlights list. <see cref="AllFlights"> list.
         /// </summary>
         public void RemoveCompletedFlightFromAllFlights(Flight flight)
         {
-            AllFlights.Remove(flight);
+            this.AllFlights.Remove(flight);
         }
         /// <summary>
-        /// Prints flight number, frequency and scheduled day for all flights.
+        /// Prints details of all flights, including the flights’ Number, FlightFrequency and ScheduledDay.
         /// </summary>
         public void PrintAllFlights()
         {
-            foreach (Flight flight in AllFlights)
+            foreach(Flight flight in this.AllFlights)
             {
                 Console.WriteLine($"{flight.Number} - {flight.Frequency} - {flight.ScheduledDay}");
             }
         }
 
-        
         /// <summary>
-        /// Adds a planeobject to the list of available planes at this airport.
+        /// Creates a new Taxi and Gate. These need to be connected and are therefore put in the same method.
+        /// The new Gate is connected to the Taxi, and the taxi is then added to AllTaxis.
+        /// An alternative to using this method to create a new gate would be to use airport.GetAllTerminals() 
+        /// to get a list of find all terminals, create a new Gate object, 
+        /// then loop through the list of terminals to find one you want to add it to by using
+        /// terminal.AddConnectedGate().
         /// </summary>
-        /// <param name="plane"></param>
-        public void AddPlaneToListOfAvailablePlanes(Plane plane)
+        /// <param name="gateName">The name of your gate</param>
+        /// <param name="taxiName">The name of your taxi</param>
+        public void AddNewConnectedGateAndTaxi(string gateName, string taxiName)
         {
-            ListOfPlanes.Add(plane);
-
+            Taxi newTaxi = new Taxi(taxiName);
+            Gate newGate = new Gate(gateName);
+            newTaxi.AddConnectedGate(newGate);
+            AllTaxis.Add(newTaxi);
         }
 
-        /// <summary>
-        /// Removes a plane from the list of available planes at this airport.
-        /// </summary>
-        /// <param name="plane"></param>
-        public void RemovePlaneFromListOfPlanes(Plane plane)
+        public void AddPlaneToListOfAvailablePlanes(Plane plane)
         {
-            ListOfPlanes.Remove(plane);
+            this.ListOfPlanes.Add(plane);
         }
 
     }
