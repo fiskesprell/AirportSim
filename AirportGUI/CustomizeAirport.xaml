@@ -129,7 +129,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding TerminalName}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding TerminalName}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -140,7 +140,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding GateName}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding GateName}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -151,7 +151,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding RunwayName}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding RunwayName}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -162,7 +162,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding TaxiwayName}" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding TaxiwayName}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
