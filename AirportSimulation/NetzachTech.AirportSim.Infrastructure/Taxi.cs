@@ -155,7 +155,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         }
 
         /// <summary>
-        /// Finds and connects to a gate based on the gatename and airport
+        /// Finds and connects to a gate if the given name matches with the name of any of the gates in the given airport.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="airport"></param>
@@ -172,7 +172,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         }
 
         /// <summary>
-        /// Finds and connects to a runway based on the runway name and airport
+        /// Finds and connects to a runway if the given name matches with the name of any of the runways in the given airport.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="airport"></param>

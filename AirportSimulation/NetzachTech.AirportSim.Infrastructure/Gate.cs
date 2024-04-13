@@ -141,7 +141,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         }
 
         /// <summary>
-        /// Adds the gateobject to the list of gates for the terminal passed as an argument
+        /// Adds the gateobject to the list of gates for the terminal passed as an argument.
         /// </summary>
         /// <param name="terminal"></param>
         public void AddGateToTerminal(Terminal terminal)
@@ -150,7 +150,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         }
 
         /// <summary>
-        /// Finds and connects to a taxi based on name and airport
+        /// Finds and connects to a taxi if the given name matches any of the taxis in the given airport.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="airport"></param>

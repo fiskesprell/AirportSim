@@ -138,7 +138,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         }
 
         /// <summary>
-        /// Finds and connects to a taxi based on taxiname and airport
+        /// Finds and connects to a taxi if the given name matches with the name of any of the taxis in the given airport.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="airport"></param>

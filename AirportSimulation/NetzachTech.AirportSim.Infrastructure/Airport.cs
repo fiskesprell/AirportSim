@@ -221,6 +221,11 @@ namespace NetzachTech.AirportSim.Infrastructure
             ListOfPlanes.Remove(plane);
         }
 
+        /// <summary>
+        /// Finds and returns a terminalobject if the name matches with any of the created objects. Returns null if no matches were found.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Terminal FindTerminal(string name)
         {
             foreach(var terminal in AllTerminals)
@@ -231,6 +236,11 @@ namespace NetzachTech.AirportSim.Infrastructure
             return null;
         }
 
+        /// <summary>
+        /// Finds and returns a runwayobject if the name matches with any of the created objects. Returns null if no matches were found.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Runway FindRunway(string name)
         {
             foreach (var runway in AllRunways)
@@ -241,6 +251,11 @@ namespace NetzachTech.AirportSim.Infrastructure
             return null;
         }
 
+        /// <summary>
+        /// Finds and returns a taxiobjects if the name matches with any of the created objects. Returns null if no matches were found.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Taxi FindTaxi(string name)
         {
             foreach (var taxi in AllTaxis)
