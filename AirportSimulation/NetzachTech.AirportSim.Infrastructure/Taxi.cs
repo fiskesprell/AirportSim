@@ -153,6 +153,39 @@ namespace NetzachTech.AirportSim.Infrastructure
         {
             ConnectedRunways.Remove(runway);
         }
+
+        /// <summary>
+        /// Finds and connects to a gate based on the gatename and airport
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="airport"></param>
+        public void ConnectToGateWithName(string name, Airport airport)
+        {
+            foreach (var terminal in airport.AllTaxis)
+            {
+                foreach(var gate in terminal.ConnectedGates)
+                    if (gate.GateName.Equals(name))
+                    {
+                        ConnectedGates.Add(gate);
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Finds and connects to a runway based on the runway name and airport
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="airport"></param>
+        public void ConnectToRunwayWithName(string name, Airport airport)
+        {
+            foreach (var runway in airport.AllRunways)
+            {
+                if (runway.RunwayName.Equals(name))
+                {
+                    ConnectedRunways.Add(runway);
+                }
+            }
+        }
     }
 
 }

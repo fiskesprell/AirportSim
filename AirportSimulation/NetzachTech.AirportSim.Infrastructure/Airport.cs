@@ -221,5 +221,35 @@ namespace NetzachTech.AirportSim.Infrastructure
             ListOfPlanes.Remove(plane);
         }
 
+        public Terminal FindTerminal(string name)
+        {
+            foreach(var terminal in AllTerminals)
+            {
+                if (terminal.TerminalName.Equals(name))
+                    return terminal;
+            }
+            return null;
+        }
+
+        public Runway FindRunway(string name)
+        {
+            foreach (var runway in AllRunways)
+            {
+                if (runway.RunwayName.Equals(name))
+                    return runway;
+            }
+            return null;
+        }
+
+        public Taxi FindTaxi(string name)
+        {
+            foreach (var taxi in AllTaxis)
+            {
+                if (taxi.TaxiName.Equals(name))
+                    return taxi;
+            }
+            return null;
+        }
+
     }
 }

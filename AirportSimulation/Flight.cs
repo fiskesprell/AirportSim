@@ -258,8 +258,7 @@ namespace AirportSimulation
             this.Number = flightNumber;
             this.DestinationAirport = destination;
             this.CurrentAirport = airport;
-
-            
+        
 
             if (travelHour > 23 || travelHour < 0)
                 throw new InvalidScheduledTimeException("There are only 24 hours in a day. Expected values are between 0 and 23.");

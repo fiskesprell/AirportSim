@@ -149,6 +149,22 @@ namespace NetzachTech.AirportSim.Infrastructure
             terminal.AddExistingGate(this);
         }
 
+        /// <summary>
+        /// Finds and connects to a taxi based on name and airport
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="airport"></param>
+        public void ConnectToTaxiWithName(string name, Airport airport)
+        {
+            foreach (var taxi in airport.AllTaxis)
+            {
+                if (taxi.TaxiName.Equals(name))
+                {
+                    ConnectedTaxis.Add(taxi);
+                }
+            }
+        }
+
 
     }
 }

@@ -93,6 +93,13 @@ namespace NetzachTech.AirportSim.Builders
             return this;
         }
 
+        public FlightBuilder AddFlightToAirport(Airport airport)
+        {
+            _flight.CurrentAirport = airport;
+            airport.AddExistingFlight(_flight);
+            return this;
+        }
+
         /// <summary>
         /// Sets the flight status.
         /// </summary>

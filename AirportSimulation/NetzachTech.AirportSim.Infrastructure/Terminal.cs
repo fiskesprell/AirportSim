@@ -1,6 +1,7 @@
 ﻿using NetzachTech.AirportSim.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,8 +34,8 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// List of the gates connected to this terminal.
         /// </summary>
-        private List<Gate> _connectedGates = new List<Gate>();
-        public List<Gate> ConnectedGates
+        private ObservableCollection<Gate> _connectedGates = new ObservableCollection<Gate>();
+        public ObservableCollection<Gate> ConnectedGates
         { get => _connectedGates; }
 
         /// <summary>
