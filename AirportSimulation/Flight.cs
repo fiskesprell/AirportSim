@@ -1631,6 +1631,7 @@ namespace AirportSimulation
             
             else
             {
+                bool foundPlane = false;
                 foreach (var plane in this.CurrentAirport.ListOfPlanes)
                 {
                     //Sjekker at flyet er riktig type, at det er ledig, og at det er på flyplassen
