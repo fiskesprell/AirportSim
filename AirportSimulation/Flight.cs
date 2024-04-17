@@ -287,8 +287,7 @@ namespace AirportSimulation
             this.Number = flightNumber;
             this.DestinationAirport = destination;
             this.CurrentAirport = airport;
-            //Assigne et ledig plane til flighten når det opprettes
-            //this.AssignedPlane = AssignAvailablePlaneToFlight();
+        
 
             if (travelHour > 23 || travelHour < 0)
                 throw new InvalidScheduledTimeException("There are only 24 hours in a day. Expected values are between 0 and 23.");
@@ -461,10 +460,9 @@ namespace AirportSimulation
                 (int newHours4, int newMinutes4) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourCompletedDisembarkation, this.ScheduledMinuteCompletedDisembarkation);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours4 && ElapsedMinutes == newMinutes4)
                 {
+
                     IncomingFlightFromGateToComplete();
                 }
-
-
             }
 
             else
@@ -484,8 +482,7 @@ namespace AirportSimulation
                 airport.AddCompletedFlight(this);
                 airport.RemoveCompletedFlightFromAllFlights(this);
                 //Setter AssignedPlane til null og gjøre planet ledig igjen
-                //this.AssignedPlane.PlaneIsAvailable = true;
-                //this.AssignedPlane = null;
+                
             }
             
             if (this.Logging && !(this.HasLogged) && ElapsedDays == adjustedTravelDay + 1 && ElapsedHours == 0 && ElapsedMinutes == 0 && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed))
@@ -529,78 +526,12 @@ namespace AirportSimulation
                 this.HasLogged = false;
                 LogHistory.Clear();
             }
-        }//Slutt flightSim
-
-
-        ///<summary>
-        /// Performs take off from given Runway, changes the FlightStatus of the flight, sets the Runway to available, and logs that the flight has departed.
-        ///</summary>
-        public void TakeoffFlight(Runway runway)
-        {
-            runway.FlightOnRunway = this;
-            this.SetFlightStatus(FlightStatus.Departed);
-            if (ElapsedMinutes == 0)
-            {
-                string elapsedMinutes = "00";
-                Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + elapsedMinutes + " flight " + this.Number + " has taken off\n");
-            }
-            else
-            {
-                Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has taken off\n");
-            }
-            
-            if (Logging)
-            {
-                if (ElapsedMinutes == 0)
-                {
-                    string newMinutes = "00";
-                    string logMessage2 = $"Flight {Number} took off at Day: {newMinutes}, Time: {ElapsedHours}:{ElapsedMinutes}.";
-                    LogHistory.Add(logMessage2);
-                }
-                else
-                {
-                    string logMessage = $"Flight {Number} took off at Day: {ElapsedDays}, Time: {ElapsedHours}:{ElapsedMinutes}.";
-                    LogHistory.Add(logMessage);
-                }
-                
-            }
-            
-            runway.FlightOnRunway = null;
-            runway.IsAvailable = true;
-        }//Slutt takeoff
-
-        /// <summary>
-        /// Performs landing on a given Runway, changes the FlightStatus of the flight, adds the flight to the queue of its AssignedTaxi, then sets the Runway as available.
-        /// </summary>
-        public void LandFlight(Runway runway)
-        {
-            runway.FlightOnRunway = this;
-            this.SetFlightStatus(FlightStatus.Arrived);
-            Console.WriteLine("Day: " + ElapsedDays + " -  at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has landed");
-            AssignedTaxi.AddToTaxiQueue(this);
-            runway.FlightOnRunway = null;
-            runway.IsAvailable = true;
-            if (Logging)
-            {
-                if (ElapsedMinutes == 0)
-                {
-                    string newMinutes = "00";
-                    string logMessage2 = $"Flight {Number} landed at day: {newMinutes}, Time: {ElapsedHours}:{ElapsedMinutes}.";
-                    LogHistory.Add(logMessage2);
-                }
-                else
-                {
-                    string landing = $"Flight {Number} landed at day: {ElapsedDays}, Time: {ElapsedHours}:{ElapsedMinutes}.";
-                    this.LogHistory.Add(landing);
-                }
-                
-            }
-        }//Slutt land
+        }
 
 
         /// <summary>
-        /// Parks the flight at a given gate and updates the flight and gate statuses accordingly.
-        /// If the flight does not have an AssignedGate at this point, it will call FindAvailableGate().
+        /// Parks the flight at a specified gate and updates the flight and gate statuses accordingly.
+        /// Throws an exception if the gate is null or not available.
         /// </summary>
         public void ParkFlightAtGate(Gate gate)
         {

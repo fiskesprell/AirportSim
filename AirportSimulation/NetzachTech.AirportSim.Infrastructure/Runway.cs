@@ -3,6 +3,7 @@ using NetzachTech.AirportSim.FlightOperations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -27,8 +28,8 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// A list of taxiways that are connected to this runway.
         /// </summary>
-        private List<Taxi> _connectedTaxi = new List<Taxi>();
-        public List<Taxi> ConnectedTaxi
+        private ObservableCollection<Taxi> _connectedTaxi = new ObservableCollection<Taxi>();
+        public ObservableCollection<Taxi> ConnectedTaxi
         { get => _connectedTaxi; }
 
         /// <summary>
@@ -135,6 +136,22 @@ namespace NetzachTech.AirportSim.Infrastructure
             IsAvailable = false;
             FlightOnRunway = flight;
 
+        }
+
+        /// <summary>
+        /// Finds and connects to a taxi if the given name matches with the name of any of the taxis in the given airport.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="airport"></param>
+        public void ConnectToTaxiWithName(string name, Airport airport)
+        {
+            foreach(var taxi in airport.AllTaxis)
+            {
+                if (taxi.TaxiName.Equals(name))
+                {
+                    ConnectedTaxi.Add(taxi);
+                }
+            }
         }
     }
 

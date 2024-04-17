@@ -1,5 +1,6 @@
 ﻿using AirportSimulation;
 using NetzachTech.AirportSim.FlightOperations;
+using System.Collections.ObjectModel;
 
 namespace NetzachTech.AirportSim.Infrastructure
 {
@@ -33,11 +34,11 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// Manages a list of taxiways connected to the gate.
         /// </summary>
-        private List<Taxi> _connectedTaxis = new List<Taxi>();
+        private ObservableCollection<Taxi> _connectedTaxis = new ObservableCollection<Taxi>();
         /// <summary>
         /// Gets or sets the taxiways connected to the gate.
         /// </summary>
-        public List<Taxi> ConnectedTaxis
+        public ObservableCollection<Taxi> ConnectedTaxis
         { get => _connectedTaxis; }
 
         /// <summary>
@@ -144,12 +145,28 @@ namespace NetzachTech.AirportSim.Infrastructure
         }
 
         /// <summary>
-        /// Adds the gateobject to the list of gates for the terminal passed as an argument
+        /// Adds the gateobject to the list of gates for the terminal passed as an argument.
         /// </summary>
         /// <param name="terminal"></param>
         public void AddGateToTerminal(Terminal terminal)
         {
             terminal.AddExistingGate(this);
+        }
+
+        /// <summary>
+        /// Finds and connects to a taxi if the given name matches any of the taxis in the given airport.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="airport"></param>
+        public void ConnectToTaxiWithName(string name, Airport airport)
+        {
+            foreach (var taxi in airport.AllTaxis)
+            {
+                if (taxi.TaxiName.Equals(name))
+                {
+                    ConnectedTaxis.Add(taxi);
+                }
+            }
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -141,8 +142,8 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// Log history for this plane. Includes all the flights this plane has been used for.
         /// </summary>
-        private List<Flight> _planeHistory = new List<Flight>();
-        public List<Flight> PlaneHistory
+        private ObservableCollection<Flight> _planeHistory = new ObservableCollection<Flight>();
+        public ObservableCollection<Flight> PlaneHistory
         { get => _planeHistory; }
 
 

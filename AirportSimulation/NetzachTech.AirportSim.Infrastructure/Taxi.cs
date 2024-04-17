@@ -2,6 +2,7 @@
 using NetzachTech.AirportSim.FlightOperations;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,15 +31,15 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// List of gates connected to this taxiway.
         /// </summary>
-        private List<Gate> _connectedGates = new List<Gate>();
-        public List<Gate> ConnectedGates
+        private ObservableCollection<Gate> _connectedGates = new ObservableCollection<Gate>();
+        public ObservableCollection<Gate> ConnectedGates
         { get => _connectedGates; }
 
         /// <summary>
         /// List of runways connected to this taxiway.
         /// </summary>
-        private List<Runway> _connectedRunways = new List<Runway>();
-        public List<Runway> ConnectedRunways
+        private ObservableCollection<Runway> _connectedRunways = new ObservableCollection<Runway>();
+        public ObservableCollection<Runway> ConnectedRunways
         { get => _connectedRunways; }
 
         /// <summary>
@@ -152,6 +153,39 @@ namespace NetzachTech.AirportSim.Infrastructure
         public void RemoveConnectedRunway(Runway runway)
         {
             ConnectedRunways.Remove(runway);
+        }
+
+        /// <summary>
+        /// Finds and connects to a gate if the given name matches with the name of any of the gates in the given airport.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="airport"></param>
+        public void ConnectToGateWithName(string name, Airport airport)
+        {
+            foreach (var terminal in airport.AllTaxis)
+            {
+                foreach(var gate in terminal.ConnectedGates)
+                    if (gate.GateName.Equals(name))
+                    {
+                        ConnectedGates.Add(gate);
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Finds and connects to a runway if the given name matches with the name of any of the runways in the given airport.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="airport"></param>
+        public void ConnectToRunwayWithName(string name, Airport airport)
+        {
+            foreach (var runway in airport.AllRunways)
+            {
+                if (runway.RunwayName.Equals(name))
+                {
+                    ConnectedRunways.Add(runway);
+                }
+            }
         }
     }
 

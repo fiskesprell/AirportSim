@@ -1,6 +1,7 @@
 ﻿using AirportSimulationCl;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -20,37 +21,44 @@ namespace AirportSimulation
         /// <summary>
         /// List of Terminal objects in this airport.
         /// </summary>
-        private List<Terminal> _allTerminals = new List<Terminal>();
-        public List<Terminal> AllTerminals
-        {get => _allTerminals;}
+        private ObservableCollection<Terminal> _allTerminals = new ObservableCollection<Terminal>();
+        public ObservableCollection<Terminal> AllTerminals
+        { get => _allTerminals; }
 
         /// <summary>
         /// List of Runway objects in this airport.
         /// </summary>
-        private List<Runway> _allRunways = new List<Runway>();
-        public List<Runway> AllRunways
-        { get => _allRunways;}
+        private ObservableCollection<Runway> _allRunways = new ObservableCollection<Runway>();
+        public ObservableCollection<Runway> AllRunways
+        { get => _allRunways; }
 
         /// <summary>
         /// List of Taxi objects of in this airport.
         /// </summary>
-        private List<Taxi> _allTaxis = new List<Taxi>();
-        public List<Taxi> AllTaxis
-        {get => _allTaxis;}
+        private ObservableCollection<Taxi> _allTaxis = new ObservableCollection<Taxi>();
+        public ObservableCollection<Taxi> AllTaxis
+        { get => _allTaxis; }
 
         /// <summary>
-        /// List of Flight objects of all the flights scheduled in this airport.
+        /// List contaning all gates in this airport
         /// </summary>
-        private List<Flight> _allFlights = new List<Flight>();
-        public List<Flight> AllFlights
-        {get => _allFlights;}
+        private ObservableCollection<Gate> _allGates = new ObservableCollection<Gate>();
+        public ObservableCollection<Gate> AllGates
+        { get => _allGates; }
+
+        /// <summary>
+        /// List containing all flights in this airport
+        /// </summary>
+        private ObservableCollection<Flight> _allFlights = new ObservableCollection<Flight>();
+        public ObservableCollection<Flight> AllFlights
+        { get => _allFlights; }
 
         /// <summary>
         /// List of flights that have completed their journey.
         /// </summary>
-        private List<Flight> _completedFlights = new List<Flight>();
-        public List<Flight> CompletedFlights
-        {get => _completedFlights;}
+        private ObservableCollection<Flight> _completedFlights = new ObservableCollection<Flight>();
+        public ObservableCollection<Flight> CompletedFlights
+        { get => _completedFlights; }
 
         /// <summary>
         /// Gets and sets the scheduled start date. DateTime object that represents what date the simulation is ending.
@@ -69,9 +77,12 @@ namespace AirportSimulation
         /// <summary>
         /// Gets the list of planes. List of planes that have been or are currently at the airport. This list is accessible for additions but not direct reassignment from outside the class.
         /// </summary>
-        private List<Plane> _listOfPlanes = new List<Plane> ();
-        public List<Plane> ListOfPlanes
-        {get => _listOfPlanes;}
+        /// <remarks>
+        /// A list of planes that are have been or are at this airport
+        /// </remarks>
+        private ObservableCollection<Plane> _listOfPlanes = new ObservableCollection<Plane>();
+        public ObservableCollection<Plane> ListOfPlanes
+        { get => _listOfPlanes; }
 
         /// <summary>
         /// Constructor for making an empty airport.
@@ -221,5 +232,154 @@ namespace AirportSimulation
             this.ListOfPlanes.Add(plane);
         }
 
+        /// <summary>
+        /// Finds and returns a terminalobject if the name matches with any of the created objects. Returns null if no matches were found.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Terminal FindTerminal(string name)
+        {
+            foreach(var terminal in AllTerminals)
+            {
+                if (terminal.TerminalName.Equals(name))
+                    return terminal;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Finds and returns a runwayobject if the name matches with any of the created objects. Returns null if no matches were found.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Runway FindRunway(string name)
+        {
+            foreach (var runway in AllRunways)
+            {
+                if (runway.RunwayName.Equals(name))
+                    return runway;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Finds and returns a taxiobjects if the name matches with any of the created objects. Returns null if no matches were found.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Taxi FindTaxi(string name)
+        {
+            foreach (var taxi in AllTaxis)
+            {
+                if (taxi.TaxiName.Equals(name))
+                    return taxi;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Loops through all the gates at this airport and finds one with a matching name to the name given as argument.
+        /// Loops through all the taxis in this airport and finds one with a matching name to the name given as argument.
+        /// If both are found, adds a to-way connection between the two.
+        /// </summary>
+        /// <param name="gateName"></param>
+        /// <param name="taxiName"></param>
+        public void ConnectGateAndTaxi(string gateName, string taxiName)
+        {
+            Gate selectedGate = null;
+            Taxi selectedTaxi = null;
+
+            foreach(var taxi in AllTaxis)
+            {
+                if (taxi.TaxiName.Equals(taxiName))
+                    selectedTaxi = taxi;
+            }
+
+            foreach(var terminal in AllTerminals)
+                foreach(var gate in terminal.ConnectedGates)
+                {
+                    if (gate.GateName.Equals(gateName))
+                        selectedGate = gate;
+                }
+
+            if (selectedGate != null && selectedTaxi != null)
+            {
+                selectedTaxi.AddConnectedGate(selectedGate);
+                selectedGate.AddTaxi(selectedTaxi);
+            }
+
+        }
+
+        /// <summary>
+        /// Adds a two-way connection beteen the given gate and taxi.
+        /// </summary>
+        /// <param name="gate"></param>
+        /// <param name="taxi"></param>
+        public void ConnectGateAndTaxi(Gate gate, Taxi taxi) 
+        {
+            gate.AddTaxi(taxi);
+            taxi.AddConnectedGate(gate);
+        }
+
+        /// <summary>
+        /// Loops through all the taxis in the airport and finds one that matches the given name. Loops though all the runways 
+        /// and finds one that matches the given name. If both a taxi and a runway is found, it will add a two-way connection between those two.
+        /// </summary>
+        /// <param name="taxiName"></param>
+        /// <param name="runwayName"></param>
+        public void ConnectTaxiAndRunway(string taxiName, string runwayName)
+        {
+            Taxi selectedTaxi = null;
+            Runway selectedRunway = null;
+
+            foreach(var taxi in AllTaxis)
+                if(taxi.TaxiName.Equals(taxiName))
+                    selectedTaxi = taxi;
+
+            foreach(var runway in AllRunways)
+                if (runway.RunwayName.Equals(runwayName))
+                    selectedRunway = runway;
+
+            if (selectedRunway != null && selectedTaxi != null)
+            {
+                selectedTaxi.AddConnectedRunway(selectedRunway);
+                selectedRunway.AddConnectedTaxi(selectedTaxi);
+            }
+        }
+
+        /// <summary>
+        /// Adds a two-way connection beteen the given taxi and runway.
+        /// </summary>
+        /// <param name="taxi"></param>
+        /// <param name="runway"></param>
+        public void ConnectTaxiAndRunway(Taxi taxi, Runway runway)
+        {
+            taxi.AddConnectedRunway(runway);
+            runway.AddConnectedTaxi(taxi);
+        }
+
+        /// <summary>
+        /// Loops through all the temrinals in the airport and finds a terminal that matches the name given as argument, and adds a new gate to that temrinal.
+        /// </summary>
+        /// <param name="gateName"></param>
+        /// <param name="terminalName"></param>
+        public void AddNewGate(string gateName, string terminalName)
+        {
+            foreach (var terminal in AllTerminals)
+                if (terminal.TerminalName.Equals(terminalName))
+                    terminal.AddNewGate(gateName);
+
+        }
+
+        /// <summary>
+        /// Adds a new gate to the terminal gives as argument.
+        /// </summary>
+        /// <param name="gateName"></param>
+        /// <param name="terminal"></param>
+        public void AddNewGate(string gateName, Terminal terminal)
+        {
+            terminal.AddNewGate(gateName);
+
+        }
     }
 }
