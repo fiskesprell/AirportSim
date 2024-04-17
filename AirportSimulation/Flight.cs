@@ -1,5 +1,7 @@
 ﻿using AirportSimulationCl;
 using NetzachTech.AirportSim.Infrastructure;
+using NetzachTech.AirportSim.FlightOperations;
+using NetzachTech.AirportSim.Time;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -285,8 +287,8 @@ namespace AirportSimulation
         public Flight(string flightNumber, Airport destinationAirport, DateTime travelDay, int travelHour, int travelMinute, FlightDirection direction, Airport currentAirport)
         {
             this.Number = flightNumber;
-            this.DestinationAirport = destination;
-            this.CurrentAirport = airport;
+            this.DestinationAirport = destinationAirport;
+            this.CurrentAirport = currentAirport;
         
 
             if (travelHour > 23 || travelHour < 0)
@@ -371,7 +373,7 @@ namespace AirportSimulation
         /// <summary>
         /// Keeps track of the chain of events during the simulation. Called every iteration in simulateTime in TimeSimulation. Compares current time, scheduled times and what the flight is supposed to do at certain times.
         /// </summary>
-        public void FlightSim(Airport airport, TimeSimulation timeSimulation)
+        public void FlightSim(TimeConfigManager timeConfigManager, Airport airport, TimeSimulation timeSimulation)
         {
             DateTime startSim = timeSimulation.StartDate;
             TimeSpan dayDifference = this.ScheduledDay - startSim;
@@ -427,7 +429,7 @@ namespace AirportSimulation
                 {
                     if(AssignedRunway.FlightOnRunway == this)
                     {
-                        TakeoffFlight(AssignedRunway);
+                        AssignedPlane.TakeoffPlane(this);
                     }
                 }
             }
@@ -612,7 +614,7 @@ namespace AirportSimulation
             bool foundTerminal = false;
             foreach (var terminal in CurrentAirport.AllTerminals)
             {
-                if (terminal.IsInternational == this.IsInternational)
+                if (terminal.ReadyForInternational == this.IsInternational)
                 {
                     foundTerminal = true;
                     bool foundGateLicence = false;
@@ -1499,7 +1501,7 @@ namespace AirportSimulation
             bool foundTerminal = false;
             foreach (var terminal in CurrentAirport.AllTerminals)
             {
-                if (terminal.IsInternational == this.IsInternational)
+                if (terminal.ReadyForInternational == this.IsInternational)
                 {
                     foreach (var gate in terminal.ConnectedGates)
                     {

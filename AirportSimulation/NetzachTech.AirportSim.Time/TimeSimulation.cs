@@ -1,6 +1,7 @@
 //Code inspired by "Discrete Event Simulation: A Population Growth Example" By Arnaldo Perez
 //https://learn.microsoft.com/en-us/archive/msdn-magazine/2016/march/csharp-discrete-event-simulation-a-population-growth-example
 
+using AirportSimulation;
 using AirportSimulationCl;
 using NetzachTech.AirportSim.Infrastructure;
 using System;

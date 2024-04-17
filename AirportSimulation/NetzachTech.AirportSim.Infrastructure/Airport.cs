@@ -1,4 +1,5 @@
 ﻿using AirportSimulationCl;
+using NetzachTech.AirportSim.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -111,7 +112,7 @@ namespace AirportSimulation
             this.AirportName = airportName;
             Terminal terminal = AddNewTerminal(terminalName);
             //terminal.setIsInternational(true);
-            Taxi taxi = AddNewTaxi(taxiName);
+            Taxi taxi = AddNewTaxi(taxiName, TaxiwayType.Main);
             Runway runway = AddNewRunway(runwayName);
             Gate gate = terminal.AddNewGate(gateName);
             gate.AddTaxi(taxi);
@@ -161,9 +162,9 @@ namespace AirportSimulation
         /// <summary>
         /// Creates a new Taxi object and adds it to the airport’s AllTaxis list.
         /// </summary>
-        public Taxi AddNewTaxi(string taxiName)
+        public Taxi AddNewTaxi(string taxiName, TaxiwayType taxiwayType)
         {
-            Taxi newTaxi = new Taxi(taxiName);
+            Taxi newTaxi = new Taxi(taxiName, TaxiwayType.Main);
             AllTaxis.Add(newTaxi);
             return newTaxi;
         }
@@ -221,7 +222,7 @@ namespace AirportSimulation
         /// <param name="taxiName">The name of your taxi</param>
         public void AddNewConnectedGateAndTaxi(string gateName, string taxiName)
         {
-            Taxi newTaxi = new Taxi(taxiName);
+            Taxi newTaxi = new Taxi(taxiName, TaxiwayType.Main);
             Gate newGate = new Gate(gateName);
             newTaxi.AddConnectedGate(newGate);
             AllTaxis.Add(newTaxi);
