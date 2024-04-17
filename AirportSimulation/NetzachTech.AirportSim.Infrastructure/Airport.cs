@@ -228,6 +228,15 @@ namespace AirportSimulation
             AllTaxis.Add(newTaxi);
         }
 
+        /// <summary>
+        /// Removes a plane from the list of available planes at this airport.
+        /// </summary>
+        /// <param name="plane"></param>
+        public void RemovePlaneFromListOfPlanes(Plane plane)
+        {
+            ListOfPlanes.Remove(plane);
+        }
+
         public void AddPlaneToListOfAvailablePlanes(Plane plane)
         {
             this.ListOfPlanes.Add(plane);
