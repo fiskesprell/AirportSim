@@ -266,5 +266,75 @@ namespace NetzachTech.AirportSim.Infrastructure
             return null;
         }
 
+        public void ConnectGateAndTaxi(string gateName, string taxiName)
+        {
+            Gate selectedGate = null;
+            Taxi selectedTaxi = null;
+
+            foreach(var taxi in AllTaxis)
+            {
+                if (taxi.TaxiName.Equals(taxiName))
+                    selectedTaxi = taxi;
+            }
+
+            foreach(var terminal in AllTerminals)
+                foreach(var gate in terminal.ConnectedGates)
+                {
+                    if (gate.GateName.Equals(gateName))
+                        selectedGate = gate;
+                }
+
+            if (selectedGate != null && selectedTaxi != null)
+            {
+                selectedTaxi.AddConnectedGate(selectedGate);
+                selectedGate.AddTaxi(selectedTaxi);
+            }
+
+        }
+
+        public void ConnectGateAndTaxi(Gate gate, Taxi taxi) 
+        {
+            gate.AddTaxi(taxi);
+            taxi.AddConnectedGate(gate);
+        }
+
+        public void ConnectTaxiAndRunway(string taxiName, string runwayName)
+        {
+            Taxi selectedTaxi = null;
+            Runway selectedRunway = null;
+
+            foreach(var taxi in AllTaxis)
+                if(taxi.TaxiName.Equals(taxiName))
+                    selectedTaxi = taxi;
+
+            foreach(var runway in AllRunways)
+                if (runway.RunwayName.Equals(runwayName))
+                    selectedRunway = runway;
+
+            if (selectedRunway != null && selectedTaxi != null)
+            {
+                selectedTaxi.AddConnectedRunway(selectedRunway);
+                selectedRunway.AddConnectedTaxi(selectedTaxi);
+            }
+        }
+
+        public void ConnectTaxiAndRunway(Taxi taxi, Runway runway)
+        {
+            taxi.AddConnectedRunway(runway);
+            runway.AddConnectedTaxi(taxi);
+        }
+
+        public void AddNewGate(string gateName, string terminalName)
+        {
+            foreach (var terminal in AllTerminals)
+                if (terminal.TerminalName.Equals(terminalName))
+                    terminal.AddNewGate(gateName);
+
+        }
+
+        public void AddNewGate(string gateName, Terminal terminal)
+        {
+            terminal.AddNewGate(gateName);
+        }
     }
 }
