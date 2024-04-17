@@ -1,6 +1,6 @@
 ﻿using AirportSimulationCl;
-using NetzachTech.AirportSim.Infrastructure;
 using NetzachTech.AirportSim.FlightOperations;
+using NetzachTech.AirportSim.Infrastructure;
 using NetzachTech.AirportSim.Time;
 using NetzachTech.AirportSim.EventArguments;
 using System;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AirportSimulation
-{   
+{
     public class Flight
     {
         /// <summary>
@@ -47,193 +47,120 @@ namespace AirportSimulation
         /// Delay - True = Delayed, False = On time.
         /// DelayInMinutes = Minutes the flight is delayed.
         /// </property>
-
-        /// <summary>
-        /// String representing the number of the flight (i.e. SK1337).
-        /// </summary>
         private string _number;
         public string Number
-        { get => _number; set => _number = value;}
+        { get => _number; set => _number = value; }
 
-        /// <summary>
-        /// String representing the company operating the flight.
-        /// </summary>
         private string _company;
         public string Company
-        { get => _company; set => _company = value;}
+        { get => _company; set => _company = value; }
 
-        /// <summary>
-        /// Represents types of Flights. Valid values are.
-        /// See <cref="FlightType">.
-        /// </summary>
         private FlightType _flightType = FlightType.Commercial;
         public FlightType FlightType
-        { get => _flightType; set => _flightType = value;}
+        { get => _flightType; set => _flightType = value; }
 
-        /// <summary>
-        /// The Gate object assigned to the flight. Used for both departure and arrival.
-        /// </summary>
         private Gate _assignedGate;
         public Gate AssignedGate
-        { get => _assignedGate; set => _assignedGate = value;}
+        { get => _assignedGate; set => _assignedGate = value; }
 
-        /// <summary>
-        /// Boolean declaring whether the flight is international (true) or domestic (false). Used to determine which infrastructure (i.e. gate or terminal) to use.
-        /// </summary>
         private bool _isInternational = false;
         public bool IsInternational
-        { get => _isInternational; set => _isInternational = value;}
+        { get => _isInternational; set => _isInternational = value; }
 
-        /// <summary>
-        /// The unique Plane object assigned to the Flight.
-        /// </summary>
         private Plane _assignedPlane;
         public Plane AssignedPlane
-        { get => _assignedPlane; set => _assignedPlane = value;}
+        { get => _assignedPlane; set => _assignedPlane = value; }
 
-        /// <summary>
-        /// DateTime object representing day, month, and year the flight is scheduled.
-        /// </summary>
         private DateTime _scheduledDay;
         public DateTime ScheduledDay
-        { get => _scheduledDay; set => _scheduledDay = value;}
+        { get => _scheduledDay; set => _scheduledDay = value; }
 
-        /// <summary>
-        /// int representing the hour the flight is scheduled.
-        /// </summary>
         private int _scheduledHour = 0;
         public int ScheduledHour
-        { get => _scheduledHour; set => _scheduledHour = value;}
+        { get => _scheduledHour; set => _scheduledHour = value; }
 
-        /// <summary>
-        /// int representing the minute the flight is scheduled.
-        /// </summary>
         private int _scheduledMinutes = 0;
         public int ScheduledMinutes
-        { get => _scheduledMinutes; set => _scheduledMinutes = value;}
+        { get => _scheduledMinutes; set => _scheduledMinutes = value; }
 
-        /// <summary>
-        /// String representing the flight’s destination. Only used in logging.
-        /// </summary>
         private Airport _destinationAirport;
         public Airport DestinationAirport
-        { get => _destinationAirport; set => _destinationAirport = value;}
+        { get => _destinationAirport; set => _destinationAirport = value; }
 
-        /// <summary>
-        /// Enum representing where in the chain of events the flight is. All status changes will be logged if logging is enabled.
-        /// See <cref="FlightStatus">.
-        /// </summary>
         private FlightStatus _status = FlightStatus.OnTime;
         public FlightStatus Status
         { get => _status; set => _status = value; }
 
-        /// <summary>
-        /// Enum representing whether a flight is recurring, and how often. Based on this, a recurring Flight object will be dynamically updated with a new ScheduledDay. Non-recurring flights will be removed from the airport’s AllFlights list and added to the list AllCompletedFlights once completed, so as to not interfere with the simulation. /// See <cref="FlightFrequency">
-        /// </summary>
         private FlightFrequency _frequency = FlightFrequency.OneTime;
         public FlightFrequency Frequency
-        { get => _frequency; set => _frequency = value;}
+        { get => _frequency; set => _frequency = value; }
 
-        /// <summary>
-        /// Enum representing whether a flight is incoming, outgoing or headed elsewhere (i.e. maintenance, overnight parking).
-        /// See <cref="FlightDirection">
-        /// </summary>
         private FlightDirection _flightDirection;
         public FlightDirection FlightDirection
-        { get => _flightDirection; set => _flightDirection = value;}
+        { get => _flightDirection; set => _flightDirection = value; }
 
-        /// <summary>
-        /// int representing days passed since the start of the simulation.
-        /// </summary>
         private int _elapsedDays = 0;
         public int ElapsedDays
-        { get => _elapsedDays; set => _elapsedDays = value;}
-           
-        /// <summary>
-        /// int representing hours passed since the start of the simulation
-        /// </summary>
+        { get => _elapsedDays; set => _elapsedDays = value; }
+
+
         private int _elapsedHours = 0;
         public int ElapsedHours
         { get => _elapsedHours; set => _elapsedHours = value; }
 
-        /// <summary>
-        /// int representing minutes passed since the start of the simulation.
-        /// </summary>
         private int _elapsedMinutes = 0;
         public int ElapsedMinutes
         { get => _elapsedMinutes; set => _elapsedMinutes = value; }
 
-        /// <summary>
-        /// The Airport where the flight is currently set to utilize infrastructure.
-        /// </summary>
         private Airport _currentAirport;
         public Airport CurrentAirport
-        { get => _currentAirport; set => _currentAirport = value;}
+        { get => _currentAirport; set => _currentAirport = value; }
 
-        /// <summary>
-        /// Boolean representing whether the plane is parked (true) or not (false). Default value is false.
-        /// </summary>
+
         private bool _isParked = false;
         public bool IsParked
-        { get => _isParked; set => _isParked = value;}
+        { get => _isParked; set => _isParked = value; }
 
-        /// <summary>
-        /// The Taxi in which to enqueue the flight.
-        /// </summary>
         private Taxi _assignedTaxi;
         public Taxi AssignedTaxi
-        { get => _assignedTaxi; set => _assignedTaxi = value;}
+        { get => _assignedTaxi; set => _assignedTaxi = value; }
 
-        /// <summary>
-        /// The Runway the flight is assigned, based on the AssignedTaxi.
-        /// </summary>
         private Runway _assignedRunway;
         public Runway AssignedRunway
-        { get => _assignedRunway; set => _assignedRunway = value;}
+        { get => _assignedRunway; set => _assignedRunway = value; }
 
-        /// <summary>
-        /// Boolean representing whether the flight is moving (true) or not (false). Default value is null.
-        /// </summary>
         private bool _isTraveling;
         public bool IsTraveling
-        { get => _isTraveling; set => _isTraveling = value;}
+        { get => _isTraveling; set => _isTraveling = value; }
 
-        /// <summary>
-        /// Boolean denoting whether logging should be enabled (true) or not (false). Defaults to true. Default value is true.
-        /// </summary>
+
         private bool _logging = true;
         public bool Logging
-        { get => _logging; set => _logging = value;}
+        { get => _logging; set => _logging = value; }
 
-        /// <summary>
-        /// Boolean denoting whether flight events have been printed (true) or not (false). Default value is false.
-        /// </summary>
+
         private bool _hasLogged = false;
         public bool HasLogged
-        { get => _hasLogged; set => _hasLogged = value;}
+        { get => _hasLogged; set => _hasLogged = value; }
 
-        /// <summary>
-        /// List of strings containing all status changes the flight goes through.
-        /// </summary>
+
         private List<string> _logHistory = new List<string>();
         public List<string> LogHistory
         { get => _logHistory; }
 
-        /// <summary>
-        /// Boolean denoting whether the flight is delayed (true) or not (false). Default value is false.
-        /// </summary>
         private bool _delayed = false;
         public bool Delayed
-        { get => _delayed; set => _delayed = value;}
+        { get => _delayed; set => _delayed = value; }
 
-        /// <summary>
-        /// int representing the number of minutes the flight is delayed.
-        /// </summary>
         private int _delayInMinutes = 0;
         public int DelayInMinutes
-        { get => _delayInMinutes; set => _delayInMinutes = value;}
+        { get => _delayInMinutes; set => _delayInMinutes = value; }
 
+        private bool _nulled;
+        public bool Nulled
+        { get => _nulled; set => _nulled = value; }
 
+        //dfoughebrgnkd
         // Outgoing
         //ScheduledXFindGateOutgoing
         private int ScheduledHourFindGateOutgoing = 1;
@@ -242,36 +169,35 @@ namespace AirportSimulation
         //ScheduledXParkAtGateOutgoing
         private int ScheduledHourParkAtGateOutgoing = 1;
         private int ScheduledMinuteParkAtGateOutgoing = 30;
-        
+
         //ScheduledXStartBoardingOutgoing
         private int ScheduledHourStartBoardingOutgoing = 1;
         private int ScheduledMinuteStartBoardingOutgoing = 0;
-        
+
         //ScheduledXDepartFromGateOutgoing
         private int ScheduledHourDepartFromGateOutgoing = 0;
         private int ScheduledMinuteDepartFromGateOutgoing = 15;
-        
+
         //ScheduledXTakeoffOutgoing
         private int ScheduledHourTakeoffOutgoing = 0;
         private int ScheduledMinuteTakeoffOutgoing = 0;
-        
+
         // Incoming
         //ScheduledXFindGateIncoming
         private int ScheduledHourFindGateIncoming = 0;
         private int ScheduledMinuteFindGateIncoming = 0;
-        
+
         //ScheduledXLeaveRunwayIncoming
         private int ScheduledHourLeaveRunwayIncoming = 0;
-        private int ScheduledMinuteLeaveRunwayIncoming = 1;
-        
+        private int ScheduledMinuteLeaveRunwayIncoming = 5;
+
         //ScheduledXParkAtGateIncoming
         private int ScheduledHourParkAtGateIncoming = 0;
-        private int ScheduledMinuteParkAtGateInocming = 11;
-        
+        private int ScheduledMinuteParkAtGateIncoming = 11;
+
         //ScheduledXCompletedDisembarkation
         private int ScheduledHourCompletedDisembarkation = 0;
-        private int ScheduledMinuteCompletedDisembarkation = 41;
-
+        private int ScheduledMinuteCompletedDisembarkation = 20;
 
         // +-+-+-+ Events +-+-+-+
         /// <summary>
@@ -316,22 +242,23 @@ namespace AirportSimulation
         public event EventHandler<FlightPlaneGateArgs> FlightHasFinishedOffloading;
 
         /// <summary>
-        /// Creates the most basic Flight object able to be used in simulation. Not the same as a <cref="Plane">.
+        /// Creates a flight. Not the same as creating a plane. Needs a flightnumber, date and time of arrival/departure,
+        /// direction of flight (incoming, outgoing or other) and an airport object (the airport it is either arriving to or departing from).
         /// </summary>
         /// <param name="flightNumber">Flight number. Commonly looks like "WN417".</param>
-        /// <param name="destinationAirport">Airport the flight is going to.</param>
+        /// <param name="destination">Airport the flight is going to.</param>
         /// <param name="travelDay">The date of departure.</param>
         /// <param name="travelHour">The hour of the departure. Follows the 24-hour clock. Putting 18 here means the flight leaves at 6PM (18:XX).</param>
         /// <param name="travelMinute">The minute of the departure. Putting 30 here means the flight will leave at XX:30.</param>
         /// <param name="direction">Either <c>Direction.Outgoing</c> or <c>Direction.Incoming</c>. </param>
-        /// <param name="currentAirport">The Airport to which the flight belongs.</param>
+        /// <param name="airport">The Airport to which the flight belongs.</param>
         /// <exception cref="ArgumentException"></exception>
-        public Flight(string flightNumber, Airport destinationAirport, DateTime travelDay, int travelHour, int travelMinute, FlightDirection direction, Airport currentAirport)
+        public Flight(string flightNumber, Airport destination, DateTime travelDay, int travelHour, int travelMinute, FlightDirection direction, Airport airport)
         {
             this.Number = flightNumber;
-            this.DestinationAirport = destinationAirport;
-            this.CurrentAirport = currentAirport;
-        
+            this.DestinationAirport = destination;
+            this.CurrentAirport = airport;
+
 
             if (travelHour > 23 || travelHour < 0)
                 throw new InvalidScheduledTimeException("There are only 24 hours in a day. Expected values are between 0 and 23.");
@@ -365,7 +292,7 @@ namespace AirportSimulation
         }//Slutt konstruktør
 
         /// <summary>
-        /// Creates a more advanced Flight object. Not the same as a <cref="Plane">
+        /// Overload of a flight with additional parameters.
         /// </summary>
         /// <param name="flightNumber">Flight number. Commonly looks like "WN417".</param>
         /// <param name="destination">Name of Airport the flight is going to.</param>
@@ -395,14 +322,11 @@ namespace AirportSimulation
 
         }//Slutt overload konstruktør
 
-        /// <summary>
-        /// Creates an empty Flight object. Not the same as a <cref="Plane">.
-        /// </summary>
         public Flight() { }
 
 
         /// <summary>
-        /// Updates the ElapsedTime variables for each iteration in a TimeSimulation object by continuously updating the elapsed time for each Flight object.
+        /// This method will continously update the elapsed time for each flight object
         /// </summary>
         public void updateElapsedTime(TimeSimulation timeSimulation)
         {
@@ -413,14 +337,15 @@ namespace AirportSimulation
 
 
         /// <summary>
-        /// Keeps track of the chain of events during the simulation. Called every iteration in simulateTime in TimeSimulation. Compares current time, scheduled times and what the flight is supposed to do at certain times.
+        /// This method keeps track of the chain of events during the simulation
         /// </summary>
         public void FlightSim(TimeConfigManager timeConfigManager, Airport airport, TimeSimulation timeSimulation)
         {
             DateTime startSim = timeSimulation.StartDate;
             TimeSpan dayDifference = this.ScheduledDay - startSim;
             int adjustedTravelDay = dayDifference.Days;
-            
+
+
             // ~~~~ Outgoing Flight ~~~~
             if (this.FlightDirection == FlightDirection.Outgoing)
             {
@@ -429,6 +354,8 @@ namespace AirportSimulation
                 (int OutgoingFindGateTimeHours, int OutgoingFindGateTimeMinutes) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourFindGateOutgoing, this.ScheduledMinuteFindGateoutgoing);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == OutgoingFindGateTimeHours && ElapsedMinutes == OutgoingFindGateTimeMinutes)
                 {
+                    if (this.AssignedPlane == null)
+                        this.AssignedPlane = AssignAvailablePlaneToFlight(this.CurrentAirport);
                     Gate availableGate = FindAvailableGate();
 
                     if (this.AssignedGate != null)
@@ -442,7 +369,7 @@ namespace AirportSimulation
                         UpdateOutgoingNewHoursAndMinutesFromSetPoint(1);
                     }
 
-                    
+
                 }
                 (int OutgoingParkAtGateTimeHours, int OutgoingParkAtGateTimeMinutes) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourParkAtGateOutgoing, this.ScheduledMinuteParkAtGateOutgoing);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == OutgoingParkAtGateTimeHours && ElapsedMinutes == OutgoingParkAtGateTimeMinutes)
@@ -472,11 +399,11 @@ namespace AirportSimulation
                     this.AssignedGate.TransferFlightToTaxi(this);
                 }
 
-              
+
                 (int TakeoffTimeHours, int TakeoffTimeMinutes) = ConvertTimeBackwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourTakeoffOutgoing, this.ScheduledMinuteTakeoffOutgoing);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == TakeoffTimeHours && ElapsedMinutes == TakeoffTimeMinutes)
                 {
-                    if(AssignedRunway.FlightOnRunway == this)
+                    if (AssignedRunway.FlightOnRunway == this)
                     {
                         OnFlightTakeoff(this.AssignedPlane, this.AssignedRunway, ElapsedDays, ElapsedMinutes, ElapsedHours);
                         this.AssignedPlane.TakeoffPlane(this);
@@ -513,6 +440,7 @@ namespace AirportSimulation
                 (int newHours2, int newMinutes2) = ConvertTimeForwards(ScheduledHour, ScheduledMinutes, this.ScheduledHourLeaveRunwayIncoming, this.ScheduledMinuteLeaveRunwayIncoming);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours2 && ElapsedMinutes == newMinutes2)
                 {
+
                     IncomingFlightFromRunwayToTaxi();
                 }
 
@@ -521,13 +449,14 @@ namespace AirportSimulation
                     this.ScheduledMinuteParkAtGateIncoming = timeConfigManager.GetTravelTime(this);
                 }
 
-                (int newHours3, int newMinutes3) = ConvertTimeForwards(ScheduledHour+this.ScheduledHourLeaveRunwayIncoming, ScheduledMinutes+this.ScheduledMinuteLeaveRunwayIncoming, this.ScheduledHourParkAtGateIncoming, this.ScheduledMinuteParkAtGateIncoming);
+                (int newHours3, int newMinutes3) = ConvertTimeForwards(ScheduledHour + this.ScheduledHourLeaveRunwayIncoming, ScheduledMinutes + this.ScheduledMinuteLeaveRunwayIncoming, this.ScheduledHourParkAtGateIncoming, this.ScheduledMinuteParkAtGateIncoming);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours3 && ElapsedMinutes == newMinutes3)
                 {
+
                     IncomingFlightFromTaxiToGate();
                 }
 
-                (int newHours4, int newMinutes4) = ConvertTimeForwards(ScheduledHour+this.ScheduledHourLeaveRunwayIncoming+this.ScheduledHourParkAtGateIncoming, ScheduledMinutes+this.ScheduledMinuteLeaveRunwayIncoming+this.ScheduledMinuteParkAtGateIncoming, this.ScheduledHourCompletedDisembarkation, this.ScheduledMinuteCompletedDisembarkation);
+                (int newHours4, int newMinutes4) = ConvertTimeForwards(ScheduledHour + this.ScheduledHourLeaveRunwayIncoming + this.ScheduledHourParkAtGateIncoming, ScheduledMinutes + this.ScheduledMinuteLeaveRunwayIncoming + this.ScheduledMinuteParkAtGateIncoming, this.ScheduledHourCompletedDisembarkation, this.ScheduledMinuteCompletedDisembarkation);
                 if (ElapsedDays == adjustedTravelDay && ElapsedHours == newHours4 && ElapsedMinutes == newMinutes4)
                 {
 
@@ -545,7 +474,7 @@ namespace AirportSimulation
 
                 }
             }
-            if (this.Logging && !(this.HasLogged) && ElapsedDays == (adjustedTravelDay+1) && ElapsedHours == 0 && ElapsedMinutes == 0 && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed))
+            if (this.Logging && !(this.HasLogged) && ElapsedDays == (adjustedTravelDay + 1) && ElapsedHours == 0 && ElapsedMinutes == 0 && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed))
             {
                 Console.WriteLine("\nThis is the eventlog for flight: " + this.Number);
                 foreach (string log in LogHistory)
@@ -559,7 +488,7 @@ namespace AirportSimulation
             if (this.Frequency == FlightFrequency.OneTime && (this.Status == FlightStatus.Arrived || this.Status == FlightStatus.Departed))
             {
                 //Legger inn en Nulled-sjekk her ellers vil den prøve å endre disse propertiene hvert minutt fra flyet er ferdig frem til midnatt
-                
+
                 if (!Nulled)
                 {
                     if (this.FlightDirection == FlightDirection.Outgoing)
@@ -580,21 +509,19 @@ namespace AirportSimulation
                     airport.RemoveCompletedFlightFromAllFlights(this);
                 }
                 //Setter AssignedPlane til null og gjøre planet ledig igjen
-                
-            }
-            
-            if (this.Logging && !(this.HasLogged) && ElapsedDays == adjustedTravelDay + 1 && ElapsedHours == 0 && ElapsedMinutes == 0 && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed))
-            {
-                Console.WriteLine("\nThis is the eventlog for flight: " + this.Number);
-                foreach(string log in LogHistory)
-                {
-                    Console.WriteLine(log);
-                }
-                this.HasLogged = true;
+
             }
 
-            if (this.Frequency == FlightFrequency.Daily && ( this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed ) && ElapsedHours == 1 && ElapsedMinutes == 0)
+
+            if (this.Frequency == FlightFrequency.Daily && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed) && ElapsedHours == 1 && ElapsedMinutes == 0)
             {
+                if (this.FlightDirection == FlightDirection.Outgoing)
+                {
+                    airport.RemovePlaneFromListOfPlanes(this.AssignedPlane);
+                }
+                else
+                    airport.AddPlaneToListOfAvailablePlanes(this.AssignedPlane);
+
                 DateTime newDate = this.ScheduledDay.AddDays(1);
                 this.ScheduledDay = newDate;
                 this.SetFlightStatus(FlightStatus.OnTime);
@@ -606,7 +533,7 @@ namespace AirportSimulation
                 this.AssignedPlane = null;
                 this.HasLogged = false;
                 LogHistory.Clear();
-                
+
             }
 
             if (this.Frequency == FlightFrequency.Weekly && (this.Status == FlightStatus.Departed || this.Status == FlightStatus.Completed) && ElapsedHours == 1 && ElapsedMinutes == 0)
@@ -654,36 +581,22 @@ namespace AirportSimulation
                 gateToPark.CurrentHolder = this;
 
             }
+
+            if (FlightDirection == FlightDirection.Outgoing)
+            {
+                OnOnboardingStart(this.AssignedPlane, this.AssignedGate, ElapsedDays, ElapsedHours, ElapsedMinutes);
+            }
+
             if (Logging && FlightDirection == FlightDirection.Outgoing)
             {
-                if (ElapsedMinutes == 0)
-                {
-                    string newMinutes = "00";
-                    string logMessage2 = $"Flight {Number} parked at Gate: {gate.GateName} at Day: {ElapsedDays}, Time: {ElapsedHours}:{newMinutes}.";
-                    LogHistory.Add(logMessage2);
-                }
-                else
-                {
-                    string logMessage = $"Flight {Number} parked at Gate: {gate.GateName} at Day: {ElapsedDays}, Time: {ElapsedHours}:{ElapsedMinutes}.";
-                    LogHistory.Add(logMessage);
-                }
-                
+                string logMessage = $"Flight {Number} parked at Gate: {gate.GateName} at Day: {ElapsedDays + 1}, Time: {ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}.";
+                LogHistory.Add(logMessage);
             }
-            
 
-            if (ElapsedMinutes == 0)
-            {
-                string elapsedMinutes = "00";
-                Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + elapsedMinutes + " flight " + this.Number + " has parked at at " + AssignedGate.GateName);
-            }
-            else
-            {
-                Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has parked at at " + AssignedGate.GateName);
-            }
         }//Slutt parkGate
 
         /// <summary>
-        /// Handles logging procedures for changes in FlightStatus.
+        /// This method will change the status of the flight. 
         /// </summary>
         public void SetFlightStatus(FlightStatus status)
         {
@@ -696,41 +609,46 @@ namespace AirportSimulation
         }//Slutt changeStatus
 
         /// <summary>
-        /// Iterates through all Terminals in the airport, all gates in each Terminal looking for an available Gate with valid licence. When found, sets that Gate as AssignedGate and returns the Gate object.
+        /// This method will loop through all terminals, then all the gates in that terminal, and find a gate that is available and have the correct licence
         /// </summary>
         public Gate FindAvailableGate()
         {
             FlightType flightType = this.FlightType;
 
             bool foundTerminal = false;
+            //Plan for oppdatering av FindGate
+
+            //Sjekke internationalverdi for flight
+            //Hvis innlands så sjekk alle terminaler, finn en som ikke er strictly international
+            //Velg første gate som er ledig på hvilken som helst terminal
+
+            //Hvis international så sjekk alle terminaler, finn enten en som er strictly inter eller readyForInter
+            //Velg hvilken som helst gate i strictly, eller gå gjennom  alle gates i ready og finn en gate som er ready og available
+
+            //i readyForInter kan det være gates som ikke er ready
+            //I strictly er alle gates ready
+
             foreach (var terminal in CurrentAirport.AllTerminals)
             {
                 if (terminal.ReadyForInternational == this.IsInternational)
                 {
                     foundTerminal = true;
                     bool foundGateLicence = false;
-                    foreach(var gate in terminal.ConnectedGates)
+                    foreach (var gate in terminal.ConnectedGates)
                     {
-                        if (gate.IsAvailable == true && gate.CheckGateLicence(this) == true)
+                        if (gate.IsAvailable && gate.CheckGateLicence(this) && ((this.IsInternational && terminal.ReadyForInternational && !terminal.StrictlyInternational) || (!this.IsInternational && !terminal.StrictlyInternational) || (this.IsInternational && terminal.StrictlyInternational)))
+
                         {
                             this.AssignedGate = gate;
+                            OnGateAssigned(this.AssignedPlane, gate, ElapsedDays, ElapsedHours, ElapsedMinutes);
                             gate.IsAvailable = false;
                             foundGateLicence = true;
                             if (Logging)
                             {
-                                if (ElapsedMinutes == 0)
-                                {
-                                    string newMinutes = "00";
-                                    string logMessage = $"Flight {Number} was assigned {gate.GateName} at Day: {ElapsedDays}, Time: {ElapsedHours}:{newMinutes}.";
-                                    this.LogHistory.Add(logMessage);
-                                }
-                                else
-                                {
-                                    string gateLog = $"Flight {Number} was assigned {gate.GateName} at Day: {ElapsedDays}, Time: {ElapsedHours}:{ElapsedMinutes}.";
-                                    this.LogHistory.Add(gateLog);
-                                }
-                                
+                                string logMessage = $"Flight {Number} was assigned {gate.GateName} at Day: {ElapsedDays + 1}, Time: {ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}.";
+                                this.LogHistory.Add(logMessage);
                             }
+
                             if (this.AssignedGate == null)
                             {
                                 if (this.FlightDirection == FlightDirection.Incoming)
@@ -744,21 +662,22 @@ namespace AirportSimulation
                             }
                             else
                             {
-                                Console.WriteLine("\nDay: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has found an available gate:  " + this.AssignedGate.GateName);
                                 return gate;
                             }
 
                         }
+
                     }
-                    
-                    /* TODO: Remove or put back
                     if (!foundGateLicence)
                     {
-                        throw new Exception($"\n\nException: You tried to simulate time for a flight with the FlightType: {this.FlightType}. There are no gates that have a licence for the assigned FlightType. Try adding more gates and add a licence for that FlightType or edit existing gates with addLicence()\n");
+                        throw new InvalidInfrastructureException($"There are no gates on this airport that can handle plane of {this.AssignedPlane.PlaneSizeClassification} classification");
                     }
-                    */
+
+
+
                 }
-                
+                return null;
+
             }
             if (!foundTerminal)
             {
@@ -778,7 +697,7 @@ namespace AirportSimulation
         }//Slutt findAvailableGate
 
         /// <summary>
-        /// Iterates through all Taxis in the airport looking for an available Taxi that is connected to its AssignedGate. When found, sets the Taxi as AssignedTaxi and returns the Taxi object.
+        /// This method will find an available taxiway depending on your gate and runway. This will return a taxi object
         /// </summary>
         public Taxi FindTaxi()
         {
@@ -801,26 +720,17 @@ namespace AirportSimulation
                             selectedTaxi = taxi;
                             minQueueLength = taxi.TaxiQueue.Count;
                         }
-                        Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has been assigned " + selectedTaxi.TaxiName);
                         this.AssignedTaxi = selectedTaxi;
+                        OnTaxiAssigned(this.AssignedPlane, selectedTaxi, ElapsedDays, ElapsedHours, ElapsedMinutes);
+
                         if (Logging && FlightDirection == FlightDirection.Outgoing)
                         {
-                            if (ElapsedMinutes == 0)
-                            {
-                                string newMinutes = "00";
-                                string logMessage = $"Flight {Number} was assigned {selectedTaxi.TaxiName} at Day: {ElapsedDays}, Time: {ElapsedHours}:{newMinutes}.";
-                                this.LogHistory.Add(logMessage);
-                            }
-                            else
-                            {
-                                string taxiLog = $"Flight {Number} was assigned {selectedTaxi.TaxiName} at Day: {ElapsedDays}, Time: {ElapsedHours}:{ElapsedMinutes}.";
-                                this.LogHistory.Add(taxiLog);
-                            }
-                            
+                            string logMessage = $"Flight {Number} was assigned {selectedTaxi.TaxiName} at Day: {ElapsedDays + 1}, Time: {ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}.";
+                            this.LogHistory.Add(logMessage);
                         }
                         return selectedTaxi;
                     }
-                    
+
                 }
             }
 
@@ -840,17 +750,17 @@ namespace AirportSimulation
                         selectedTaxi = taxi;
                         minQueueLength = taxi.TaxiQueue.Count;
                     }
-                    Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has been assigned " + selectedTaxi.TaxiName);
                     this.AssignedTaxi = selectedTaxi;
+                    OnTaxiAssigned(this.AssignedPlane, selectedTaxi, ElapsedDays, ElapsedHours, ElapsedMinutes);
                     return selectedTaxi;
                 }
-                
+
             }
             return null;
         }//Slutt findTaxi
 
         /// <summary>
-        /// Iterates through all Runways connected to the Flight’s AssignedTaxi. When found, sets the Runway as AssignedRunway and returns the Runway object.
+        /// This method will find a runway based on your taxi. This will return a runway object
         /// </summary>
         public Runway FindRunway()
         {
@@ -868,25 +778,16 @@ namespace AirportSimulation
                         minQueueLength = runway.RunwayQueue.Count;
                     }
                 }
-                Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has been assigned " + selectedRunway.RunwayName);
                 AssignedRunway = selectedRunway;
+                OnRunwayAssigned(this.AssignedPlane, selectedRunway, ElapsedDays, ElapsedHours, ElapsedMinutes);
                 if (Logging)
                 {
-                    if (ElapsedMinutes == 0)
-                    {
-                        string newMinutes = "00";
-                        string logMessage = $"Flight {Number} was assigned {selectedRunway.RunwayName} at Day: {ElapsedDays}, Time: {ElapsedHours}:{newMinutes}.";
-                        this.LogHistory.Add(logMessage);
-                    }
-                    else
-                    {
-                        string runwayLog = $"Flight {Number} was assigned {selectedRunway.RunwayName} at Day: {ElapsedDays}, Time: {ElapsedHours}:{ElapsedMinutes}.";
-                        this.LogHistory.Add(runwayLog);
-                    }
-                    
+                    string logMessage = $"Flight {Number} was assigned {selectedRunway.RunwayName} at Day: {ElapsedDays + 1}, Time: {ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}.";
+                    this.LogHistory.Add(logMessage);
                 }
                 return selectedRunway;
             }
+
             else if (this.FlightDirection == FlightDirection.Incoming)
             {
                 foreach (Runway runway in AssignedTaxi.ConnectedRunways)
@@ -894,19 +795,24 @@ namespace AirportSimulation
                     if (runway.RunwayQueue.Count < minQueueLength)
                     {
                         selectedRunway = runway;
+                        OnRunwayAssigned(this.AssignedPlane, selectedRunway, ElapsedDays, ElapsedHours, ElapsedMinutes);
                         minQueueLength = runway.RunwayQueue.Count;
                     }
                 }
-                Console.WriteLine("Day: " + ElapsedDays + " - at: " + ElapsedHours + ":" + ElapsedMinutes + " flight " + this.Number + " has been assigned " + selectedRunway.RunwayName);
                 AssignedRunway = selectedRunway;
+                if (Logging)
+                {
+                    string logMessage = $"Flight {Number} was assigned {selectedRunway.RunwayName} at Day: {ElapsedDays + 1}, Time: {ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}.";
+                    this.LogHistory.Add(logMessage);
+                }
                 return selectedRunway;
             }
             return null;
-            
+
         }//Slutt findRunway
 
         /// <summary>
-        /// Takes a scheduled time and correctly turn back the given subtracted time.
+        /// This method will take a scheduled time and correctly turn back the given subtracted time
         /// </summary>
         /// <param name="hour"></param>
         /// <param name="minutes"></param>
@@ -932,16 +838,14 @@ namespace AirportSimulation
             return (newHours, newMinutes);
 
         }
-        /// <summary>
-        /// Takes a scheduled time and correctly turn forward the given subtracted time.
-        /// </summary>
-        public (int, int) ConvertTimeForwards(int hour, int minutes, int subtractedHours, int subtractedMinutes)
+
+        public (int, int) ConvertTimeForwards(int hour, int minutes, int addedHours, int addedMinutes)
         {
             // TODO: Fiks hva som skjer om det går en dag fremover
-            int newHours = hour + subtractedHours;
-            int newMinutes = minutes + subtractedMinutes;
+            int newHours = hour + addedHours;
+            int newMinutes = minutes + addedMinutes;
 
-            while (newMinutes > 60)
+            if (newMinutes >= 60)
             {
                 newHours += 1;
                 newMinutes -= 60;
@@ -957,29 +861,20 @@ namespace AirportSimulation
         /// <returns>AssignedGate</returns>
         public void StartDeparturePrep()
         {
-            this.SetFlightStatus(FlightStatus.Boarding);
             if (Logging)
             {
-                if (ElapsedMinutes == 0)
-                {
-                    string newMinutes = "00";
-                    string logMessage2 = $"Flight {Number} started preparing for departure at day: {ElapsedDays}, time: {ElapsedHours}:{newMinutes}";
-                    LogHistory.Add(logMessage2);
-                }
-                else
-                {
-                    string logMessage = $"Flight {Number} started preparing for departure at day: {ElapsedDays}, time: {ElapsedHours}:{ElapsedMinutes}";
-                    LogHistory.Add(logMessage);
-                }
-                
+                string logMessage2 = $"Flight {Number} started preparing for departure at Day: {ElapsedDays + 1}, Time: {ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}";
+                LogHistory.Add(logMessage2);
             }
-        }   
+
+            this.SetFlightStatus(FlightStatus.Boarding);
+            OnOnboardingEnd(this.AssignedPlane, this.AssignedGate, ElapsedDays, ElapsedHours, ElapsedMinutes);
+        }
         /// <summary>
-        /// Changes the FlighStatus and marks the Gate it was parked at as available.
+        /// Starts flight departure and logs if enabled.
         /// </summary>
         public void StartDeparture()
         {
-            this.SetFlightStatus(FlightStatus.Departing);
             this.AssignedGate.CurrentHolder = null;
             this.AssignedGate.IsAvailable = true;
             this.IsParked = false;
@@ -987,175 +882,80 @@ namespace AirportSimulation
 
             if (Logging)
             {
-                if (ElapsedMinutes == 0)
-                {
-                    string newMinutes = "00";
-                    string logMessage2 = $"Flight {Number} left the gate and started towards its runway at day: {ElapsedDays}, time: {ElapsedHours}:{newMinutes}";
-                    LogHistory.Add(logMessage2);
-                }
-                else
-                {
-                    string logMessage2 = $"Flight {Number} left the gate and started towards its runway at day: {ElapsedDays}, time: {ElapsedHours}:{ElapsedMinutes}";
-                    LogHistory.Add(logMessage2);
-                }
+                string logMessage = $"Flight {Number} left the gate and started towards its runway at Day: {ElapsedDays + 1}, Time: {ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}";
+                LogHistory.Add(logMessage);
             }
+
+            this.SetFlightStatus(FlightStatus.Departing);
         }
+
         /// <summary>
-        /// Resets all instance variables so that they are not occupied, and changes FlightStatus to Complete.
+        /// Methods that handles completing an incoming flight 
         /// </summary>
         public void IncomingFlightFromGateToComplete()
         {
+            OnOffloadingEnd(this.AssignedPlane, this.AssignedGate, ElapsedDays, ElapsedHours, ElapsedMinutes);
+
             this.AssignedGate.IsAvailable = true;
             this.AssignedGate.CurrentHolder = null;
-            this.SetFlightStatus(FlightStatus.Completed);
             this.AssignedRunway = null;
             this.AssignedTaxi = null;
             this.AssignedGate = null;
+
             if (Logging)
             {
-                if (ElapsedMinutes == 0)
-                {
-                    string newMinutes = "00";
-                    string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:00 Flight {Number} has offloaded all passengers and is complete.";
-                    LogHistory.Add(logMessage2);
-                }
-                else
-                {
-                    string newElapsedMinutes = "";
-                    if (ElapsedMinutes < 10)
-                    {
-                        newElapsedMinutes = $"0{ElapsedMinutes}";
-                    }
-                    else
-                    {
-                        newElapsedMinutes = $"{ElapsedMinutes}";
-                    }
-                    string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:{newElapsedMinutes} Flight {Number} has offloaded all passengers and has completed.";
-                    LogHistory.Add(logMessage2);
-                }
+                string logMessage = $"Flight {Number} has offloaded all its passangers and cargo and has completed its journey at Day: {ElapsedDays + 1}, Time: {ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}";
+                LogHistory.Add(logMessage);
             }
+
+            this.SetFlightStatus(FlightStatus.Completed);
         }
         /// <summary>
-        /// Finds available infrastructure and assigns this to the flight, before changing FlighStatus to Landed.
+        /// Method to find taxi for an incoming flight, and set flight status to: Landed.
         /// </summary>
         public void IncomingFlightPreperation()
         {
-            // Dette finner Gate og setter this.AssignedGate = gate
-            // Dette finner Taxi og setter this.DesiredTaxi = selectedTaxi;
             this.FindTaxi();
-            // Dette finner Runway og setter this.DesiredRunway = desiredRunway
             this.AssignedRunway = FindRunway();
-            this.SetFlightStatus(FlightStatus.Landed);
-
-            // Logging
-            if (Logging)
-            {
-                if (ElapsedMinutes == 0)
-                {
-                    string newMinutes = "00";
-                    string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:00 flight {Number} landed on runway {this.AssignedRunway.RunwayName}";
-                    LogHistory.Add(logMessage2);
-                }
-                else
-                {
-                    string newElapsedMinutes = "";
-                    if (ElapsedMinutes < 10)
-                    {
-                        newElapsedMinutes = $"0{ElapsedMinutes}";
-                    }
-                    else
-                    {
-                        newElapsedMinutes = $"{ElapsedMinutes}";
-                    }
-                    string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:{newElapsedMinutes} flight {Number} landed on runway {this.AssignedRunway.RunwayName}";
-                    LogHistory.Add(logMessage2);
-                }
-            }
         }
 
         /// <summary>
-        /// Changes the FlightStatus to OnWayToGate.
+        /// Method to add a flight to desired taxi queue and set flight status: OnWayToGate.
         /// </summary>
         public void IncomingFlightFromRunwayToTaxi()
         {
-            // Todo: Finne ut hva denne gjorde (skulle gjort) og re-implementer
-            // this.DesiredTaxi.AddToTaxiQueue(this);
-            
-            this.SetFlightStatus(FlightStatus.OnWayToGate);
-
-            // Logging
             if (Logging)
             {
-                if (ElapsedMinutes == 0)
-                {
-                    string newMinutes = "00";
-                    string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:00 flight {Number} exited the runway and is entering the taxiway {this.AssignedTaxi.TaxiName}";
-                    LogHistory.Add(logMessage2);
-                }
-                else
-                {
-                    string newElapsedMinutes = "";
-                    if (ElapsedMinutes < 10)
-                    {
-                        newElapsedMinutes = $"0{ElapsedMinutes}";
-                    }
-                    else
-                    {
-                        newElapsedMinutes = $"{ElapsedMinutes}";
-                    }
-                    string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:{newElapsedMinutes} flight {Number} exited the runway and is entering the taxiway {this.AssignedTaxi.TaxiName}";
-                    LogHistory.Add(logMessage2);
-                }
+                string logMessage = $"Flight {Number} exited the runway {this.AssignedRunway.RunwayName} and is entering the taxiway {this.AssignedTaxi.TaxiName} at Day:{ElapsedDays + 1}, Time:{ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}";
+                LogHistory.Add(logMessage);
             }
-        }
 
+            this.SetFlightStatus(FlightStatus.OnWayToGate);
+        }
         /// < summary>
-        /// Changes the FlightStatus to Offloading.
+        /// Method for a flight that has arrived at gate.
         /// </summary>
         public void IncomingFlightFromTaxiToGate()
         {
-            this.SetFlightStatus(FlightStatus.Offloading);
+            OnOffloadingStart(this.AssignedPlane, this.AssignedGate, ElapsedDays, ElapsedHours, ElapsedMinutes);
 
-            // Logging
             if (Logging)
             {
-                if (ElapsedMinutes == 0)
-                {
-                    string newMinutes = "00";
-                    string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:00 flight {Number} exited the taxiway and is offloading passangers at {this.AssignedGate.GateName}";
-                    LogHistory.Add(logMessage2);
-                }
-                else
-                {
-                    string newElapsedMinutes = "";
-                    if (ElapsedMinutes < 10)
-                    {
-                        newElapsedMinutes = $"0{ElapsedMinutes}";
-                    }
-                    else
-                    {
-                        newElapsedMinutes = $"{ElapsedMinutes}";
-                    }
-
-                    if (this.AssignedGate != null)
-                    {
-                        string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:{newElapsedMinutes} flight {Number} exited the taxiway and is offloading passangers at {this.AssignedGate.GateName}";
-                        LogHistory.Add(logMessage2);
-                    }
-                    else
-                    {
-                        string logMessage2 = $"Day {ElapsedDays} - at {ElapsedHours}:{newElapsedMinutes} flight {Number} exited the taxiway and is offloading passangers at Gate X";
-                        LogHistory.Add(logMessage2);
-                    }
-
-                }
+                string logMessage = $"Flight {Number} exited the taxiway {this.AssignedTaxi.TaxiName} and parked at gate {this.AssignedGate.GateName} at Day: {ElapsedDays + 1}, Time:{ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}";
+                LogHistory.Add(logMessage);
             }
+
+            this.SetFlightStatus(FlightStatus.Offloading);
         }
 
         // Methods to change time spent on Gate, Taxi, Runway etc.
         // Outgoing
         /// <summary>
-        /// Sets the time to begin pre-flight processes for an outgoing flight - i.e. finding an available Gate.
+        /// Hours & Minutes before takeoff to begin pre-boarding procedures.
+        /// This includes finding available gate, finding correct taxiway, 
+        /// and setting IsTraveling to true.
+        /// Hour = 1 Minutes = 20 means this procedure begins 1 hour and 20 minutes
+        /// before scheduled takeoff.
         /// </summary>
         /// <param name="hour">Hour(s) before takeoff to begin</param>
         /// <param name="minute">Minute(s) before takeoff to begin</param>
@@ -1166,7 +966,11 @@ namespace AirportSimulation
         }
 
         /// <summary>
-        /// Sets the time to begin boarding process for an outgoing passenger flight - i.e. parking at the assigned gate.
+        /// Hours & Minutes before takeoff to begin onboarding procedures.
+        /// This includes parking at gate and beginning onboarding.
+        /// and setting IsTraveling to false.
+        /// Hour = 1 Minutes = 20 means this procedure begins 1 hour and 20 minutes
+        /// before scheduled takeoff.
         /// </summary>
         /// <param name="hour">Hour(s) before takeoff to begin</param>
         /// <param name="minute">Minute(s) before takeoff to begin</param>
@@ -1177,7 +981,10 @@ namespace AirportSimulation
         }
 
         /// <summary>
-        /// Sets the time to begin departure preparations for an outgoing Flight.
+        /// Hours & Minutes before takeoff to begin Departure Preperation procedures.
+        /// This means setting Status to "Boarding"
+        /// Hour = 1 Minutes = 20 means this procedure begins 1 hour and 20 minutes
+        /// before scheduled takeoff.
         /// </summary>
         /// <param name="hour">Hour(s) before takeoff to begin</param>
         /// <param name="minute">Minute(s) before takeoff to begin</param>
@@ -1188,7 +995,12 @@ namespace AirportSimulation
         }
 
         /// <summary>
-        /// Sets the departure time, utilizing standard values for preparations if not set through other methods.
+        /// Hours & Minutes before takeoff to begin Departure procedures.
+        /// This includes:
+        /// - finding a runway and taxi
+        /// - Transferring flight from gate to taxiway
+        /// Hour = 1 Minutes = 20 means this procedure begins 1 hour and 20 minutes
+        /// before scheduled takeoff.
         /// </summary>
         /// <param name="hour">Hour(s) before takeoff to begin</param>
         /// <param name="minute">Minute(s) before takeoff to begin</param>
@@ -1199,7 +1011,10 @@ namespace AirportSimulation
         }
 
         /// <summary>
-        /// Sets the scheduled time for take-off.
+        /// Hours & Minutes before scheduled takeoff to begin takeoff.
+        /// By default this value is set to 0 Hours 0 Minutes.
+        /// This includes:
+        /// - Taking off from Runway
         /// </summary>
         /// <param name="hour">Hour(s) before takeoff to begin</param>
         /// <param name="minute">Minute(s) before takeoff to begin</param>
@@ -1246,7 +1061,7 @@ namespace AirportSimulation
         public void SetIncomingFinishedTaxiTime(int hour, int minute)
         {
             this.ScheduledHourParkAtGateIncoming = hour;
-            this.ScheduledMinuteParkAtGateInocming = minute;
+            this.ScheduledMinuteParkAtGateIncoming = minute;
         }
         /// <summary>
         /// Hours & Minutes after scheduled landing for the aircraft to
@@ -1483,14 +1298,14 @@ namespace AirportSimulation
                         this.ScheduledMinuteLeaveRunwayIncoming += 1;
                     }
 
-                    if (this.ScheduledMinuteParkAtGateInocming == 59)
+                    if (this.ScheduledMinuteParkAtGateIncoming == 59)
                     {
                         this.ScheduledHourParkAtGateIncoming += 1;
-                        this.ScheduledMinuteParkAtGateInocming = 0;
+                        this.ScheduledMinuteParkAtGateIncoming = 0;
                     }
                     else
                     {
-                        this.ScheduledMinuteParkAtGateInocming += 1;
+                        this.ScheduledMinuteParkAtGateIncoming += 1;
                     }
 
                     if (this.ScheduledMinuteCompletedDisembarkation == 59)
@@ -1515,14 +1330,14 @@ namespace AirportSimulation
                         this.ScheduledMinuteLeaveRunwayIncoming += 1;
                     }
 
-                    if (this.ScheduledMinuteParkAtGateInocming == 59)
+                    if (this.ScheduledMinuteParkAtGateIncoming == 59)
                     {
                         this.ScheduledHourParkAtGateIncoming += 1;
-                        this.ScheduledMinuteParkAtGateInocming = 0;
+                        this.ScheduledMinuteParkAtGateIncoming = 0;
                     }
                     else
                     {
-                        this.ScheduledMinuteParkAtGateInocming += 1;
+                        this.ScheduledMinuteParkAtGateIncoming += 1;
                     }
 
                     if (this.ScheduledMinuteCompletedDisembarkation == 59)
@@ -1537,14 +1352,14 @@ namespace AirportSimulation
                 }
                 else if (fromWhichHourAndMinute == 8)
                 {
-                    if (this.ScheduledMinuteParkAtGateInocming == 59)
+                    if (this.ScheduledMinuteParkAtGateIncoming == 59)
                     {
                         this.ScheduledHourParkAtGateIncoming += 1;
-                        this.ScheduledMinuteParkAtGateInocming = 0;
+                        this.ScheduledMinuteParkAtGateIncoming = 0;
                     }
                     else
                     {
-                        this.ScheduledMinuteParkAtGateInocming += 1;
+                        this.ScheduledMinuteParkAtGateIncoming += 1;
                     }
 
                     if (this.ScheduledMinuteCompletedDisembarkation == 59)
@@ -1571,12 +1386,12 @@ namespace AirportSimulation
                 }
                 else
                 {
-                    throw new Exception($"\n\nException: You did not provide a valid number for UpdateIncomingNewHoursAndMinutesFromSetPoint(). Please set fromWhichHourAndMinute to be a number from 6 to 9.\n");
+                    throw new InvalidScheduledTimeException($"\n\nException: You did not provide a valid number for UpdateIncomingNewHoursAndMinutesFromSetPoint(). Please set fromWhichHourAndMinute to be a number from 6 to 9.\n");
                 }
             }
             else
             {
-                throw new Exception($"\n\nException: Error setting time forwards. Flight is not set as Incoming. This method is meant to only be used on Incoming flights. Please set flight.FlightDirection as Incoming and try again.\n");
+                throw new InvalidScheduledTimeException($"\n\nException: Error setting time forwards. Flight is not set as Incoming. This method is meant to only be used on Incoming flights. Please set flight.FlightDirection as Incoming and try again.\n");
             }
         }
 
@@ -1597,6 +1412,7 @@ namespace AirportSimulation
                     foreach (var gate in terminal.ConnectedGates)
                     {
                         this.AssignedGate = gate;
+                        OnGateAssigned(this.AssignedPlane, this.AssignedGate, ElapsedDays, ElapsedHours, ElapsedMinutes);
                         return gate;
                     }
                 }
@@ -1605,6 +1421,7 @@ namespace AirportSimulation
                     return null;
                 }
             }
+
 
             if (this.AssignedGate == null)
             {
@@ -1617,9 +1434,12 @@ namespace AirportSimulation
             }
         }
 
-        //Metode for å assigne et plane til flighten
-        //Loope gjennom listen med available planes og finne et plane med riktig lisens?
-        //og assigne det objektet til variablen AssignedPlane
+        /// <summary>
+        /// Method to assign an available plane at the given airport to this flight.
+        /// </summary>
+        /// <param name="airport"></param>
+        /// <returns></returns>
+        /// <exception cref="InsufficientResourceException"></exception>
         public Plane AssignAvailablePlaneToFlight(Airport airport)
         {
 
@@ -1725,7 +1545,9 @@ namespace AirportSimulation
             FlightHasFinishedOffloading?.Invoke(this, args);
         }
 
-    }//Slutt Flight klassen
-}//Slutt namespace
+
+
+    }
+}
 
 
