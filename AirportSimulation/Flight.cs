@@ -1620,25 +1620,21 @@ namespace AirportSimulation
         //Metode for å assigne et plane til flighten
         //Loope gjennom listen med available planes og finne et plane med riktig lisens?
         //og assigne det objektet til variablen AssignedPlane
-        public Plane AssignAvailablePlaneToFlight()
+        public Plane AssignAvailablePlaneToFlight(Airport airport)
         {
 
-            if (this.CurrentAirport.ListOfPlanes.Count == 0)
+            if (airport.ListOfPlanes.Count == 0)
             {
-                throw new InvalidInfrastructureException("There are no planes in this airport.");
+                throw new InsufficientResourceException("There are no planes in this airport.");
             }
-            //Går gjennom alle flyene som er laget
-            
+
             else
             {
                 bool foundPlane = false;
-                foreach (var plane in this.CurrentAirport.ListOfPlanes)
+                foreach (var plane in airport.ListOfPlanes)
                 {
-                    //Sjekker at flyet er riktig type, at det er ledig, og at det er på flyplassen
-                    if ((plane.FlightType & this.FlightType) == this.FlightType && plane.PlaneIsAvailable == true && plane.CurrentAirport == this.CurrentAirport)
+                    if ((plane.FlightType == this.FlightType) && (plane.PlaneIsAvailable == true) && (plane.CurrentAirport == this.CurrentAirport))
                     {
-                        //Setter flyet til instansvariabel og gjør det utilgjengelig
-                        //Dvs at vi må endre på metoden som vi kaller helt til slutt når et fly har landet for å kunne gjøre det tilgjegenlig igjen
                         plane.PlaneIsAvailable = false;
                         plane.CurrentFlight = this;
                         OnPlaneAssigned(plane, ElapsedDays, ElapsedHours, ElapsedMinutes);
@@ -1646,7 +1642,7 @@ namespace AirportSimulation
                         if (Logging)
                         {
                             string logMessage = $"Flight {Number} got assigned the plane: {plane.TailNumber}:{plane.PlaneName}:{plane.PlaneModel} at Day: {ElapsedDays + 1}, Time: {ElapsedHours.ToString("D2")}: {ElapsedMinutes.ToString("D2")}";
-                            if(!LogHistory.Contains(logMessage))
+                            if (!LogHistory.Contains(logMessage))
                                 LogHistory.Add(logMessage);
                         }
                     }
