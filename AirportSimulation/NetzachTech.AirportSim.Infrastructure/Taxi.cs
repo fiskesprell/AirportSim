@@ -2,6 +2,7 @@
 using NetzachTech.AirportSim.FlightOperations;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,15 +31,15 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// List of gates connected to this taxiway.
         /// </summary>
-        private List<Gate> _connectedGates = new List<Gate>();
-        public List<Gate> ConnectedGates
+        private ObservableCollection<Gate> _connectedGates = new ObservableCollection<Gate>();
+        public ObservableCollection<Gate> ConnectedGates
         { get => _connectedGates; }
 
         /// <summary>
         /// List of runways connected to this taxiway.
         /// </summary>
-        private List<Runway> _connectedRunways = new List<Runway>();
-        public List<Runway> ConnectedRunways
+        private ObservableCollection<Runway> _connectedRunways = new ObservableCollection<Runway>();
+        public ObservableCollection<Runway> ConnectedRunways
         { get => _connectedRunways; }
 
         /// <summary>

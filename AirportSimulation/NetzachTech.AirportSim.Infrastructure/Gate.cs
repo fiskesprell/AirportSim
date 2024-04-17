@@ -1,5 +1,6 @@
 ﻿using AirportSimulation;
 using NetzachTech.AirportSim.FlightOperations;
+using System.Collections.ObjectModel;
 
 namespace NetzachTech.AirportSim.Infrastructure
 {
@@ -33,11 +34,11 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// Manages a list of taxiways connected to the gate.
         /// </summary>
-        private List<Taxi> _connectedTaxis = new List<Taxi>();
+        private ObservableCollection<Taxi> _connectedTaxis = new ObservableCollection<Taxi>();
         /// <summary>
         /// Gets or sets the taxiways connected to the gate.
         /// </summary>
-        public List<Taxi> ConnectedTaxis
+        public ObservableCollection<Taxi> ConnectedTaxis
         { get => _connectedTaxis; }
 
         /// <summary>

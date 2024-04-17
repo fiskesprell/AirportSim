@@ -41,6 +41,13 @@ namespace NetzachTech.AirportSim.Infrastructure
         { get => _allTaxis; }
 
         /// <summary>
+        /// List contaning all gates in this airport
+        /// </summary>
+        private ObservableCollection<Gate> _allGates = new ObservableCollection<Gate>();
+        public ObservableCollection<Gate> AllGates
+        { get => _allGates; }
+
+        /// <summary>
         /// List containing all flights in this airport
         /// </summary>
         private ObservableCollection<Flight> _allFlights = new ObservableCollection<Flight>();
@@ -368,6 +375,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         public void AddNewGate(string gateName, Terminal terminal)
         {
             terminal.AddNewGate(gateName);
+
         }
     }
 }

@@ -72,6 +72,7 @@ namespace NetzachTech.AirportSim.Infrastructure
             Gate newGate = new Gate(name);
             ConnectedGates.Add(newGate);
             newGate.Terminal = this;
+            Airport.AllGates.Add(newGate);
             return newGate;
         }
 
@@ -82,6 +83,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         public void AddExistingGate(Gate gate)
         {
             ConnectedGates.Add(gate);
+            Airport.AllGates.Add(gate);
             gate.Terminal = this;
         }
 
@@ -118,6 +120,7 @@ namespace NetzachTech.AirportSim.Infrastructure
             Gate newGate = new Gate(gateName);
             newTaxi.AddConnectedGate(newGate);
             this.Airport.AllTaxis.Add(newTaxi);
+            Airport.AllGates.Add(newGate);
         }
     }
 }
