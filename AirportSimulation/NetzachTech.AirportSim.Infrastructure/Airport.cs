@@ -266,6 +266,13 @@ namespace NetzachTech.AirportSim.Infrastructure
             return null;
         }
 
+        /// <summary>
+        /// Loops through all the gates at this airport and finds one with a matching name to the name given as argument.
+        /// Loops through all the taxis in this airport and finds one with a matching name to the name given as argument.
+        /// If both are found, adds a to-way connection between the two.
+        /// </summary>
+        /// <param name="gateName"></param>
+        /// <param name="taxiName"></param>
         public void ConnectGateAndTaxi(string gateName, string taxiName)
         {
             Gate selectedGate = null;
@@ -292,12 +299,23 @@ namespace NetzachTech.AirportSim.Infrastructure
 
         }
 
+        /// <summary>
+        /// Adds a two-way connection beteen the given gate and taxi.
+        /// </summary>
+        /// <param name="gate"></param>
+        /// <param name="taxi"></param>
         public void ConnectGateAndTaxi(Gate gate, Taxi taxi) 
         {
             gate.AddTaxi(taxi);
             taxi.AddConnectedGate(gate);
         }
 
+        /// <summary>
+        /// Loops through all the taxis in the airport and finds one that matches the given name. Loops though all the runways 
+        /// and finds one that matches the given name. If both a taxi and a runway is found, it will add a two-way connection between those two.
+        /// </summary>
+        /// <param name="taxiName"></param>
+        /// <param name="runwayName"></param>
         public void ConnectTaxiAndRunway(string taxiName, string runwayName)
         {
             Taxi selectedTaxi = null;
@@ -318,12 +336,22 @@ namespace NetzachTech.AirportSim.Infrastructure
             }
         }
 
+        /// <summary>
+        /// Adds a two-way connection beteen the given taxi and runway.
+        /// </summary>
+        /// <param name="taxi"></param>
+        /// <param name="runway"></param>
         public void ConnectTaxiAndRunway(Taxi taxi, Runway runway)
         {
             taxi.AddConnectedRunway(runway);
             runway.AddConnectedTaxi(taxi);
         }
 
+        /// <summary>
+        /// Loops through all the temrinals in the airport and finds a terminal that matches the name given as argument, and adds a new gate to that temrinal.
+        /// </summary>
+        /// <param name="gateName"></param>
+        /// <param name="terminalName"></param>
         public void AddNewGate(string gateName, string terminalName)
         {
             foreach (var terminal in AllTerminals)
@@ -332,6 +360,11 @@ namespace NetzachTech.AirportSim.Infrastructure
 
         }
 
+        /// <summary>
+        /// Adds a new gate to the terminal gives as argument.
+        /// </summary>
+        /// <param name="gateName"></param>
+        /// <param name="terminal"></param>
         public void AddNewGate(string gateName, Terminal terminal)
         {
             terminal.AddNewGate(gateName);
