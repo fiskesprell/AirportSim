@@ -160,7 +160,7 @@ namespace AirportSimulation
         public bool Nulled
         { get => _nulled; set => _nulled = value;}
 
-
+        //dfoughebrgnkd
         // Outgoing
         //ScheduledXFindGateOutgoing
         private int ScheduledHourFindGateOutgoing = 1;
