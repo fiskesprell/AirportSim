@@ -149,6 +149,22 @@ namespace NetzachTech.AirportSim.Infrastructure
 
         public Plane() { }
 
+
+        public Plane(string planeName, string planeModel, string tailNumber)
+        {
+            _planeName = planeName;
+            _planeModel = planeModel;
+            _tailNumber = tailNumber;
+        } 
+
+        public Plane(string planeName, string planeModel, string tailNumber, PlaneSizeClassification planeSize, Airport currentAirport)
+        {
+            _planeName = planeName;
+            _planeModel = planeModel;
+            _tailNumber = tailNumber;
+            _planeSizeClassification = planeSize;
+        }
+
         /// <summary>
         /// Lands the plane at the airport.
         /// </summary>

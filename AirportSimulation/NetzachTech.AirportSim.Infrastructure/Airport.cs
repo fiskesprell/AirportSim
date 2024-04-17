@@ -128,6 +128,7 @@ namespace AirportSimulation
         {
             Terminal newTerminal = new Terminal(terminalName);
             AllTerminals.Add(newTerminal);
+            newTerminal.Airport = this;
             return newTerminal;
         }
 
@@ -138,6 +139,7 @@ namespace AirportSimulation
         public void AddExistingTerminal(Terminal terminal)
         {
             AllTerminals.Add(terminal);
+            terminal.Airport = this;
         }
 
         /// <summary>
@@ -390,6 +392,13 @@ namespace AirportSimulation
         {
             terminal.AddNewGate(gateName);
 
+        }
+
+        public void AddExistingGateToTerminal(Gate gate, string terminalName)
+        {
+            foreach(var terminal in AllTerminals)
+                if (terminal.TerminalName.Equals(terminalName))
+                    terminal.AddExistingGate(gate);
         }
     }
 }
