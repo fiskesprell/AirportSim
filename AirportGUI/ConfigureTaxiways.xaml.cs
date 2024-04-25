@@ -72,5 +72,39 @@ namespace AirportGUI
 
             DataContext = myDataContext;
         }
+
+        private void ConnectionRunwayButton_Click(object sender, RoutedEventArgs e)
+        {
+            string runwayName = RunwayNameTextBox.Text;
+            Runway selectedRunway = _airport.FindRunway(runwayName);
+
+            if (selectedRunway != null)
+            {
+                _airport.ConnectTaxiAndRunway(_taxi, selectedRunway);
+            }
+            else
+            {
+                MessageBox.Show("There are no runways with that name in this airport");
+            }
+
+            RunwayNameTextBox.Text = "";
+        }
+
+        private void ConnectionGateButton_Click(object sender, RoutedEventArgs e)
+        {
+            string gateName = GateNameTextBox.Text;
+            Gate selectedGate = _airport.FindGate(gateName);
+
+            if (selectedGate != null)
+            {
+                _airport.ConnectGateAndTaxi(selectedGate, _taxi);
+            }
+            else
+            {
+                MessageBox.Show("There are no gates with that name in this airport");
+            }
+
+            GateNameTextBox.Text = "";
+        }
     }
 }

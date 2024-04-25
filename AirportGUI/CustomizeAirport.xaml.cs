@@ -44,6 +44,12 @@ namespace AirportGUI
 
         public void CreateTerminalButton_Click(object sender, RoutedEventArgs e)
         {
+            if (TerminalNameTextBox.Text.Length < 2)
+            {
+                MessageBox.Show("Terminalnames must be at least 2 characters long");
+                return;
+            }
+
             string terminalName = TerminalNameTextBox.Text;
             var viewModel = DataContext as CustomizeAirportViewModel;
             if (viewModel == null)
@@ -52,10 +58,21 @@ namespace AirportGUI
             if(viewModel.CreateTerminalCommand.CanExecute(terminalName))
                 viewModel.CreateTerminalCommand.Execute(terminalName);
 
+            else
+            {
+                MessageBox.Show("Cannot create the terminal at this time");
+            }
+
+            TerminalNameTextBox.Text = "";
+
         }
 
         public void CreateTaxiButton_Click(object sender, RoutedEventArgs e)
         {
+            if (TerminalNameTextBox.Text.Length < 2)
+            {
+                MessageBox.Show("Taxinames must be at least 2 characters long");
+            }
             string taxiName = TaxiNameTextBox.Text;
             var viewModel = DataContext as CustomizeAirportViewModel;
             if (viewModel == null)
@@ -64,11 +81,22 @@ namespace AirportGUI
             if (viewModel.CreateTaxiwayCommand.CanExecute(taxiName))
                 viewModel.CreateTaxiwayCommand.Execute(taxiName);
 
+            else
+            {
+                MessageBox.Show("Cannot create the gate at this time");
+            }
+
+            TaxiNameTextBox.Text = "";
+
 
         }
 
         public void CreateRunwayButton_Click(object sender, RoutedEventArgs e)
         {
+            if (RunwayNameTextBox.Text.Length < 2)
+            {
+                MessageBox.Show("Runwaynames must be at least 2 characters long");
+            }
             string runwayName = RunwayNameTextBox.Text;
             var viewModel = DataContext as CustomizeAirportViewModel;
             if (viewModel == null)
@@ -77,45 +105,43 @@ namespace AirportGUI
             if (viewModel.CreateRunwayCommand.CanExecute(runwayName))
                 viewModel.CreateRunwayCommand.Execute(runwayName);
 
+            else
+            {
+                MessageBox.Show("Cannot create the runway at this time");
+            }
+
+            RunwayNameTextBox.Text = "";
+
         }
 
-        //Denne må fikses
         public void CreateGateButton_Click(object sender, RoutedEventArgs e)
         {
+            if (GateNameTextBox.Text.Length < 2)
+            {
+                MessageBox.Show("Gatenames must be at least 2 characters long");
+                return;
+            }
+
+          
             string gateName = GateNameTextBox.Text;
-            string terminalName = Terminal2NameTextBox.Text;
-
-
-            Gate gate = new Gate(gateName);
 
             var viewModel = DataContext as CustomizeAirportViewModel;
             if (viewModel == null)
             {
-                MessageBox.Show("Viewmodel not found");
                 return;
             }
 
-            Terminal selectedTerminal = viewModel.Airport.AllTerminals.FirstOrDefault(t => t.TerminalName == terminalName);
-
-            
-            if (selectedTerminal != null) 
+            if (viewModel.CreateGateCommand.CanExecute(gateName))
             {
-                MessageBox.Show("Terminal not found");
-                return;
-            }
-
-            var parameter = new GateCreationInfo(gateName, selectedTerminal);
-
-            if (viewModel.CreateGateCommand.CanExecute(parameter))
-            {
-                viewModel.CreateGateCommand.Execute(parameter);
+                viewModel.CreateGateCommand.Execute(gateName);
             }
                 
             else
             {
-                MessageBox.Show("Cannot create gate at this time");
+                MessageBox.Show("Cannot create the gate at this time");
             }
-                
+
+            GateNameTextBox.Text = "";
 
         }
 
@@ -146,7 +172,7 @@ namespace AirportGUI
 
             if (selectedItem == null)
             {
-                MessageBox.Show("Please select a terminal");
+                MessageBox.Show("Please select a gate");
             }
 
             else
@@ -164,7 +190,7 @@ namespace AirportGUI
 
             if (selectedItem == null)
             {
-                MessageBox.Show("Please select a terminal");
+                MessageBox.Show("Please select a runway");
             }
 
             else
@@ -182,7 +208,7 @@ namespace AirportGUI
 
             if (selectedItem == null)
             {
-                MessageBox.Show("Please select a terminal");
+                MessageBox.Show("Please select a taxi");
             }
 
             else
@@ -197,6 +223,12 @@ namespace AirportGUI
         {
             MovableParts movableParts = new MovableParts(_airport);
             NavigationManager.Navigate(movableParts);
+        }
+
+        private void SimulationButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetUpSimulation simulation = new SetUpSimulation(_airport);
+            NavigationManager.Navigate(simulation);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -232,5 +264,7 @@ namespace AirportGUI
         {
             NavigationManager.NavigateBack();
         }
+
+        
     }
 }

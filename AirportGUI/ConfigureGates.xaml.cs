@@ -74,5 +74,15 @@ namespace AirportGUI
 
             DataContext = myDataContext;
         }
+
+        private void ConnectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            string taxiName = TaxiNameTextBox.Text;
+
+            Taxi selectedTaxi = _airport.FindTaxi(taxiName);
+            _airport.ConnectGateAndTaxi(_gate, selectedTaxi);
+
+            TaxiNameTextBox.Text = "";
+        }
     }
 }

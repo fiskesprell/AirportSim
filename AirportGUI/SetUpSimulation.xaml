@@ -1,4 +1,4 @@
-﻿<Page x:Class="AirportGUI.ConfigureRunways"
+﻿<Page x:Class="AirportGUI.SetUpSimulation"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:AirportGUI"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ConfigureRunways">
+      Title="SetUpSimulation">
 
     <Page.Resources>
         <Style x:Key="WatermarkedTextBoxStyle" TargetType="{x:Type TextBox}">
@@ -53,38 +53,21 @@
 
         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
             <Button Content="Back" Click="BackButton_Click"  Margin="0,0,20,0"/>
-            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding Runway.RunwayName}" VerticalAlignment="Center"/>
+            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding AirportName}" VerticalAlignment="Center"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="2" Margin="0,5">
-            <Label Content="Connect taxi to this runway:"/>
-            <TextBox x:Name="TaxiNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" Text="Enter taxi name..." Tag="Enter taxi name..." Foreground="Gray" FontStyle="Italic"/>
-            <Button Grid.Column="1" Grid.Row="3" x:Name="ConnectTaxiButton" Content="Create Connection" Click="ConnectionButton_Click" Margin="0,10" />
+        <StackPanel Grid.Column="1" Grid.Row="3" Margin="0, 10">
+            <Label Content="Set startdate(dd.mm.yyyy):"/>
+            <TextBox x:Name="StartdateTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" Text="Enter Terminal name..." Tag="Enter Terminal name..." Foreground="Gray" FontStyle="Italic"/>
         </StackPanel>
 
-        <TextBlock Grid.Column="3" Grid.Row="1"  Text="Taxis in this airport:" Margin="5,10" FontWeight="Bold" />
-        <ListBox Grid.Column="3" Grid.Row="2"  ItemsSource="{Binding Airport.AllTaxis}" Margin="5,5">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding TaxiName}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <StackPanel Grid.Column="1" Grid.Row="4" Margin="0,10">
+            <Label Content="Set enddate(dd.mm.yyyy):"/>
+            <TextBox x:Name="EnddateTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" Text="Enter Terminal name..." Tag="Enter Terminal name..." Foreground="Gray" FontStyle="Italic"/>
+        </StackPanel>
 
-        <TextBlock Grid.Column="4" Grid.Row="1"  Text="Connected taxis:" Margin="5,10" FontWeight="Bold" />
-        <ListBox Grid.Column="4" Grid.Row="2"  ItemsSource="{Binding Runway.ConnectedTaxi}" Margin="5,5">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding TaxiName}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <Button Grid.Column="1" Grid.Row="5" Margin="0, 10" Content="Prepare simulation" Click="PrepareSimulation_Click" />
 
-        <TextBlock Grid.Column="5" Grid.Row="2" Text="A runway have to be connected to at least one taxi"/>
 
     </Grid>
 </Page>

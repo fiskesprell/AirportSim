@@ -66,7 +66,6 @@
         <StackPanel Grid.Column="1" Grid.Row="3">
             <Label Content="Add Gate:"/>
             <TextBox x:Name="GateNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter Gate name..." Tag="Enter Gate name..." Foreground="Gray" FontStyle="Italic" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-            <TextBox x:Name="Terminal2NameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter Terminal name for the Gate..." Tag="Enter Terminal name for the Gate..." Foreground="Gray" FontStyle="Italic" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
             <Button Grid.Column="1" Grid.Row="4" x:Name="CreateGateButton" Content="Create Gate" Click="CreateGateButton_Click" Margin="0,10"/>
         </StackPanel>
 
@@ -82,9 +81,6 @@
             <Button Grid.Column="1" Grid.Row="8" x:Name="CreateTaxiButton" Content="Create Taxiways" Command="{Binding CreateTaxiwayCommand}" CommandParameter="{Binding Text, ElementName=TaxiNameTextBox}" Margin="0,10"/>
         </StackPanel>
 
-        
-        
-        
 
         <TextBlock  Grid.Row="1" Grid.Column="2"   Text="Terminals:" Margin="10" FontWeight="Bold" />
         <ListBox Grid.Row="2" Grid.Column="2" ItemsSource="{Binding Airport.AllTerminals}" HorizontalContentAlignment="Stretch" Margin="5,5" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
@@ -136,6 +132,7 @@
         <Button MaxHeight="30" Grid.Column="5" Grid.Row="3" x:Name="ConfigureTaxiways" Content="Configure taxiways" Click="ConfigureTaxiwaysButton_Click" Margin="5,5"/>
 
         <Button Grid.Column="6" Grid.Row="3" x:Name="SetUpFlightsPlanes" Content="Create Planes and Flights" Click="SetUpPlanesFlightsButton_Click" Margin="5,5" MaxHeight="30"/>
+        <Button Grid.Column="6" Grid.Row="8" x:Name="Simulation" Content="Prepare Simulation" Click="SimulationButton_Click" Margin="5,5" MaxHeight="30"/>
 
 
     </Grid>

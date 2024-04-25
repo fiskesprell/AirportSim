@@ -66,7 +66,12 @@ namespace AirportGUI
 
         private void ConnectionButton_Click(Object sender, RoutedEventArgs e) 
         {
+            string taxiName = TaxiNameTextBox.Text;
+            Taxi selectedTaxi = _airport.FindTaxi(taxiName);
 
+            _airport.ConnectTaxiAndRunway(selectedTaxi, _runway);
+
+            TaxiNameTextBox.Text = "";
         }
 
         private void SetDataContext(Airport airport, Runway runway)

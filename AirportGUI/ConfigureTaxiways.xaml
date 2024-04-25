@@ -53,8 +53,67 @@
 
         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
             <Button Content="Back" Click="BackButton_Click"  Margin="0,0,20,0"/>
-            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding TerminalName}" VerticalAlignment="Center"/>
+            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding Taxi.TaxiName}" VerticalAlignment="Center"/>
         </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="2" Margin="0,5">
+            <Label Content="Connect runway to this taxi:"/>
+            <TextBox x:Name="RunwayNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" Text="Enter runwayname..." Tag="Enter runwayname..." Foreground="Gray" FontStyle="Italic"/>
+            <Button Grid.Column="1" Grid.Row="3" x:Name="ConnectRunwayButton" Content="Create Connection" Click="ConnectionRunwayButton_Click" Margin="0,10" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="4" Margin="0,5">
+            <Label Content="Connect gate to this taxi:"/>
+            <TextBox x:Name="GateNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" Text="Enter gatename..." Tag="Enter gatename..." Foreground="Gray" FontStyle="Italic"/>
+            <Button Grid.Column="1" Grid.Row="5" x:Name="ConnectGateButton" Content="Create Connection" Click="ConnectionGateButton_Click" Margin="0,10" />
+        </StackPanel>
+
+        <TextBlock Grid.Column="3" Grid.Row="1"  Text="Runways in this airport:" Margin="5,10" FontWeight="Bold" />
+        <ListBox Grid.Column="3" Grid.Row="2"  ItemsSource="{Binding Airport.AllRunways}" Margin="5,5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding RunwayName}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock Grid.Column="4" Grid.Row="1"  Text="Connected runways:" Margin="5,10" FontWeight="Bold" />
+        <ListBox Grid.Column="4" Grid.Row="2"  ItemsSource="{Binding Taxi.ConnectedRunways}" Margin="5,5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding RunwayName}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock Grid.Column="3" Grid.Row="3"  Text="Gates in this airport:" Margin="5,10" FontWeight="Bold" />
+        <ListBox Grid.Column="3" Grid.Row="4"  ItemsSource="{Binding Airport.AllGates}" Margin="5,5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Gatename}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock Grid.Column="4" Grid.Row="3"  Text="Connected gates:" Margin="5,10" FontWeight="Bold" />
+        <ListBox Grid.Column="4" Grid.Row="4"  ItemsSource="{Binding Taxi.ConnectedGates}" Margin="5,5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding GateName}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock Grid.Column="5" Grid.Row="2" Text="A Taxi have to be connected to at least one runway"/>
+        <TextBlock Grid.Column="5" Grid.Row="4" Text="A Taxi have to be connected to at least one gate"/>
 
     </Grid>
 </Page>

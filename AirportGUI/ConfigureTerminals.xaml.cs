@@ -86,15 +86,20 @@ namespace AirportGUI
         private void AddGateToTerminal_Click(object sender, RoutedEventArgs e)
         {
             string gateName = GateNameTextBox.Text;
+            Gate gateToAdd = null;
 
             foreach(var gate in _airport.AllGates)
             {
                 if (gate.GateName.Equals(gateName))
                 {
-                    _terminal.AddExistingGate(gate);
+                    gateToAdd = gate;
                 }
-            } 
+            }
 
+            if(gateToAdd != null)
+            {
+                _terminal.AddExistingGate(gateToAdd);
+            }
         }
 
         private void SetDataContext(Airport airport, Terminal terminal)

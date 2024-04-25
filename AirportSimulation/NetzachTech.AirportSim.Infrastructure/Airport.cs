@@ -275,7 +275,7 @@ namespace AirportSimulation
         }
 
         /// <summary>
-        /// Finds and returns a taxiobjects if the name matches with any of the created objects. Returns null if no matches were found.
+        /// Finds and returns a taxiobjects if the name given matches with any of the created objects. Returns null if no matches were found.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -285,6 +285,21 @@ namespace AirportSimulation
             {
                 if (taxi.TaxiName.Equals(name))
                     return taxi;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Finds and returns a gate object if the name matches with any of the gates in this airoport. Returns null if no matches were found.
+        /// </summary>
+        /// <param name="gateName"></param>
+        /// <returns></returns>
+        public Gate FindGate(string gateName)
+        {
+            foreach(var gate in AllGates)
+            {
+                if (gate.GateName.Equals(gateName))
+                    return gate;
             }
             return null;
         }
@@ -399,6 +414,11 @@ namespace AirportSimulation
             foreach(var terminal in AllTerminals)
                 if (terminal.TerminalName.Equals(terminalName))
                     terminal.AddExistingGate(gate);
+        }
+
+        public void AddExistingGate(Gate gate)
+        {
+            AllGates.Add(gate);
         }
     }
 }

@@ -65,16 +65,16 @@ namespace AirportGUI
 
         public void CreateGateAction(object parameter)
         {
-            if (parameter is GateCreationInfo info)
+            if (parameter is string name)
             {
-                CreateGate(info.GateName, info.Terminal);
+                CreateGate(name);
             }
         }
 
-        public void CreateGate(string name, Terminal terminal)
+        public void CreateGate(string name)
         {
             Gate gate = new Gate(name);
-            terminal.AddExistingGate(gate);
+            _airport.AddExistingGate(gate);
             OnPropertyChanged(nameof(Airport));
 
         }

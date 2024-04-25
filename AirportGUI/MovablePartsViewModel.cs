@@ -11,8 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using NetzachTech.AirportSim.Infrastructure;
-using NetzachTech.AirportSim.FlightOperations;
+using MyPlane = NetzachTech.AirportSim.Infrastructure;
+using FlightOperations = NetzachTech.AirportSim.FlightOperations;
 using AirportSimulation;
 
 namespace AirportGUI
@@ -73,12 +73,12 @@ namespace AirportGUI
 
                 if (parameter.IsIncoming)
                 {
-                    flight.FlightDirection = NetzachTech.AirportSim.FlightOperations.FlightDirection.Incoming;
+                    flight.FlightDirection = FlightOperations.FlightDirection.Incoming;
                 }
 
                 else
                 {
-                    flight.FlightDirection = NetzachTech.AirportSim.FlightOperations.FlightDirection.Outgoing;
+                    flight.FlightDirection = FlightOperations.FlightDirection.Outgoing;
                 }
 
                 _airport.AddExistingFlight(flight);
@@ -125,7 +125,7 @@ namespace AirportGUI
             string model = parameter.PlaneModel;
             string tail = parameter.Tailnumber;
 
-            NetzachTech.AirportSim.Infrastructure.Plane plane = new NetzachTech.AirportSim.Infrastructure.Plane(name, model, tail);
+            MyPlane.Plane plane = new MyPlane.Plane(name, model, tail);
             _airport.AddPlaneToListOfAvailablePlanes(plane);
             OnPropertyChanged(nameof(Airport));
 

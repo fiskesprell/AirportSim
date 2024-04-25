@@ -84,7 +84,6 @@ namespace NetzachTech.AirportSim.Infrastructure
         public void AddExistingGate(Gate gate)
         {
             ConnectedGates.Add(gate);
-            Airport.AllGates.Add(gate);
             gate.Terminal = this;
         }
 
