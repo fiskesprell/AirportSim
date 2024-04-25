@@ -110,5 +110,67 @@ namespace AirportGUI
             }
             return false;
         }
+
+        private void FlightsEventsChecked(object sender, RoutedEventArgs e)
+        {
+            //Få til å subscribe på events her
+            //Få til en smart måte å enten returnere hele objektet
+            //eller printe ut på skjermen i "real-time"
+        }
+
+        private void FlightsEventsUnchecked(object sender, RoutedEventArgs e)
+        {
+            //Ikke subscribe på events
+        }
+
+        private void PlanesEventsChecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PlanesEventsUnchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TaxisEventsChecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TaxisEventsUnchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RunwaysEventsChecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RunwaysEventsUnchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TerminalsEventsChecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TerminalsEventsUnchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void GatesEventsChecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void GatesEventsUnchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
