@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AirportSimulation;
 using NetzachTech.AirportSim.Infrastructure;
 
 namespace AirportGUI
@@ -78,6 +79,7 @@ namespace AirportGUI
 
         }
 
+        //Denne må fikses
         public void CreateGateButton_Click(object sender, RoutedEventArgs e)
         {
             string gateName = GateNameTextBox.Text;
@@ -113,10 +115,22 @@ namespace AirportGUI
 
         public void ConfigureTerminalsButton_Click(object sender, RoutedEventArgs e)
         {
-            ConfigureTerminals configureTerminals = new ConfigureTerminals(_airport);
-            configureTerminals.InitializeViewModel(_airport);
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow?.Navigate(configureTerminals);
+            
+            var viewModel = DataContext as CustomizeAirportViewModel;
+
+            var selectedItem = viewModel.SelectedItem as Terminal;
+
+            if(selectedItem == null)
+            {
+                MessageBox.Show("Please select a terminal");
+            }
+
+            else
+            {
+                ConfigureTerminals configureTerminals = new ConfigureTerminals(_airport, selectedItem);
+                configureTerminals.InitializeViewModel(_airport);
+                NavigationManager.Navigate(configureTerminals);
+            }
 
         }
 
@@ -124,31 +138,27 @@ namespace AirportGUI
         {
             ConfigureGates configureGates = new ConfigureGates(_airport);
             configureGates.InitializeViewModel(_airport);
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow?.Navigate(configureGates);
+            NavigationManager.Navigate(configureGates);
         }
 
         public void ConfigureRunwaysButton_Click(object sender, RoutedEventArgs e)
         {
             ConfigureRunways configureRunways = new ConfigureRunways(_airport);
             configureRunways.InitializeViewModel(_airport);
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow?.Navigate(configureRunways);
+            NavigationManager.Navigate(configureRunways);
         }
 
         public void ConfigureTaxiwaysButton_Click(object sender, RoutedEventArgs e)
         {
             ConfigureTaxiways configureTaxiways = new ConfigureTaxiways(_airport);
             configureTaxiways.InitializeViewModel(_airport);
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow?.Navigate(configureTaxiways);
+            NavigationManager.Navigate(configureTaxiways);
         }
 
         public void SetUpPlanesFlightsButton_Click(object sender, RoutedEventArgs e)
         {
             MovableParts movableParts = new MovableParts(_airport);
-            var mainwindow = Application.Current.MainWindow as MainWindow;
-            mainwindow?.Navigate(movableParts);
+            NavigationManager.Navigate(movableParts);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -158,6 +168,31 @@ namespace AirportGUI
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && textBox.Text == textBox.Tag.ToString())
+            {
+                textBox.Text = string.Empty;
+                textBox.Foreground = new SolidColorBrush(Colors.Black);
+                textBox.FontStyle = FontStyles.Normal;
+            }
+        }
 
-}
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && string.IsNullOrEmpty(textBox.Text))
+            {
+                textBox.Text = textBox.Tag.ToString();
+                textBox.Foreground = new SolidColorBrush(Colors.Gray);
+                textBox.FontStyle = FontStyles.Italic;
+            }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationManager.NavigateBack();
+        }
+    }
 }

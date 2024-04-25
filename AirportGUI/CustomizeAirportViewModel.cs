@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using AirportSimulation;
 using NetzachTech.AirportSim.Infrastructure;
 
 namespace AirportGUI
@@ -24,6 +25,17 @@ namespace AirportGUI
         public ICommand CreateGateCommand { get; private set; }
         public ICommand CreateRunwayCommand { get; private set; }
         public ICommand CreateTaxiwayCommand { get; private set; }
+
+        private object _selectedItem;
+        public object SelectedItem
+        {
+            get => _selectedItem;
+            set
+            {
+                _selectedItem = value;
+                OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
 
         public CustomizeAirportViewModel(Airport airport)
         {

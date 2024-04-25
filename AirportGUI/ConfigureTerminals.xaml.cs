@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AirportSimulation;
 using NetzachTech.AirportSim.Infrastructure;
 
 namespace AirportGUI
@@ -22,16 +23,25 @@ namespace AirportGUI
     public partial class ConfigureTerminals : Page
     {
         private Airport _airport;
-        public ConfigureTerminals(Airport airport)
+        private Terminal _terminal;
+        public ConfigureTerminals(Airport airport, Terminal terminal)
         {
             InitializeComponent();
             _airport = airport;
-            InitializeViewModel(airport);
+            _terminal = terminal;
+
+            this.DataContext = terminal;
         }
 
         public void InitializeViewModel(Airport airport)
         {
             this.DataContext = new CustomizeAirportViewModel(airport);
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationManager.NavigateBack();
+
         }
     }
 }

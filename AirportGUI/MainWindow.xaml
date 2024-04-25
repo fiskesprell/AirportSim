@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AirportGUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="550" Width="900">
     <Grid Background="White">
 
         <Grid.ColumnDefinitions>
@@ -29,10 +29,10 @@
         <DockPanel>
             <Frame Grid.Column="0" Grid.Row="6" x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
         </DockPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1">
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,10">
             <Label Content="Airport Name:"/>
-            <TextBox x:Name="AirportNameTextBox" />
-            <Button Grid.Column="1" Grid.Row="2" x:Name="CreateAirportButton" Content="Create Airport" Click="CreateAirportButton_Click"/>
+            <TextBox x:Name="AirportNameTextBox"  Text="Enter airport name..." Tag="Enter airport name..." Foreground="Gray" FontStyle="Italic" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+            <Button Grid.Column="1" Grid.Row="2" x:Name="CreateAirportButton" Content="Create Airport" Click="CreateAirportButton_Click" Margin="0,10"/>
         </StackPanel>
 
     </Grid>

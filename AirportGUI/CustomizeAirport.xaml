@@ -5,8 +5,26 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:AirportGUI"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="550" d:DesignWidth="900"
       Title="CustomizeAirport">
+
+    <Page.Resources>
+        <Style x:Key="WatermarkedTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="FontStyle" Value="Normal"/>
+                </Trigger>
+                <Trigger Property="Text" Value="">
+                    <Setter Property="Foreground" Value="Gray"/>
+                    <Setter Property="FontStyle" Value="Italic"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
 
     <Grid Background="White">
         <Grid.ColumnDefinitions>
@@ -34,98 +52,62 @@
             <RowDefinition Height="15" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Column="1" Grid.Row="1" FontSize="18" FontWeight="Bold" Text="{Binding AirportName}"/>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
+            <Button Content="Exit" Click="BackButton_Click"  Margin="0,0,20,0"/>
+            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding AirportName}" VerticalAlignment="Center"/>
+        </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="2" >
+        <StackPanel Grid.Column="1" Grid.Row="2">
             <StackPanel.Resources>
                 <Style TargetType="Control">
                     <Setter Property="Margin" Value="0,5"/>
                 </Style>
             </StackPanel.Resources>
             <Label Content="Add Terminal:"/>
-            <TextBox x:Name="TerminalNameTextBox">
-                <TextBox.Background>
-                    <VisualBrush>
-                        <VisualBrush.Visual>
-                            <TextBlock Text="Enter Terminal name..." Opacity="0.5" FontStyle="Italic" Margin="5,0,0,0" />
-                        </VisualBrush.Visual>
-                    </VisualBrush>
-                </TextBox.Background>
-            </TextBox>
-            <Button Grid.Column="1" Grid.Row="3" x:Name="CreateTerminalButton" Content="Create Terminal" Command="{Binding CreateTerminalCommand}" CommandParameter="{Binding Text, ElementName=TerminalNameTextBox}"/>
+            <TextBox x:Name="TerminalNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" Text="Enter Terminal name..." Tag="Enter Terminal name..." Foreground="Gray" FontStyle="Italic"/>
+            <Button Grid.Column="1" Grid.Row="3" x:Name="CreateTerminalButton" Content="Create Terminal" Command="{Binding CreateTerminalCommand}" CommandParameter="{Binding Text, ElementName=TerminalNameTextBox}" Margin="0,10" />
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="4">
+        <StackPanel Grid.Column="1" Grid.Row="3">
             <StackPanel.Resources>
                 <Style TargetType="Control">
                     <Setter Property="Margin" Value="0,5"/>
                 </Style>
             </StackPanel.Resources>
             <Label Content="Add Gate:"/>
-            <TextBox x:Name="GateNameTextBox">
-                <TextBox.Background>
-                    <VisualBrush>
-                        <VisualBrush.Visual>
-                            <TextBlock Text="Enter Gate name..." Opacity="0.5" FontStyle="Italic" Margin="5,0,0,0" />
-                        </VisualBrush.Visual>
-                    </VisualBrush>
-                </TextBox.Background>
-            </TextBox>
-
-            <TextBox x:Name="Terminal2NameTextBox">
-                <TextBox.Background>
-                    <VisualBrush>
-                        <VisualBrush.Visual>
-                            <TextBlock Text="Enter Terminal name..." Opacity="0.5" FontStyle="Italic" Margin="5,0,0,0" />
-                        </VisualBrush.Visual>
-                    </VisualBrush>
-                </TextBox.Background>
-            </TextBox>
-            <Button Grid.Column="1" Grid.Row="5" x:Name="CreateGateButton" Content="Create Gate" Click="CreateGateButton_Click"/>
+            <TextBox x:Name="GateNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter Gate name..." Tag="Enter Gate name..." Foreground="Gray" FontStyle="Italic" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+            <TextBox x:Name="Terminal2NameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter Terminal name for the Gate..." Tag="Enter Terminal name for the Gate..." Foreground="Gray" FontStyle="Italic" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+            <Button Grid.Column="1" Grid.Row="4" x:Name="CreateGateButton" Content="Create Gate" Click="CreateGateButton_Click" Margin="0,10"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="6">
-            <StackPanel.Resources>
-                <Style TargetType="Control">
-                    <Setter Property="Margin" Value="0,5"/>
-                </Style>
-            </StackPanel.Resources>
-            <Label Content="Add Taxiway:"/>
-            <TextBox x:Name="TaxiNameTextBox">
-                    <TextBox.Background>
-                        <VisualBrush>
-                            <VisualBrush.Visual>
-                                <TextBlock Text="Enter Taxiway name..." Opacity="0.5" FontStyle="Italic" Margin="5,0,0,0" />
-                            </VisualBrush.Visual>
-                        </VisualBrush>
-                    </TextBox.Background>
-                </TextBox>
-            <Button Grid.Column="1" Grid.Row="7" x:Name="CreateTaxiButton" Content="Create Taxiways" Command="{Binding CreateTaxiwayCommand}" CommandParameter="{Binding Text, ElementName=TaxiNameTextBox}"/>
-        </StackPanel>
-        
-        <StackPanel Grid.Column="1" Grid.Row="8">
+        <StackPanel Grid.Column="1" Grid.Row="5" Margin="0,10">
             <StackPanel.Resources>
                 <Style TargetType="Control">
                     <Setter Property="Margin" Value="0,5"/>
                 </Style>
             </StackPanel.Resources>
             <Label Content="Add Runway:"/>
-            <TextBox x:Name="RunwayNameTextBox">
-                <TextBox.Background>
-                    <VisualBrush>
-                        <VisualBrush.Visual>
-                            <TextBlock Text="Enter Runway name..." Opacity="0.5" FontStyle="Italic" Margin="5,0,0,0" />
-                        </VisualBrush.Visual>
-                    </VisualBrush>
-                </TextBox.Background>
-            </TextBox>
-            <Button Grid.Column="1" Grid.Row="9" x:Name="CreateRunwayButton" Content="Create Runway" Command="{Binding CreateRunwayCommand}" CommandParameter="{Binding Text, ElementName=RunwayNameTextBox}"/>
+            <TextBox x:Name="RunwayNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter Runway name..." Tag="Enter Runway name..." Foreground="Gray" FontStyle="Italic" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+            <Button Grid.Column="1" Grid.Row="6" x:Name="CreateRunwayButton" Content="Create Runway" Command="{Binding CreateRunwayCommand}" CommandParameter="{Binding Text, ElementName=RunwayNameTextBox}" Margin="0,10"/>
         </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="7" Margin="0,10">
+            <StackPanel.Resources>
+                <Style TargetType="Control">
+                    <Setter Property="Margin" Value="0,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <Label Content="Add Taxiway:"/>
+            <TextBox x:Name="TaxiNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter Taxiway name..." Tag="Enter Taxiway name..." Foreground="Gray" FontStyle="Italic" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+            <Button Grid.Column="1" Grid.Row="8" x:Name="CreateTaxiButton" Content="Create Taxiways" Command="{Binding CreateTaxiwayCommand}" CommandParameter="{Binding Text, ElementName=TaxiNameTextBox}" Margin="0,10"/>
+        </StackPanel>
+
+        
         
         
 
         <TextBlock  Grid.Row="1" Grid.Column="2"   Text="Terminals:" Margin="10" FontWeight="Bold" />
-        <ListBox Grid.Row="2" Grid.Column="2" ItemsSource="{Binding Airport.AllTerminals}" HorizontalContentAlignment="Stretch">
+        <ListBox Grid.Row="2" Grid.Column="2" ItemsSource="{Binding Airport.AllTerminals}" HorizontalContentAlignment="Stretch" Margin="5,5" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -136,7 +118,7 @@
         </ListBox>
 
         <TextBlock  Grid.Row="1" Grid.Column="3"   Text="Gates:" Margin="10" FontWeight="Bold" />
-        <ListBox Grid.Row="2" Grid.Column="3" ItemsSource="{Binding Airport.AllRunways}">
+        <ListBox Grid.Row="2" Grid.Column="3" ItemsSource="{Binding Airport.AllGates}" Margin="5,5">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -147,7 +129,7 @@
         </ListBox>
 
         <TextBlock  Grid.Row="1" Grid.Column="4"   Text="Runways:" Margin="10" FontWeight="Bold" />
-        <ListBox Grid.Row="2" Grid.Column="4" ItemsSource="{Binding Airport.AllRunways}">
+        <ListBox Grid.Row="2" Grid.Column="4" ItemsSource="{Binding Airport.AllRunways}" Margin="5,5">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -158,22 +140,22 @@
         </ListBox>
 
         <TextBlock  Grid.Row="1" Grid.Column="5"   Text="Taxiways:" Margin="10" FontWeight="Bold" />
-        <ListBox Grid.Row="2" Grid.Column="5"  ItemsSource="{Binding Airport.AllTaxiways}">
+        <ListBox Grid.Row="2" Grid.Column="5"  ItemsSource="{Binding Airport.AllTaxis}" Margin="5,5">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding TaxiwayName}" />
+                        <TextBlock Text="{Binding TaxiName}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button MaxHeight="30" Grid.Column="2" Grid.Row="3" x:Name="ConfigureTerminals" Content="Configure terminals" Click="ConfigureTerminalsButton_Click"/>
-        <Button MaxHeight="30" Grid.Column="3" Grid.Row="3" x:Name="ConfigureGates" Content="Configure gates" Click="ConfigureGatesButton_Click"/>
-        <Button MaxHeight="30" Grid.Column="4" Grid.Row="3" x:Name="ConfigureRunways" Content="Configure runways" Click="ConfigureRunwaysButton_Click"/>
-        <Button MaxHeight="30" Grid.Column="5" Grid.Row="3" x:Name="ConfigureTaxiways" Content="Configure taxiways" Click="ConfigureTaxiwaysButton_Click"/>
+        <Button MaxHeight="30" Grid.Column="2" Grid.Row="3" x:Name="ConfigureTerminals" Content="Configure terminals" Click="ConfigureTerminalsButton_Click" Margin="5,5"/>
+        <Button MaxHeight="30" Grid.Column="3" Grid.Row="3" x:Name="ConfigureGates" Content="Configure gates" Click="ConfigureGatesButton_Click" Margin="5,5"/>
+        <Button MaxHeight="30" Grid.Column="4" Grid.Row="3" x:Name="ConfigureRunways" Content="Configure runways" Click="ConfigureRunwaysButton_Click" Margin="5,5"/>
+        <Button MaxHeight="30" Grid.Column="5" Grid.Row="3" x:Name="ConfigureTaxiways" Content="Configure taxiways" Click="ConfigureTaxiwaysButton_Click" Margin="5,5"/>
 
-        <Button Grid.Column="1" Grid.Row="9" x:Name="SetUpFlightsPlanes" Content="Configure Planes and Flights" Click="SetUpPlanesFlightsButton_Click"/>
+        <Button Grid.Column="6" Grid.Row="3" x:Name="SetUpFlightsPlanes" Content="Create Planes and Flights" Click="SetUpPlanesFlightsButton_Click" Margin="5,5" MaxHeight="30"/>
 
 
     </Grid>

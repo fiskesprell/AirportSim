@@ -5,12 +5,160 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:AirportGUI"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="550" d:DesignWidth="900"
       Title="MovableParts">
 
+    <Page.Resources>
+        <Style x:Key="WatermarkedTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="FontStyle" Value="Normal"/>
+                </Trigger>
+                <Trigger Property="Text" Value="">
+                    <Setter Property="Foreground" Value="Gray"/>
+                    <Setter Property="FontStyle" Value="Italic"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+
     <Grid Background="White">
-        <TextBlock>
-            Hello!
-        </TextBlock>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="15"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="15" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
+            <Button Content="Back" Click="BackButton_Click"  Margin="0,0,20,0"/>
+            <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding AirportName}" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <TextBlock Grid.Column="1" Grid.Row="2" FontSize="18" FontWeight="Bold" Text="Add flight" Margin="0,10"/>
+
+        <StackPanel Grid.Column="1" Grid.Row="3" Margin="0,10">
+            <StackPanel.Resources>
+                <Style TargetType="Control">
+                    <Setter Property="Margin" Value="0,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <Label Content="Add flightnumber:"/>
+            <TextBox x:Name="FlightNumberTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter flight number..." Tag="Enter flight number..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="4" >
+            <StackPanel.Resources>
+                <Style TargetType="Control">
+                    <Setter Property="Margin" Value="0,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <Label Content="Add flighdate:"/>
+            <TextBox x:Name="FlightDateTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter date (dd/mm/yyyy)..." Tag="Enter date (dd/mm/yyyy)..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="5" Margin="0,10">
+            <StackPanel.Resources>
+                <Style TargetType="Control">
+                    <Setter Property="Margin" Value="0,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <Label Content="Add destination:"/>
+            <TextBox x:Name="FlightDestinationTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter destination..." Tag="Enter destination..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="6" Margin="0,10">
+            <StackPanel.Resources>
+                <Style TargetType="Control">
+                    <Setter Property="Margin" Value="0,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <Label Content="Add departuretime:"/>
+            <TextBox x:Name="FlightTimeTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter departure time (hh.mm)..." Tag="Enter departure time (hh.mm)..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+        </StackPanel>
+        <Label Grid.Column="1" Grid.Row="7"  Content="Direction:"/>
+        <Label Content="Direction:"/>
+        <StackPanel Grid.Column="1" Grid.Row="8" Orientation="Horizontal">
+            <RadioButton x:Name="IncomingRadioButton" Content="Incoming" GroupName="FlightType" Margin="0,5" />
+            <RadioButton x:Name="OutgoingRadioButton" Content="Outgoing" GroupName="FlightType" Margin="20,5,0,0" />
+        </StackPanel>
+        <Button Grid.Column="1" Grid.Row="9" Content="Create Flight" Click="CreateFlightButton_Click" Margin="0,10"/>
+
+
+
+
+        <TextBlock Grid.Column="2" Grid.Row="2" FontSize="18" FontWeight="Bold" Text="Add plane" Margin="5,10"/>
+        <StackPanel Grid.Column="2" Grid.Row="3" Margin="5,10">
+            <StackPanel.Resources>
+                <Style TargetType="Control">
+                    <Setter Property="Margin" Value="0,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <Label Content="Add planename:"/>
+            <TextBox x:Name="PlaneNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter planename..."   Tag="Enter planename..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Grid.Row="4" Margin="5,10">
+            <StackPanel.Resources>
+                <Style TargetType="Control">
+                    <Setter Property="Margin" Value="0,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <Label Content="Add tailnumber:"/>
+            <TextBox x:Name="PlaneModelTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter planemodel..."   Tag="Enter planemodel..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Grid.Row="5" Margin="5,10">
+            <StackPanel.Resources>
+                <Style TargetType="Control">
+                    <Setter Property="Margin" Value="0,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <Label Content="Add tailnumber:"/>
+            <TextBox x:Name="PlaneTailnumberTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter plane tailnumber..."   Tag="Enter plane tailnumber..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+        </StackPanel>
+
+        <Button Grid.Column="2" Grid.Row="9" Content="Create plane" Click="CreatePlaneButton_Click" Margin="5,10"/>
+
+        <TextBlock  Grid.Row="2" Grid.Column="3"   Text="All Flights:" Margin="10" FontWeight="Bold" />
+        <ListBox Grid.Row="3" Grid.Column="3" ItemsSource="{Binding Airport.AllFlights}" HorizontalContentAlignment="Stretch" Margin="5,5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Number}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock  Grid.Row="2" Grid.Column="4"   Text="Available Planes:" Margin="10" FontWeight="Bold" />
+        <ListBox Grid.Row="3" Grid.Column="4" ItemsSource="{Binding Airport.ListOfPlanes}" Margin="5,5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding TailNumber}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+
     </Grid>
 </Page>
