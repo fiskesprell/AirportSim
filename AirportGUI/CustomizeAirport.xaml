@@ -58,22 +58,12 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="2">
-            <StackPanel.Resources>
-                <Style TargetType="Control">
-                    <Setter Property="Margin" Value="0,5"/>
-                </Style>
-            </StackPanel.Resources>
             <Label Content="Add Terminal:"/>
             <TextBox x:Name="TerminalNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" Text="Enter Terminal name..." Tag="Enter Terminal name..." Foreground="Gray" FontStyle="Italic"/>
             <Button Grid.Column="1" Grid.Row="3" x:Name="CreateTerminalButton" Content="Create Terminal" Command="{Binding CreateTerminalCommand}" CommandParameter="{Binding Text, ElementName=TerminalNameTextBox}" Margin="0,10" />
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="3">
-            <StackPanel.Resources>
-                <Style TargetType="Control">
-                    <Setter Property="Margin" Value="0,5"/>
-                </Style>
-            </StackPanel.Resources>
             <Label Content="Add Gate:"/>
             <TextBox x:Name="GateNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter Gate name..." Tag="Enter Gate name..." Foreground="Gray" FontStyle="Italic" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
             <TextBox x:Name="Terminal2NameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter Terminal name for the Gate..." Tag="Enter Terminal name for the Gate..." Foreground="Gray" FontStyle="Italic" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
@@ -81,22 +71,12 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="5" Margin="0,10">
-            <StackPanel.Resources>
-                <Style TargetType="Control">
-                    <Setter Property="Margin" Value="0,5"/>
-                </Style>
-            </StackPanel.Resources>
             <Label Content="Add Runway:"/>
             <TextBox x:Name="RunwayNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter Runway name..." Tag="Enter Runway name..." Foreground="Gray" FontStyle="Italic" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
             <Button Grid.Column="1" Grid.Row="6" x:Name="CreateRunwayButton" Content="Create Runway" Command="{Binding CreateRunwayCommand}" CommandParameter="{Binding Text, ElementName=RunwayNameTextBox}" Margin="0,10"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="7" Margin="0,10">
-            <StackPanel.Resources>
-                <Style TargetType="Control">
-                    <Setter Property="Margin" Value="0,5"/>
-                </Style>
-            </StackPanel.Resources>
             <Label Content="Add Taxiway:"/>
             <TextBox x:Name="TaxiNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter Taxiway name..." Tag="Enter Taxiway name..." Foreground="Gray" FontStyle="Italic" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
             <Button Grid.Column="1" Grid.Row="8" x:Name="CreateTaxiButton" Content="Create Taxiways" Command="{Binding CreateTaxiwayCommand}" CommandParameter="{Binding Text, ElementName=TaxiNameTextBox}" Margin="0,10"/>
@@ -118,7 +98,7 @@
         </ListBox>
 
         <TextBlock  Grid.Row="1" Grid.Column="3"   Text="Gates:" Margin="10" FontWeight="Bold" />
-        <ListBox Grid.Row="2" Grid.Column="3" ItemsSource="{Binding Airport.AllGates}" Margin="5,5">
+        <ListBox Grid.Row="2" Grid.Column="3" ItemsSource="{Binding Airport.AllGates}" HorizontalContentAlignment="Stretch" Margin="5,5" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -129,7 +109,7 @@
         </ListBox>
 
         <TextBlock  Grid.Row="1" Grid.Column="4"   Text="Runways:" Margin="10" FontWeight="Bold" />
-        <ListBox Grid.Row="2" Grid.Column="4" ItemsSource="{Binding Airport.AllRunways}" Margin="5,5">
+        <ListBox Grid.Row="2" Grid.Column="4" ItemsSource="{Binding Airport.AllRunways}" HorizontalContentAlignment="Stretch" Margin="5,5" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -140,7 +120,7 @@
         </ListBox>
 
         <TextBlock  Grid.Row="1" Grid.Column="5"   Text="Taxiways:" Margin="10" FontWeight="Bold" />
-        <ListBox Grid.Row="2" Grid.Column="5"  ItemsSource="{Binding Airport.AllTaxis}" Margin="5,5">
+        <ListBox Grid.Row="2" Grid.Column="5"  ItemsSource="{Binding Airport.AllTaxis}" HorizontalContentAlignment="Stretch" Margin="5,5" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>

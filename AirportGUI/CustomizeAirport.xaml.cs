@@ -107,9 +107,15 @@ namespace AirportGUI
             var parameter = new GateCreationInfo(gateName, selectedTerminal);
 
             if (viewModel.CreateGateCommand.CanExecute(parameter))
+            {
                 viewModel.CreateGateCommand.Execute(parameter);
+            }
+                
             else
+            {
                 MessageBox.Show("Cannot create gate at this time");
+            }
+                
 
         }
 
@@ -128,7 +134,6 @@ namespace AirportGUI
             else
             {
                 ConfigureTerminals configureTerminals = new ConfigureTerminals(_airport, selectedItem);
-                configureTerminals.InitializeViewModel(_airport);
                 NavigationManager.Navigate(configureTerminals);
             }
 
@@ -136,23 +141,56 @@ namespace AirportGUI
 
         public void ConfigureGatesButton_Click(object sender, RoutedEventArgs e)
         {
-            ConfigureGates configureGates = new ConfigureGates(_airport);
-            configureGates.InitializeViewModel(_airport);
-            NavigationManager.Navigate(configureGates);
+            var viewModel = DataContext as CustomizeAirportViewModel;
+            var selectedItem = viewModel.SelectedItem as Gate;
+
+            if (selectedItem == null)
+            {
+                MessageBox.Show("Please select a terminal");
+            }
+
+            else
+            {
+                ConfigureGates configureGates = new ConfigureGates(_airport, selectedItem);
+                NavigationManager.Navigate(configureGates);
+            }
+            
         }
 
         public void ConfigureRunwaysButton_Click(object sender, RoutedEventArgs e)
         {
-            ConfigureRunways configureRunways = new ConfigureRunways(_airport);
-            configureRunways.InitializeViewModel(_airport);
-            NavigationManager.Navigate(configureRunways);
+            var viewModel = DataContext as CustomizeAirportViewModel;
+            var selectedItem = viewModel.SelectedItem as Runway;
+
+            if (selectedItem == null)
+            {
+                MessageBox.Show("Please select a terminal");
+            }
+
+            else
+            {
+                ConfigureRunways configureRunway = new ConfigureRunways(_airport, selectedItem);
+                NavigationManager.Navigate(configureRunway);
+            }
+            
         }
 
         public void ConfigureTaxiwaysButton_Click(object sender, RoutedEventArgs e)
         {
-            ConfigureTaxiways configureTaxiways = new ConfigureTaxiways(_airport);
-            configureTaxiways.InitializeViewModel(_airport);
-            NavigationManager.Navigate(configureTaxiways);
+            var viewModel = DataContext as CustomizeAirportViewModel;
+            var selectedItem = viewModel.SelectedItem as Taxi;
+
+            if (selectedItem == null)
+            {
+                MessageBox.Show("Please select a terminal");
+            }
+
+            else
+            {
+                ConfigureTaxiways configureTaxiways = new ConfigureTaxiways(_airport, selectedItem);
+                NavigationManager.Navigate(configureTaxiways);
+            }
+            
         }
 
         public void SetUpPlanesFlightsButton_Click(object sender, RoutedEventArgs e)

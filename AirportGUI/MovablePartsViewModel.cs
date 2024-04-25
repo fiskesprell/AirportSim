@@ -1,4 +1,4 @@
-﻿using AirportSimulation;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using NetzachTech.AirportSim.Infrastructure;
+using NetzachTech.AirportSim.FlightOperations;
+using AirportSimulation;
 
 namespace AirportGUI
 {

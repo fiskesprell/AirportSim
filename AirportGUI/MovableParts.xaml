@@ -60,41 +60,25 @@
         <TextBlock Grid.Column="1" Grid.Row="2" FontSize="18" FontWeight="Bold" Text="Add flight" Margin="0,10"/>
 
         <StackPanel Grid.Column="1" Grid.Row="3" Margin="0,10">
-            <StackPanel.Resources>
-                <Style TargetType="Control">
-                    <Setter Property="Margin" Value="0,5"/>
-                </Style>
-            </StackPanel.Resources>
             <Label Content="Add flightnumber:"/>
             <TextBox x:Name="FlightNumberTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter flight number..." Tag="Enter flight number..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
         </StackPanel>
+        
         <StackPanel Grid.Column="1" Grid.Row="4" >
-            <StackPanel.Resources>
-                <Style TargetType="Control">
-                    <Setter Property="Margin" Value="0,5"/>
-                </Style>
-            </StackPanel.Resources>
             <Label Content="Add flighdate:"/>
             <TextBox x:Name="FlightDateTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter date (dd/mm/yyyy)..." Tag="Enter date (dd/mm/yyyy)..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
         </StackPanel>
+        
         <StackPanel Grid.Column="1" Grid.Row="5" Margin="0,10">
-            <StackPanel.Resources>
-                <Style TargetType="Control">
-                    <Setter Property="Margin" Value="0,5"/>
-                </Style>
-            </StackPanel.Resources>
             <Label Content="Add destination:"/>
             <TextBox x:Name="FlightDestinationTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter destination..." Tag="Enter destination..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
         </StackPanel>
+
         <StackPanel Grid.Column="1" Grid.Row="6" Margin="0,10">
-            <StackPanel.Resources>
-                <Style TargetType="Control">
-                    <Setter Property="Margin" Value="0,5"/>
-                </Style>
-            </StackPanel.Resources>
             <Label Content="Add departuretime:"/>
             <TextBox x:Name="FlightTimeTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter departure time (hh.mm)..." Tag="Enter departure time (hh.mm)..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
         </StackPanel>
+        
         <Label Grid.Column="1" Grid.Row="7"  Content="Direction:"/>
         <Label Content="Direction:"/>
         <StackPanel Grid.Column="1" Grid.Row="8" Orientation="Horizontal">

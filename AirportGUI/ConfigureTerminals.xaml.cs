@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AirportGUI.NetzachTech.AirportSim.DataContext;
 using AirportSimulation;
 using NetzachTech.AirportSim.Infrastructure;
 
@@ -30,18 +31,81 @@ namespace AirportGUI
             _airport = airport;
             _terminal = terminal;
 
-            this.DataContext = terminal;
+            SetDataContext(airport, terminal);
         }
 
-        public void InitializeViewModel(Airport airport)
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            this.DataContext = new CustomizeAirportViewModel(airport);
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && textBox.Text == textBox.Tag.ToString())
+            {
+                textBox.Text = string.Empty;
+                textBox.Foreground = new SolidColorBrush(Colors.Black);
+                textBox.FontStyle = FontStyles.Normal;
+            }
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null && string.IsNullOrEmpty(textBox.Text))
+            {
+                textBox.Text = textBox.Tag.ToString();
+                textBox.Foreground = new SolidColorBrush(Colors.Gray);
+                textBox.FontStyle = FontStyles.Italic;
+            }
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationManager.NavigateBack();
+        }
 
+        private void UpdateTerminalButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool isDomestic = DomesticButton.IsChecked == true;
+            bool isInternational = InternationalButton.IsChecked == true;
+            bool isBoth = BothButton.IsChecked == true;
+            if (isInternational)
+            {
+                _terminal.StrictlyInternational = true;
+            }
+
+            if (isBoth) 
+            {
+                _terminal.ReadyForInternational = true;
+            }
+
+            if (isDomestic)
+            {
+                _terminal.ReadyForInternational = false;
+            }
+
+        }
+
+        private void AddGateToTerminal_Click(object sender, RoutedEventArgs e)
+        {
+            string gateName = GateNameTextBox.Text;
+
+            foreach(var gate in _airport.AllGates)
+            {
+                if (gate.GateName.Equals(gateName))
+                {
+                    _terminal.AddExistingGate(gate);
+                }
+            } 
+
+        }
+
+        private void SetDataContext(Airport airport, Terminal terminal)
+        {
+            var myDataContext = new TerminalAirportDataContext
+            {
+                Airport = airport,
+                Terminal = terminal
+            };
+
+            DataContext = myDataContext;
         }
     }
 }
