@@ -1,4 +1,5 @@
 ﻿using AirportSimulation;
+using NetzachTech.AirportSim.EventArguments;
 using NetzachTech.AirportSim.Time;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,12 @@ namespace AirportGUI
     public partial class SetUpSimulation : Page
     {
         private Airport _airport;
+        private bool flightEvents = false;
+        private bool gateEvents = false;
+        private bool planeEvents = false;
+        private bool taxiEvents = false;
+        private bool runwayEvents = false;
+        private bool terminalEvents = false;
 
         public SetUpSimulation(Airport airport)
         {
@@ -59,7 +66,7 @@ namespace AirportGUI
             NavigationManager.NavigateBack();
         }
 
-        private void PrepareSimulation_Click(object sender, RoutedEventArgs e)
+        private void StartSimulation_Click(object sender, RoutedEventArgs e)
         {
             string stringStartDate = StartdateTextBox.Text;
             string stringEndDate = EnddateTextBox.Text;
@@ -69,9 +76,10 @@ namespace AirportGUI
                 throw new ArgumentException("Couldnt convert dates");
             }
 
-            TimeConfigManager tgm = new TimeConfigManager();
             TimeSimulation ts = new TimeSimulation();
 
+            Simulation simulation = new Simulation(_airport, ts, startDate, endDate, flightEvents);
+            NavigationManager.Navigate(simulation);
 
         }
 
@@ -111,66 +119,67 @@ namespace AirportGUI
             return false;
         }
 
+
+
         private void FlightsEventsChecked(object sender, RoutedEventArgs e)
         {
-            //Få til å subscribe på events her
-            //Få til en smart måte å enten returnere hele objektet
-            //eller printe ut på skjermen i "real-time"
+            flightEvents = true;
         }
+
 
         private void FlightsEventsUnchecked(object sender, RoutedEventArgs e)
         {
-            //Ikke subscribe på events
+            flightEvents = false;
         }
 
         private void PlanesEventsChecked(object sender, RoutedEventArgs e)
         {
-
+            planeEvents = true;
         }
 
         private void PlanesEventsUnchecked(object sender, RoutedEventArgs e)
         {
-
+            planeEvents = false;
         }
 
         private void TaxisEventsChecked(object sender, RoutedEventArgs e)
         {
-
+            taxiEvents = true;
         }
 
         private void TaxisEventsUnchecked(object sender, RoutedEventArgs e)
         {
-
+            taxiEvents = false;
         }
 
         private void RunwaysEventsChecked(object sender, RoutedEventArgs e)
         {
-
+            runwayEvents = true;
         }
 
         private void RunwaysEventsUnchecked(object sender, RoutedEventArgs e)
         {
-
+            runwayEvents = false;
         }
 
         private void TerminalsEventsChecked(object sender, RoutedEventArgs e)
         {
-
+            terminalEvents = true;
         }
 
         private void TerminalsEventsUnchecked(object sender, RoutedEventArgs e)
         {
-
+            terminalEvents = false;
         }
 
         private void GatesEventsChecked(object sender, RoutedEventArgs e)
         {
-
+            gateEvents = true;
         }
 
         private void GatesEventsUnchecked(object sender, RoutedEventArgs e)
         {
-
+            gateEvents = false;
         }
     }
 }

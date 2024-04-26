@@ -241,6 +241,8 @@ namespace AirportSimulation
         /// </summary>
         public event EventHandler<FlightPlaneGateArgs> FlightHasFinishedOffloading;
 
+        public event EventHandler<FlightPlaneArgs> FlightHasChangedStatus;
+
         /// <summary>
         /// Creates a flight. Not the same as creating a plane. Needs a flightnumber, date and time of arrival/departure,
         /// direction of flight (incoming, outgoing or other) and an airport object (the airport it is either arriving to or departing from).
@@ -606,6 +608,7 @@ namespace AirportSimulation
                 LogHistory.Add(logMessage2);
             }
             this.Status = status;
+            OnStatusChanged(this.AssignedPlane, ElapsedDays, ElapsedHours, ElapsedMinutes);
         }//Slutt changeStatus
 
         /// <summary>
@@ -1489,6 +1492,12 @@ namespace AirportSimulation
         {
             var args = new FlightPlaneArgs(this, plane, elapsedDays, elapsedHours, elapsedMinutes);
             FlightIsAssignedPlane?.Invoke(this, args);
+        }
+
+        protected virtual void OnStatusChanged(Plane plane, int elapsedDays, int elapsedHours, int elapsedMinutes)
+        {
+            var args = new FlightPlaneArgs(this, plane, elapsedDays, elapsedHours, elapsedMinutes);
+            FlightHasChangedStatus?.Invoke(this, args);
         }
 
         protected virtual void OnGateAssigned(Plane plane, Gate gate, int elapsedDays, int elapsedHours, int elapsedMinutes)
