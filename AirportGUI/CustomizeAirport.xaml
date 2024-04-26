@@ -29,11 +29,11 @@
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15"/>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" MinWidth="130"/>
+            <ColumnDefinition Width="auto" MinWidth="120"/>
+            <ColumnDefinition Width="auto" MinWidth="120"/>
+            <ColumnDefinition Width="auto" MinWidth="120"/>
+            <ColumnDefinition Width="auto" MinWidth="120"/>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="15"/>
         </Grid.ColumnDefinitions>

@@ -95,7 +95,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding Gatename}"/>
+                        <TextBlock Text="{Binding GateName}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

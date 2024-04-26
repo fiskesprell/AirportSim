@@ -17,7 +17,7 @@ namespace NetzachTech.AirportSim.Time
     /// <summary>
     /// Manages the simulation of time within an airport context, tracking elapsed time and simulating events within a specified period.
     /// </summary>
-    public class TimeSimulation : INotifyPropertyChanged
+    public class TimeSimulation
     {
 
         /// <summary>
