@@ -60,7 +60,7 @@
         <StackPanel Grid.Column="1" Grid.Row="2">
             <Label Content="Add Terminal:"/>
             <TextBox x:Name="TerminalNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" Text="Enter Terminal name..." Tag="Enter Terminal name..." Foreground="Gray" FontStyle="Italic"/>
-            <Button Grid.Column="1" Grid.Row="3" x:Name="CreateTerminalButton" Content="Create Terminal" Command="{Binding CreateTerminalCommand}" CommandParameter="{Binding Text, ElementName=TerminalNameTextBox}" Margin="0,10" />
+            <Button Grid.Column="1" Grid.Row="3" x:Name="CreateTerminalButton" Content="Create Terminal" Click="CreateTerminalButton_Click" Margin="0,10" />
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="3">
@@ -72,13 +72,13 @@
         <StackPanel Grid.Column="1" Grid.Row="5" Margin="0,10">
             <Label Content="Add Runway:"/>
             <TextBox x:Name="RunwayNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter Runway name..." Tag="Enter Runway name..." Foreground="Gray" FontStyle="Italic" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-            <Button Grid.Column="1" Grid.Row="6" x:Name="CreateRunwayButton" Content="Create Runway" Command="{Binding CreateRunwayCommand}" CommandParameter="{Binding Text, ElementName=RunwayNameTextBox}" Margin="0,10"/>
+            <Button Grid.Column="1" Grid.Row="6" x:Name="CreateRunwayButton" Content="Create Runway" Click="CreateRunwayButton_Click" Margin="0,10"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="7" Margin="0,10">
             <Label Content="Add Taxiway:"/>
             <TextBox x:Name="TaxiNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter Taxiway name..." Tag="Enter Taxiway name..." Foreground="Gray" FontStyle="Italic" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-            <Button Grid.Column="1" Grid.Row="8" x:Name="CreateTaxiButton" Content="Create Taxiways" Command="{Binding CreateTaxiwayCommand}" CommandParameter="{Binding Text, ElementName=TaxiNameTextBox}" Margin="0,10"/>
+            <Button Grid.Column="1" Grid.Row="8" x:Name="CreateTaxiButton" Content="Create Taxiways" Click="CreateTaxiButton_Click" Margin="0,10"/>
         </StackPanel>
 
 

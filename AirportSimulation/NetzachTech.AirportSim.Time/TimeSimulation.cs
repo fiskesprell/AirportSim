@@ -3,6 +3,7 @@
 
 using AirportSimulation;
 using AirportSimulationCl;
+using AirportSimulationCl.NetzachTech.AirportSim.EventArguments;
 using NetzachTech.AirportSim.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static AirportSimulation.Flight;
 
 namespace NetzachTech.AirportSim.Time
 {
@@ -17,7 +19,7 @@ namespace NetzachTech.AirportSim.Time
     /// <summary>
     /// Manages the simulation of time within an airport context, tracking elapsed time and simulating events within a specified period.
     /// </summary>
-    public class TimeSimulation
+    public class TimeSimulation : INotifyPropertyChanged
     {
 
         /// <summary>
@@ -25,21 +27,51 @@ namespace NetzachTech.AirportSim.Time
         /// </summary>
         private int _elapsedDays = 0;
         public int ElapsedDays
-        { get => _elapsedDays; set => _elapsedDays = value; }
+        {
+            get => _elapsedDays;
+            set
+            {
+                if (_elapsedDays != value)
+                {
+                    _elapsedDays = value;
+                    OnPropertyChanged(nameof(ElapsedDays));
+                }
+            }
+        }
 
         /// <summary>
         /// The number of hours that have elapsed in the simulation.
         /// </summary>
         private int _elapsedHours = 0;
         public int ElapsedHours
-        { get => _elapsedHours; set => _elapsedHours = value; }
+        {
+            get => _elapsedHours;
+            set
+            {
+                if (_elapsedHours != value)
+                {
+                    _elapsedHours = value;
+                    OnPropertyChanged(nameof(ElapsedHours));
+                }
+            }
+        }
 
         /// <summary>
         /// The number of minutes that have elapsed in the simulation.
         /// </summary>
         private int _elapsedMinutes = 0;
         public int ElapsedMinutes
-        { get => _elapsedMinutes; set => _elapsedMinutes = value; }
+        {
+            get => _elapsedMinutes;
+            set
+            {
+                if (_elapsedMinutes != value)
+                {
+                    _elapsedMinutes = value;
+                    OnPropertyChanged(nameof(ElapsedMinutes));
+                }
+            }
+        }
 
         /// <summary>
         /// The starting date and time for the simulation.
@@ -57,14 +89,22 @@ namespace NetzachTech.AirportSim.Time
 
         public event EventHandler TimeUpdated;
 
-        protected virtual void OnTimeUpdated()
+        protected virtual void OnTimeUpdated(TimeUpdatedEventArgs e)
         {
-            TimeUpdated?.Invoke(this, EventArgs.Empty);
+
+            TimeUpdated?.Invoke(this, e);
         }
 
 
         public TimeSimulation()
         { }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
 
         /// <summary>
@@ -76,7 +116,7 @@ namespace NetzachTech.AirportSim.Time
         /// <param name="end"></param>
         /// <exception cref="InvalidScheduledTimeException"></exception>
         /// <exception cref="InvalidInfrastructureException"></exception>
-        public void SimulateTime(TimeConfigManager timeConfigManager, Airport airport, DateTime start, DateTime end)
+        public async Task SimulateTime(TimeConfigManager timeConfigManager, Airport airport, DateTime start, DateTime end)
         {
 
             Console.WriteLine("The simulation has now started:");
@@ -140,8 +180,11 @@ namespace NetzachTech.AirportSim.Time
                     }
                 }
 
-                System.Threading.Thread.Sleep(100);
-                OnTimeUpdated();
+
+                OnTimeUpdated(new TimeUpdatedEventArgs(ElapsedDays, ElapsedHours, ElapsedMinutes));
+;
+
+                await Task.Delay(100);
 
                 if (ElapsedMinutes == 59)
                 {
@@ -166,21 +209,22 @@ namespace NetzachTech.AirportSim.Time
         }
 
         /// <summary>
-        /// Simulates the time running in an airport, processing events from a start date to an end date in DateTime format. Overload without TimeConfigManager
+        /// Simulates time at the given airport from the given startdate to the enddate. If timeconfigurations have been made, give the timeconfigmanager as argument.
         /// </summary>
+        /// <param name="timeConfigManager"></param>
         /// <param name="airport"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <exception cref="InvalidScheduledTimeException"></exception>
         /// <exception cref="InvalidInfrastructureException"></exception>
-        public void SimulateTime(Airport airport, DateTime start, DateTime end)
+        public async Task SimulateTime(Airport airport, DateTime start, DateTime end)
         {
+
+            TimeConfigManager tcm = new TimeConfigManager();
 
             Console.WriteLine("The simulation has now started:");
             StartDate = start;
             EndDate = end;
-
-            TimeConfigManager timeConfigManager = new TimeConfigManager();
 
             TimeSpan timeDifference = end - start;
 
@@ -235,12 +279,15 @@ namespace NetzachTech.AirportSim.Time
                     {
 
                         flight.updateElapsedTime(this);
-                        flight.FlightSim(timeConfigManager, airport, this);
+                        flight.FlightSim(tcm, airport, this);
                     }
                 }
 
-                System.Threading.Thread.Sleep(100);
-                OnTimeUpdated();
+
+                OnTimeUpdated(new TimeUpdatedEventArgs(ElapsedDays, ElapsedHours, ElapsedMinutes));
+                ;
+
+                await Task.Delay(100);
 
                 if (ElapsedMinutes == 59)
                 {

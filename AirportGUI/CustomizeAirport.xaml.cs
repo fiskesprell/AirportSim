@@ -69,9 +69,10 @@ namespace AirportGUI
 
         public void CreateTaxiButton_Click(object sender, RoutedEventArgs e)
         {
-            if (TerminalNameTextBox.Text.Length < 2)
+            if (TaxiNameTextBox.Text.Length < 2)
             {
                 MessageBox.Show("Taxinames must be at least 2 characters long");
+                return;
             }
             string taxiName = TaxiNameTextBox.Text;
             var viewModel = DataContext as CustomizeAirportViewModel;
@@ -96,6 +97,7 @@ namespace AirportGUI
             if (RunwayNameTextBox.Text.Length < 2)
             {
                 MessageBox.Show("Runwaynames must be at least 2 characters long");
+                return;
             }
             string runwayName = RunwayNameTextBox.Text;
             var viewModel = DataContext as CustomizeAirportViewModel;

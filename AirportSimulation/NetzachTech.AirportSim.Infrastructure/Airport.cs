@@ -1,6 +1,7 @@
 ﻿using AirportSimulationCl;
 using NetzachTech.AirportSim.Infrastructure;
 using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -185,6 +186,7 @@ namespace AirportSimulation
         public void AddExistingFlight(Flight flight)
         {
             this.AllFlights.Add(flight);
+            flight.CurrentAirport = this;
         }
 
         /// <summary>

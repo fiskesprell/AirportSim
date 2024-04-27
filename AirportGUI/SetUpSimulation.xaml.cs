@@ -70,10 +70,12 @@ namespace AirportGUI
         {
             string stringStartDate = StartdateTextBox.Text;
             string stringEndDate = EnddateTextBox.Text;
+            DateTime endDate = DateTime.MinValue;
 
-            if (!TryParseStart(stringStartDate, out DateTime startDate) || !TryParseEnd(stringEndDate, out DateTime endDate))
+            if (!TryParseStart(stringStartDate, out DateTime startDate) || !TryParseEnd(stringEndDate, out endDate))
             {
-                throw new ArgumentException("Couldnt convert dates");
+                MessageBox.Show("Please write the dates in the correct format.");
+                return;
             }
 
             TimeSimulation ts = new TimeSimulation();
@@ -101,9 +103,9 @@ namespace AirportGUI
             return false;
         }
 
-        private bool TryParseEnd(string end, out DateTime startDate)
+        private bool TryParseEnd(string end, out DateTime endDate)
         {
-            startDate = DateTime.MinValue;
+            endDate = DateTime.MinValue;
             string[] endDates = end.Split('.');
 
 
@@ -112,8 +114,8 @@ namespace AirportGUI
                 if (int.TryParse(endDates[0], out int day) && int.TryParse(endDates[1], out int month) &&
                 int.TryParse(endDates[2], out int year))
                 {
-                    startDate = new DateTime(year, month, day);
-                    return true;
+                   endDate = new DateTime(year, month, day);
+                   return true;
                 }
             }
             return false;

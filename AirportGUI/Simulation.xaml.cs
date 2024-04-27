@@ -1,9 +1,11 @@
 ﻿using AirportGUI.NetzachTech.AirportSim.DataContext;
 using AirportSimulation;
+using AirportSimulationCl.NetzachTech.AirportSim.EventArguments;
 using NetzachTech.AirportSim.EventArguments;
 using NetzachTech.AirportSim.Time;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -25,6 +27,10 @@ namespace AirportGUI
     /// </summary>
     public partial class Simulation : Page, INotifyPropertyChanged
     {
+        private ObservableCollection<string> _eventList = new ObservableCollection<string>();
+        public ObservableCollection<string> EventList
+        { get { return _eventList; } }
+
         private Airport _airport;
         private TimeSimulation _timeSimulation;
         private DateTime _startDate;
@@ -94,9 +100,19 @@ namespace AirportGUI
 
         }
 
-        private void StartButton_Click(object sender, RoutedEventArgs e) 
+        private async void StartButton_Click(object sender, RoutedEventArgs e) 
         {
-            _timeSimulation.SimulateTime(_airport, _startDate, _endDate);
+
+            if (CheckSimulation(_airport))
+            {
+                _timeSimulation.SimulateTime(_airport, _startDate, _endDate);
+            }
+
+            else
+            {
+                MessageBox.Show("Cant simulate a airport without proper infrastructure setup.");
+            }
+            
         }
 
         private void SetDataContext(Airport airport, TimeSimulation timeSimulation, DateTime startDate, DateTime endDate)
@@ -111,6 +127,37 @@ namespace AirportGUI
 
             DataContext = myDataContext;
             
+        }
+
+        private bool CheckSimulation(Airport airport) 
+        {
+            if (!(airport.AllGates.Count > 0))
+            {
+                return false;
+            }
+
+            if (!(airport.AllRunways.Count > 0))
+            {
+                return false;
+            }
+
+            if (!(airport.AllTaxis.Count > 0))
+            {
+                return false;
+            }
+
+            if (!(airport.AllTerminals.Count > 0))
+            {
+                return false;
+            }
+
+            if (airport.AllFlights.Count >= 1 && airport.ListOfPlanes.Count < 1)
+            {
+                return false;
+            }
+
+
+            return true;
         }
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -143,17 +190,21 @@ namespace AirportGUI
 
         private void TimeSimulation_TimeUpdated(object sender, EventArgs e)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            if (e is TimeUpdatedEventArgs timeArgs)
             {
-                ElapsedDays = _timeSimulation.ElapsedDays;
-                ElapsedHours = _timeSimulation.ElapsedHours;
-                ElapsedMinutes = _timeSimulation.ElapsedMinutes;
-            });
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    ElapsedDays = timeArgs.ElapsedDays;
+                    ElapsedHours = timeArgs.ElapsedHours;
+                    ElapsedMinutes = timeArgs.ElapsedMinutes;
+                });
+            }
+ 
         }
 
         private void AddEventToList(string eventString)
         {
-            eventListView.Items.Add(eventString);
+            EventList.Add(eventString);
         }
 
         private void FlightsEventsChecked()

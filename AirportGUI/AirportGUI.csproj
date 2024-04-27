@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AirportSimCL" Version="1.10.0" />
+    <PackageReference Include="AirportSimCL" Version="1.11.5" />
   </ItemGroup>
 
 </Project>
