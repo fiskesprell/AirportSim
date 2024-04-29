@@ -172,7 +172,6 @@ namespace NetzachTech.AirportSim.Infrastructure
         {
             flight.AssignedRunway.FlightOnRunway = flight;
             
-            flight.AssignedTaxi.AddToTaxiQueue(flight);
             flight.AssignedRunway.FlightOnRunway = null;
             flight.AssignedRunway.IsAvailable = true;
 

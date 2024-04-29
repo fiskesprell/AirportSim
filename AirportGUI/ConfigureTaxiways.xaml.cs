@@ -84,7 +84,7 @@ namespace AirportGUI
             }
             else
             {
-                MessageBox.Show("There are no runways with that name in this airport");
+                MessageBox.Show(Application.Current.MainWindow, "There are no runways with that name in this airport", "Error", MessageBoxButton.OK);
             }
 
             RunwayNameTextBox.Text = "";
@@ -101,7 +101,7 @@ namespace AirportGUI
             }
             else
             {
-                MessageBox.Show("There are no gates with that name in this airport");
+                MessageBox.Show(Application.Current.MainWindow, "There are no gates with that name in this airport", "Error", MessageBoxButton.OK);
             }
 
             GateNameTextBox.Text = "";

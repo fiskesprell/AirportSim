@@ -244,6 +244,10 @@ namespace AirportSimulation
 
         public event EventHandler<FlightPlaneArgs> FlightHasChangedStatus;
 
+        public event EventHandler<FlightPlaneTaxiArgs> FlightHasStartedTraveling;
+
+        public event EventHandler<FlightPlaneGateArgs> FlightHasParkedAtGate;
+
         public delegate void SimulationUpdateHandler(int elapsedDays, int elapsedHours, int elapsedMinutes);
 
         /// <summary>
@@ -657,8 +661,9 @@ namespace AirportSimulation
                     }
 
                     IncomingFlightPreperation();
-                    this.AssignedPlane.LandPlane(this);
                     OnFlightLanding(this.AssignedPlane, this.AssignedRunway, ElapsedDays, ElapsedHours, ElapsedMinutes);
+                    this.AssignedPlane.LandPlane(this);
+                    
                     if (this.AssignedGate == null)
                     {
                         FindGateBackup();
@@ -794,6 +799,7 @@ namespace AirportSimulation
         public void ParkFlightAtGate(Gate gate)
         {
             Gate gateToPark = this.AssignedGate;
+            OnParkedAtGate(this.AssignedPlane, this.AssignedGate, ElapsedDays, ElapsedHours, ElapsedMinutes);
 
             // If there's no pre-assigned gate, find an available one
             if (gateToPark == null)
@@ -808,11 +814,6 @@ namespace AirportSimulation
                 this.IsTraveling = false;
                 gateToPark.CurrentHolder = this;
 
-            }
-
-            if (FlightDirection == FlightDirection.Outgoing)
-            {
-                OnOnboardingStart(this.AssignedPlane, this.AssignedGate, ElapsedDays, ElapsedHours, ElapsedMinutes);
             }
 
             if (Logging && FlightDirection == FlightDirection.Outgoing)
@@ -1090,20 +1091,28 @@ namespace AirportSimulation
         /// <returns>AssignedGate</returns>
         public void StartDeparturePrep()
         {
+
+            if (FlightDirection == FlightDirection.Outgoing)
+            {
+                OnOnboardingStart(this.AssignedPlane, this.AssignedGate, ElapsedDays, ElapsedHours, ElapsedMinutes);
+                SetFlightStatus(FlightStatus.Boarding);
+            }
+
+
             if (Logging)
             {
                 string logMessage2 = $"Flight {Number} started preparing for departure at Day: {ElapsedDays + 1}, Time: {ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}";
                 LogHistory.Add(logMessage2);
             }
 
-            this.SetFlightStatus(FlightStatus.Boarding);
-            OnOnboardingEnd(this.AssignedPlane, this.AssignedGate, ElapsedDays, ElapsedHours, ElapsedMinutes);
+            
         }
         /// <summary>
         /// Starts flight departure and logs if enabled.
         /// </summary>
         public void StartDeparture()
         {
+            OnOnboardingEnd(this.AssignedPlane, this.AssignedGate, ElapsedDays, ElapsedHours, ElapsedMinutes);
             this.AssignedGate.CurrentHolder = null;
             this.AssignedGate.IsAvailable = true;
             this.IsParked = false;
@@ -1115,6 +1124,7 @@ namespace AirportSimulation
                 LogHistory.Add(logMessage);
             }
 
+            OnStartedTraveling(this.AssignedPlane, this.AssignedTaxi, ElapsedDays, ElapsedHours, ElapsedMinutes);
             this.SetFlightStatus(FlightStatus.Departing);
         }
 
@@ -1166,6 +1176,7 @@ namespace AirportSimulation
         /// </summary>
         public void IncomingFlightFromTaxiToGate()
         {
+            this.ParkFlightAtGate(this.AssignedGate);
             OnOffloadingStart(this.AssignedPlane, this.AssignedGate, ElapsedDays, ElapsedHours, ElapsedMinutes);
 
             if (Logging)
@@ -1778,6 +1789,18 @@ namespace AirportSimulation
         {
             var args = new FlightPlaneGateArgs(this, plane, gate, elapsedDays, elapsedHours, elapsedMinutes);
             FlightHasFinishedOffloading?.Invoke(this, args);
+        }
+
+        protected virtual void OnStartedTraveling(Plane plane, Taxi taxi, int elapsedDays, int elapsedHours, int elapsedMinutes)
+        {
+            var args = new FlightPlaneTaxiArgs(this, plane, taxi, elapsedDays, elapsedHours, elapsedMinutes);
+            FlightHasStartedTraveling?.Invoke(this, args);
+        }
+
+        protected virtual void OnParkedAtGate(Plane plane, Gate gate, int elapsedDays, int elapsedHours, int elapsedMinutes)
+        {
+            var args = new FlightPlaneGateArgs(this, plane, gate, elapsedDays, elapsedHours, elapsedMinutes);
+            FlightHasParkedAtGate?.Invoke(this, args);
         }
 
 

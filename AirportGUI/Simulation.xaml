@@ -31,7 +31,7 @@
             <ColumnDefinition Width="15"/>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" MinWidth="500"/>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
@@ -70,16 +70,23 @@
             </TextBlock>
         </StackPanel>
 
-        <ListView x:Name="eventListView" Grid.Column="3" Grid.Row="1" Margin="10" ItemsSource="{Binding EventList}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding}" Margin="2"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <StackPanel Grid.Column="3" Grid.Row="3">
+            <TextBlock Text="Events:"/>
+            <ListView x:Name="eventListView"  Margin="10" ItemsSource="{Binding EventList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Margin="2"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+        
 
-        <Button Grid.Column="1" Grid.Row="2" Content="Start" Click="StartButton_Click"  Margin="0,0,20,0"/>
-
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+            <Button Content="Start" Click="StartButton_Click"  Margin="0,5,20,5"/>
+            <Button  Content="Exit" Click="ExitButton_Click"  Margin="0,5,20,5"/>
+        </StackPanel>
+        
 
     </Grid>
 </Page>

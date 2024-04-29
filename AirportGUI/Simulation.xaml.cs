@@ -110,9 +110,8 @@ namespace AirportGUI
 
             else
             {
-                MessageBox.Show("Cant simulate a airport without proper infrastructure setup.");
+                MessageBox.Show(Application.Current.MainWindow, "Cant simulate a airport without proper infrastructure setup.", "Error", MessageBoxButton.OK);
             }
-            
         }
 
         private void SetDataContext(Airport airport, TimeSimulation timeSimulation, DateTime startDate, DateTime endDate)
@@ -122,7 +121,8 @@ namespace AirportGUI
                 Airport = airport,
                 TimeSimulation = timeSimulation,
                 StartDate = startDate,
-                EndDate = endDate
+                EndDate = endDate,
+                EventList = _eventList
             };
 
             DataContext = myDataContext;
@@ -151,10 +151,10 @@ namespace AirportGUI
                 return false;
             }
 
-            if (airport.AllFlights.Count >= 1 && airport.ListOfPlanes.Count < 1)
-            {
-                return false;
-            }
+            //if (airport.AllFlights.Count >= 1 && airport.ListOfPlanes.Count < 1)
+            //{
+            //    return false;
+            //}
 
 
             return true;
@@ -222,7 +222,21 @@ namespace AirportGUI
                 flight.FlightHasBegunOffloading += FlightHasBegunOffloadingHandler;
                 flight.FlightHasFinishedOffloading += FlightHasFinishedOffloadingHandler;
                 flight.FlightHasChangedStatus += FlightHasChangedStatusHandler;
+                flight.FlightHasStartedTraveling += FlightHasStartedTravelingHandler;
+                flight.FlightHasParkedAtGate += FlightHasParkedAtGateHandler;
             }
+        }
+
+        private void FlightHasParkedAtGateHandler(object? sender, FlightPlaneGateArgs e)
+        {
+            string eventString = $"Flight {e.flight.Number} has parked at gate: {e.gate.GateName} at day: {ElapsedDays}, time: {ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}";
+            AddEventToList(eventString);
+        }
+
+        private void FlightHasStartedTravelingHandler(object? sender, FlightPlaneTaxiArgs e)
+        {
+            string eventString = $"Flight {e.flight.Number} has left the gate: {e.flight.AssignedGate.GateName} and started taxiing on taxiway: {e.taxi.TaxiName} at day: {ElapsedDays}, time: {ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}";
+            AddEventToList(eventString);
         }
 
         private void FlightHasChangedStatusHandler(object? sender, FlightPlaneArgs e)
@@ -251,7 +265,7 @@ namespace AirportGUI
 
         private void FlightHasBegunOnboardingHandler(object? sender, FlightPlaneGateArgs e)
         {
-            string eventString = $"Flight {e.flight.Number} has begun ooboarding at gate {e.gate.GateName} at day: {ElapsedDays}, time: {ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}";
+            string eventString = $"Flight {e.flight.Number} has begun onboarding at gate {e.gate.GateName} at day: {ElapsedDays}, time: {ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}";
             AddEventToList(eventString);
         }
 
@@ -289,6 +303,11 @@ namespace AirportGUI
         {
             string eventString = $"Flight {e.flight.Number} has been assigned gate {e.gate.GateName} at day: {ElapsedDays}, time: {ElapsedHours.ToString("D2")}:{ElapsedMinutes.ToString("D2")}";
             AddEventToList(eventString);
+        }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

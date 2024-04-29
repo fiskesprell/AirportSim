@@ -74,7 +74,7 @@ namespace AirportGUI
 
             if (!TryParseStart(stringStartDate, out DateTime startDate) || !TryParseEnd(stringEndDate, out endDate))
             {
-                MessageBox.Show("Please write the dates in the correct format.");
+                MessageBox.Show(Application.Current.MainWindow, "Please write the dates in the correct format.", "Error", MessageBoxButton.OK);
                 return;
             }
 

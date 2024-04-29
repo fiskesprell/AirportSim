@@ -74,11 +74,14 @@ namespace AirportGUI
                 if (parameter.IsIncoming)
                 {
                     flight.FlightDirection = FlightOperations.FlightDirection.Incoming;
+                    MyPlane.Plane incomingPlane = new MyPlane.Plane();
+                    flight.AssignedPlane = incomingPlane;
                 }
 
                 else
                 {
                     flight.FlightDirection = FlightOperations.FlightDirection.Outgoing;
+                    
                 }
 
                 _airport.AddExistingFlight(flight);

@@ -46,7 +46,7 @@ namespace AirportGUI
         {
             if (TerminalNameTextBox.Text.Length < 2)
             {
-                MessageBox.Show("Terminalnames must be at least 2 characters long");
+                MessageBox.Show(Application.Current.MainWindow, "Terminalnames must be at least 2 characters long", "Error", MessageBoxButton.OK);
                 return;
             }
 
@@ -60,7 +60,7 @@ namespace AirportGUI
 
             else
             {
-                MessageBox.Show("Cannot create the terminal at this time");
+                MessageBox.Show(Application.Current.MainWindow, "Cannot create the terminal at this time", "Error", MessageBoxButton.OK);
             }
 
             TerminalNameTextBox.Text = "";
@@ -71,7 +71,7 @@ namespace AirportGUI
         {
             if (TaxiNameTextBox.Text.Length < 2)
             {
-                MessageBox.Show("Taxinames must be at least 2 characters long");
+                MessageBox.Show(Application.Current.MainWindow, "Taxinames must be at least 2 characters long", "Error", MessageBoxButton.OK);
                 return;
             }
             string taxiName = TaxiNameTextBox.Text;
@@ -84,7 +84,7 @@ namespace AirportGUI
 
             else
             {
-                MessageBox.Show("Cannot create the gate at this time");
+                MessageBox.Show(Application.Current.MainWindow, "Cannot create the gate at this time", "Error", MessageBoxButton.OK);
             }
 
             TaxiNameTextBox.Text = "";
@@ -96,7 +96,7 @@ namespace AirportGUI
         {
             if (RunwayNameTextBox.Text.Length < 2)
             {
-                MessageBox.Show("Runwaynames must be at least 2 characters long");
+                MessageBox.Show(Application.Current.MainWindow, "Runwaynames must be at least 2 characters long", "Error", MessageBoxButton.OK);
                 return;
             }
             string runwayName = RunwayNameTextBox.Text;
@@ -109,7 +109,7 @@ namespace AirportGUI
 
             else
             {
-                MessageBox.Show("Cannot create the runway at this time");
+                MessageBox.Show(Application.Current.MainWindow, "Cannot create the runway at this time", "Error", MessageBoxButton.OK);
             }
 
             RunwayNameTextBox.Text = "";
@@ -120,7 +120,7 @@ namespace AirportGUI
         {
             if (GateNameTextBox.Text.Length < 2)
             {
-                MessageBox.Show("Gatenames must be at least 2 characters long");
+                MessageBox.Show(Application.Current.MainWindow, "Gatenames must be at least 2 characters long", "Error", MessageBoxButton.OK);
                 return;
             }
 
@@ -140,7 +140,7 @@ namespace AirportGUI
                 
             else
             {
-                MessageBox.Show("Cannot create the gate at this time");
+                MessageBox.Show(Application.Current.MainWindow, "Cannot create the gate at this time", "Error", MessageBoxButton.OK);
             }
 
             GateNameTextBox.Text = "";
@@ -156,7 +156,7 @@ namespace AirportGUI
 
             if(selectedItem == null)
             {
-                MessageBox.Show("Please select a terminal");
+                MessageBox.Show(Application.Current.MainWindow, "Please select a terminal", "Error", MessageBoxButton.OK);
             }
 
             else
@@ -174,7 +174,7 @@ namespace AirportGUI
 
             if (selectedItem == null)
             {
-                MessageBox.Show("Please select a gate");
+                MessageBox.Show(Application.Current.MainWindow, "Please select a gate", "Error", MessageBoxButton.OK);
             }
 
             else
@@ -192,7 +192,7 @@ namespace AirportGUI
 
             if (selectedItem == null)
             {
-                MessageBox.Show("Please select a runway");
+                MessageBox.Show(Application.Current.MainWindow, "Please select a runway", "Error", MessageBoxButton.OK);
             }
 
             else
@@ -210,7 +210,7 @@ namespace AirportGUI
 
             if (selectedItem == null)
             {
-                MessageBox.Show("Please select a taxi");
+                MessageBox.Show(Application.Current.MainWindow, "Please select a taxi", "Error", MessageBoxButton.OK);
             }
 
             else

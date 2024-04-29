@@ -126,10 +126,10 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button MaxHeight="30" Grid.Column="2" Grid.Row="3" x:Name="ConfigureTerminals" Content="Configure terminals" Click="ConfigureTerminalsButton_Click" Margin="5,5"/>
-        <Button MaxHeight="30" Grid.Column="3" Grid.Row="3" x:Name="ConfigureGates" Content="Configure gates" Click="ConfigureGatesButton_Click" Margin="5,5"/>
-        <Button MaxHeight="30" Grid.Column="4" Grid.Row="3" x:Name="ConfigureRunways" Content="Configure runways" Click="ConfigureRunwaysButton_Click" Margin="5,5"/>
-        <Button MaxHeight="30" Grid.Column="5" Grid.Row="3" x:Name="ConfigureTaxiways" Content="Configure taxiways" Click="ConfigureTaxiwaysButton_Click" Margin="5,5"/>
+        <Button MaxHeight="30" Grid.Column="2" Grid.Row="3" x:Name="ConfigureTerminals" Content="Configure terminal" Click="ConfigureTerminalsButton_Click" Margin="5,5"/>
+        <Button MaxHeight="30" Grid.Column="3" Grid.Row="3" x:Name="ConfigureGates" Content="Configure gate" Click="ConfigureGatesButton_Click" Margin="5,5"/>
+        <Button MaxHeight="30" Grid.Column="4" Grid.Row="3" x:Name="ConfigureRunways" Content="Configure runway" Click="ConfigureRunwaysButton_Click" Margin="5,5"/>
+        <Button MaxHeight="30" Grid.Column="5" Grid.Row="3" x:Name="ConfigureTaxiways" Content="Configure taxiway" Click="ConfigureTaxiwaysButton_Click" Margin="5,5"/>
 
         <Button Grid.Column="6" Grid.Row="3" x:Name="SetUpFlightsPlanes" Content="Create Planes and Flights" Click="SetUpPlanesFlightsButton_Click" Margin="5,5" MaxHeight="30"/>
         <Button Grid.Column="6" Grid.Row="8" x:Name="Simulation" Content="Prepare Simulation" Click="SimulationButton_Click" Margin="5,5" MaxHeight="30"/>

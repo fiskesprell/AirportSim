@@ -57,41 +57,59 @@
             <TextBlock FontSize="18" FontWeight="Bold" Text="{Binding AirportName}" VerticalAlignment="Center"/>
         </StackPanel>
 
-        <TextBlock Grid.Column="1" Grid.Row="2" FontSize="18" FontWeight="Bold" Text="Add flight" Margin="0,10"/>
+        <TextBlock Grid.Column="1" Grid.Row="2" FontSize="18" FontWeight="Bold" Text="Add outgoing flight" Margin="0,10"/>
 
-        <StackPanel Grid.Column="1" Grid.Row="3" Margin="0,10">
+        <StackPanel Grid.Column="1" Grid.Row="3" Margin="5,10">
             <Label Content="Add flightnumber:"/>
-            <TextBox x:Name="FlightNumberTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter flight number..." Tag="Enter flight number..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+            <TextBox x:Name="OutgoingFlightNumberTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter flight number..." Tag="Enter flight number..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
         </StackPanel>
         
-        <StackPanel Grid.Column="1" Grid.Row="4" >
+        <StackPanel Grid.Column="1" Grid.Row="4" Margin="5, 10">
             <Label Content="Add flighdate:"/>
-            <TextBox x:Name="FlightDateTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter date (dd.mm.yyyy)..." Tag="Enter date (dd.mm.yyyy)..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+            <TextBox x:Name="OutgoingFlightDateTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter date (dd.mm.yyyy)..." Tag="Enter date (dd.mm.yyyy)..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
         </StackPanel>
         
-        <StackPanel Grid.Column="1" Grid.Row="5" Margin="0,10">
+        <StackPanel Grid.Column="1" Grid.Row="5" Margin="5,10">
             <Label Content="Add destination:"/>
-            <TextBox x:Name="FlightDestinationTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter destination..." Tag="Enter destination..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+            <TextBox x:Name="OutgoingFlightDestinationTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter destination..." Tag="Enter destination..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="6" Margin="0,10">
+        <StackPanel Grid.Column="1" Grid.Row="6" Margin="5,10">
             <Label Content="Add departuretime:"/>
-            <TextBox x:Name="FlightTimeTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter departure time (hh.mm)..." Tag="Enter departure time (hh.mm)..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+            <TextBox x:Name="OutgoingFlightTimeTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter departure time (hh.mm)..." Tag="Enter departure time (hh.mm)..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
         </StackPanel>
         
-        <Label Grid.Column="1" Grid.Row="7"  Content="Direction:"/>
-        <Label Content="Direction:"/>
-        <StackPanel Grid.Column="1" Grid.Row="8" Orientation="Horizontal">
-            <RadioButton x:Name="IncomingRadioButton" Content="Incoming" GroupName="FlightType" Margin="0,5" />
-            <RadioButton x:Name="OutgoingRadioButton" Content="Outgoing" GroupName="FlightType" Margin="20,5,0,0" />
-        </StackPanel>
-        <Button Grid.Column="1" Grid.Row="9" Content="Create Flight" Click="CreateFlightButton_Click" Margin="5,10"/>
+        <Button Grid.Column="1" Grid.Row="9" Content="Create outgoing Flight" Click="CreateOutgoingFlightButton_Click" Margin="5,10"/>
 
 
+        <TextBlock Grid.Column="2" Grid.Row="2" FontSize="18" FontWeight="Bold" Text="Add incoming flight" Margin="0,10"/>
 
-
-        <TextBlock Grid.Column="2" Grid.Row="2" FontSize="18" FontWeight="Bold" Text="Add plane" Margin="5,10"/>
         <StackPanel Grid.Column="2" Grid.Row="3" Margin="5,10">
+            <Label Content="Add flightnumber:"/>
+            <TextBox x:Name="IncomingFlightNumberTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter flight number..." Tag="Enter flight number..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Grid.Row="4" Margin="5, 10">
+            <Label Content="Add flighdate:"/>
+            <TextBox x:Name="IncomingFlightDateTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter date (dd.mm.yyyy)..." Tag="Enter date (dd.mm.yyyy)..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Grid.Row="5" Margin="5,10">
+            <Label Content="Airport its coming from:"/>
+            <TextBox x:Name="IncomingFlightDestinationTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter airport..." Tag="Enter airport..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Grid.Row="6" Margin="5,10">
+            <Label Content="Add arrivaltime:"/>
+            <TextBox x:Name="IncomingFlightTimeTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter arrival time (hh.mm)..." Tag="Enter arrival time (hh.mm)..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+        </StackPanel>
+
+        <Button Grid.Column="2" Grid.Row="9" Content="Create incoming Flight" Click="CreateIncomingFlightButton_Click" Margin="5,10"/>
+
+
+
+        <TextBlock Grid.Column="3" Grid.Row="2" FontSize="18" FontWeight="Bold" Text="Add plane" Margin="5,10"/>
+        <StackPanel Grid.Column="3" Grid.Row="3" Margin="5,10">
             <StackPanel.Resources>
                 <Style TargetType="Control">
                     <Setter Property="Margin" Value="0,5"/>
@@ -100,7 +118,7 @@
             <Label Content="Add planename:"/>
             <TextBox x:Name="PlaneNameTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter planename..."   Tag="Enter planename..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
         </StackPanel>
-        <StackPanel Grid.Column="2" Grid.Row="4" Margin="5,10">
+        <StackPanel Grid.Column="3" Grid.Row="4" Margin="5,10">
             <StackPanel.Resources>
                 <Style TargetType="Control">
                     <Setter Property="Margin" Value="0,5"/>
@@ -109,7 +127,7 @@
             <Label Content="Add planemodel:"/>
             <TextBox x:Name="PlaneModelTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter planemodel..."   Tag="Enter planemodel..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
         </StackPanel>
-        <StackPanel Grid.Column="2" Grid.Row="5" Margin="5,10">
+        <StackPanel Grid.Column="3" Grid.Row="5" Margin="5,10">
             <StackPanel.Resources>
                 <Style TargetType="Control">
                     <Setter Property="Margin" Value="0,5"/>
@@ -119,10 +137,10 @@
             <TextBox x:Name="PlaneTailnumberTextBox" Style="{StaticResource WatermarkedTextBoxStyle}" Text="Enter plane tailnumber..."   Tag="Enter plane tailnumber..." GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
         </StackPanel>
 
-        <Button Grid.Column="2" Grid.Row="9" Content="Create plane" Click="CreatePlaneButton_Click" Margin="5,10"/>
+        <Button Grid.Column="3" Grid.Row="9" Content="Create plane" Click="CreatePlaneButton_Click" Margin="5,10"/>
 
-        <TextBlock  Grid.Row="2" Grid.Column="3"   Text="All Flights:" Margin="10" FontWeight="Bold" />
-        <ListBox Grid.Row="3" Grid.Column="3" ItemsSource="{Binding Airport.AllFlights}" HorizontalContentAlignment="Stretch" Margin="5,5">
+        <TextBlock  Grid.Row="2" Grid.Column="4"   Text="All Flights:" Margin="10" FontWeight="Bold" />
+        <ListBox Grid.Row="3" Grid.Column="4" ItemsSource="{Binding Airport.AllFlights}" HorizontalContentAlignment="Stretch" Margin="5,5">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -132,8 +150,8 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <TextBlock  Grid.Row="2" Grid.Column="4"   Text="Available Planes:" Margin="10" FontWeight="Bold" />
-        <ListBox Grid.Row="3" Grid.Column="4" ItemsSource="{Binding Airport.ListOfPlanes}" Margin="5,5">
+        <TextBlock  Grid.Row="2" Grid.Column="5"   Text="Available Planes:" Margin="10" FontWeight="Bold" />
+        <ListBox Grid.Row="3" Grid.Column="5" ItemsSource="{Binding Airport.ListOfPlanes}" Margin="5,5">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>

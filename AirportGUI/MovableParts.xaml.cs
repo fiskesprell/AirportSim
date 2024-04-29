@@ -31,14 +31,12 @@ namespace AirportGUI
             this.DataContext = new MovablePartsViewModel(_airport);
         }
 
-        private void CreateFlightButton_Click(object sender, RoutedEventArgs e)
+        private void CreateOutgoingFlightButton_Click(object sender, RoutedEventArgs e)
         {
-            bool isIncoming = IncomingRadioButton.IsChecked == true;
-            bool isOutgoing = OutgoingRadioButton.IsChecked == true;
-            string flightNumber = FlightNumberTextBox.Text;
-            string flightDate = FlightDateTextBox.Text;
-            string destination = FlightDestinationTextBox.Text;
-            string flightTime = FlightTimeTextBox.Text;
+            string flightNumber = OutgoingFlightNumberTextBox.Text;
+            string flightDate = OutgoingFlightDateTextBox.Text;
+            string destination = OutgoingFlightDestinationTextBox.Text;
+            string flightTime = OutgoingFlightTimeTextBox.Text;
 
             
 
@@ -48,7 +46,7 @@ namespace AirportGUI
                 FlightDate = flightDate,
                 FlightTime = flightTime,
                 Destination = destination,
-                IsIncoming = isIncoming
+                IsIncoming = false
             };
 
             var viewModel = DataContext as MovablePartsViewModel;
@@ -58,10 +56,45 @@ namespace AirportGUI
             if (viewModel.CreateFlightCommand.CanExecute(parameters))
                 viewModel.CreateFlightCommand.Execute(parameters);
 
+            OutgoingFlightNumberTextBox.Text = "";
+            OutgoingFlightDateTextBox.Text = "";
+            OutgoingFlightDestinationTextBox.Text = "";
+            OutgoingFlightTimeTextBox.Text = "";
 
         }
 
-        private void CreatePlaneButton_Click(Object sender, RoutedEventArgs e) 
+        private void CreateIncomingFlightButton_Click(object sender, RoutedEventArgs e)
+        {
+            string flightNumber = IncomingFlightNumberTextBox.Text;
+            string flightDate = IncomingFlightDateTextBox.Text;
+            string destination = IncomingFlightDestinationTextBox.Text;
+            string flightTime = IncomingFlightTimeTextBox.Text;
+
+
+
+            FlightCreationParameters parameters = new FlightCreationParameters
+            {
+                FlightNumber = flightNumber,
+                FlightDate = flightDate,
+                FlightTime = flightTime,
+                Destination = destination,
+                IsIncoming = true
+            };
+
+            var viewModel = DataContext as MovablePartsViewModel;
+            if (viewModel == null)
+                return;
+
+            if (viewModel.CreateFlightCommand.CanExecute(parameters))
+                viewModel.CreateFlightCommand.Execute(parameters);
+
+            IncomingFlightDateTextBox.Text = "";
+            IncomingFlightDestinationTextBox.Text = "";
+            IncomingFlightNumberTextBox.Text = "";
+            IncomingFlightTimeTextBox.Text = "";
+        }
+
+        private void CreatePlaneButton_Click(object sender, RoutedEventArgs e) 
         {
             string planeName = PlaneNameTextBox.Text;
             string planeModel = PlaneModelTextBox.Text;
@@ -82,6 +115,10 @@ namespace AirportGUI
             {
                 viewModel.CreatePlaneCommand.Execute(parameters);
             }
+
+            PlaneNameTextBox.Text = "";
+            PlaneModelTextBox.Text = "";
+            PlaneTailnumberTextBox.Text = "";
                 
         }
 
