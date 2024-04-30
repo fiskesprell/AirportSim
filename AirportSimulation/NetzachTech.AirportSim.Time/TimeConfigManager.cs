@@ -9,25 +9,29 @@ using NetzachTech.AirportSim.Infrastructure;
 namespace NetzachTech.AirportSim.Time
 {
     /// <summary>
-    /// Class used to hold and loop through all the TimeConfig objects.
+    /// Manages the collection of TimeConfig objects to determine the travel times between terminals and runways..
     /// </summary>
     public class TimeConfigManager
 
     {
         /// <summary>
-        /// Default drivingtime from any given terminal to any given runway. If an timeconfigobject is not created, this wil be the time used.
+        /// Represents the default travel time in minutes from any terminal to any runway when no specific TimeConfig object exists.
         /// </summary>
         private int defaultMinutes = 15;
 
         /// <summary>
-        /// A list containing all the created timeconfig objects
+        /// List of all created TimeConfig objects.
         /// </summary>
         private List<TimeConfig> _timeConfigs = new List<TimeConfig>();
+
+        /// <summary>
+        /// Provides access to the list of TimeConfig objects.
+        /// </summary>
         public List<TimeConfig> TimeConfigs
         { get => _timeConfigs; }
 
         /// <summary>
-        /// Creates a timeconfig object and adds it to the list of all timeconfig objects.
+        /// Adds a new TimeConfig object to the collection.
         /// </summary>
         /// <param name="terminal"></param>
         /// <param name="runway"></param>
@@ -40,8 +44,7 @@ namespace NetzachTech.AirportSim.Time
 
 
         /// <summary>
-        /// This method looks at the flight given as argument and checks the list of all timeconfigobjects and sees if it has been created a timeconffigobject for the terminal and runway that has been assigned to this flight. 
-        /// If it find an object, it will return the time it takes to drive, otherwise it returns the default value
+        /// Retrieves the travel time for a specific flight based on its assigned terminal and runway. Returns default time if no specific TimeConfig is found.
         /// </summary>
         /// <param name="flight"></param>
         /// <returns></returns>
