@@ -31,7 +31,7 @@ namespace NetzachTech.AirportSim.Builders
         /// <returns></returns>
         public RunwayBuilder AddConnectedTaxi(Taxi taxi)
         {
-            _runway.ConnectedTaxi.Add(taxi);
+            _runway.ConnectedTaxis.Add(taxi);
             return this;
         }
 

@@ -135,9 +135,9 @@ namespace NetzachTech.AirportSim.Builders
         /// </summary>
         /// <param name="lastMaintanance"></param>
         /// <returns></returns>
-        public PlaneBuilder AddPlaneLastMaintanance(DateTime lastMaintanance)
+        public PlaneBuilder AddPlaneLastMaintenance(DateTime lastMaintenance)
         {
-            _plane.PlaneLastMaintanace = lastMaintanance;
+            _plane.PlaneLastMaintenace = lastMaintenance;
             return this;
         }
 
@@ -146,9 +146,9 @@ namespace NetzachTech.AirportSim.Builders
         /// </summary>
         /// <param name="scheduledDate"></param>
         /// <returns></returns>
-        public PlaneBuilder AddPlaneScheduledMaintanance(DateTime scheduledDate)
+        public PlaneBuilder AddPlaneScheduledMaintenance(DateTime scheduledDate)
         {
-            _plane.ScheduledMaintananace = scheduledDate;
+            _plane.ScheduledMaintenance = scheduledDate;
             return this;
         }
 
@@ -211,7 +211,7 @@ namespace NetzachTech.AirportSim.Builders
         /// <returns></returns>
         public Plane Build()
         {
-            _plane.CurrentAirport.AddPlaneToListOfAvailablePlanes(_plane);
+            _plane.CurrentAirport.AddPlaneToAllPlanes(_plane);
             return _plane;
         }
     }

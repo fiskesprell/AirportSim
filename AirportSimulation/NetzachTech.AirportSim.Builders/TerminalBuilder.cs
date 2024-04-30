@@ -28,7 +28,7 @@ namespace NetzachTech.AirportSim.Builders
         /// </summary>
         /// <param name="isInternational"></param>
         /// <returns></returns>
-        public TerminalBuilder SetIsInternational(bool isInternational)
+        public TerminalBuilder SetReadyForInternational(bool isInternational)
         {
             _terminal.ReadyForInternational = isInternational;
             return this;

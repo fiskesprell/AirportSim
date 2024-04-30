@@ -107,16 +107,16 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// Represents which date the plane lasat had its maintanance.
         /// </summary>
-        private DateTime _planeLastMaintanance;
-        public DateTime PlaneLastMaintanace
-        { get => _planeLastMaintanance; set => _planeLastMaintanance = value; }
+        private DateTime _planeLastMaintenance;
+        public DateTime PlaneLastMaintenace
+        { get => _planeLastMaintenance; set => _planeLastMaintenance = value; }
 
         /// <summary>
         /// Represents at what date the next maintanance is planned.
         /// </summary>
-        private DateTime _scheduledMaintanance;
-        public DateTime ScheduledMaintananace
-        { get => _scheduledMaintanance; set => _scheduledMaintanance = value; }
+        private DateTime _scheduledMaintenance;
+        public DateTime ScheduledMaintenance
+        { get => _scheduledMaintenance; set => _scheduledMaintenance = value; }
 
         /// <summary>
         /// Represent which airport the plane currently is operating out of.
@@ -229,21 +229,21 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// Updates the time the next scheduled maintanance is due
         /// </summary>
-        public void SchedulePlaneMaintanance() 
+        public void SchedulePlaneMaineanance() 
         {
-            DateTime newMaintanance = this.PlaneLastMaintanace.AddDays(5);
-            this.ScheduledMaintananace = newMaintanance;
+            DateTime newMaintanance = this.PlaneLastMaintenace.AddDays(5);
+            this.ScheduledMaintenance = newMaintanance;
         }
 
         /// <summary>
         /// Performs a maintanance on the plane and automatically schedules the next maintanance
         /// </summary>
-        public void PerformPlaneMaintanace() 
+        public void PerformPlaneMaintenace() 
         {
             this.PlaneIsAvailable = false;
             this.PlaneIsInUse = false;
-            this.PlaneLastMaintanace = this.CurrentAirport.ScheduledStartDate.AddDays(this.CurrentFlight.ElapsedDays);
-            this.SchedulePlaneMaintanance();
+            this.PlaneLastMaintenace = this.CurrentAirport.ScheduledStartDate.AddDays(this.CurrentFlight.ElapsedDays);
+            this.SchedulePlaneMaineanance();
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         public void AssignPlaneToAirport(Airport airport) 
         {
             _currentAirport = airport;
-            airport.AddPlaneToListOfAvailablePlanes(this);
+            airport.AddPlaneToAllPlanes(this);
         }
 
         /// <summary>

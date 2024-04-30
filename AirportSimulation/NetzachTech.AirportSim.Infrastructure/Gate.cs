@@ -80,8 +80,7 @@ namespace NetzachTech.AirportSim.Infrastructure
             GateName = gateName;
         }
 
-        // Legge til et taxi object i listen over taxi som er tilkoblet gaten
-        // Da kan vi bruke disse listene til å holde styr på hvor fly kan kjøre
+
         /// <summary>
         /// Adds taxi object to the list of taxiways connected to the gate.
         /// </summary>
@@ -92,7 +91,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         }
 
 
-        // Legger til en spesifikk lisens til gaten
+
         /// <summary>
         /// Adds a licence to a specific gate
         /// </summary>
@@ -102,7 +101,7 @@ namespace NetzachTech.AirportSim.Infrastructure
             Licence |= licence;
         }
 
-        // Fjerner en spesifikk lisens fra gaten
+
         /// <summary>
         /// Removes a specific licence from a specific gate
         /// </summary>
@@ -112,7 +111,6 @@ namespace NetzachTech.AirportSim.Infrastructure
             Licence &= ~licence;
         }
 
-        // Fjerner alle licencer fra gaten slik at den ikke har lov å ha noen fly
         /// <summary>
         /// Removes all licences from a specific gate
         /// </summary>
@@ -121,10 +119,10 @@ namespace NetzachTech.AirportSim.Infrastructure
             Licence = GateLicence.None;
         }
 
-        //Denne metoden går gjennom alle taxi som er connected til gaten og sjekker hvilken 
-        //taxi som har minst kø
-
-        //Denne tror jeg overlapper veldig med findTaxi så vi kan slanke den eller bare fjerne den helt
+        /// <summary>
+        /// Adds a flight to the taxiqueue
+        /// </summary>
+        /// <param name="flight"></param>
         public void TransferFlightToTaxi(Flight flight)
         {
             flight.AssignedTaxi.AddToTaxiQueue(flight);

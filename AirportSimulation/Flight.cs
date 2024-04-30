@@ -161,46 +161,40 @@ namespace AirportSimulation
         public bool Nulled
         { get => _nulled; set => _nulled = value; }
 
-        //dfoughebrgnkd
-        // Outgoing
-        //ScheduledXFindGateOutgoing
+
         private int ScheduledHourFindGateOutgoing = 1;
         private int ScheduledMinuteFindGateoutgoing = 45;
 
-        //ScheduledXParkAtGateOutgoing
+
         private int ScheduledHourParkAtGateOutgoing = 1;
         private int ScheduledMinuteParkAtGateOutgoing = 30;
 
-        //ScheduledXStartBoardingOutgoing
         private int ScheduledHourStartBoardingOutgoing = 1;
         private int ScheduledMinuteStartBoardingOutgoing = 0;
 
-        //ScheduledXDepartFromGateOutgoing
         private int ScheduledHourDepartFromGateOutgoing = 0;
         private int ScheduledMinuteDepartFromGateOutgoing = 15;
 
-        //ScheduledXTakeoffOutgoing
         private int ScheduledHourTakeoffOutgoing = 0;
         private int ScheduledMinuteTakeoffOutgoing = 0;
 
-        // Incoming
-        //ScheduledXFindGateIncoming
+
         private int ScheduledHourFindGateIncoming = 0;
         private int ScheduledMinuteFindGateIncoming = 0;
 
-        //ScheduledXLeaveRunwayIncoming
+ 
         private int ScheduledHourLeaveRunwayIncoming = 0;
         private int ScheduledMinuteLeaveRunwayIncoming = 5;
 
-        //ScheduledXParkAtGateIncoming
+
         private int ScheduledHourParkAtGateIncoming = 0;
         private int ScheduledMinuteParkAtGateIncoming = 11;
 
-        //ScheduledXCompletedDisembarkation
+
         private int ScheduledHourCompletedDisembarkation = 0;
         private int ScheduledMinuteCompletedDisembarkation = 20;
 
-        // +-+-+-+ Events +-+-+-+
+
         /// <summary>
         /// Event handler for when a Flight is assigned a Gate.
         /// </summary>
@@ -502,10 +496,10 @@ namespace AirportSimulation
                 {
                     if (this.FlightDirection == FlightDirection.Outgoing)
                     {
-                        airport.RemovePlaneFromListOfPlanes(this.AssignedPlane);
+                        airport.RemovePlaneFromAllPlanes(this.AssignedPlane);
                     }
                     else
-                        airport.AddPlaneToListOfAvailablePlanes(this.AssignedPlane);
+                        airport.AddPlaneToAllPlanes(this.AssignedPlane);
 
                     this.AssignedPlane.CompleteFlight(airport);
                     this.AssignedPlane = null;
@@ -526,10 +520,10 @@ namespace AirportSimulation
             {
                 if (this.FlightDirection == FlightDirection.Outgoing)
                 {
-                    airport.RemovePlaneFromListOfPlanes(this.AssignedPlane);
+                    airport.RemovePlaneFromAllPlanes(this.AssignedPlane);
                 }
                 else
-                    airport.AddPlaneToListOfAvailablePlanes(this.AssignedPlane);
+                    airport.AddPlaneToAllPlanes(this.AssignedPlane);
 
                 DateTime newDate = this.ScheduledDay.AddDays(1);
                 this.ScheduledDay = newDate;
@@ -549,10 +543,10 @@ namespace AirportSimulation
             {
                 if (this.FlightDirection == FlightDirection.Outgoing)
                 {
-                    airport.RemovePlaneFromListOfPlanes(this.AssignedPlane);
+                    airport.RemovePlaneFromAllPlanes(this.AssignedPlane);
                 }
                 else
-                    airport.AddPlaneToListOfAvailablePlanes(this.AssignedPlane);
+                    airport.AddPlaneToAllPlanes(this.AssignedPlane);
 
                 DateTime newDate = this.ScheduledDay.AddDays(7);
                 this.ScheduledDay = newDate;
@@ -726,10 +720,10 @@ namespace AirportSimulation
                 {
                     if (this.FlightDirection == FlightDirection.Outgoing)
                     {
-                        airport.RemovePlaneFromListOfPlanes(this.AssignedPlane);
+                        airport.RemovePlaneFromAllPlanes(this.AssignedPlane);
                     }
                     else
-                        airport.AddPlaneToListOfAvailablePlanes(this.AssignedPlane);
+                        airport.AddPlaneToAllPlanes(this.AssignedPlane);
 
                     this.AssignedPlane.CompleteFlight(airport);
                     this.AssignedPlane = null;
@@ -750,10 +744,10 @@ namespace AirportSimulation
             {
                 if (this.FlightDirection == FlightDirection.Outgoing)
                 {
-                    airport.RemovePlaneFromListOfPlanes(this.AssignedPlane);
+                    airport.RemovePlaneFromAllPlanes(this.AssignedPlane);
                 }
                 else
-                    airport.AddPlaneToListOfAvailablePlanes(this.AssignedPlane);
+                    airport.AddPlaneToAllPlanes(this.AssignedPlane);
 
                 DateTime newDate = this.ScheduledDay.AddDays(1);
                 this.ScheduledDay = newDate;
@@ -773,10 +767,10 @@ namespace AirportSimulation
             {
                 if (this.FlightDirection == FlightDirection.Outgoing)
                 {
-                    airport.RemovePlaneFromListOfPlanes(this.AssignedPlane);
+                    airport.RemovePlaneFromAllPlanes(this.AssignedPlane);
                 }
                 else
-                    airport.AddPlaneToListOfAvailablePlanes(this.AssignedPlane);
+                    airport.AddPlaneToAllPlanes(this.AssignedPlane);
 
                 DateTime newDate = this.ScheduledDay.AddDays(7);
                 this.ScheduledDay = newDate;
@@ -1066,7 +1060,6 @@ namespace AirportSimulation
             }
 
             return (newHours, newMinutes);
-
         }
 
         public (int, int) ConvertTimeForwards(int hour, int minutes, int addedHours, int addedMinutes)
@@ -1683,7 +1676,7 @@ namespace AirportSimulation
         public Plane AssignAvailablePlaneToFlight(Airport airport)
         {
 
-            if (airport.ListOfPlanes.Count == 0)
+            if (airport.AllPlanes.Count == 0)
             {
                 throw new InsufficientResourceException("There are no planes in this airport.");
             }
@@ -1691,7 +1684,7 @@ namespace AirportSimulation
             else
             {
                 bool foundPlane = false;
-                foreach (var plane in airport.ListOfPlanes)
+                foreach (var plane in airport.AllPlanes)
                 {
                     if ((plane.FlightType == this.FlightType) && (plane.PlaneIsAvailable == true) && (plane.CurrentAirport == this.CurrentAirport))
                     {
@@ -1718,13 +1711,6 @@ namespace AirportSimulation
             return null;
         }
 
-        internal void FlightSim(Airport airport, TimeSimulation timeSimulation)
-        {
-            throw new NotImplementedException();
-        }
-
-        // +-+-+-+ Methods for calling Events +-+-+-+
-        // TODO: XML-Comments
         protected virtual void OnPlaneAssigned(Plane plane, int elapsedDays, int elapsedHours, int elapsedMinutes)
         {
             var args = new FlightPlaneArgs(this, plane, elapsedDays, elapsedHours, elapsedMinutes);

@@ -11,6 +11,8 @@
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<AssemblyFileVersion>1.12.3.0</AssemblyFileVersion>
+	<AssemblyCopyright>Copyright © 2024 YourCompanyName. All rights reserved.</AssemblyCopyright>
   </PropertyGroup>
 
 </Project>

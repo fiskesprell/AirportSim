@@ -28,9 +28,9 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <summary>
         /// A list of taxiways that are connected to this runway.
         /// </summary>
-        private ObservableCollection<Taxi> _connectedTaxi = new ObservableCollection<Taxi>();
-        public ObservableCollection<Taxi> ConnectedTaxi
-        { get => _connectedTaxi; }
+        private ObservableCollection<Taxi> _connectedTaxis = new ObservableCollection<Taxi>();
+        public ObservableCollection<Taxi> ConnectedTaxis
+        { get => _connectedTaxis; }
 
         /// <summary>
         /// Queue of flights waiting to take off or land on this runway.
@@ -98,7 +98,7 @@ namespace NetzachTech.AirportSim.Infrastructure
                 Taxi optimalTaxi = null;
                 int queueSize = int.MaxValue;
                 //Går gjennom alle taxi som er connected til runwayen
-                foreach (Taxi taxi in ConnectedTaxi)
+                foreach (Taxi taxi in ConnectedTaxis)
                 {
                     //Sjekker om gaten er connected til taxi
                     if (taxi.ConnectedGates.Contains(desiredGate))
@@ -124,7 +124,7 @@ namespace NetzachTech.AirportSim.Infrastructure
         /// <param name="taxi">The taxiway to add.</param>
         public void AddConnectedTaxi(Taxi taxi)
         {
-            ConnectedTaxi.Add(taxi);
+            ConnectedTaxis.Add(taxi);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace NetzachTech.AirportSim.Infrastructure
             {
                 if (taxi.TaxiName.Equals(name))
                 {
-                    ConnectedTaxi.Add(taxi);
+                    ConnectedTaxis.Add(taxi);
                 }
             }
         }

@@ -82,9 +82,9 @@ namespace AirportSimulation
         /// <remarks>
         /// A list of planes that are have been or are at this airport
         /// </remarks>
-        private ObservableCollection<Plane> _listOfPlanes = new ObservableCollection<Plane>();
-        public ObservableCollection<Plane> ListOfPlanes
-        { get => _listOfPlanes; }
+        private ObservableCollection<Plane> _allPlanes = new ObservableCollection<Plane>();
+        public ObservableCollection<Plane> AllPlanes
+        { get => _allPlanes; }
 
         /// <summary>
         /// Constructor for making an empty airport.
@@ -236,14 +236,14 @@ namespace AirportSimulation
         /// Removes a plane from the list of available planes at this airport.
         /// </summary>
         /// <param name="plane"></param>
-        public void RemovePlaneFromListOfPlanes(Plane plane)
+        public void RemovePlaneFromAllPlanes(Plane plane)
         {
-            ListOfPlanes.Remove(plane);
+            AllPlanes.Remove(plane);
         }
 
-        public void AddPlaneToListOfAvailablePlanes(Plane plane)
+        public void AddPlaneToAllPlanes(Plane plane)
         {
-            this.ListOfPlanes.Add(plane);
+            this.AllPlanes.Add(plane);
         }
 
         /// <summary>
@@ -411,6 +411,11 @@ namespace AirportSimulation
 
         }
 
+        /// <summary>
+        /// Loops through all the terminals and finds one that matches the name given. Adds the gate to that terminal.
+        /// </summary>
+        /// <param name="gate"></param>
+        /// <param name="terminalName"></param>
         public void AddExistingGateToTerminal(Gate gate, string terminalName)
         {
             foreach(var terminal in AllTerminals)
@@ -418,6 +423,10 @@ namespace AirportSimulation
                     terminal.AddExistingGate(gate);
         }
 
+        /// <summary>
+        /// Adds the gate given to this airport
+        /// </summary>
+        /// <param name="gate"></param>
         public void AddExistingGate(Gate gate)
         {
             AllGates.Add(gate);
