@@ -110,13 +110,13 @@ namespace NetzachTech.AirportSim.Time
         /// <summary>
         /// Simulates time at the given airport from the given startdate to the enddate. If timeconfigurations have been made, give the timeconfigmanager as argument.
         /// </summary>
-        /// <param name="timeConfigManager"></param>
         /// <param name="airport"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
+        /// <param name="timeConfigManager"></param>
         /// <exception cref="InvalidScheduledTimeException"></exception>
         /// <exception cref="InvalidInfrastructureException"></exception>
-        public async Task SimulateTime(TimeConfigManager timeConfigManager, Airport airport, DateTime start, DateTime end)
+        public async Task SimulateTime(Airport airport, DateTime start, DateTime end, TimeConfigManager timeConfigManager)
         {
 
             Console.WriteLine("The simulation has now started:");
