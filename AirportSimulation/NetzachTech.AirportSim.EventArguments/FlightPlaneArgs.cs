@@ -53,23 +53,5 @@ namespace NetzachTech.AirportSim.EventArguments
             this.ElapsedHours = ElapsedHours;
             this.ElapsedMinutes = ElapsedMinutes;
         }
-
-        // TODO: Delete? Test method.
-        /// <summary>
-        /// Prints all instance variables associated with the event.
-        /// </summary>
-        public void PrintAll()
-        {
-            if (flight != null)
-            {
-                Console.WriteLine($"FLIGHT: {flight.Number}");
-            }
-            if (plane != null)
-            {
-                Console.WriteLine($"PLANE: {plane.TailNumber}");
-            }
-            
-            Console.WriteLine($"ELAPSED TIME: {ElapsedDays} Days, {ElapsedHours} Hours, {ElapsedMinutes} Minutes.");
-        }
     }
 }

@@ -1064,7 +1064,6 @@ namespace AirportSimulation
 
         public (int, int) ConvertTimeForwards(int hour, int minutes, int addedHours, int addedMinutes)
         {
-            // TODO: Fiks hva som skjer om det går en dag fremover
             int newHours = hour + addedHours;
             int newMinutes = minutes + addedMinutes;
 
@@ -1628,13 +1627,6 @@ namespace AirportSimulation
             }
         }
 
-        /// <summary>
-        /// TODO: Slette denne, finn en bedre metode.
-        /// This method forces a gate on the flight if it has not previously found a gate.
-        /// This method should not exist, we should have another measure in place. However, due to time
-        /// limitations I had to implement this now. Please fix and delete later, me. Thanks.
-        /// </summary>
-        /// <returns></returns>
         private Gate FindGateBackup()
         {
             bool foundTerminal = false;
