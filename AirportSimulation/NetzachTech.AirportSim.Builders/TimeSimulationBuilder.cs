@@ -18,7 +18,8 @@ namespace NetzachTech.AirportSim.Builders
         /// </summary>
         /// <param name="startDate"></param>
         /// <returns></returns>
-        public TimeSimulationBuilder setScheduledStartDate(DateTime startDate)
+        
+        public TimeSimulationBuilder SetScheduledStartDate(DateTime startDate)
         {
             _timeSimulation.StartDate = startDate;
             return this;
@@ -29,7 +30,7 @@ namespace NetzachTech.AirportSim.Builders
         /// </summary>
         /// <param name="endDate"></param>
         /// <returns></returns>
-        public TimeSimulationBuilder setScheduledEndDate(DateTime endDate)
+        public TimeSimulationBuilder SetScheduledEndDate(DateTime endDate)
         {
             _timeSimulation.EndDate = endDate;
             return this;
